@@ -1,0 +1,9 @@
+{
+	"db": {
+		"url":"mongodb://localhost/polimedia",
+		"pass":""
+	},
+	"connection":{
+		"port":4000
+	}
+}

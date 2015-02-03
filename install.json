@@ -1,0 +1,62 @@
+{
+	"role": [
+		{
+			"_id":"ADMIN",
+			"description":"Administrator role",
+			"isAdmin": true
+		},
+		{
+			"_id":"USER",
+			"description":"Standard user role",
+			"isAdmin": false
+		},
+		{
+			"_id":"UNKNOWN",
+			"description":"Unknown user",
+			"isAdmin": false
+		},
+		{
+			"_id":"POLIMEDIA",
+			"description":"Polimedia operator role",
+			"isAdmin": false
+		}
+	],
+	"user": [
+		{
+			"roles":["ADMIN","USER"],
+			"contactData":{
+				"name":"Admin",
+				"lastName":"admin",
+				"email":"admin@admin.com"
+			},
+			"auth":{
+				"polimedia":{
+					"login":"admin",
+					"pass":"1234"
+				}
+			}
+		}
+	],
+	"channel": [
+		{
+			"title":"default",
+			"repository":"channel",
+			"hidden":false,
+			"hiddenInSearches":false
+		}
+	],
+	"repository": [
+		{
+			"_id": "channel",
+			"endpoint": "/resources/channel/",
+			"server":"",
+			"path": "/home/paellaserver/channel"
+		},
+		{
+			"_id": "polimedia",
+			"endpoint": "/resources/polimedia/",
+			"server":"",
+			"path": "/home/paellaserver/videos/paellaserver"
+		}
+	]
+}
