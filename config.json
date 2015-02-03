@@ -1,6 +1,6 @@
 {
 	"db": {
-		"url":"mongodb://localhost/polimedia",
+		"url":"mongodb://localhost/paellaserver",
 		"pass":""
 	},
 	"connection":{
