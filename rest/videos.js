@@ -1,5 +1,4 @@
 
-var schemas = require(__dirname + '/../schema');
 var mongoose = require('mongoose');
 
 var VideoController = require(__dirname + '/../controllers/video');

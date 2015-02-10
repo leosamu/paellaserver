@@ -79,6 +79,7 @@ var RESTFilesystem = {
 var restRoot = __dirname + '/rest';
 RESTFilesystem.routeDirectory(restRoot);
 
+app.use(express.static(__dirname + '/client'));
 
 app.use(router);
 
