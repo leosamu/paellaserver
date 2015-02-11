@@ -5,5 +5,8 @@
 	},
 	"connection":{
 		"port":4000
+	},
+	"session":{
+		"secret":"1234567890QWERTY"
 	}
 }

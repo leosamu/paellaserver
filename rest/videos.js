@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 
 var VideoController = require(__dirname + '/../controllers/video');
 var CommonController = require(__dirname + '/../controllers/common');
+var AuthController = require(__dirname + '/../controllers/auth');
 
 exports.routes = {
 	listVideos: { get:[
@@ -15,14 +16,24 @@ exports.routes = {
     	VideoController.LoadUrlFromRepository,
 		CommonController.JsonResponse]},
 
-	createVideo: { post:function(req,res) {
-		var id = req.params.id
-		var fooResult = {}
-    	fooResult._id = 5;
-    	fooResult.title = data.title;
-    	fooResult.src = data.src;
-    	res.json(fooResult);
-	}},
+	createVideo: { post:[
+		AuthController.CheckAccess(['ADMIN','USER']),
+		function(req,res) {
+			res.json({
+				status:true,
+				message:"Ok"
+			})
+		}]
+
+		//function(req,res) {
+		//var id = req.params.id
+		//var fooResult = {}
+    	//fooResult._id = 5;
+    	//fooResult.title = data.title;
+    	//fooResult.src = data.src;
+    	//res.json(fooResult);
+    	//}
+	},
 
 	updateVideo: { param:'id', put:function(req,res) {
 		var id = req.params.id

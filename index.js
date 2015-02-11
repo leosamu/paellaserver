@@ -1,4 +1,5 @@
 var express = require("express");
+var session = require("express-session");
 var app = express();
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
@@ -14,6 +15,7 @@ var db = mongoose.connection;
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 app.use(methodOverride());
+app.use(session({ secret:configure.config.session.secret}));
 
 mongoose.connect(configure.config.db.url, function(err, res) {
 	if (err) throw err;
