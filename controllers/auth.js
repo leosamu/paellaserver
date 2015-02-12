@@ -55,10 +55,14 @@ exports.CurrentUser = function(req,res,next) {
 }
 
 // Check access
+//	in: req.userData
 //	out: call next if the current user have at least a role in roles. Returns an error to the client if not
 exports.CheckAccess = function(roles) {
 	return function(req,res,next) {
-		var userRoles = ["USER"];	// TODO: get user roles
+		var userRoles = [];
+		if (req.userData && req.userData.roles) {
+			userRoles = req.userData.roles;
+		}
 		if (roles && roles.length>0) {
 			for (var i=0; i<roles.length; ++i) {
 				for (var j=0; j<userRoles.length; ++j) {
