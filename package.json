@@ -1,28 +1,28 @@
 {
-	"name": "paellaserver",
-	"version": "1.0.0",
-	"description": "Video repository",
-	"main": "index.js",
-	"dependencies": {
-		"express": "^4.11.1",
-		"q": "^1.1.2",
-		"method-override": "^2.3.1",
-		"mongoose": "^3.8.21",
-		"body-parser": "^1.10.2",
-		"mongoose-uuid": "^0.0.2"
-	},
-	"devDependencies": {},
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/polimediaupv/paellaserver"
-	},
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/polimediaupv/paellaserver/issues"
-	},
-	"homepage": "https://github.com/polimediaupv/paellaserver"
+  "name": "paellaserver",
+  "version": "1.0.0",
+  "description": "Video repository",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.11.1",
+    "q": "^1.1.2",
+    "method-override": "^2.3.1",
+    "mongoose": "^3.8.21",
+    "body-parser": "^1.10.2",
+    "mongoose-uuid": "^0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polimediaupv/paellaserver"
+  },
+  "author": "Fernando Serrano Carpena",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/polimediaupv/paellaserver/issues"
+  },
+  "homepage": "https://github.com/polimediaupv/paellaserver"
 }

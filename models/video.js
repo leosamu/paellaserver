@@ -20,6 +20,7 @@ var VideoSchema = new Schema({
 	deletionDate: Date,
 	language: String,
 	title: String,
+	catalog: String,
 	source: {
 		type: { type: String },
 		videos: [
