@@ -1,6 +1,6 @@
 {
 	"db": {
-		"url":"mongodb://localhost/paellaserver",
+		"url":"mongodb://localhost/polimedia",
 		"pass":""
 	},
 	"connection":{
@@ -8,5 +8,10 @@
 	},
 	"session":{
 		"secret":"1234567890QWERTY"
+	},
+	"security":{
+		"loginField":"auth.polimedia.login",
+		"passwField":"auth.polimedia.pass",
+		"userModel":"user"
 	}
 }

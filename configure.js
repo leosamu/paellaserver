@@ -36,6 +36,7 @@ exports.checkInitConfig = function() {
 					rolePromises.push(newRole.save());
 				}
 			}
+
 			return Q.all(rolePromises);
 		})
 		.then(function(){
@@ -48,13 +49,10 @@ exports.checkInitConfig = function() {
 					userPromises.push(newUser.save());
 				});
 			}
-			else {
-				adminUser = data[0];
-			}
 			return Q.all(userPromises);
 		})
 		.then(function() {
-			return User.find({"roles":{"$in":["ADMIN"]}}).exec()
+			return User.find({"roles":{"$in":["ADMIN"]}}).exec();
 		})
 		.then(function(data) {
 			adminUser = data[0];

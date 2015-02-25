@@ -1,3 +1,6 @@
+var configure = require(__dirname + '/../configure');
+var loginField = configure.config.security.loginField;
+var passwField = configure.config.security.passwField;
 
 // Login
 //	in: params.login, query.pass
@@ -7,7 +10,7 @@ exports.Login = function(req,res,next) {
 	var pass = req.query.pass;
 	if (login && pass) {
 		var User = require(__dirname + '/../models/user');
-    	User.findOne({"auth.polimedia.login":login,"auth.polimedia.pass":pass})
+    	User.findOne({loginField:login, passwField:pass})
 			.exec(function(err,data) {
 				if (data) {
 					req.session.login = login;
@@ -42,7 +45,7 @@ exports.CurrentUser = function(req,res,next) {
 	var login = req.session.login;
 	if (login) {
 		var User = require(__dirname + '/../models/user');
-		User.findOne({"auth.polimedia.login":login})
+		User.findOne({loginField:login})
 			.select("-__v")
 			.exec(function(err,data) {
 				req.userData = data;

@@ -1,0 +1,23 @@
+{
+  "name": "Paella Server",
+  "version": "2.0.0",
+  "homepage": "https://github.com/polimediaupv/paellaserver",
+  "authors": [
+    "Fernando Serrano Carpena <ferserc1@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "angular": "~1.3.12",
+    "jquery": "~2.1.3"
+  }
+}
