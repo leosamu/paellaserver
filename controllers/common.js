@@ -1,8 +1,11 @@
 
+var CSRFController = require(__dirname + '/csrf');
+
 // Json output
 //	Input: req.data (object)
 //	Output: none
 exports.JsonResponse = function(req,res) {
+	CSRFController.GenToken(req,res);
 	res.json(req.data);
 }
 

@@ -48,6 +48,11 @@ router.get('/client.css', function(req,res) {
 	res.send(clientCSS);
 });
 
+var clientIndex = ClientResources.getClientHtml(__dirname + '/client/index.html');
+router.get(['/index.html','/'], function(req,res) {
+	res.send(clientIndex);
+});
+
 app.use(router);
 
 app.use(express.static(__dirname + '/client'));

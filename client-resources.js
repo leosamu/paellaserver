@@ -3,14 +3,26 @@ var fs = require('fs');
 module.exports = {
 	buffer:"",
 
+	getClientHtml:function(path) {
+		var indexPage = path;
+		var buffer = fs.readFileSync(indexPage,'utf8');
+		var configPath = __dirname + '/plugins/app/app.json';
+		var appConfig = require(configPath);
+		if (buffer && appConfig && appConfig.appName) {
+			var appName = appConfig.appName;
+			buffer = buffer.replace('<html>','<html ng-app="' + appName + '">');
+			buffer = buffer.replace('</head>','\t<script src="client.js"></script>\n\t\t<link rel="stylesheet" href="client.css">\n\t</head>');
+		}
+		return buffer;
+	},
+
  	getClientJavascript:function(path) {
- 		this.buffer = "";
+	 	this.getJavascriptCode(path + '/app/client',this.buffer);
 		this.searchClientJavascript(path,"");
 		return this.buffer;
 	},
 
 	getClientStylesheet:function(path) {
-		this.buffer = "";
 		this.searchClientStylesheet(path,"");
 		return this.buffer;
 	},
@@ -20,13 +32,15 @@ module.exports = {
 		var dir = fs.readdirSync(path);
 		var This = this;
 		dir.forEach(function(entry) {
-			var itemPath = path + "/" + entry;
-			var stats = fs.lstatSync(itemPath);
-			if (stats.isDirectory() && entry=="client") {
-				This.getJavascriptCode(itemPath);
-			}
-			else if (stats.isDirectory()) {
-				This.searchClientJavascript(itemPath);
+			if (entry!='app') {
+				var itemPath = path + "/" + entry;
+				var stats = fs.lstatSync(itemPath);
+				if (stats.isDirectory() && entry=="client") {
+					This.getJavascriptCode(itemPath);
+				}
+				else if (stats.isDirectory()) {
+					This.searchClientJavascript(itemPath);
+				}
 			}
 		});
 	},

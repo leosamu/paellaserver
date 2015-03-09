@@ -10,7 +10,10 @@ exports.Login = function(req,res,next) {
 	var pass = req.query.pass;
 	if (login && pass) {
 		var User = require(__dirname + '/../models/user');
-    	User.findOne({loginField:login, passwField:pass})
+		var query = {};
+		query[loginField] = login;
+		query[passwField] = pass;
+    	User.findOne(query)
 			.exec(function(err,data) {
 				if (data) {
 					req.session.login = login;
@@ -34,10 +37,10 @@ exports.Login = function(req,res,next) {
 }
 
 // Log out current user
-exports.Logout = function(req,res,next) {
-	req.session.login = null;
-	next();
-}
+ exports.Logout = function(req,res,next) {
+ 	req.session.login = null;
+ 	next();
+ }
 
 // Get the current user data
 //	req.userData: user data or null if there isn't any user logged in

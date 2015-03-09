@@ -15,7 +15,8 @@ exports.LoadVideos = function(req,res,next) {
 		.limit(req.query.limit)
 		.select(select)
 		.exec(function(err,data) {
-			res.json(data);
+			req.data = data;
+			next();
 		});
 }
 
