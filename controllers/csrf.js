@@ -29,7 +29,7 @@ exports.CheckToken = function(req,res,next) {
     	else if (req.get('csrf-token')!==undefined && req.get('csrf-token')==req.session.csrfToken) {
     		next();
     	}
-    	if (req.query["xsrf-token"]!==undefined && req.query["xsrf-token"]==req.session.csrfToken) {
+    	else if (req.query["xsrf-token"]!==undefined && req.query["xsrf-token"]==req.session.csrfToken) {
         	next();
 		}
 		else if (req.body["xsrf-token"]!==undefined && req.body["xsrf-token"]==req.session.csrfToken) {
