@@ -12,6 +12,7 @@
 	"security":{
 		"loginField":"auth.polimedia.login",
 		"passwField":"auth.polimedia.pass",
-		"userModel":"user"
+		"userModel":"user",
+		"csrfCheck":true
 	}
 }
