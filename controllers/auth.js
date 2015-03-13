@@ -48,7 +48,9 @@ exports.CurrentUser = function(req,res,next) {
 	var login = req.session.login;
 	if (login) {
 		var User = require(__dirname + '/../models/user');
-		User.findOne({loginField:login})
+		var query = {}
+		query[loginField] = login;
+		User.findOne(query)
 			.select("-__v")
 			.exec(function(err,data) {
 				req.userData = data;

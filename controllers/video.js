@@ -2,15 +2,16 @@
 var mongoose = require('mongoose');
 
 // Load video title and identifier list
-//	Input: req.query.skip, req.query.limit
+//	Input: req.query.skip, req.query.limit, req.data.find
 //	Output: res.data [ { _id:"video_id", title:"video_title" } ]
 exports.LoadVideos = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	var select = '-slides -hidden -thumbnail ' +
-				'-hiddenInSearches -owner -creationDate -canRead -canWrite ' +
-				'-deletionDate -language -source -pluginData ' +
+	var select = '-slides -hidden -thumbnail -roles -duration ' +
+				'-hiddenInSearches -canRead -canWrite ' +
+				'-deletionDate -source -pluginData ' +
 				'-metadata -search -hideSocial -processSlides -repository';
-	Video.find()
+	var query = req.data ? req.data.query:null;
+	Video.find(query)
 		.skip(req.query.skip)
 		.limit(req.query.limit)
 		.select(select)

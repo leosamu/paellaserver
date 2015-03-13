@@ -3,10 +3,36 @@
 	<head>
 		<title>Test page</title>
 		<script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/angular-route/angular-route.min.js"></script>
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="resources/upv.css">
 	</head>
 	<body>
-		{{ "yet" + "!" }}
+        <div class="pageContainer">
+            <div class="header">
+                <div class="headerLine"></div>
+                <div class="divCab">
+                    <a href="http://www.upv.es"><div class="headerUpvLogo"></div></a>
+                    <a href="/"><div class="headerLogo"></div></a>
+                </div>
+            </div>
+            <div class="pageContent" ng-view></div>
+            <div class="pageFooter">
+                <div class="footerLine"></div>
+                <div class="DIVpieMenu">
+                    <ul>
+                        <li> <div class="menuPie">Más información:</div></li>
+                        <li><a href="http://www.upv.es/entidades/ASIC/catalogo/522359normalc.html" target="_blank" class="menuPie">Polimedia&nbsp;I</a></li>
+                        <li><a href="http://www.upv.es/entidades/ASIC/catalogo/847942normalc.html" target="_blank" class="menuPie">Videoapuntes&nbsp;I</a></li>
+                        <li><a href="termsofuse" target="_blank" class="menuPie">Terms of use&nbsp;</a></li>
+                    </ul>
+
+                    <div class="texto_contacto">Universitat Politècnica de València © 2014 ·<a href="mailto:polim@upvnet.upv.es">polim@upvnet.upv.es</a></div>
+
+                </div>
+            </div>
+        </div>
+
 	</body>
 </html>

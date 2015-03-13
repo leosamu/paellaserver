@@ -40,16 +40,20 @@ RESTFilesystem.routePlugins(router,pluginRoot);
 
 var clientCode = ClientResources.getClientJavascript('plugins');
 router.get('/client.js', function(req,res) {
+	res.setHeader("content-type","text/javascript");
 	res.send(clientCode);
 });
 
+ClientResources.buffer = "";
 var clientCSS = ClientResources.getClientStylesheet('plugins');
 router.get('/client.css', function(req,res) {
+	res.setHeader("content-type","text/css");
 	res.send(clientCSS);
 });
 
 var clientIndex = ClientResources.getClientHtml(__dirname + '/client/index.html');
 router.get(['/index.html','/'], function(req,res) {
+	res.setHeader("content-type","text/html");
 	res.send(clientIndex);
 });
 
@@ -61,3 +65,4 @@ app.use(express.static(__dirname + '/plugins',{extensions: ['htm','html']}));
 app.listen(configure.config.connection.port, function() {
 	console.log("Node server running on http://localhost:" + configure.config.connection.port);
 });
+

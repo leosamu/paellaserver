@@ -10,8 +10,12 @@ module.exports = {
 		var appConfig = require(configPath);
 		if (buffer && appConfig && appConfig.appName) {
 			var appName = appConfig.appName;
+			var debug = typeof v8debug === 'object';
 			buffer = buffer.replace('<html>','<html ng-app="' + appName + '">');
 			buffer = buffer.replace('</head>','\t<script src="client.js"></script>\n\t\t<link rel="stylesheet" href="client.css">\n\t</head>');
+			if (debug) {
+				buffer = buffer.replace('angular.min.js','angular.js');
+			}
 		}
 		return buffer;
 	},
