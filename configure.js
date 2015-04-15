@@ -3,7 +3,7 @@ var config = require("./config");
 var install = require("./install");
 exports.config = config;
 exports.install = install;
-var Q = require('Q');
+var Q = require('q');
 
 exports.checkInitConfig = function() {
 	var Role = require(__dirname + '/models/role');
