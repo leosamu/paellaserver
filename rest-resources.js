@@ -36,6 +36,7 @@ module.exports = {
 					endpoint += '/:' + param;
 				}
 
+				endpoint = endpoint.replace(/[\-_]{1}/, ':');
             	console.log(endpoint + " > " + method);
             	router[method](endpoint,callback);
             }
@@ -51,7 +52,7 @@ module.exports = {
 		var dir = fs.readdirSync(path);
 		var This = this;
         dir.forEach(function(entry) {
-        	var itemPath = path + "/" + entry;
+			var itemPath = path + "/" + entry;
         	var stats = fs.lstatSync(itemPath);
         	if (stats.isDirectory()) {
         		This.routeDirectory(router,itemPath);
