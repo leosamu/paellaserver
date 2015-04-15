@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 
 // Load video title and identifier list
-//	Input: req.query.skip, req.query.limit, req.data.find
+//	Input: req.query.skip, req.query.limit, req.data.query
 //	Output: res.data [ { _id:"video_id", title:"video_title" } ]
 exports.LoadVideos = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');

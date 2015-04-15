@@ -66,24 +66,26 @@ exports.CurrentUser = function(req,res,next) {
 //	in: req.userData
 //	out: call next if the current user have at least a role in roles. Returns an error to the client if not
 exports.CheckAccess = function(roles) {
+	if (typeof(roles)=="string") roles = [roles];
 	return function(req,res,next) {
 		var userRoles = [];
+		var access = false;
 		if (req.userData && req.userData.roles) {
 			userRoles = req.userData.roles;
 		}
 		if (roles && roles.length>0) {
-			for (var i=0; i<roles.length; ++i) {
-				for (var j=0; j<userRoles.length; ++j) {
-					if (roles[i]==userRoles[j]) {
-						next();
-						return;
-					}
+			access = roles.some(function(role) {
+				if (userRoles.indexOf(role)!=-1) {
+					next();
+					return true;
 				}
-			}
+			});
 		}
-		res.status(403).json({
-			status:false,
-			message:"Access denied"
-		});
+		if (!access) {
+			res.status(403).json({
+				status: false,
+				message: "Access denied"
+			});
+		}
 	}
 }
