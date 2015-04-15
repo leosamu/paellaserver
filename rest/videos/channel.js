@@ -14,7 +14,7 @@ exports.routes = {
             			if (data.length>=1) {
             				req.data = {
                               	query:{"_id":{"$in":data[0].videos}}
-                            }
+                            };
                             next();
             			}
             			else {
@@ -28,4 +28,4 @@ exports.routes = {
 		VideoController.LoadVideos,
 		CommonController.JsonResponse
 	]}
-}
+};

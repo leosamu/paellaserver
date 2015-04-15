@@ -11,6 +11,7 @@ var ChannelSchema = new Schema({
 	hiddenInSearches: Boolean,
 	owner: [ String ],
 	pluginData: Schema.Types.Mixed,
+	thumbnail: String,
 	repository: String,
 	title: String,
 	videos: [ String ]
