@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var uuid = require('mongoose-uuid');
 
 var VideoSchema = new Schema({
-	repository: String,
+	repository: { type:String, ref:'Repository' },
 	slides: [
 		{
 			mimetype: String,
@@ -15,7 +15,7 @@ var VideoSchema = new Schema({
 	],
 	hidden: Boolean,
 	hiddenInSearches: Boolean,
-	owner: [ String ],
+	owner: [ {type:String, ref:'User'} ],
 	creationDate: { type: Date, default: Date.now },
 	deletionDate: Date,
 	language: String,

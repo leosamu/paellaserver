@@ -1,4 +1,63 @@
-<div>
-    <h1>Esta es la vista principal del catálogo de Polimedia</h1>
-    <p>Y esto es un texto para rellenar porque no sé qué poner aquí</p>
-</div>
+<main>
+    <section class="ps-search-bar">
+        <form ng-submit="doSearch()">
+            <input type="search" ng-model="searchText" placeholder="Buscar"/>
+            <input type="submit" value="Buscar">           
+        </form>
+        
+        <ui class="nav nav-pills">
+            <li ng-class="{ active:videoTabSelected() }"><a href ng-click="showVideos()">Vídeos</a></li>
+            <li ng-class="{ active:channelTabSelected() }"><a href ng-click="showChannels()">Canales</a></li>
+        </ui>
+    </section>
+    <section class="ps-channel-list row" ng-show="channelTabSelected()">
+        <h1>Canales</h1>
+     <!--   <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination> -->
+        <div class="col-md-6 col-xs-12" ng-repeat="channel in channels">
+            <article class="ps-list-item ps-channel">
+                <div class="ps-view">
+                    <h2 class="ps-title pull-left">
+                        {{channel.title}}
+                        <p class="ps-date">{{channel.creationDate | date:"dd/MM/yyyy" }}</p>
+                        <p class="ps-author">{{ownerName(channel)}}</p>
+                    </h2>
+                    <img class="pm-image img-responsive pull-right hidden-xs" ng-src="{{thumbnail(channel)}}" alt="{{channel.title + ' image'}}"/>
+                </div>
+                <div class="ps-edit text-right hidden-xs">
+                    <!--
+                    <button class="btn">Delete</button>
+                    <button class="btn">Move Up</button>
+                    <button class="btn">Move Down</button>
+                    <button class="btn">Channels</button>
+                    <button class="btn">Edit</button>
+                    -->
+                </div>
+            </article>
+        </div>
+    </section>
+    <section class="ps-video-list row" ng-show="videoTabSelected()">
+        <h1>Vídeos</h1>
+        <div class="col-md-4 col-xs-12" ng-repeat="video in videos">
+            
+            <article class="ps-list-item ps-video">
+                <div class="ps-view">
+                    <h2 class="ps-title pull-left">
+                        {{video.title}}
+                        <p class="ps-date">{{video.creationDate | date:"dd/MM/yyyy" }}</p>
+                        <p class="ps-author">{{ownerName(video)}}</p>
+                    </h2>
+                    <img class="pm-image img-responsive pull-right hidden-xs" ng-src="{{thumbnail(video)}}" alt="{{video.title + ' image'}}"/>
+                </div>
+                <div class="ps-edit text-right hidden-xs">
+                    <!--
+                    <button class="btn">Delete</button>
+                    <button class="btn">Move Up</button>
+                    <button class="btn">Move Down</button>
+                    <button class="btn">Channels</button>
+                    <button class="btn">Edit</button>
+                    -->
+                </div>
+            </article>
+        </div>
+    </section>
+</main>

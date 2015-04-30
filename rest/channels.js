@@ -9,5 +9,6 @@ exports.routes = {
 	listChannels: { get:[
 		CommonController.Paginate,
 		ChannelController.LoadChannels,
+		ChannelController.LoadUrlFromRepository,
 		CommonController.JsonResponse] }
 };

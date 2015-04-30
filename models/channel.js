@@ -9,10 +9,10 @@ var ChannelSchema = new Schema({
 	deletionDate: { type: Date },
 	hidden: Boolean,
 	hiddenInSearches: Boolean,
-	owner: [ String ],
+	owner: [ {type:String, ref:'User'} ],
 	pluginData: Schema.Types.Mixed,
 	thumbnail: String,
-	repository: String,
+	repository: { type:String, ref:'Repository' },
 	title: String,
 	videos: [ String ]
 }, {_id:false});

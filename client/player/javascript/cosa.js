@@ -1,0 +1,3 @@
+function cosa() {
+	alert("Cosa");
+}

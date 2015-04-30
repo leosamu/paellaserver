@@ -9,6 +9,9 @@
 	"session":{
 		"secret":"1234567890QWERTY"
 	},
+	"channels":{
+		"default":"default"
+	},
 	"security":{
 		"loginField":"auth.polimedia.login",
 		"passwField":"auth.polimedia.pass",
