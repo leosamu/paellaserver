@@ -15,7 +15,7 @@ var VideoSchema = new Schema({
 	],
 	hidden: Boolean,
 	hiddenInSearches: Boolean,
-	owner: [ {type:String, ref:'User'} ],
+	owner: [ { type:String, ref:'User' } ],
 	creationDate: { type: Date, default: Date.now },
 	deletionDate: Date,
 	language: String,
@@ -23,9 +23,7 @@ var VideoSchema = new Schema({
 	catalog: String,
 	source: {
 		type: { type: String },
-		videos: [
-			Schema.Types.Mixed
-		]
+		videos: { type:[ Schema.Types.Mixed ]}
 	},
 	pluginData: Schema.Types.Mixed,
 	thumbnail: String,
@@ -35,3 +33,4 @@ var VideoSchema = new Schema({
 VideoSchema.plugin(uuid.plugin, 'Video');
 
 module.exports = mongoose.model('Video',VideoSchema);
+module.exports.schema = VideoSchema;

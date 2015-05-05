@@ -9,6 +9,7 @@ var configure = require("./configure");
 var repository = require("./repository");
 var cookieParser = require("cookie-parser");
 
+
 var db = mongoose.connection;
 db.once('open', function(callback) {});
 

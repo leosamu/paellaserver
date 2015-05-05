@@ -148,5 +148,8 @@
             "light",
             "light_small"
         ]
+    },
+    "experimental": {
+        "autoplay":true
     }
 }

@@ -1566,11 +1566,9 @@ Class ("paella.Html5Video", paella.VideoElementBase,{
 	},
 	
 	setVolume:function(volume) {
-		if (volume==0) 
-			this.domElement.muted = true;
-		else 
-			this.domElement.muted = false;
-			
+		if (volume==0) {
+			this.domElement.setAttribute("muted",true);
+		}
 		this.domElement.volume = volume;
 		return true;
 	},
@@ -2440,11 +2438,15 @@ Class ("paella.VideoContainer", paella.VideoContainerBase,{
 		this.seekToTime(time);
 	},
 
-	reloadVideos:function(masterQuality,slaveQuality) {
+	reloadVideos:function(masterQuality,slaveQuality) {	
+		var isPaused = paella.player.videoContainer.paused();			
+	
 		this._showPosterFrame = false;
 		var memoizedCurrentTime = this.currentTime();
 		var masterVideo = this.masterVideo();
 		var slaveVideo = this.slaveVideo();
+		var masterVolume = masterVideo.volume();
+		var slaveVolume = slaveVideo && slaveVideo.volume();
 		 		
 		this.setMasterQuality(masterQuality);
 		this.setSlaveQuality(slaveQuality);
@@ -2467,9 +2469,16 @@ Class ("paella.VideoContainer", paella.VideoContainerBase,{
 			if (slaveVideo) slaveVideo.unload();
 			this._seekToOnLoad = memoizedCurrentTime;
 			this.setSources(this._videoSourceData.master,this._videoSourceData.slave);
+			masterVideo = this.masterVideo();
+			slaveVideo = this.slaveVideo();			
+			if (masterVideo) masterVideo.setVolume(masterVolume);
+			if (slaveVideo) slaveVideo.setVolume(slaveVolume);
 			this.seekToTime(this._seekToOnLoad);
-			this.play();
-			this._playOnLoad = true;
+			this._playOnLoad = false;
+			if (!isPaused) {
+				$(document).trigger(paella.events.play);
+				this._playOnLoad = true;
+			}
 		}
 	},
 
@@ -2522,7 +2531,8 @@ Class ("paella.VideoContainer", paella.VideoContainerBase,{
 			//}
 			
 			if (this._playOnLoad) {
-				this.play();
+				//this.play();
+				$(document).trigger(paella.events.play);
 			}
 		}
 	},
@@ -5487,7 +5497,9 @@ Class ("paella.PaellaPlayer", paella.PlayerBase,{
 						{ data:slave, type:preferredMethodSlave }
 					);
 					
-					paella.events.trigger(paella.events.loadComplete,{masterVideo:master,slaveVideo:slave,frames:frames});
+					setTimeout(function(){
+						paella.events.trigger(paella.events.loadComplete,{masterVideo:master,slaveVideo:slave,frames:frames});
+					}, 10);					
 					if (paella.player.isLiveStream()) {
 						This.showPlaybackBar();
 					}
@@ -9731,6 +9743,9 @@ Class ("paella.plugins.FrameControlPlugin",paella.ButtonPlugin,{
 	navButtons:null,
 	buttons: [],
 	contx:null,
+	_img:null,
+	_searchTimer: null,
+	_searchTimerTime: 250,
 	getAlignment:function() { return 'right'; },
 	getSubclass:function() { return "frameControl"; },
 	getIndex:function() { return 510; },
@@ -9892,9 +9907,12 @@ Class ("paella.plugins.FrameControlPlugin",paella.ButtonPlugin,{
 	},
 
 	showHiResFrame:function(url) {
+		var thisClass = this;
+		
 		var frameRoot = document.createElement("div");
 		var frame = document.createElement("div");
 		var hiResImage = document.createElement('img');
+		thisClass._img = hiResImage;
         hiResImage.className = 'frameHiRes';
         hiResImage.setAttribute('src',url);
         hiResImage.setAttribute('style', 'width: 100%;');
@@ -9918,11 +9936,13 @@ Class ("paella.plugins.FrameControlPlugin",paella.ButtonPlugin,{
 	},
 
 	removeHiResFrame:function() {
+		var thisClass = this;
 		overlayContainer = paella.player.videoContainer.overlayContainer;
 		if (this.hiResFrame) {
 			overlayContainer.removeElement(this.hiResFrame);
 		}
 		overlayContainer.disableBackgroundMode();
+		thisClass._img = null;
 	},
 
 	isFrameVisible:function(trimEnabled,trimStart,trimEnd) {
@@ -9984,16 +10004,29 @@ Class ("paella.plugins.FrameControlPlugin",paella.ButtonPlugin,{
 	},
 
 	onMouseOver:function(event,frameData) {
+		var thisClass = this;
 		var frames = paella.initDelegate.initParams.videoLoader.frameList;
 		var frame = frames[frameData.time];
 		if (frame) {
 			var image = frame.url;
-			this.showHiResFrame(image);
+			if(thisClass._img){
+				thisClass._img.setAttribute('src',image);
+			}
+			else{
+				this.showHiResFrame(image);
+			}
+		}
+		
+		if(thisClass._searchTimer != null){
+			thisClass._searchTimer.cancel();
 		}
 	},
 
 	onMouseOut:function(event,frameData) {
-		//this.removeHiResFrame();
+		var thisClass = this;
+		thisClass._searchTimer = new base.Timer(function(timer) {
+									thisClass.removeHiResFrame();
+								}, thisClass._searchTimerTime);
 	},
 
 	onClick:function(event,frameData) {
@@ -10367,7 +10400,10 @@ Class ("paella.plugins.MultipleQualitiesPlugin",paella.ButtonPlugin,{
 		
 		// Sort the available resolutions
 		function sortfunc(a,b){
-			return parseInt(a.res.h) >= parseInt(b.res.h);
+			var ia = parseInt(a.res.h);
+			var ib = parseInt(a.res.h);
+			
+			return ((ia < ib) ? -1 : ((ia > ib) ? 1 : 0));
 		}
 		this.availableMasters.sort(sortfunc);
 		this.availableSlaves.sort(sortfunc);		
@@ -11680,6 +11716,9 @@ Class ("paella.plugins.VolumeRangePlugin", paella.ButtonPlugin,{
 	_showSlaveVolume: null,
 	_tempMasterVolume: 0,
 	_tempSlaveVolume: 0,
+	_inputMaster: null,
+	_inputSlave: null,
+	_control_NotMyselfEvent: true,
 
 	checkEnabled:function(onSuccess) {
 		var enabled = false;
@@ -11701,6 +11740,23 @@ Class ("paella.plugins.VolumeRangePlugin", paella.ButtonPlugin,{
 		paella.events.bind(paella.events.videoUnloaded,function(event,params) {self.storeVolume();});
 		//RECOVER VALUES
 		paella.events.bind(paella.events.singleVideoReady,function(event,params) {self.loadStoredVolume(params);});
+		
+		paella.events.bind(paella.events.setVolume, function(evt,par){ self.updateVolumeOnEvent(par);});
+	},
+	
+	updateVolumeOnEvent:function(volume){
+		var thisClass = this;
+		
+		if(thisClass._control_NotMyselfEvent){
+			if(thisClass._inputMaster){
+				thisClass._inputMaster.value = volume.master;
+			}
+		
+			if(thisClass._inputSlave){
+				thisClass._inputSlave.value = volume.slave;
+			}
+		}
+		else {thisClass._control_NotMyselfEvent = true;}			
 	},
 
 	storeVolume:function(){
@@ -11733,6 +11789,7 @@ Class ("paella.plugins.VolumeRangePlugin", paella.ButtonPlugin,{
 			var rangeImageMaster = document.createElement('div');
 			rangeImageMaster.className = "image master";
 			var rangeInputMaster = document.createElement('input');
+			thisClass._inputMaster = rangeInputMaster;
 			rangeInputMaster.type = "range";
 			rangeInputMaster.min = 0;
 			rangeInputMaster.max = 1;
@@ -11744,7 +11801,8 @@ Class ("paella.plugins.VolumeRangePlugin", paella.ButtonPlugin,{
 				var slaveVolume = 0;
 				if (slaveVideo) { slaveVolume = slaveVideo.volume(); }
 			
-				var masterVolume = $(rangeInputMaster).val(); 
+				var masterVolume = $(rangeInputMaster).val();
+				thisClass._control_NotMyselfEvent = false; 
 				paella.events.trigger(paella.events.setVolume, {master:masterVolume, slave:slaveVolume});				
 			};
 			$(rangeInputMaster).bind('input', function (e) { updateMasterVolume(); });
@@ -11763,6 +11821,7 @@ Class ("paella.plugins.VolumeRangePlugin", paella.ButtonPlugin,{
 			var rangeImageSlave = document.createElement('div');
 			rangeImageSlave.className = "image slave";
 			var rangeInputSlave = document.createElement('input');
+			thisClass._inputSlave = rangeInputSlave;
 			rangeInputSlave.type = "range";
 			rangeInputSlave.min = 0;
 			rangeInputSlave.max = 1;
@@ -11775,6 +11834,7 @@ Class ("paella.plugins.VolumeRangePlugin", paella.ButtonPlugin,{
 				if (masterVideo) { masterVolume = masterVideo.volume(); }
 				
 				var slaveVolume = $(rangeInputSlave).val(); 
+				thisClass._control_NotMyselfEvent = false;
 				paella.events.trigger(paella.events.setVolume,{master:masterVolume, slave:slaveVolume});
 			};
 			$(rangeInputSlave).bind('input', function (e) { updateSlaveVolume(); });
@@ -12307,4 +12367,4 @@ Class ("paella.ZoomPlugin", paella.EventDrivenPlugin,{
 });
 
 paella.plugins.zoomPlugin = new paella.ZoomPlugin();
-paella.version = "4.0.13 - build: a45a8a8";
+paella.version = "4.0.19 - build: 40a82af";

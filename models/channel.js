@@ -3,8 +3,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var uuid = require('mongoose-uuid');
 
+
 var ChannelSchema = new Schema({
-	children: [ String ],
+	children: [ { type:String, ref:'Channel' } ],
 	creationDate: { type: Date, default: Date.now },
 	deletionDate: { type: Date },
 	hidden: Boolean,
@@ -14,7 +15,7 @@ var ChannelSchema = new Schema({
 	thumbnail: String,
 	repository: { type:String, ref:'Repository' },
 	title: String,
-	videos: [ String ]
+	videos: [ { type:String, ref:'Video' } ]
 }, {_id:false});
 
 ChannelSchema.plugin(uuid.plugin, 'Channel');

@@ -19,7 +19,7 @@ exports.LoadVideos = function(req,res,next) {
 			req.data = data;
 			next();
 		});
-}
+};
 
 // Load video data
 // 	Input: req.params.id
@@ -33,7 +33,7 @@ exports.LoadVideo = function(req,res,next) {
 			req.data = data;
 			next();
 		});
-}
+};
 
 // Load the video url's from the repository
 //	Input: req.data (video)
@@ -57,8 +57,8 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 				});
 				if (videoData.thumbnail) videoData.thumbnail = repo.server + repo.endpoint + videoData._id + '/' + videoData.thumbnail;
 				videoData.slides.forEach(function(slide) {
-					if (slide.url) slide.url = repo.server + repo.endpoint + videoData._id + '/' + slide.url;
-					if (slide.thumb) slide.thumb = repo.server + repo.endpoint + videoData._id + '/' + slide.thumb;
+					if (slide.url) slide.url = repo.server + repo.endpoint + videoData._id + '/slides/' + slide.url;
+					if (slide.thumb) slide.thumb = repo.server + repo.endpoint + videoData._id + '/slides/' + slide.thumb;
 				});
 
 				req.data = videoData;

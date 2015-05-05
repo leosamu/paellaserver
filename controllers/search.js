@@ -12,13 +12,13 @@ exports.Search = function(req,res,next) {
 		videos:[]
 	};
 
-	var chSelect = '-children -creationDate -deletionDate ' +
+	var chSelect = '-children -deletionDate ' +
 		'-hidden -hiddenInSearches -pluginData ' +
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
-	var vSelect = '-slides -hidden -thumbnail -roles -duration ' +
+	var vSelect = '-slides -hidden -roles -duration ' +
 		'-hiddenInSearches -canRead -canWrite ' +
-		'-deletionDate -source -pluginData ' +
+		'-deletionDate -pluginData ' +
 		'-metadata -search -hideSocial -processSlides';
 
 	if (req.query.search=="" || !req.query.search) {
@@ -91,7 +91,14 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 		})
 	}
 	if (videos && videos.length) {
-
+		videos.forEach(function(videoData) {
+			if (videoData.thumbnail && videoData.repository) {
+				videoData.thumbnail = videoData.repository.server +
+						videoData.repository.endpoint +
+						videoData._id + "/" +
+						videoData.thumbnail;
+			}
+		});
 	}
 	next();
 };

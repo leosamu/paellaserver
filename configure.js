@@ -8,6 +8,7 @@ var Q = require('q');
 exports.checkInitConfig = function() {
 	var Role = require(__dirname + '/models/role');
 	var User = require(__dirname + '/models/user');
+	var Video = require(__dirname + '/models/video');
 	var Channel = require(__dirname + '/models/channel');
 	var Repository = require(__dirname + '/models/repository');
 

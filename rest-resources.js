@@ -24,6 +24,7 @@ module.exports = {
             	var method = null;
             	var callback = null;
             	var param = route.param;
+				var extension = route.extension;
             	for (method in route) {
             		var value = route[method];
             		if (typeof(value)=="function" || typeof(value)=="object") {
@@ -32,9 +33,13 @@ module.exports = {
             		}
             	}
 				var endpoint = endpointBase;
+				if (extension) {
+					endpoint += '.' + extension;
+				}
 				if (param) {
 					endpoint += '/:' + param;
 				}
+
 
 				endpoint = endpoint.replace(/[\-_]{1}/, ':');
             	console.log(endpoint + " > " + method);

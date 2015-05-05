@@ -49,7 +49,7 @@
 	"There are unsaved changes": "Hay cambios sin guardar",
 	"Live streaming mode: This is a live video, so, some capabilities of the player are disabled": "Emision en directo: Este video es una emisión en directo. Por tanto, algunas características del reproductor estan desactivadas",
 	"You are using Firefox version, and some required video playback capabilities are not available until Firefox min_version. Please, update your browser and try again.": "Estás utilizando Firefox version, y algunas capacidades de vídeo necesarias no están disponibles hasta Firefox min_version. Por favor, actualiza tu navegador y prueba otra vez.",
-	"Trimming": "Ajuste",
+	"Trimming": "Ajuste de inicio y fin",
 	"Options": "Opciones",
 	"Tool": "Herramienta",
 	"Selection": "Selección",
