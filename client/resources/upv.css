@@ -149,3 +149,8 @@ footer {
 	}
 }
 
+.ps-header-link {
+	float:right;
+	font-size: 0.5em;
+}
+

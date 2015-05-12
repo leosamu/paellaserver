@@ -168,3 +168,24 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 	}
 	next();
 };
+
+// Load channel's parents
+//	Input: req.params.id > channel's identifier
+//	Output: req.list > list of parent channels or empty array
+exports.ParentsOfChannels = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	var select = '-children -deletionDate ' +
+		'-hidden -hiddenInSearches -owned -pluginData ' +
+		'-canRead -canWrite -search -metadata ' +
+		'-videos';
+
+	Channel.find({"children":{$in:[req.params.id]}})
+		.select(select)
+		.populate('owner','contactData.name contactData.lastName')
+		.populate('repository','server endpoint')
+		.exec(function(err,data) {
+			req.data = data;
+			next();
+		});
+
+};
