@@ -184,8 +184,32 @@ exports.ParentsOfChannels = function(req,res,next) {
 		.populate('owner','contactData.name contactData.lastName')
 		.populate('repository','server endpoint')
 		.exec(function(err,data) {
-			req.data = data;
+			req.data = {
+				list: data
+			};
 			next();
 		});
-
 };
+
+// Load video's parents
+//	Input: req.params.id > video's identifier
+//	Output: req.list > list of parent channels or empty array
+exports.ParentsOfVideo = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	var select = '-children -deletionDate ' +
+		'-hidden -hiddenInSearches -owned -pluginData ' +
+		'-canRead -canWrite -search -metadata ' +
+		'-videos';
+
+	Channel.find({"videos":{$in:[req.params.id]}})
+		.select(select)
+		.populate('owner','contactData.name contactData.lastName')
+		.populate('repository','server endpoint')
+		.exec(function(err,data) {
+			req.data = {
+				list: data
+			};
+			next();
+		});
+};
+
