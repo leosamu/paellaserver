@@ -12,5 +12,5 @@ exports.routes = {
 			CommonController.JsonResponse
 		]
 	}
-}
+};
 

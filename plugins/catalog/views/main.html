@@ -15,14 +15,36 @@
     <section class="ps-current-channel" ng-show="channelData">
         <h1>
             {{channelData.title}}
-            <a href="#" class="ps-header-link" ng-click="">Listado de canales que incluyen este recurso</a>
+            <span class="ps-header-link dropdown" dropdown on-toggle="loadChannelParents(channelId)" ng-show="channelId">
+              <a href class="dropdown-toggle" dropdown-toggle>
+                  Listado de canales que incluyen este recurso
+              </a>
+              <ul class="dropdown-menu">
+                  <li ng-repeat="parent in parents" ng-show="parent._id!='default'">
+                      <a href ng-href="#/catalog/channel/{{parent._id}}">{{parent.title}}</a>
+                  </li>
+              </ul>
+            </span>
         </h1>
     </section>
     <section class="ps-channel-list row" ng-show="channelTabSelected()">
      <!--   <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination> -->
         <div class="col-md-6 col-xs-12" ng-repeat="channel in channels">
+            <span class="dropdown ps-item-menu" dropdown on-toggle="loadChannelParents(channel._id)">
+                <button class="glyphicon glyphicon-option-horizontal dropdown-toggle" dropdown-toggle>
+                    <!--Listado de canales que incluyen este recurso-->
+                </button>
+                <ul class="dropdown-menu">
+                    <li><p>Listado de canales que contienen este recurso:</p></li>
+                    <li class="divider"></li>
+                    <li ng-repeat="parent in parents" ng-show="parent._id!='default'" ng-class="{ disabled:parent._id==channelId }">
+                        <a href ng-href="#/catalog/channel/{{parent._id}}">{{parent.title}}</a>
+                    </li>
+                </ul>
+            </span>
             <article class="ps-list-item ps-channel" ng-click="navigateChannel(channel)">
                 <div class="ps-view">
+
                     <h2 class="ps-title pull-left">
                         {{channel.title}}
                         <p class="ps-date">{{channel.creationDate | date:"dd/MM/yyyy" }}</p>
@@ -44,7 +66,18 @@
     </section>
     <section class="ps-video-list row" ng-show="videoTabSelected()">
         <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="video in videos">
-            
+            <span class="dropdown ps-item-menu" dropdown on-toggle="loadVideoParents(video._id)">
+                <button class="glyphicon glyphicon-option-horizontal dropdown-toggle" dropdown-toggle>
+                    <!--Listado de canales que incluyen este recurso-->
+                </button>
+                <ul class="dropdown-menu">
+                    <li><p>Listado de canales que contienen este recurso:</p></li>
+                    <li class="divider"></li>
+                    <li ng-repeat="parent in parents" ng-show="parent._id!='default'" ng-class="{ disabled:parent._id==channelId }">
+                        <a href ng-href="#/catalog/channel/{{parent._id}}">{{parent.title}}</a>
+                    </li>
+                </ul>
+            </span>
             <article class="ps-list-item ps-video" ng-click="openVideo(video)">
 
                     <img class="ps-image img-responsive" ng-src="{{thumbnail(video)}}" alt="{{video.title + ' image'}}"/>

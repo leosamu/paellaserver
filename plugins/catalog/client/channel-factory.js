@@ -4,7 +4,8 @@
 		.factory("Channel", ['$resource', function ChannelFactory($resource) {
 			return $resource("/rest/search", {}, {
 				query: { search:'' },
-				all: { url:"/rest/channel/:id" }
+				all: { url:"/rest/channel/:id" },
+				parents: { url:"/rest/channel/:id/parents" }
 			});
 	}]);
 })();

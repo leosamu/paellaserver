@@ -1,7 +1,7 @@
 (function() {
 	var catalogModule = angular.module('catalogModule',["ngRoute","ngResource","ui.bootstrap"]);
 
-	var CatalogController = function($scope,$routeParams,Channel) {
+	var CatalogController = function($scope,$routeParams,Channel,Video) {
 		$scope.channels = [];
 		$scope.videos = [];
 
@@ -10,6 +10,22 @@
 		
 		// Pestañas vídeos/canales
 		$scope.currentTab = -1;
+
+		$scope.loadChannelParents = function(id) {
+			Channel.parents({id:id}).$promise
+				.then(function(result) {
+					$scope.parents = result.list;
+				});
+			$scope.parents = [];
+		};
+
+		$scope.loadVideoParents = function(id) {
+			Video.parents({id:id}).$promise
+				.then(function(result) {
+					$scope.parents = result.list;
+				});
+			$scope.parents = [];
+		};
 		
 		$scope.showChannels = function() {
 			if ($scope.numChannels()>0) {
@@ -52,7 +68,7 @@
 		};
 
 		$scope.selectDefaultTab = function() {
-			if (!$scope.showChannels() && !$scope.showVideos()) {
+			if (!$scope.showVideos() && !$scope.showChannels()) {
 				$scope.showAny();
 			}
 		};
@@ -119,7 +135,7 @@
 		$scope.doSearch();
 	};
 
-	CatalogController.$inject = ["$scope","$routeParams","Channel"];
+	CatalogController.$inject = ["$scope","$routeParams","Channel","Video"];
 	catalogModule.controller('CatalogController',CatalogController);
 
 	catalogModule.config(['$routeProvider', function($routeProvider) {
