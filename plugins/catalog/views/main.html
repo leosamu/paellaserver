@@ -42,11 +42,10 @@
                     </li>
                 </ul>
             </span>
-            <article class="ps-list-item ps-channel" ng-click="navigateChannel(channel)">
+            <a class="ps-list-item ps-channel" ng-href="#/catalog/channel/{{channel._id}}">
                 <div class="ps-view">
-
                     <h2 class="ps-title pull-left">
-                        <a ng-href="#/catalog/channel/{{channel._id}}">{{channel.title}}</a>
+                        {{channel.title}}
                         <p class="ps-date">{{channel.creationDate | date:"dd/MM/yyyy" }}</p>
                         <p class="ps-author">{{ownerName(channel)}}</p>
                     </h2>
@@ -61,7 +60,7 @@
                     <button class="btn">Edit</button>
                     -->
                 </div>
-            </article>
+            </a>
         </div>
     </section>
     <section class="ps-video-list row" ng-show="videoTabSelected()">

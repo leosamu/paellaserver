@@ -164,3 +164,7 @@ footer {
 .ps-item-menu li p {
 	padding: 3px 10px 3px 10px;
 }
+
+.ps-list-item.ps-channel {
+	display: block;
+}
