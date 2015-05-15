@@ -46,7 +46,7 @@
                 <div class="ps-view">
 
                     <h2 class="ps-title pull-left">
-                        {{channel.title}}
+                        <a ng-href="#/catalog/channel/{{channel._id}}">{{channel.title}}</a>
                         <p class="ps-date">{{channel.creationDate | date:"dd/MM/yyyy" }}</p>
                         <p class="ps-author">{{ownerName(channel)}}</p>
                     </h2>

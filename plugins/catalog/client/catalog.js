@@ -119,6 +119,7 @@
 						$scope.channels = result.children;
 						$scope.videos = result.videos;
 						$scope.selectDefaultTab();
+						document.title = result.title;
 					});
 			}
 		};
