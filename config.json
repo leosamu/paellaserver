@@ -19,5 +19,8 @@
 		"passwField":"auth.polimedia.pass",
 		"userModel":"user",
 		"csrfCheck":true
+	},
+	"cas":{
+		"serverUrl":"https://aplicat.upv.es/cas-app"
 	}
 }

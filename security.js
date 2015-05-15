@@ -4,6 +4,7 @@ var express = require("express");
 
 var LocalStrategy = require('passport-local').Strategy;
 var DigestStrategy = require('passport-http').DigestStrategy;
+var OpenIDStrategy = require('passport-openid').Strategy;
 
 exports.init = function(app) {
 	var configure = require("./configure");
@@ -75,16 +76,36 @@ exports.init = function(app) {
 		}
 	));
 
+
+	passport.use(new OpenIDStrategy({
+			returnURL: configure.serverUrl() + '/auth/openid/return',
+			realm: configure.serverUrl(),
+			profile: true
+		},
+		function(identifier, profile, done) {
+			// TODO: Implementar OpenID si se considera útil.
+			console.log(identifier);
+			console.log(profile);
+			done(null, false);
+		}
+	));
+
+
 	router.get('/auth/logout', function(req, res){
 		req.logout();
 		req.session.destroy();
 		res.redirect('/');
 	});
 
-	/*router.get('/auth/local', function(req, res) {
-	 var template = i18n.t('template.login');
-	 res.render(template, { title: 'Servicio de VideoApuntes', user: req.user, message: req.flash('error') });
-	 });*/
+	router.post('/auth/openid', function(req,res,next) {
+			console.log("Hola");
+			next();
+		},
+		passport.authenticate('openid'));
+	router.get('/auth/openid/return',
+		passport.authenticate('openid', { successRedirect: '/',
+			failureRedirect: '/#/auth/login/401'
+		}));
 
 	router.post('/auth/local',
 		passport.authenticate('local', {
@@ -96,6 +117,5 @@ exports.init = function(app) {
 			res.redirect('/');
 		}
 	);
-
 };
 
