@@ -96,37 +96,64 @@ exports.init = function(app) {
 			tickets: ["TDP", "TDX"],
 			profileInfo: ['nip', 'dni', 'login', 'email', 'fullName']
 		},
-		function(profile, done){
-			console.log(profile);
-			done(true);
-			/*UserModel.findOne({"$or": [
-				{provider: 'upv', 'providerData.id': profile.dni.toString()},
-				{provider: 'upv', 'providerData.nip2': profile.nip.toString()}
-			]}, function(err, user) {
-				if (err) { return done(err); }
-				if (user) { return done(null, user); }
-
-				// Create a new user!
-				try {
-					var newUser = new UserModel();
-					var nameArray = profile.fullName.split(',');
-					newUser.name = nameArray[1].trim();
-					newUser.lastName = nameArray[0].trim();
-					newUser.email = profile.email;
-					newUser.roles = [];
-					newUser.provider = 'upv';
-					newUser.providerData = { id: profile.dni.toString() };
-
-					newUser.save(function(err) {
+		function(profile, done){	
+			function addUserData() {
+				var newUser = null;
+				var re = RegExp("^" + profile.email.split('@')[0] + "@(.+\.)*upv\.es$","i");
+				
+				User.findOne({"contactData.email":{$regex:re}})
+					.select("-auth.polimedia.pass")
+					.exec(function(err,user) {
 						if (err) { return done(err); }
-						return done(null, newUser);
+						
+						if (!user) {
+							var nameArray = profile.fullName.split(',');
+							newUser = new User({
+								contactData: {
+									email:profile.email,
+									name:nameArray[1].trim(),
+									lastName:nameArray[0].trim()
+								},
+								auth:{
+									UPV: {
+										login:profile.login,
+										dni:profile.dni,
+										nip:profile.nip
+									}
+								}
+							});
+							newUser.save(function(err) {
+								if (err) { return done(err); }
+								return done(null, newUser);
+							});
+						}
+						else {
+							newUser = user;
+							newUser.auth.UPV = {
+										login:profile.login,
+										dni:profile.dni,
+										nip:profile.nip
+									}
+							User.update({"contactData.email":{$regex:re}},
+								{ $set:{"auth.UPV":newUser.auth.UPV }})
+								.exec(function(err) {
+									if (err) { return done(err); }
+									return done(null, newUser);
+								});
+						}
 					});
-				}
-				catch(e) {
-					// return with error!
-					return done(true);
-				}
-			});*/
+			}
+			
+			var User = require('./models/user.js');
+			User.findOne({"auth.UPV.dni":profile.dni})
+				.select('-auth.polimedia.pass')
+				.exec(function(err,user) {
+					if (err) { done(err); }
+					else if (user) { done(null, user); }
+					else {
+						addUserData();
+					}
+				});
 		}
 	));
 
