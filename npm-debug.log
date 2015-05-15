@@ -1,0 +1,354 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'passport-client' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 verbose readDependencies using package.json deps
+5 verbose cache add [ 'npm@^2.9.1', null ]
+6 verbose cache add name=undefined spec="npm@^2.9.1" args=["npm@^2.9.1",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: 'npm@^2.9.1',
+7 verbose parsed url   path: 'npm@^2.9.1',
+7 verbose parsed url   href: 'npm@^2.9.1' }
+8 verbose cache add [ 'install@^0.1.8', null ]
+9 verbose cache add name=undefined spec="install@^0.1.8" args=["install@^0.1.8",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'install@^0.1.8',
+10 verbose parsed url   path: 'install@^0.1.8',
+10 verbose parsed url   href: 'install@^0.1.8' }
+11 verbose cache add [ 'passport-client', null ]
+12 verbose cache add name=undefined spec="passport-client" args=["passport-client",null]
+13 verbose parsed url { protocol: null,
+13 verbose parsed url   slashes: null,
+13 verbose parsed url   auth: null,
+13 verbose parsed url   host: null,
+13 verbose parsed url   port: null,
+13 verbose parsed url   hostname: null,
+13 verbose parsed url   hash: null,
+13 verbose parsed url   search: null,
+13 verbose parsed url   query: null,
+13 verbose parsed url   pathname: 'passport-client',
+13 verbose parsed url   path: 'passport-client',
+13 verbose parsed url   href: 'passport-client' }
+14 verbose cache add name="npm" spec="^2.9.1" args=["npm","^2.9.1"]
+15 verbose parsed url { protocol: null,
+15 verbose parsed url   slashes: null,
+15 verbose parsed url   auth: null,
+15 verbose parsed url   host: null,
+15 verbose parsed url   port: null,
+15 verbose parsed url   hostname: null,
+15 verbose parsed url   hash: null,
+15 verbose parsed url   search: null,
+15 verbose parsed url   query: null,
+15 verbose parsed url   pathname: '^2.9.1',
+15 verbose parsed url   path: '^2.9.1',
+15 verbose parsed url   href: '^2.9.1' }
+16 verbose addNamed [ 'npm', '^2.9.1' ]
+17 verbose addNamed [ null, '>=2.9.1-0 <3.0.0-0' ]
+18 verbose cache add name="install" spec="^0.1.8" args=["install","^0.1.8"]
+19 verbose parsed url { protocol: null,
+19 verbose parsed url   slashes: null,
+19 verbose parsed url   auth: null,
+19 verbose parsed url   host: null,
+19 verbose parsed url   port: null,
+19 verbose parsed url   hostname: null,
+19 verbose parsed url   hash: null,
+19 verbose parsed url   search: null,
+19 verbose parsed url   query: null,
+19 verbose parsed url   pathname: '^0.1.8',
+19 verbose parsed url   path: '^0.1.8',
+19 verbose parsed url   href: '^0.1.8' }
+20 verbose addNamed [ 'install', '^0.1.8' ]
+21 verbose addNamed [ null, '>=0.1.8-0 <0.2.0-0' ]
+22 silly lockFile aef1ce39-npm-2-9-1 npm@^2.9.1
+23 verbose lock npm@^2.9.1 /Users/fernando/.npm/aef1ce39-npm-2-9-1.lock
+24 silly lockFile 8f49131e-install-0-1-8 install@^0.1.8
+25 verbose lock install@^0.1.8 /Users/fernando/.npm/8f49131e-install-0-1-8.lock
+26 silly lockFile e2bc7e21-passport-client passport-client
+27 verbose lock passport-client /Users/fernando/.npm/e2bc7e21-passport-client.lock
+28 silly addNameRange { name: 'npm', range: '>=2.9.1-0 <3.0.0-0', hasData: false }
+29 silly addNameRange { name: 'install', range: '>=0.1.8-0 <0.2.0-0', hasData: false }
+30 silly lockFile e2bc7e21-passport-client passport-client
+31 silly lockFile e2bc7e21-passport-client passport-client
+32 verbose addNamed [ 'passport-client', '' ]
+33 verbose addNamed [ null, '*' ]
+34 silly lockFile eb4bb997-passport-client passport-client@
+35 verbose lock passport-client@ /Users/fernando/.npm/eb4bb997-passport-client.lock
+36 verbose request where is /install
+37 verbose request registry https://registry.npmjs.org/
+38 verbose request id 1ccda08bd5f63413
+39 verbose url raw /install
+40 verbose url resolving [ 'https://registry.npmjs.org/', './install' ]
+41 verbose url resolved https://registry.npmjs.org/install
+42 verbose request where is https://registry.npmjs.org/install
+43 info trying registry request attempt 1 at 08:51:45
+44 verbose etag "113P54VHX3FJP3LDSDBKOLHUM"
+45 http GET https://registry.npmjs.org/install
+46 silly addNameRange { name: 'passport-client', range: '*', hasData: false }
+47 verbose request where is /npm
+48 verbose request registry https://registry.npmjs.org/
+49 verbose url raw /npm
+50 verbose url resolving [ 'https://registry.npmjs.org/', './npm' ]
+51 verbose url resolved https://registry.npmjs.org/npm
+52 verbose request where is https://registry.npmjs.org/npm
+53 info trying registry request attempt 1 at 08:51:45
+54 verbose etag "1B76WYCEJYK7P0PX72NV0R9BH"
+55 http GET https://registry.npmjs.org/npm
+56 verbose request where is /passport-client
+57 verbose request registry https://registry.npmjs.org/
+58 verbose url raw /passport-client
+59 verbose url resolving [ 'https://registry.npmjs.org/', './passport-client' ]
+60 verbose url resolved https://registry.npmjs.org/passport-client
+61 verbose request where is https://registry.npmjs.org/passport-client
+62 info trying registry request attempt 1 at 08:51:45
+63 http GET https://registry.npmjs.org/passport-client
+64 http 304 https://registry.npmjs.org/install
+65 silly registry.get cb [ 304,
+65 silly registry.get   { date: 'Thu, 14 May 2015 06:51:45 GMT',
+65 silly registry.get     via: '1.1 varnish',
+65 silly registry.get     'cache-control': 'max-age=60',
+65 silly registry.get     etag: '"113P54VHX3FJP3LDSDBKOLHUM"',
+65 silly registry.get     age: '54',
+65 silly registry.get     connection: 'keep-alive',
+65 silly registry.get     'x-served-by': 'cache-lhr6329-LHR',
+65 silly registry.get     'x-cache': 'HIT',
+65 silly registry.get     'x-cache-hits': '1',
+65 silly registry.get     'x-timer': 'S1431586305.438938,VS0,VE0',
+65 silly registry.get     vary: 'Accept' } ]
+66 verbose etag https://registry.npmjs.org/install from cache
+67 silly addNameRange number 2 { name: 'install', range: '>=0.1.8-0 <0.2.0-0', hasData: true }
+68 silly addNameRange versions [ 'install',
+68 silly addNameRange   [ '0.1.1',
+68 silly addNameRange     '0.1.2',
+68 silly addNameRange     '0.1.3',
+68 silly addNameRange     '0.1.4',
+68 silly addNameRange     '0.1.5',
+68 silly addNameRange     '0.1.6',
+68 silly addNameRange     '0.1.7',
+68 silly addNameRange     '0.1.8' ] ]
+69 verbose addNamed [ 'install', '0.1.8' ]
+70 verbose addNamed [ '0.1.8', '0.1.8' ]
+71 silly lockFile 584c81dc-install-0-1-8 install@0.1.8
+72 verbose lock install@0.1.8 /Users/fernando/.npm/584c81dc-install-0-1-8.lock
+73 silly lockFile 584c81dc-install-0-1-8 install@0.1.8
+74 silly lockFile 584c81dc-install-0-1-8 install@0.1.8
+75 silly lockFile 8f49131e-install-0-1-8 install@^0.1.8
+76 silly lockFile 8f49131e-install-0-1-8 install@^0.1.8
+77 http 304 https://registry.npmjs.org/npm
+78 silly registry.get cb [ 304,
+78 silly registry.get   { date: 'Thu, 14 May 2015 06:51:45 GMT',
+78 silly registry.get     via: '1.1 varnish',
+78 silly registry.get     'cache-control': 'max-age=60',
+78 silly registry.get     etag: '"1B76WYCEJYK7P0PX72NV0R9BH"',
+78 silly registry.get     age: '33',
+78 silly registry.get     connection: 'keep-alive',
+78 silly registry.get     'x-served-by': 'cache-lhr6322-LHR',
+78 silly registry.get     'x-cache': 'HIT',
+78 silly registry.get     'x-cache-hits': '1',
+78 silly registry.get     'x-timer': 'S1431586305.516094,VS0,VE34',
+78 silly registry.get     vary: 'Accept' } ]
+79 verbose etag https://registry.npmjs.org/npm from cache
+80 silly addNameRange number 2 { name: 'npm', range: '>=2.9.1-0 <3.0.0-0', hasData: true }
+81 silly addNameRange versions [ 'npm',
+81 silly addNameRange   [ '1.1.25',
+81 silly addNameRange     '1.2.32',
+81 silly addNameRange     '1.3.2',
+81 silly addNameRange     '1.3.4',
+81 silly addNameRange     '1.2.20',
+81 silly addNameRange     '1.2.21',
+81 silly addNameRange     '1.2.22',
+81 silly addNameRange     '1.2.23',
+81 silly addNameRange     '1.2.24',
+81 silly addNameRange     '1.2.25',
+81 silly addNameRange     '1.2.27',
+81 silly addNameRange     '1.2.28',
+81 silly addNameRange     '1.2.30',
+81 silly addNameRange     '1.2.31',
+81 silly addNameRange     '1.3.0',
+81 silly addNameRange     '1.3.1',
+81 silly addNameRange     '1.2.19',
+81 silly addNameRange     '1.1.70',
+81 silly addNameRange     '1.1.71',
+81 silly addNameRange     '1.3.5',
+81 silly addNameRange     '1.3.6',
+81 silly addNameRange     '1.3.7',
+81 silly addNameRange     '1.3.8',
+81 silly addNameRange     '1.3.9',
+81 silly addNameRange     '1.3.10',
+81 silly addNameRange     '1.3.11',
+81 silly addNameRange     '1.3.12',
+81 silly addNameRange     '1.3.13',
+81 silly addNameRange     '1.3.14',
+81 silly addNameRange     '1.3.15',
+81 silly addNameRange     '1.3.16',
+81 silly addNameRange     '1.3.17',
+81 silly addNameRange     '1.3.18',
+81 silly addNameRange     '1.3.20',
+81 silly addNameRange     '1.3.21',
+81 silly addNameRange     '1.3.22',
+81 silly addNameRange     '1.3.23',
+81 silly addNameRange     '1.3.24',
+81 silly addNameRange     '1.3.25',
+81 silly addNameRange     '1.3.26',
+81 silly addNameRange     '1.4.0',
+81 silly addNameRange     '1.4.1',
+81 silly addNameRange     '1.4.2',
+81 silly addNameRange     '1.4.3',
+81 silly addNameRange     '1.4.4',
+81 silly addNameRange     '1.4.5',
+81 silly addNameRange     '1.4.6',
+81 silly addNameRange     '1.4.7',
+81 silly addNameRange     '1.4.8',
+81 silly addNameRange     '1.4.9',
+81 silly addNameRange     '1.4.10',
+81 silly addNameRange     '1.4.11',
+81 silly addNameRange     '1.4.12',
+81 silly addNameRange     '1.4.13',
+81 silly addNameRange     '1.4.14',
+81 silly addNameRange     '1.4.15',
+81 silly addNameRange     '1.4.16',
+81 silly addNameRange     '1.2.8000',
+81 silly addNameRange     '1.4.17',
+81 silly addNameRange     '1.4.18',
+81 silly addNameRange     '1.4.19',
+81 silly addNameRange     '1.5.0-alpha-0',
+81 silly addNameRange     '1.5.0-alpha-1',
+81 silly addNameRange     '1.4.20',
+81 silly addNameRange     '1.5.0-alpha-2',
+81 silly addNameRange     '1.4.21',
+81 silly addNameRange     '1.5.0-alpha-3',
+81 silly addNameRange     '1.5.0-alpha-4',
+81 silly addNameRange     '2.0.0-alpha-5',
+81 silly addNameRange     '1.4.22',
+81 silly addNameRange     '1.4.23',
+81 silly addNameRange     '2.0.0-alpha.6.0',
+81 silly addNameRange     '1.4.24',
+81 silly addNameRange     '2.0.0-alpha.6',
+81 silly addNameRange     '2.0.0-alpha.7',
+81 silly addNameRange     '2.0.0-beta.0',
+81 silly addNameRange     '1.4.25',
+81 silly addNameRange     '2.0.0-beta.1',
+81 silly addNameRange     '1.4.26',
+81 silly addNameRange     '2.0.0-beta.2',
+81 silly addNameRange     '1.4.27',
+81 silly addNameRange     '2.0.0-beta.3',
+81 silly addNameRange     '1.4.28',
+81 silly addNameRange     '2.0.0',
+81 silly addNameRange     '2.0.1',
+81 silly addNameRange     '2.0.2',
+81 silly addNameRange     '2.1.0',
+81 silly addNameRange     '2.1.1',
+81 silly addNameRange     '2.1.2',
+81 silly addNameRange     '2.1.3',
+81 silly addNameRange     '2.1.4',
+81 silly addNameRange     '2.1.5',
+81 silly addNameRange     '2.1.6',
+81 silly addNameRange     '2.1.7',
+81 silly addNameRange     '2.1.8',
+81 silly addNameRange     '2.1.9',
+81 silly addNameRange     '2.1.10',
+81 silly addNameRange     '2.1.11',
+81 silly addNameRange     '2.1.12',
+81 silly addNameRange     '2.1.13',
+81 silly addNameRange     '2.1.14',
+81 silly addNameRange     '2.1.15',
+81 silly addNameRange     '2.1.16',
+81 silly addNameRange     '2.1.17',
+81 silly addNameRange     '2.1.18',
+81 silly addNameRange     '2.2.0',
+81 silly addNameRange     '2.3.0',
+81 silly addNameRange     '2.4.0',
+81 silly addNameRange     '2.4.1',
+81 silly addNameRange     '2.5.0',
+81 silly addNameRange     '2.5.1',
+81 silly addNameRange     '2.6.0',
+81 silly addNameRange     '2.6.1',
+81 silly addNameRange     '2.7.0',
+81 silly addNameRange     '2.7.1',
+81 silly addNameRange     '2.7.2',
+81 silly addNameRange     '2.7.3',
+81 silly addNameRange     '2.7.4',
+81 silly addNameRange     '2.7.5',
+81 silly addNameRange     '2.7.6',
+81 silly addNameRange     '2.8.0',
+81 silly addNameRange     '2.8.1',
+81 silly addNameRange     '2.8.2',
+81 silly addNameRange     '2.8.3',
+81 silly addNameRange     '2.8.4',
+81 silly addNameRange     '2.9.0',
+81 silly addNameRange     '2.9.1',
+81 silly addNameRange     '2.10.0' ] ]
+82 verbose addNamed [ 'npm', '2.9.1' ]
+83 verbose addNamed [ '2.9.1', '2.9.1' ]
+84 silly lockFile bcfeeb22-npm-2-9-1 npm@2.9.1
+85 verbose lock npm@2.9.1 /Users/fernando/.npm/bcfeeb22-npm-2-9-1.lock
+86 silly lockFile bcfeeb22-npm-2-9-1 npm@2.9.1
+87 silly lockFile bcfeeb22-npm-2-9-1 npm@2.9.1
+88 silly lockFile aef1ce39-npm-2-9-1 npm@^2.9.1
+89 silly lockFile aef1ce39-npm-2-9-1 npm@^2.9.1
+90 http 404 https://registry.npmjs.org/passport-client
+91 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+91 verbose headers   'content-type': 'application/json',
+91 verbose headers   'cache-control': 'max-age=0',
+91 verbose headers   'content-length': '51',
+91 verbose headers   'accept-ranges': 'bytes',
+91 verbose headers   date: 'Thu, 14 May 2015 06:51:45 GMT',
+91 verbose headers   via: '1.1 varnish',
+91 verbose headers   age: '0',
+91 verbose headers   connection: 'keep-alive',
+91 verbose headers   'x-served-by': 'cache-lhr6328-LHR',
+91 verbose headers   'x-cache': 'MISS',
+91 verbose headers   'x-cache-hits': '0',
+91 verbose headers   'x-timer': 'S1431586305.511380,VS0,VE353' }
+92 silly registry.get cb [ 404,
+92 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+92 silly registry.get     'content-type': 'application/json',
+92 silly registry.get     'cache-control': 'max-age=0',
+92 silly registry.get     'content-length': '51',
+92 silly registry.get     'accept-ranges': 'bytes',
+92 silly registry.get     date: 'Thu, 14 May 2015 06:51:45 GMT',
+92 silly registry.get     via: '1.1 varnish',
+92 silly registry.get     age: '0',
+92 silly registry.get     connection: 'keep-alive',
+92 silly registry.get     'x-served-by': 'cache-lhr6328-LHR',
+92 silly registry.get     'x-cache': 'MISS',
+92 silly registry.get     'x-cache-hits': '0',
+92 silly registry.get     'x-timer': 'S1431586305.511380,VS0,VE353' } ]
+93 silly lockFile eb4bb997-passport-client passport-client@
+94 silly lockFile eb4bb997-passport-client passport-client@
+95 error 404 404 Not Found: passport-client
+95 error 404
+95 error 404 'passport-client' is not in the npm registry.
+95 error 404 You should bug the author to publish it
+95 error 404 It was specified as a dependency of 'paellaserver'
+95 error 404
+95 error 404 Note that you can also install from a
+95 error 404 tarball, folder, or http url, or git url.
+96 error System Darwin 14.3.0
+97 error command "node" "/usr/local/bin/npm" "install" "npm" "install" "--save" "passport-client"
+98 error cwd /Users/fernando/Sites/paellaserver
+99 error node -v v0.10.32
+100 error npm -v 1.4.28
+101 error code E404
+102 verbose exit [ 1, true ]

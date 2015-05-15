@@ -1,3 +1,4 @@
+var passport = require('passport');
 var configure = require(__dirname + '/../configure');
 var loginField = configure.config.security.loginField;
 var passwField = configure.config.security.passwField;
@@ -34,44 +35,25 @@ exports.Login = function(req,res,next) {
 			message:"Login error: password not specified"
 		});
 	}
-}
+};
 
 // Log out current user
  exports.Logout = function(req,res,next) {
- 	req.session.login = null;
- 	next();
- }
-
-// Get the current user data
-//	req.userData: user data or null if there isn't any user logged in
-exports.CurrentUser = function(req,res,next) {
-	var login = req.session.login;
-	if (login) {
-		var User = require(__dirname + '/../models/user');
-		var query = {}
-		query[loginField] = login;
-		User.findOne(query)
-			.select("-__v")
-			.exec(function(err,data) {
-				req.userData = data;
-				next();
-			});
-	}
-	else {
-		next();
-	}
-}
+	 req.logout();
+	 req.session.destroy();
+	 next();
+ };
 
 // Check access
-//	in: req.userData
+//	in: req.user
 //	out: call next if the current user have at least a role in roles. Returns an error to the client if not
 exports.CheckAccess = function(roles) {
 	if (typeof(roles)=="string") roles = [roles];
 	return function(req,res,next) {
 		var userRoles = [];
 		var access = false;
-		if (req.userData && req.userData.roles) {
-			userRoles = req.userData.roles;
+		if (req.user && req.user.roles) {
+			userRoles = req.user.roles;
 		}
 		if (roles && roles.length>0) {
 			access = roles.some(function(role) {
@@ -88,4 +70,22 @@ exports.CheckAccess = function(roles) {
 			});
 		}
 	}
-}
+};
+
+// Check if is authenticated
+//	out: call next if the user is authenticated
+exports.EnsureAuthenticatedOrDigest = function (req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+
+	if (req.headers['x-requested-auth'] == 'Digest') {
+		passport.authenticate('digest', { session: false })(req, res, next);
+	}
+	else {
+		res.status(401).json({
+			status: false,
+			message: "Access denied"
+		});
+	}
+};

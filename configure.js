@@ -5,6 +5,13 @@ exports.config = config;
 exports.install = install;
 var Q = require('q');
 
+exports.serverUrl = function() {
+	var port = config.connection.port;
+	return config.connection.protocol + '://' +
+		config.connection.rootUrl +
+		(port!=80 && port!=443 ? ':' + port:"");
+};
+
 exports.checkInitConfig = function() {
 	var Role = require(__dirname + '/models/role');
 	var User = require(__dirname + '/models/user');
@@ -69,5 +76,5 @@ exports.checkInitConfig = function() {
 				});
 			}
 		});
-}
+};
 

@@ -4,14 +4,10 @@ var AuthController = require(__dirname + '/../controllers/auth');
 
 exports.routes = {
 	getCurrentUser: { get:[
-		AuthController.CurrentUser,
+		AuthController.EnsureAuthenticatedOrDigest,
 		function(req,res) {
-			if (req.userData) {
-				res.json({
-					status:true,
-					message:"Command executed successfully",
-					user:req.userData
-				});
+			if (req.user) {
+				res.json(req.user);
 			}
 			else {
 				res.json({

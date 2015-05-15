@@ -4,6 +4,8 @@
 		"pass":""
 	},
 	"connection":{
+		"protocol":"http",
+		"rootUrl":"localhost",
 		"port":4000
 	},
 	"session":{

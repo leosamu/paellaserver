@@ -2,13 +2,14 @@
 (function() {
 	var app = angular.module('paellaserver', [
 		"ngRoute",
-		"catalogModule"
+		"catalogModule",
+		"loginModule"
 	]);
 
 	app.config(["$routeProvider",
 		function($routeProvider) {
-			$routeProvider.
-				when('/', {
+			$routeProvider
+				.when('/', {
 					redirectTo:'/catalog'
 				});
 		}]);

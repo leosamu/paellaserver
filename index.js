@@ -8,10 +8,13 @@ var mongoose = require("mongoose");
 var configure = require("./configure");
 var repository = require("./repository");
 var cookieParser = require("cookie-parser");
+var passport = require('passport');
+var security = require('./security');
 
 
 var db = mongoose.connection;
 db.once('open', function(callback) {});
+
 
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
@@ -22,6 +25,12 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+security.init(app);
+
+var router = express.Router();
 
 mongoose.connect(configure.config.db.url, function(err, res) {
 	if (err) throw err;
@@ -30,7 +39,7 @@ mongoose.connect(configure.config.db.url, function(err, res) {
 	repository.setup(router,app);
 });
 
-var router = express.Router();
+
 var RESTFilesystem = require(__dirname + '/rest-resources');
 var ClientResources = require(__dirname + '/client-resources');
 
