@@ -5,6 +5,7 @@ var express = require("express");
 var LocalStrategy = require('passport-local').Strategy;
 var DigestStrategy = require('passport-http').DigestStrategy;
 var OpenIDStrategy = require('passport-openid').Strategy;
+var UPVStrategy = require('./passport-upv').Strategy;
 
 exports.init = function(app) {
 	var configure = require("./configure");
@@ -89,6 +90,45 @@ exports.init = function(app) {
 			done(null, false);
 		}
 	));
+	
+	passport.use(new UPVStrategy({
+			cua: "https://www.upv.es/pls/soalu/est_intranet.NI_dual?P_CUA=videoapuntes",
+			tickets: ["TDP", "TDX"],
+			profileInfo: ['nip', 'dni', 'login', 'email', 'fullName']
+		},
+		function(profile, done){
+			console.log(profile);
+			done(true);
+			/*UserModel.findOne({"$or": [
+				{provider: 'upv', 'providerData.id': profile.dni.toString()},
+				{provider: 'upv', 'providerData.nip2': profile.nip.toString()}
+			]}, function(err, user) {
+				if (err) { return done(err); }
+				if (user) { return done(null, user); }
+
+				// Create a new user!
+				try {
+					var newUser = new UserModel();
+					var nameArray = profile.fullName.split(',');
+					newUser.name = nameArray[1].trim();
+					newUser.lastName = nameArray[0].trim();
+					newUser.email = profile.email;
+					newUser.roles = [];
+					newUser.provider = 'upv';
+					newUser.providerData = { id: profile.dni.toString() };
+
+					newUser.save(function(err) {
+						if (err) { return done(err); }
+						return done(null, newUser);
+					});
+				}
+				catch(e) {
+					// return with error!
+					return done(true);
+				}
+			});*/
+		}
+	));
 
 
 	router.get('/auth/logout', function(req, res){
@@ -102,6 +142,7 @@ exports.init = function(app) {
 			next();
 		},
 		passport.authenticate('openid'));
+		
 	router.get('/auth/openid/return',
 		passport.authenticate('openid', { successRedirect: '/',
 			failureRedirect: '/#/auth/login/401'
@@ -113,6 +154,13 @@ exports.init = function(app) {
 			usernameField:'username',
 			passwordField:'password',
 			failureFlash: false }),
+		function(req,res) {
+			res.redirect('/');
+		}
+	);
+	
+	router.get('/auth/upv',
+		passport.authenticate('upv', {}),
 		function(req,res) {
 			res.redirect('/');
 		}
