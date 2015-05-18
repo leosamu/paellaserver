@@ -168,3 +168,9 @@ footer {
 .ps-list-item.ps-channel {
 	display: block;
 }
+
+.ps-video-counter {
+	font-size: 0.6em;
+	color: darkgray;
+	line-height: 2em;
+}

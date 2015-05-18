@@ -27,6 +27,13 @@
             </span>
         </h1>
     </section>
+    <section class="ps-current-channel" ng-hide="channelId">
+        <h1>
+            Vídeos destacados
+            <span class="ps-video-counter pull-right" ng-show="totalVideos">{{totalVideos}} videos disponibles en el catálogo</span>
+        </h1>
+
+    </section>
     <section class="ps-channel-list row" ng-show="channelTabSelected()">
      <!--   <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination> -->
         <div class="col-md-6 col-xs-12" ng-repeat="channel in channels">

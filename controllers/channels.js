@@ -45,8 +45,8 @@ exports.LoadChannel = function(req,res,next) {
 		.populate('children')
 		.exec(function(err,data) {
 			var populationList = [];
-			var videos = [];
-			var children = [];
+			var videos = JSON.parse(JSON.stringify(data[0].videos));
+			var children = JSON.parse(JSON.stringify(data[0].children));
 
 			if (data.length>0) {
 				req.data = data[0];
@@ -74,7 +74,12 @@ exports.LoadChannel = function(req,res,next) {
 									}
 								});
 							});
-							videos.push(videoItem);
+							videos.some(function(findVideo,index) {
+								if (findVideo._id==videoItem._id) {
+									videos[index] = videoItem;
+									return true;
+								}
+							});
 						}));
 				});
 
@@ -102,7 +107,12 @@ exports.LoadChannel = function(req,res,next) {
 									}
 								});
 							});
-							children.push(channelItem);
+							children.some(function(findChannel,index) {
+								if (findChannel._id==channelItem._id) {
+									children[index] = channelItem;
+									return true;
+								}
+							});
 						}));
 				});
 
