@@ -757,6 +757,37 @@ svg rect {
 .buttonPluginPopUp.themeChooserPlugin .themebutton:hover {
   background-color: #faa166;
 }
+/*** File: plugins/es.upv.paella.translectures.CaptionsPlugIn/translectures.less ***/
+.translecturesCaptionsMessageBox {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 700px;
+  height: 200px;
+  font-size: 14px;
+}
+.translecturesCaptionsMessageBox .title {
+  color: #635e5e;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.translecturesCaptionsMessageBox .authMethodsContainer {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  height: 200px;
+  margin-top: 10px;
+  position: relative;
+}
+.translecturesCaptionsMessageBox .authMethodsContainer .authMethod {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  /*
+	position:absolute;
+	left: 0px;
+*/
+}
 /*** File: plugins/es.upv.paella.viewModePlugin/viewmode.less ***/
 .buttonPluginPopUp.showViewModeButton {
   background-image: none;

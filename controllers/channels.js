@@ -45,8 +45,14 @@ exports.LoadChannel = function(req,res,next) {
 		.populate('children')
 		.exec(function(err,data) {
 			var populationList = [];
-			var videos = JSON.parse(JSON.stringify(data[0].videos));
-			var children = JSON.parse(JSON.stringify(data[0].children));
+			var videos = [];
+			var children = [];
+			try {
+				var videos = JSON.parse(JSON.stringify(data[0].videos));
+				var children = JSON.parse(JSON.stringify(data[0].children));
+			}
+			catch (e) {
+			}
 
 			if (data.length>0) {
 				req.data = data[0];

@@ -1386,6 +1386,7 @@ Class ("paella.FlashVideo", paella.VideoElementBase,{
 
 	addSourceStreaming:function(sourceData) {
 		var parameters = {};
+		var swfName = 'player.swf';
 		if (this._autoplay) {
         	parameters.autoplay = this._autoplay;
        	}
@@ -1406,7 +1407,10 @@ Class ("paella.FlashVideo", paella.VideoElementBase,{
 			if (paella.player.config.player.rtmpSettings && paella.player.config.player.rtmpSettings.bufferTime!==undefined) {
 				parameters.bufferTime = paella.player.config.player.rtmpSettings.bufferTime;
 			}
-			this.flashVideo = this.createSwfObject("player.swf",parameters);
+			if (parameters.isLiveStream) {
+				swfName = 'player_streaming.swf';
+			}
+			this.flashVideo = this.createSwfObject(swfName,parameters);
 		}
 		else if (sourceData.type=='video/x-flv') {
 			if (/(rtmp:\/\/)([\w\d\.\-_]+[:+\d]*)\/([\w\d\-_]+\/)([\w\d\.\/\-_]+)(\.flv)?/.test(sourceData.src)) {
@@ -1416,11 +1420,14 @@ Class ("paella.FlashVideo", paella.VideoElementBase,{
 			parameters.playerId = this.flashId;
 
 			parameters.isLiveStream = sourceData.isLiveStream!==undefined ? sourceData.isLiveStream:false;
+			if (parameters.isLiveStream) {
+				swfName = 'player_streaming.swf';
+			}
 
 			if (paella.player.config.player.rtmpSettings && paella.player.config.player.rtmpSettings.bufferTime!==undefined) {
 				parameters.bufferTime = paella.player.config.player.rtmpSettings.bufferTime;
 			}
-			this.flashVideo = this.createSwfObject("player.swf",parameters);
+			this.flashVideo = this.createSwfObject(swfName,parameters);
 		}
 	},
 
@@ -4872,22 +4879,61 @@ Class ("paella.AccessControl", {
 
 	checkAccess:function(onSuccess) {
 		onSuccess(this.permissions);
+	},
+
+	getAuthenticationUrl:function(callbackParam) { return ""; }
+});
+
+// Default Access Control
+//
+Class ("paella.DefaultAccessControl", paella.AccessControl,{
+	checkAccess:function(onSuccess) {
+		var This = this;
+		this.getUserData(function(data) {
+			This.permissions = data.permissions;
+			This.userData = data.userData;
+			onSuccess(This.permissions);
+		});
+	},
+
+	getUserData:function(onSuccess) {
+		var status = false;
+		if (paella.player.config.auth) {
+			var callback = paella.player.config.auth.userDataCallbackName ? window[paella.player.config.auth.userDataCallbackName]:null;
+			if (typeof(callback)=="function") {
+				status = true;
+				callback(onSuccess);
+			}
+		}
+		if (!status) {
+			onSuccess({
+				permissions: {
+					canRead: true,
+					canContribute: false,
+					canWrite: false,
+					loadError: false,
+					isAnonymous: true
+				},
+				userData: {
+					username: 'anonymous',
+					name: 'Anonymous',
+					avatar: 'resources/images/default_avatar.png'
+				}
+			});
+		}
+	},
+
+	getAuthenticationUrl:function(callbackParams) {
+		if (paella.player.config.auth) {
+			var callback = paella.player.config.auth.authCallbackName ? window[paella.player.config.auth.authCallbackName]:null;
+			if (typeof(callback)=="function") {
+				return callback(callbackParams);
+			}
+		}
+		return "";
 	}
 });
 
-Class ("paella.DefaultAccessControl", paella.AccessControl,{
-	checkAccess:function(onSuccess) {
-		this.permissions.canRead = false;
-		this.permissions.canContribute = false;
-		this.permissions.canWrite = false;
-		this.permissions.loadError = false;
-		this.permissions.isAnonymous = true;
-		this.userData.username = 'anonymous';
-		this.userData.name = 'Anonymous';
-		this.userData.avatar = 'resources/images/default_avatar.png';
-		onSuccess(this.permissions);
-	}
-});
 
 Class ("paella.VideoLoader", {
 	streams:[],		// {sources:{mp4:{src:"videourl.mp4",type:"video/mp4"},
@@ -5090,6 +5136,24 @@ Class ("paella.PlayerBase", {
 
 	loadComplete:function(event,params) {
 
+	},
+
+	auth: {
+		login: function(redirect) {
+			redirect = redirect || window.location.href;
+			var url = paella.initDelegate.initParams.accessControl.getAuthenticationUrl(redirect);
+			if (url) {
+				window.location.href = url;
+			}
+		},
+
+		permissions:function() {
+			return paella.initDelegate.initParams.accessControl.permissions;
+		},
+
+		userData:function() {
+			return paella.initDelegate.initParams.accessControl.userData;
+		}
 	}
 });
 
@@ -5657,21 +5721,6 @@ function initPaellaEngage(playerId,initDelegate) {
 /*** File: src/10_loader.js ***/
 
 
-// Default Access Control
-//
-Class ("paella.DefaultAccessControl", paella.AccessControl, {
-	checkAccess:function(onSuccess) {
-		this.permissions.canRead = true;
-		this.permissions.canWrite = true;
-		this.permissions.canContribute = true;
-		this.permissions.loadError = false;
-		this.permissions.isAnonymous = true;
-		this.userData.login = 'anonymous';
-		this.userData.name = 'Anonymous';
-		this.userData.avatar = 'resources/images/default_avatar.png';
-		onSuccess(this.permissions);
-	}
-});
 
 // Default Video Loader
 //
@@ -8292,7 +8341,6 @@ Class ("paella.plugins.CaptionsPlugin", paella.ButtonPlugin,{
        		paella.captions.setActiveCaptions(sel);
        		return;
        	} // BREAK IF NO ONE SELECTED
-		
 		paella.captions.setActiveCaptions(sel);
 		thisClass._activeCaptions = sel;
 		thisClass.buildBodyContent(paella.captions.getActiveCaptions()._captions,"list");
@@ -8306,8 +8354,10 @@ Class ("paella.plugins.CaptionsPlugin", paella.ButtonPlugin,{
 			$(thisClass._body).empty();
 			if(obj==undefined){
 				thisClass._select.value = "";
+				$(thisClass._input).prop('disabled', true);
 			}
 			else{
+				$(thisClass._input).prop('disabled', false);
 				thisClass._select.value = obj; 
 				thisClass.buildBodyContent(paella.captions.getActiveCaptions()._captions,"list");
 			}
@@ -8417,13 +8467,14 @@ Class ("paella.plugins.CaptionsPlugin", paella.ButtonPlugin,{
 		        $(thisClass._editor).prop("disabled",true);
 		        $(thisClass._editor).click(function(){
 		        	var c = paella.captions.getActiveCaptions();
-		        	c.gotoEdit();
+		        	c.goToEdit();
 		        });
 
         domElement.appendChild(thisClass._parent);
     },
 
     selectDefaultBrowserLang:function(code){
+    	var thisClass = this;
 		var provider = null;
 		paella.captions.getAvailableLangs().forEach(function(l){
 			if(l.lang.code == code){ provider = l.id; }
@@ -8432,6 +8483,11 @@ Class ("paella.plugins.CaptionsPlugin", paella.ButtonPlugin,{
 		if(provider){
 			paella.captions.setActiveCaptions(provider);
 		}
+		/*
+		else{
+			$(thisClass._input).prop("disabled",true);
+		}
+		*/
 
     },
 
@@ -10401,7 +10457,7 @@ Class ("paella.plugins.MultipleQualitiesPlugin",paella.ButtonPlugin,{
 		// Sort the available resolutions
 		function sortfunc(a,b){
 			var ia = parseInt(a.res.h);
-			var ib = parseInt(a.res.h);
+			var ib = parseInt(b.res.h);
 			
 			return ((ia < ib) ? -1 : ((ia > ib) ? 1 : 0));
 		}
@@ -11508,6 +11564,175 @@ paella.plugins.themeChooserPlugin = new paella.plugins.ThemeChooserPlugin();
 
 		
 
+/*** File: plugins/es.upv.paella.translectures.CaptionsPlugIn/translectures.js ***/
+
+paella.plugins.translectures = {};
+
+Class ("paella.captions.translectures.Caption", paella.captions.Caption, {
+	initialize: function(id, format, url, lang, editURL, next) {
+		this.parent(id, format, url, lang, next);
+		this._captionsProvider = "translecturesCaptionsProvider";
+		this._editURL = editURL;
+	},
+	
+	canEdit: function(next) {
+		// next(err, canEdit)
+		next(false, ((this._editURL != undefined)&&(this._editURL != "")));
+	},
+	
+	goToEdit: function() {		
+		var permissions = paella.player.auth.permissions();
+		
+		if (permissions.isAnonymous == true) {
+			this.askForAnonymousOrLoginEdit();
+		}
+		else {
+			this.doEdit();
+		}		
+	},
+		
+	doEdit: function() {
+		window.location.href = this._editURL;		
+	},
+	doLoginAndEdit: function() {
+		paella.player.auth.login(this._editURL);
+	},
+	
+	askForAnonymousOrLoginEdit: function() {
+		var self = this;
+
+		var messageBoxElem = document.createElement('div');
+		messageBoxElem.className = "translecturesCaptionsMessageBox";
+
+		var messageBoxTitle = document.createElement('div');
+		messageBoxTitle.className = "title";
+		messageBoxTitle.innerHTML = base.dictionary.translate("You are trying to modify the transcriptions, but you are not Logged in!");		
+		messageBoxElem.appendChild(messageBoxTitle);
+
+		var messageBoxAuthContainer = document.createElement('div');
+		messageBoxAuthContainer.className = "authMethodsContainer";
+		messageBoxElem.appendChild(messageBoxAuthContainer);
+
+		// Anonymous edit
+		var messageBoxAuth = document.createElement('div');
+		messageBoxAuth.className = "authMethod";
+		messageBoxAuthContainer.appendChild(messageBoxAuth);
+
+		var messageBoxAuthLink = document.createElement('a');
+		messageBoxAuthLink.href = "#";
+		messageBoxAuthLink.style.color = "#004488";
+		messageBoxAuth.appendChild(messageBoxAuthLink);
+
+		var messageBoxAuthLinkImg = document.createElement('img');
+		messageBoxAuthLinkImg.src = "resources/style/caption_mlangs_anonymous.png";
+		messageBoxAuthLinkImg.alt = "Anonymous";
+		messageBoxAuthLinkImg.style.height = "100px";
+		messageBoxAuthLink.appendChild(messageBoxAuthLinkImg);
+
+		var messageBoxAuthLinkText = document.createElement('p');
+		messageBoxAuthLinkText.innerHTML = base.dictionary.translate("Continue editing the transcriptions anonymously");
+		messageBoxAuthLink.appendChild(messageBoxAuthLinkText);
+
+		$(messageBoxAuthLink).click(function() {
+			self.doEdit();
+		});
+
+		// Auth edit
+		messageBoxAuth = document.createElement('div');
+		messageBoxAuth.className = "authMethod";
+		messageBoxAuthContainer.appendChild(messageBoxAuth);
+
+		messageBoxAuthLink = document.createElement('a');
+		messageBoxAuthLink.href = "#";
+		messageBoxAuthLink.style.color = "#004488";
+		messageBoxAuth.appendChild(messageBoxAuthLink);
+
+		messageBoxAuthLinkImg = document.createElement('img');
+		messageBoxAuthLinkImg.src = "resources/style/caption_mlangs_lock.png";
+		messageBoxAuthLinkImg.alt = "Login";
+		messageBoxAuthLinkImg.style.height = "100px";
+		messageBoxAuthLink.appendChild(messageBoxAuthLinkImg);
+
+		messageBoxAuthLinkText = document.createElement('p');
+		messageBoxAuthLinkText.innerHTML = base.dictionary.translate("Log in and edit the transcriptions");
+		messageBoxAuthLink.appendChild(messageBoxAuthLinkText);
+
+
+		$(messageBoxAuthLink).click(function() {
+			self.doLoginAndEdit();
+		});
+
+		// Show UI		
+		paella.messageBox.showElement(messageBoxElem);
+	}
+});
+
+
+
+Class ("paella.plugins.translectures.CaptionsPlugIn", paella.EventDrivenPlugin, {
+		
+	getName:function() { return "es.upv.paella.translecture.CaptionsPlugIn"; },
+	getEvents:function() { return []; },
+	onEvent:function(eventType,params) {},
+
+	checkEnabled: function(onSuccess) {
+		var self = this;
+		var video_id = paella.player.videoIdentifier;
+				
+		if ((this.config.tLServer == undefined) || (this.config.tLdb == undefined)){
+			base.log.debug("Error! " + this.getName() + " plugin not configured!");
+			onSuccess(false);
+		}
+		else {
+			var langs_url = (this.config.tLServer + "/langs?db=${tLdb}&id=${videoId}").replace(/\$\{videoId\}/ig, video_id).replace(/\$\{tLdb\}/ig, this.config.tLdb);
+			base.ajax.get({url: langs_url},
+				function(data, contentType, returnCode, dataRaw) {					
+					if (data.scode == 0) {
+						data.langs.forEach(function(l){
+							var l_get_url = (self.config.tLServer + "/dfxp?format=1&pol=0&db=${tLdb}&id=${videoId}&lang=${tl.lang.code}")
+								.replace(/\$\{videoId\}/ig, video_id)
+								.replace(/\$\{tLdb\}/ig, self.config.tLdb)
+								.replace(/\$\{tl.lang.code\}/ig, l.code);
+														
+							var l_edit_url;							
+							if (self.config.tLEdit) {
+								l_edit_url = self.config.tLEdit
+									.replace(/\$\{videoId\}/ig, video_id)
+									.replace(/\$\{tLdb\}/ig, self.config.tLdb)
+									.replace(/\$\{tl.lang.code\}/ig, l.code);
+							}
+							
+							var l_txt = l.value;
+				            switch(l.type){
+						    	case 0:
+						    		l_txt += " (" + paella.dictionary.translate("Auto") + ")";
+						    		break;
+						    	case 1:
+						    		l_txt += " (" + paella.dictionary.translate("Under review") + ")";
+						    		break;
+						    }
+														
+							var c = new paella.captions.translectures.Caption(l.code , "dfxp", l_get_url, {code: l.code, txt: l_txt}, l_edit_url);
+							paella.captions.addCaptions(c);
+						});
+						onSuccess(false);
+					}
+					else {
+						base.log.debug("Error getting available captions from translectures: " + langs_url);
+						onSuccess(false);
+					}
+				},						
+				function(data, contentType, returnCode) {
+					base.log.debug("Error getting available captions from translectures: " + langs_url);
+					onSuccess(false);
+				}
+			);			
+		}
+	}	
+});
+
+
+new paella.plugins.translectures.CaptionsPlugIn();
 /*** File: plugins/es.upv.paella.usertracking.elasticsearchSaverPlugin/elasticsearchSaverPlugin.js ***/
 new (Class (paella.userTracking.SaverPlugIn, {
 	type:'userTrackingSaverPlugIn',
@@ -12367,4 +12592,4 @@ Class ("paella.ZoomPlugin", paella.EventDrivenPlugin,{
 });
 
 paella.plugins.zoomPlugin = new paella.ZoomPlugin();
-paella.version = "4.0.19 - build: 40a82af";
+paella.version = "4.0.21 - build: ea8c064";

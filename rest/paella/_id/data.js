@@ -34,7 +34,7 @@ function loadPolimedia(streamsArray, videos, slaveVideos, preview, slavePreview)
 		preview:preview
 	});
 
-	if (slaveVideos) {
+	if (slaveVideos && slaveVideos.length) {
 		slaveVideos.forEach(function(video) {
 			addStream(slaveStreamData, video);
 		});

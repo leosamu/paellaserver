@@ -80,7 +80,9 @@ router.get(['/player/index.html','/player/'],function(req,res) {
 		}
 		else {
 			var appendHeader = '<script src="/player.js"></script></head>';
+			var resourcesPath = "url:'../rest/paella'";
 			data = data.replace('</head>',appendHeader);
+			data = data.replace("url:'../repository/'", resourcesPath);
 			res.type('text/html').send(data).end();
 		}
 	});
@@ -92,8 +94,8 @@ router.get(['/player/config/config.json'],function(req,res) {
 	playerConfig.experimental.autoplay = true;
 
 	playerConfig.auth = playerConfig.auth || {};
-	playerConfig.auth.authCallbackName = "paellaserver.authCallback";
-	playerConfig.auth.userDataCallbackName = "paellaserver.loadUserDataCallback";
+	playerConfig.auth.authCallbackName = "paellaserver_authCallback";
+	playerConfig.auth.userDataCallbackName = "paellaserver_loadUserDataCallback";
 
 	res.json(playerConfig);
 });
