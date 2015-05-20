@@ -21,6 +21,16 @@ exports.LoadVideos = function(req,res,next) {
 		});
 };
 
+// Gets the number of videos in the catalog
+// 	Output: res.data > the number of videos
+exports.Count = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	Video.count().exec(function(err,data) {
+		req.data = data;
+		next();
+	});
+};
+
 // Load video data
 // 	Input: req.params.id
 //	Output: req.data
@@ -55,6 +65,13 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 						video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + video.src;
 					}
 				});
+				if (videoData.source.slaveVideos && videoData.source.slaveVideos.forEach) {
+					videoData.source.slaveVideos.forEach(function(video) {
+						if (video.src) {
+							video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + video.src;
+						}
+					});
+				}
 				if (videoData.thumbnail) videoData.thumbnail = repo.server + repo.endpoint + videoData._id + '/' + videoData.thumbnail;
 				videoData.slides.forEach(function(slide) {
 					if (slide.url) slide.url = repo.server + repo.endpoint + videoData._id + '/slides/' + slide.url;

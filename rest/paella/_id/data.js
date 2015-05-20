@@ -5,26 +5,44 @@ var VideoController = require(__dirname + '/../../../controllers/video');
 var CommonController = require(__dirname + '/../../../controllers/common');
 var AuthController = require(__dirname + '/../../../controllers/auth');
 
-function loadPolimedia(streamsArray, videos, preview) {
-	var videoStreamData = {
+function loadPolimedia(streamsArray, videos, slaveVideos, preview, slavePreview) {
+	var masterStreamData = {
 		mp4: []
 	};
 
-	videos.forEach(function(video) {
-		videoStreamData.mp4.push({
-			src:video.src,
-			mimetype:video.mimetype,
+	var slaveStreamData = {
+		mp4: []
+	};
+
+	function addStream(streamData,data) {
+		streamData.mp4.push({
+			src: data.src,
+			mimetype: data.mimetype,
 			res:{
-				w:video.width,
-				h:video.height
+				w: data.width,
+				h: data.height
 			}
 		});
+	}
+
+	videos.forEach(function(video) {
+		addStream(masterStreamData,video);
 	});
 
 	streamsArray.push({
-		sources:videoStreamData,
+		sources:masterStreamData,
 		preview:preview
 	});
+
+	if (slaveVideos && slaveVideos.length) {
+		slaveVideos.forEach(function(video) {
+			addStream(slaveStreamData, video);
+		});
+		streamsArray.push({
+			sources:slaveStreamData,
+			preview:slavePreview
+		})
+	}
 }
 
 exports.routes = {
@@ -37,10 +55,9 @@ exports.routes = {
 				"title":req.data.title
 			};
 			var streams = [];
-			var frameList = [];
 
 			if (req.data.source.type=="polimedia") {
-				loadPolimedia(streams, req.data.source.videos, req.data.thumbnail);
+				loadPolimedia(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
 			}
 
 			res.json({

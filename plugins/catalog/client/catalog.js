@@ -7,6 +7,7 @@
 
 		$scope.searchText = decodeURI($routeParams.search || "");
 		$scope.channelId = $scope.searchText=="" ? $routeParams.id:null;
+		$scope.totalVideos = 0;
 		
 		// Pestañas vídeos/canales
 		$scope.currentTab = -1;
@@ -134,6 +135,12 @@
 		};
 		
 		$scope.doSearch();
+
+		// Cargar el contador de vídeos
+		Video.count().$promise
+			.then(function(result) {
+				$scope.totalVideos = result.count;
+			});
 	};
 
 	CatalogController.$inject = ["$scope","$routeParams","Channel","Video"];

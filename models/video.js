@@ -23,7 +23,8 @@ var VideoSchema = new Schema({
 	catalog: String,
 	source: {
 		type: { type: String },
-		videos: { type:[ Schema.Types.Mixed ]}
+		videos: { type:[ Schema.Types.Mixed ]},
+		slaveVideos: { type:[Schema.Types.Mixed] }
 	},
 	pluginData: Schema.Types.Mixed,
 	thumbnail: String,

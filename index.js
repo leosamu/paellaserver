@@ -72,6 +72,34 @@ app.use(router);
 app.use(express.static(__dirname + '/client'));
 app.use(express.static(__dirname + '/plugins',{extensions: ['htm','html']}));
 
+router.get(['/player/index.html','/player/'],function(req,res) {
+	fs.readFile('./client/player/index.html', 'utf8', function (err,data) {
+		if (err) {
+		 	console.log(err);
+			res.status(500).send('Internal error: missing player files').end();
+		}
+		else {
+			var appendHeader = '<script src="/player.js"></script></head>';
+			var resourcesPath = "url:'../rest/paella'";
+			data = data.replace('</head>',appendHeader);
+			data = data.replace("url:'../repository/'", resourcesPath);
+			res.type('text/html').send(data).end();
+		}
+	});
+});
+
+router.get(['/player/config/config.json'],function(req,res) {
+	var playerConfig = require('./client/player/config/config.json');
+	playerConfig.experimental = playerConfig.experimental || {};
+	playerConfig.experimental.autoplay = true;
+
+	playerConfig.auth = playerConfig.auth || {};
+	playerConfig.auth.authCallbackName = "paellaserver_authCallback";
+	playerConfig.auth.userDataCallbackName = "paellaserver_loadUserDataCallback";
+
+	res.json(playerConfig);
+});
+
 app.listen(configure.config.connection.port, function() {
 	console.log("Node server running on http://localhost:" + configure.config.connection.port);
 });
