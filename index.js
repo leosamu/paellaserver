@@ -96,6 +96,13 @@ router.get(['/player/config/config.json'],function(req,res) {
 	playerConfig.auth = playerConfig.auth || {};
 	playerConfig.auth.authCallbackName = "paellaserver_authCallback";
 	playerConfig.auth.userDataCallbackName = "paellaserver_loadUserDataCallback";
+	
+	playerConfig.plugins.list["es.upv.paella.translecture.CaptionsPlugIn"] = {
+		 "enabled": true,
+		 "tLServer": "https://fuster.cc.upv.es/tl-pm",
+		 "tLdb": "pm",
+		 "tLEdit": "/plugins/translectures/edit/${videoId}?lang=${tl.lang.code}"
+	 }
 
 	res.json(playerConfig);
 });

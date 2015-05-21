@@ -29,7 +29,7 @@ function checkOA(responseData,user,video,onSuccess) {
 			responseData.permissions.error = true;
 		}
 		else if (body.search('<value type="raw">NO</value>') >=0 ){
-			reqponseData.permissions.canRead = false;
+			responseData.permissions.canRead = false;
 		}
 		onSuccess(error,responseData);
 	});
