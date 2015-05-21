@@ -192,5 +192,12 @@ exports.init = function(app) {
 			res.redirect('/');
 		}
 	);
+
+	router.get('/rest/plugins/upvauth/validate',
+		passport.authenticate('upv', {}),
+		function(req,res) {
+			res.redirect('/');
+		}
+	);
 };
 
