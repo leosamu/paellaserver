@@ -15,7 +15,14 @@ var ChannelSchema = new Schema({
 	thumbnail: String,
 	repository: { type:String, ref:'Repository' },
 	title: String,
-	videos: [ { type:String, ref:'Video' } ]
+	videos: [ { type:String, ref:'Video' } ],
+	permissions: [
+		{
+			role: { type: String, required:true },
+			read: { type: Boolean, default:true },
+			write: { type: Boolean, default:false }
+		}
+	]
 }, {_id:false});
 
 ChannelSchema.plugin(uuid.plugin, 'Channel');

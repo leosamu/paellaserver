@@ -38,6 +38,7 @@ function checkOA(responseData,user,video,onSuccess) {
 exports.routes = {
 	getAuthData: { param:'id', get:[
 		VideoController.LoadVideo,
+
 		function(req,res) {
 			var video = req.data[0];
 			var responseData = {

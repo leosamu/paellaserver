@@ -174,3 +174,8 @@ footer {
 	color: darkgray;
 	line-height: 2em;
 }
+
+.ps-login-area {
+	margin-top: 10px;
+	margin-right: 10px;
+}

@@ -28,7 +28,14 @@ var VideoSchema = new Schema({
 	},
 	pluginData: Schema.Types.Mixed,
 	thumbnail: String,
-	metadata: { type:[ String ] }
+	metadata: { type:[ String ] },
+	permissions: [
+		{
+			role: { type: String, required:true },
+			read: { type: Boolean, default:true },
+			write: { type: Boolean, default:false }
+		}
+	]
 }, {_id:false});
 
 VideoSchema.plugin(uuid.plugin, 'Video');
