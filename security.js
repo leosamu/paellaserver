@@ -92,7 +92,7 @@ exports.init = function(app) {
 	));
 	
 	passport.use(new UPVStrategy({
-			cua: "https://www.upv.es/pls/soalu/est_intranet.NI_dual?P_CUA=videoapuntes",
+			cua: "https://www.upv.es/pls/soalu/est_intranet.NI_dual?P_CUA=media",
 			tickets: ["TDP", "TDX"],
 			profileInfo: ['nip', 'dni', 'login', 'email', 'fullName']
 		},
