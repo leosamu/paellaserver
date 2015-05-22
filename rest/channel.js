@@ -12,8 +12,8 @@ exports.routes = {
 	getChannelData: { param:'id', get:[
 		ChannelController.LoadChannel,
 		ChannelController.LoadUrlFromRepository,
-		CommonController.JsonResponse]},
-
+		CommonController.JsonResponse]}
+/*
 	createChannel: { post:[
 		AuthController.CheckAccess(['ADMIN','USER']),
 		function(req,res) {
@@ -51,4 +51,5 @@ exports.routes = {
 		var id = req.params.id
 		res.json({ status:true, message:"Channel deleted"});
 	}}
+	*/
 }

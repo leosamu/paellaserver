@@ -7,5 +7,5 @@
 				all: { url:"/rest/channel/:id" },
 				parents: { url:"/rest/channel/:id/parents" }
 			});
-	}]);
+		}]);
 })();

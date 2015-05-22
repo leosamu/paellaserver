@@ -9,8 +9,8 @@ exports.routes = {
 	getVideoData: { param:'id', get:[
 		VideoController.LoadVideo,
 		VideoController.LoadUrlFromRepository,
-		CommonController.JsonResponse]},
-
+		CommonController.JsonResponse]}
+/*
 	createVideo: { post:[
 		AuthController.CheckAccess(['ADMIN','USER']),
 		function(req,res) {
@@ -28,7 +28,9 @@ exports.routes = {
 		//fooResult.src = data.src;
 		//res.json(fooResult);
 		//}
-	},
+	}
+
+	,
 
 	updateVideo: { param:'id', put:function(req,res) {
 		var id = req.params.id
@@ -49,4 +51,5 @@ exports.routes = {
 		var id = req.params.id
 		res.json({ status:true, message:"Video deleted"});
 	}}
+	*/
 }
