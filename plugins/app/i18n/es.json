@@ -1,4 +1,21 @@
 {
 	"site_title":"Portal Polimedia",
-	"user_menu_title":"Administración de Usuarios"
+	"user_menu_title":"Administración de Usuarios",
+	"terms_of_use":"Términos de uso",
+	"more_info":"Más información",
+	"access_as_upv_member":"Acceder como miembro de la UPV",
+	"login_text":"Iniciar Sesión",
+	"logout_text":"Cerrar Sesión",
+	"access_type":"Tipo de acceso",
+	"login_form_username":"Nombre de usuario",
+	"login_form_password":"Contraseña",
+	"login_form_submit":"Iniciar Sesión",
+	"polimedia_user":"Usuario Polimedia",
+	"member_of_upv":"Miembro de la UPV",
+	"parent_channels_text":"Listado de canales que incluyen este recurso",
+	"available_videos_text":"videos disponibles en el catálogo",
+	"featured_videos_text":"Vídeos destacados",
+	"videos_text":"Vídeos",
+	"channels_text":"Canales",
+	"search_text":"Buscar"
 }

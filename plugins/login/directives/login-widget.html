@@ -1,6 +1,6 @@
     <div class="pull-right ps-login-area" ng-hide="logged">
-        <a href="#/auth/login" id="loginButton">Log in</button>
+        <a href="#/auth/login" id="loginButton">{{ "login_text" | translate }}</button>
     </div>
     <div class="pull-right ps-login-area" ng-show="logged">
-        <p>Bienvenido, {{ userName }} · <a href="/auth/logout">Log out</a></p>
+        <p>{{ "welcome" | translate }}, {{ userName }} · <a href="/auth/logout">{{ "logout_text" | translate }}</a></p>
     </div>

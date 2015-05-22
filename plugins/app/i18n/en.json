@@ -1,4 +1,22 @@
 {
 	"site_title":"Portal Polimedia",
-	"user_menu_title":"User Management"
+	"user_menu_title":"User Management",
+	"terms_of_use":"Terms of use",
+	"more_info":"More info",
+	"access_as_upv_member":"Access as UPV member",
+	"login_text":"Log in",
+	"logout_text":"Log out",
+	"access_type":"Acess type",
+	"login_form_username":"User name",
+	"login_form_password":"Password",
+	"login_form_submit":"Log in",
+	"polimedia_user":"Polimedia user",
+	"member_of_upv":"UPV member",
+	"parent_channels_text":"Parent channels",
+	"available_videos_text":"videos available",
+	"featured_videos_text":"Featured videos",
+	"videos_text":"Videos",
+	"channels_text":"Channels",
+	"search_text":"Search"
+
 }

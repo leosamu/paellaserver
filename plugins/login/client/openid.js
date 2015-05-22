@@ -14,12 +14,4 @@
 			controller:OpenIdController
 		};
 	});
-
-	loginModule.directive('loginUpv', function() {
-		return {
-			restrict: "E",
-			templateUrl:"login/directives/login-upv.html",
-			controller:OpenIdController
-		};
-	});
 })();

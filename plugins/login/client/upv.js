@@ -4,10 +4,7 @@
 	loginModule.directive('loginUpv', function() {
 		return {
 			restrict: "E",
-			templateUrl:"login/directives/login-upv.html",
-			controller:["$scope",function($scope) {
-
-			}]
+			templateUrl:"login/directives/login-upv.html"
 		};
 	});
 })();
