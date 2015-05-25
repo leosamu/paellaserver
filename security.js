@@ -21,6 +21,7 @@ exports.init = function(app) {
 		var passwField = configure.config.security.passwField;
 		User.findOne({"_id":obj})
 			.select('-' + passwField)
+			.populate('roles')
 			.exec(done);
 	});
 

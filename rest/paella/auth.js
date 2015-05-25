@@ -41,6 +41,7 @@ exports.routes = {
 
 		function(req,res) {
 			var video = req.data[0];
+			var admin = false;
 			var responseData = {
 				permissions: {
 					canRead: true,
@@ -59,9 +60,19 @@ exports.routes = {
 			if (req.user) {
 				responseData.userData.username = req.user.contactData.email;
 				responseData.userData.name = req.user.contactData.name + " " + req.user.contactData.lastName;
+				admin = req.user.roles.some(function(role) {
+					if (role.isAdmin) {
+						return true;
+					}
+				});
 			}
 
-			if (video.pluginData.OA &&
+			if (admin) {
+				authData.permissions.canWrite = true;
+				authData.permissions.canContribute = true;
+				res.json(authData);
+			}
+			else if (video.pluginData.OA &&
 				video.pluginData.OA &&
 				video.pluginData.OA.isOA) {
 				checkOA(responseData,req.user,video,function(err,authData) {

@@ -11,7 +11,7 @@ var UserSchema = new Schema({
 		lastName: String,
 		phone: String
 	},
-	roles: [ String ]
+	roles: [ { type:String, ref:'Role' } ]
 }, {_id:false});
 
 UserSchema.plugin(uuid.plugin, 'User');

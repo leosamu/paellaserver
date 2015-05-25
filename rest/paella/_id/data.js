@@ -16,11 +16,11 @@ function loadPolimedia(streamsArray, videos, slaveVideos, preview, slavePreview)
 
 	function addStream(streamData,data) {
 		streamData.mp4.push({
-			src: data.src,
-			mimetype: data.mimetype,
+			src: data.src || data.href,
+			mimetype: data.mimetype || "video/mp4",
 			res:{
-				w: data.width,
-				h: data.height
+				w: data.width || 1280,
+				h: data.height || 720
 			}
 		});
 	}
@@ -56,7 +56,7 @@ exports.routes = {
 			};
 			var streams = [];
 
-			if (req.data.source.type=="polimedia") {
+			if (req.data.source.type=="polimedia" || req.data.source.type=="external") {
 				loadPolimedia(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
 			}
 
