@@ -1,0 +1,22 @@
+{
+	"site_title":"Portal Polimedia",
+	"user_menu_title":"Administració d’Usuaris",
+	"terms_of_use":"Termes d’ús",
+	"more_info":"Més informació",
+	"access_as_upv_member":"Accedir com a membre de la UPV",
+	"login_text":"Iniciar Sessió",
+	"logout_text":"Tancar Sessió",
+	"access_type":"Tipus d’accés",
+	"login_form_username":"Nom d’usuari",
+	"login_form_password":"Contrasenya",
+	"login_form_submit":"Iniciar Sessió",
+	"polimedia_user":"Usuari Polimedia",
+	"member_of_upv":"Membre de la UPV",
+	"parent_channels_text":"Llistat de canals que inclouen aquest recurs",
+	"available_videos_text":"vídeos disponibles al catàleg",
+	"featured_videos_text":"Vídeos destacats",
+	"videos_text":"Vídeos",
+	"channels_text":"Canals",
+	"search_text":"Cercar",
+	"language":"idioma"
+}

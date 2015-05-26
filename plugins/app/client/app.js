@@ -8,7 +8,7 @@
 	]);
 
 	app.config(["$routeProvider","$translateProvider",
-		function($routeProvider,$translateProvider) {
+		function($routeProvider,$translateProvider,$cookiesProvider) {
 			$routeProvider
 				.when('/', {
 					redirectTo:'/catalog'
@@ -21,9 +21,15 @@
 					});
 			}
 
+
+			var defaultLanguage = $.cookie('language') ||  navigator.language;
 			loadDictionary('es');
 			loadDictionary('en');
-			$translateProvider.preferredLanguage('es');
+			loadDictionary('ca');
+			loadDictionary('tlh');
+			$translateProvider.preferredLanguage(defaultLanguage);
+			document.head.setAttribute("lang",defaultLanguage);
+
 		}]);
 
 })();

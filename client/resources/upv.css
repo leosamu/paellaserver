@@ -179,3 +179,8 @@ footer {
 	margin-top: 10px;
 	margin-right: 10px;
 }
+
+.ps-lang-link {
+	cursor: pointer;
+}
+

@@ -8,6 +8,12 @@
 			controller:["$scope","$http", function($scope,$http) {
 				$scope.logged = false;
 				$scope.userName = "";
+				$scope.currentLanguage = $.cookie('language') ||  navigator.lang;
+
+				$scope.setLanguage = function(lang) {
+					$.cookie('language',lang);
+					location.reload();
+				};
 
 				$http.get('/rest/currentUser')
 					.success(function(data) {

@@ -23,8 +23,30 @@ var VideoSchema = new Schema({
 	catalog: String,
 	source: {
 		type: { type: String },
-		videos: { type:[ Schema.Types.Mixed ]},
-		slaveVideos: { type:[Schema.Types.Mixed] }
+		videos: [
+			{
+				mimetype: { type: String },
+				src: { type: String },
+				href: { type: String },
+				link: { type: String },
+				width: { type: Number },
+				height: { type: Number },
+				operator: { type: String, ref:'User'},
+				recordingDate: { type:Date }
+			}
+		],
+		slaveVideos: [
+			{
+				mimetype: { type: String },
+				src: { type: String },
+				href: { type: String },
+				link: { type: String },
+				width: { type: Number },
+				height: { type: Number },
+				operator: { type: String, ref:'User'},
+				recordingDate: { type:Date }
+			}
+		]
 	},
 	pluginData: Schema.Types.Mixed,
 	thumbnail: String,

@@ -85,4 +85,31 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 	else {
 		next();
 	}
-}
+};
+
+// Check if a video object is correct. If the input data include an identifier, it will check
+// that the video exists in the database
+//	Input: req.body.data > video object or video json string
+//	Output: req.data > valid video object
+exports.CheckVideo = function(req,res,next) {
+	var data = req.body.data;
+	if (typeof(data)=='string') {
+		try {
+			data = JSON.parse(data);
+		}
+		catch(e) {
+			res.status(500).json({ status:false, message: e.message });
+		}
+	}
+};
+
+// Create a new video using the full json object except the identifier
+//	Input: req.body.data > valid video object (see CheckVideo)
+// 	Output: req.data > the new video object, including the identifier
+exports.Create = function(req,res,next) {
+
+
+	if (data) {
+
+	}
+};

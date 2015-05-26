@@ -13,9 +13,10 @@
 	"polimedia_user":"Usuario Polimedia",
 	"member_of_upv":"Miembro de la UPV",
 	"parent_channels_text":"Listado de canales que incluyen este recurso",
-	"available_videos_text":"videos disponibles en el catálogo",
+	"available_videos_text":"vídeos disponibles en el catálogo",
 	"featured_videos_text":"Vídeos destacados",
 	"videos_text":"Vídeos",
 	"channels_text":"Canales",
-	"search_text":"Buscar"
+	"search_text":"Buscar",
+	"language":"idioma"
 }
