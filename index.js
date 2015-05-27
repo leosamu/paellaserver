@@ -54,6 +54,12 @@ router.get('/client.js', function(req,res) {
 	res.send(clientCode);
 });
 
+var playerCode = ClientResources.getPlayerJavascript('plugins');
+router.get('/player/plugins.js', function(req,res) {
+	res.setHeader("content-type","text/javascript");
+	res.send(playerCode);
+});
+
 ClientResources.buffer = "";
 var clientCSS = ClientResources.getClientStylesheet('plugins');
 router.get('/client.css', function(req,res) {
@@ -79,7 +85,7 @@ router.get(['/player/index.html','/player/'],function(req,res) {
 			res.status(500).send('Internal error: missing player files').end();
 		}
 		else {
-			var appendHeader = '<script src="/player.js"></script></head>';
+			var appendHeader = '<script src="/player/plugins.js"></script></head>';
 			var resourcesPath = "url:'../rest/paella'";
 			data = data.replace('</head>',appendHeader);
 			data = data.replace("url:'../repository/'", resourcesPath);

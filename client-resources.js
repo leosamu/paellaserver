@@ -22,7 +22,7 @@ module.exports = {
 
  	getClientJavascript:function(path) {
 	 	this.getJavascriptCode(path + '/app/client',this.buffer);
-		this.searchClientJavascript(path,"");
+		this.searchClientJavascript(path);
 		return this.buffer;
 	},
 
@@ -31,7 +31,14 @@ module.exports = {
 		return this.buffer;
 	},
 
-	searchClientJavascript:function(path) {
+	getPlayerJavascript:function(path) {
+		this.buffer = "";
+		this.searchClientJavascript(path,"player");
+		return this.buffer;
+	},
+
+	searchClientJavascript:function(path,codeFolder) {
+		codeFolder = codeFolder || 'client';
 		if (!fs.existsSync(path)) return;
 		var dir = fs.readdirSync(path);
 		var This = this;
@@ -39,11 +46,11 @@ module.exports = {
 			if (entry!='app') {
 				var itemPath = path + "/" + entry;
 				var stats = fs.lstatSync(itemPath);
-				if (stats.isDirectory() && entry=="client") {
+				if (stats.isDirectory() && entry==codeFolder) {
 					This.getJavascriptCode(itemPath);
 				}
 				else if (stats.isDirectory()) {
-					This.searchClientJavascript(itemPath);
+					This.searchClientJavascript(itemPath,codeFolder);
 				}
 			}
 		});
