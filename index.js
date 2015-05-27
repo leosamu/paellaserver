@@ -16,7 +16,7 @@ var db = mongoose.connection;
 db.once('open', function(callback) {});
 
 
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(cookieParser());

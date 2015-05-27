@@ -9,7 +9,12 @@ exports.routes = {
 	getVideoData: { param:'id', get:[
 		VideoController.LoadVideo,
 		VideoController.LoadUrlFromRepository,
-		CommonController.JsonResponse]}
+		CommonController.JsonResponse]},
+
+	checkVideo: { post:[
+		VideoController.CheckVideo,
+		CommonController.JsonResponse
+	]}
 /*
 	createVideo: { post:[
 		AuthController.CheckAccess(['ADMIN','USER']),

@@ -87,18 +87,45 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 	}
 };
 
+function checkVideoData(video) {
+
+}
+
 // Check if a video object is correct. If the input data include an identifier, it will check
 // that the video exists in the database
-//	Input: req.body.data > video object or video json string
+//	Input: req.body > video object
 //	Output: req.data > valid video object
 exports.CheckVideo = function(req,res,next) {
-	var data = req.body.data;
-	if (typeof(data)=='string') {
-		try {
-			data = JSON.parse(data);
+	var Video = require(__dirname + '/../models/video');
+	var data = req.body;
+
+	if (typeof(data)=="object") {
+		if (data._id) {
+			Video.findOne({"_id":data._id},function(err,result) {
+				if (!result) {
+					res.status(404).json({ status:false, message:"No such video with id " + data._id});
+				}
+				else {
+					try {
+						checkVideoData(data);
+						req.data = data;
+						next();
+					}
+					catch (e) {
+						res.status(422).json({ status: false, message: e.message });
+					}
+				}
+			});
 		}
-		catch(e) {
-			res.status(500).json({ status:false, message: e.message });
+		else {
+			try {
+				checkVideoData(data);
+				req.data = data;
+				next();
+			}
+			catch (e) {
+				res.status(422).json({ status: false, message: e.message });
+			}
 		}
 	}
 };

@@ -36,8 +36,17 @@ exports.LoadChannel = function(req,res,next) {
 	var Channel = require(__dirname + '/../models/channel');
 	var Video = require(__dirname + '/../models/video');
 
+	var user = req.user;
+	var isAdmin = user && user.roles.some(function(role) {
+			return role.isAdmin;
+		});
 	var select = '-search -processSlides';
-	Channel.find({ "_id":req.params.id})
+	var query = { "_id":req.params.id };
+	if (!isAdmin) {
+		query.hiddenInSearches = false;
+	}
+
+	Channel.find(query)
 		.select(select)
 		.populate('owner','contactData.name contactData.lastName')
 		.populate('repository','server endpoint')
@@ -65,7 +74,9 @@ exports.LoadChannel = function(req,res,next) {
 								_id:videoData[0]._id,
 								title:videoData[0].title,
 								creationDate:videoData[0].creationDate,
-								owner:[]
+								owner:[],
+								hidden: videoData[0].hidden,
+								hiddenInSearches: videoData[0].hiddenInSearches
 							};
 							if (videoData[0].thumbnail) {
 								var repo = videoData[0].repository;
@@ -82,7 +93,12 @@ exports.LoadChannel = function(req,res,next) {
 							});
 							videos.some(function(findVideo,index) {
 								if (findVideo._id==videoItem._id) {
-									videos[index] = videoItem;
+									if (!videoData[0].hidden || isAdmin) {
+										videos[index] = videoItem;
+									}
+									else {
+										videos.splice(index, 1);
+									}
 									return true;
 								}
 							});
@@ -98,7 +114,9 @@ exports.LoadChannel = function(req,res,next) {
 								_id:channelData[0]._id,
 								title:channelData[0].title,
 								creationDate:channelData[0].creationDate,
-								owner:[]
+								owner:[],
+								hidden: channelData[0].hidden,
+								hiddenInSearches: channelData[0].hiddenInSearches
 							};
 							if (channelData[0].thumbnail) {
 								var repo = channelData[0].repository;
@@ -113,12 +131,19 @@ exports.LoadChannel = function(req,res,next) {
 									}
 								});
 							});
-							children.some(function(findChannel,index) {
-								if (findChannel._id==channelItem._id) {
-									children[index] = channelItem;
-									return true;
-								}
-							});
+							if (!channelData[0].hidden || isAdmin) {
+								children.some(function(findChannel,index) {
+									if (findChannel._id==channelItem._id) {
+										if (!channelData[0].hidden || isAdmin) {
+											children[index] = channelItem;
+										}
+										else {
+											children.splice(index, 1);
+										}
+										return true;
+									}
+								});
+							}
 						}));
 				});
 
