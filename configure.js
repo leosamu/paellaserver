@@ -7,9 +7,10 @@ var Q = require('q');
 
 exports.serverUrl = function() {
 	var port = config.connection.port;
+	var showPort = config.connection.showPortInURL;
 	return config.connection.protocol + '://' +
 		config.connection.rootUrl +
-		(port!=80 && port!=443 ? ':' + port:"");
+		(showPort && port!=80 && port!=443 ? ':' + port:"");
 };
 
 exports.checkInitConfig = function() {
