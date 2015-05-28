@@ -43,7 +43,7 @@ exports.LoadChannel = function(req,res,next) {
 	var select = '-search -processSlides';
 	var query = { "_id":req.params.id };
 	if (!isAdmin) {
-		query.hiddenInSearches = false;
+		query.hidden = false;
 	}
 
 	Channel.find(query)

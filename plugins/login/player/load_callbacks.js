@@ -10,6 +10,7 @@ var paellaserver_loadUserDataCallback = function(onSuccess) {
 			canRead: true,
 			canContribute: false,
 			canWrite: false,
+			canShare: true,
 			loadError: false,
 			isAnonymous: true
 		},
@@ -22,6 +23,10 @@ var paellaserver_loadUserDataCallback = function(onSuccess) {
 
 	base.ajax.get({ url:'/rest/paella/auth/' + paella.initDelegate.getId() }, function(data) {
 			authData = data;
+			console.log(paella.player.config);
+			if (!authData.permissions.canShare) {
+				paella.player.config.plugins.list["es.upv.paella.socialPlugin"] = { enabled: false };
+			}
 			onSuccess(authData);
 		},
 		function(data) {

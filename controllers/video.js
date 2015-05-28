@@ -9,7 +9,7 @@ exports.LoadVideos = function(req,res,next) {
 	var select = '-slides -hidden -thumbnail -roles -duration ' +
 				'-hiddenInSearches -canRead -canWrite ' +
 				'-deletionDate -source -pluginData ' +
-				'-metadata -search -hideSocial -processSlides -repository';
+				'-metadata -search -processSlides -repository';
 	var query = req.data ? req.data.query:null;
 	Video.find(query)
 		.skip(req.query.skip)

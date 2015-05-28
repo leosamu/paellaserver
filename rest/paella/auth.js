@@ -48,6 +48,7 @@ exports.routes = {
 					canContribute: false,
 					canWrite: false,
 					loadError: false,
+					canShare: true,
 					isAnonymous: !req.isAuthenticated()
 				},
 				userData: {
@@ -67,9 +68,10 @@ exports.routes = {
 				});
 			}
 
+			responseData.permissions.canShare = !video.hideSocial;
 			if (admin) {
-				authData.permissions.canWrite = true;
-				authData.permissions.canContribute = true;
+				responseData.permissions.canWrite = true;
+				responseData.permissions.canContribute = true;
 				res.json(authData);
 			}
 			else if (video.pluginData.OA &&

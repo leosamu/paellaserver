@@ -12,18 +12,39 @@ exports.Search = function(req,res,next) {
 		videos:[]
 	};
 
+	var user = req.user;
+	var isAdmin = user && user.roles.some(function(role) {
+		return role.isAdmin;
+	});
+
+	function prepareResult(req,data,collectionName) {
+		req.data = req.data || {};
+
+		if (isAdmin) {
+			req.data[collectionName] = data;
+		}
+		else {
+			req.data[collectionName] = [];
+			data.forEach(function(item) {
+				if (!item.hiddenInSearches) {
+					req.data[collectionName].push(item);
+				}
+			});
+		}
+	}
+
 	var chSelect = '-children -deletionDate ' +
-		'-hidden -hiddenInSearches -pluginData ' +
+		'-pluginData ' +
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
-	var vSelect = '-slides -hidden -roles -duration ' +
-		'-hiddenInSearches -canRead -canWrite ' +
+	var vSelect = '-slides -roles -duration ' +
+		'-canRead -canWrite ' +
 		'-deletionDate -pluginData ' +
-		'-metadata -search -hideSocial -processSlides';
+		'-metadata -search -processSlides';
 
 	if (req.query.search=="" || !req.query.search) {
 		var defaultChannel = configure.config.channels.default;
-		Channel.find({"_id":defaultChannel})
+		Channel.find({ "_id":defaultChannel })
 			.exec()
 			.then(function(data) {
 				if (data.length) {
@@ -42,7 +63,7 @@ exports.Search = function(req,res,next) {
 				}
 			})
 			.then(function(data) {
-				req.data.channels = data;
+				prepareResult(req,data,'channels');
 				next();
 			});
 	}
@@ -57,7 +78,7 @@ exports.Search = function(req,res,next) {
 			.sort({ score : { $meta : 'textScore' } })
 			.exec()
 			.then(function(data) {
-				req.data.channels = data;
+				prepareResult(req,data,'channels');
 				return Video.find(
 					{ $text : { $search : req.query.search }},
 					{ score : { $meta: "textScore" } }
@@ -66,8 +87,9 @@ exports.Search = function(req,res,next) {
 					.populate('owner','contactData.name contactData.lastName')
 					.populate('repository','server endpoint')
 					.sort({ score: { $meta: "textScore" } })
+					.limit(1000)
 					.exec(function(err,data) {
-						req.data.videos = data;
+						prepareResult(req,data,'videos');
 						next();
 					});
 			});

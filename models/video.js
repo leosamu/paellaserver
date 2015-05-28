@@ -15,6 +15,7 @@ var VideoSchema = new Schema({
 	],
 	hidden: Boolean,
 	hiddenInSearches: Boolean,
+	hideSocial: Boolean,
 	owner: [ { type:String, ref:'User' } ],
 	creationDate: { type: Date, default: Date.now },
 	deletionDate: Date,
