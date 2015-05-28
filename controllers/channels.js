@@ -91,7 +91,7 @@ exports.LoadChannel = function(req,res,next) {
 									}
 								});
 							});
-							videos.some(function(findVideo,index) {
+							videos.forEach(function(findVideo,index) {
 								if (findVideo._id==videoItem._id) {
 									if (!videoData[0].hidden || isAdmin) {
 										videos[index] = videoItem;
@@ -99,7 +99,6 @@ exports.LoadChannel = function(req,res,next) {
 									else {
 										videos.splice(index, 1);
 									}
-									return true;
 								}
 							});
 						}));
@@ -131,19 +130,18 @@ exports.LoadChannel = function(req,res,next) {
 									}
 								});
 							});
-							if (!channelData[0].hidden || isAdmin) {
-								children.some(function(findChannel,index) {
-									if (findChannel._id==channelItem._id) {
-										if (!channelData[0].hidden || isAdmin) {
-											children[index] = channelItem;
-										}
-										else {
-											children.splice(index, 1);
-										}
-										return true;
+
+							children.forEach(function(findChannel,index) {
+								if (findChannel._id==channelItem._id) {
+									if (!channelData[0].hidden || isAdmin) {
+										children[index] = channelItem;
 									}
-								});
-							}
+									else {
+										children.splice(index, 1);
+									}
+								}
+							});
+
 						}));
 				});
 
