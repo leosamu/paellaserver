@@ -4,9 +4,10 @@
 		"pass":""
 	},
 	"connection":{
-		"protocol":"http",
-		"rootUrl":"localhost",
-		"port":4000
+		"protocol":"https",
+		"rootUrl":"media.upv.es",
+		"port":4000,
+		"showPortInURL":false
 	},
 	"session":{
 		"secret":"1234567890QWERTY"
@@ -22,5 +23,8 @@
 	},
 	"cas":{
 		"serverUrl":"https://aplicat.upv.es/cas-app"
+	},
+	"elasticsearch": {
+		"url": "http://localhost:9200"
 	}
 }

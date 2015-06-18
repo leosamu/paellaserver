@@ -107,7 +107,7 @@ router.get(['/player/config/config.json'],function(req,res) {
 		 "enabled": true,
 		 "tLServer": "https://fuster.cc.upv.es/tl-pm",
 		 "tLdb": "pm",
-		 "tLEdit": "/plugins/translectures/edit/${videoId}?lang=${tl.lang.code}"
+		 "tLEdit": "/rest/plugins/translectures/redirectToEditor/${videoId}?lang=${tl.lang.code}"
 	 };
 
 	res.json(playerConfig);
