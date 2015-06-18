@@ -4,7 +4,10 @@
 	loginModule.directive('loginUpv', function() {
 		return {
 			restrict: "E",
-			templateUrl:"login/directives/login-upv.html"
+			templateUrl:"login/directives/login-upv.html",
+			scope: {
+				redirectUrl:"="
+			}
 		};
 	});
 })();

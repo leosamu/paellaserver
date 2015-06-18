@@ -178,26 +178,29 @@ exports.init = function(app) {
 
 	router.post('/auth/local',
 		passport.authenticate('local', {
-			failureRedirect: configure.serverUrl() + '/#/auth/local/401',
+			failureRedirect: configure.serverUrl() + '/#/auth/local',
 			usernameField:'username',
 			passwordField:'password',
 			failureFlash: false }),
 		function(req,res) {
-			res.redirect('/');
+			var redirect = req.body.redirect || "/";
+			res.redirect(redirect);
 		}
 	);
 	
 	router.get('/auth/upv',
 		passport.authenticate('upv', {}),
 		function(req,res) {
-			res.redirect('/');
+			var redirect = req.body.redirect || "/";
+			res.redirect(redirect);
 		}
 	);
 
 	router.get('/rest/plugins/upvauth/validate',
 		passport.authenticate('upv', {}),
 		function(req,res) {
-			res.redirect('/');
+			var redirect = req.body.redirect || "/";
+			res.redirect(redirect);
 		}
 	);
 };

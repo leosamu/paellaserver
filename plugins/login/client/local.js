@@ -6,9 +6,11 @@
 			restrict: "E",
 			templateUrl:"login/directives/login-local.html",
 			scope: {
-				error:"="
+				error:"=",
+				redirectUrl:"="
 			},
 			controller:["$scope",function($scope) {
+				$scope.formUrl = "/auth/local?redirectUrl=" + $scope.redirectUrl;
 				$scope.getError = function() {
 					switch ($scope.error) {
 						case 401:
