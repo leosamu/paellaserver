@@ -94,10 +94,10 @@ exports.init = function(app) {
 	
 	passport.use(new UPVStrategy({
 			cua: "https://www.upv.es/pls/soalu/est_intranet.NI_dual?P_CUA=media",
-			tickets: ["TDP", "TDX"],
+			tickets: ["TDP", "TDX", "TDp"],
 			profileInfo: ['nip', 'dni', 'login', 'email', 'fullName']
 		},
-		function(profile, done){	
+		function(profile, done){
 			function addUserData() {
 				var newUser = null;
 				var re = RegExp("^" + profile.email.split('@')[0] + "@(.+\.)*upv\.es$","i");
@@ -166,7 +166,6 @@ exports.init = function(app) {
 	});
 
 	router.post('/auth/openid', function(req,res,next) {
-			console.log("Hola");
 			next();
 		},
 		passport.authenticate('openid'));
@@ -189,9 +188,13 @@ exports.init = function(app) {
 	);
 	
 	router.get('/auth/upv',
+		function(req,res,next) {
+			req.session.redirect = req.query.redirect;
+			next();
+		},
 		passport.authenticate('upv', {}),
 		function(req,res) {
-			var redirect = req.body.redirect || "/";
+			var redirect = req.session.redirect || "/";
 			res.redirect(redirect);
 		}
 	);
@@ -199,7 +202,7 @@ exports.init = function(app) {
 	router.get('/rest/plugins/upvauth/validate',
 		passport.authenticate('upv', {}),
 		function(req,res) {
-			var redirect = req.body.redirect || "/";
+			var redirect = req.session.redirect || "/";
 			res.redirect(redirect);
 		}
 	);
