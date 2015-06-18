@@ -1,7 +1,9 @@
 (function() {
 	var loginModule = angular.module('loginModule', ["ngRoute", "ngResource", "ui.bootstrap"]);
 
-	function LoginController($scope,$routeParams) {
+	function LoginController($scope,$location,$routeParams) {
+		$scope.redirectUrl = $location.$$search.redirect;
+
 		$scope.errorCode = Number($routeParams.error);
 
 		$scope._loginMethod = 'local';
@@ -19,7 +21,7 @@
 		$scope.isLoginOpenID = function() { return $scope._loginMethod=='openid'; };
 	}
 
-	LoginController.$inject = ["$scope","$routeParams"];
+	LoginController.$inject = ["$scope","$location","$routeParams"];
 	loginModule.controller('LoginController',LoginController);
 
 	loginModule.config(['$routeProvider', function($routeProvider) {

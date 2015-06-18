@@ -4,7 +4,8 @@
 		"ngRoute",
 		'pascalprecht.translate',
 		"catalogModule",
-		"loginModule"
+		"loginModule",
+		"legalModule"
 	]);
 
 	app.config(["$routeProvider","$translateProvider",

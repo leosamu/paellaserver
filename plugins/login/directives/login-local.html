@@ -1,4 +1,6 @@
-<form role="form" action="/auth/local" method="post" class="form-horizontal">
+<form role="form" action="{{formUrl}}" method="post" class="form-horizontal">
+    <input type="hidden" name="redirect" ng-value="redirectUrl" />
+
     <div class="form-group">
         <label class="control-label col-sm-4">{{ "login_form_username" | translate }}</label>
 

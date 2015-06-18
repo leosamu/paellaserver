@@ -13,6 +13,19 @@ var VideoSchema = new Schema({
 			time: Number
 		}
 	],
+	blackboard: {
+		frames: [
+			{
+				src: { type:String },
+				time: { type:Number }
+			}
+		],
+		mimetype: { type:String },
+		res: {
+			w: { type:Number },
+			h: { type:Number }
+		}
+	},
 	hidden: Boolean,
 	hiddenInSearches: Boolean,
 	hideSocial: Boolean,
@@ -22,6 +35,7 @@ var VideoSchema = new Schema({
 	language: String,
 	title: String,
 	catalog: String,
+	duration: { type:Number },
 	source: {
 		type: { type: String },
 		videos: [
@@ -51,7 +65,7 @@ var VideoSchema = new Schema({
 	},
 	pluginData: Schema.Types.Mixed,
 	thumbnail: String,
-	metadata: { type:[ String ] },
+	metadata: [ { type: String  } ],
 	permissions: [
 		{
 			role: { type: String, required:true },

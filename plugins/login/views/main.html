@@ -3,20 +3,20 @@
     <div class="row">
         <div class="col-sm-8">
             <div class="btn-group form-group col-sm-offset-4">
-                <a class="btn btn-default dropdown-toggle btn-select" data-toggle="dropdown" href="#/auth/login">{{ "access_type" | translate }}<span class="caret"></span></a>
+                <button class="btn btn-default dropdown-toggle btn-select" data-toggle="dropdown">{{ "access_type" | translate }}<span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li><a href="#/auth/login" ng-click="setLoginMethod('local')">{{ "polimedia_user" | translate }}</a></li>
-                    <li><a href="#/auth/login" ng-click="setLoginMethod('upv')">{{ "member_of_upv" | translate }}</a></li>
+                    <li><a ng-click="setLoginMethod('local')">{{ "polimedia_user" | translate }}</a></li>
+                    <li><a ng-click="setLoginMethod('upv')">{{ "member_of_upv" | translate }}</a></li>
                     <!-- <li><a href="#/auth/login" ng-click="setLoginMethod('openid')">OpenID</a></li> -->
                 </ul>
             </div>
 
             <div ng-show="isLoginLocal()">
-                <login-local error="errorCode"></login-local>
+                <login-local error="errorCode" redirect-url="redirectUrl"></login-local>
             </div>
 
             <div ng-show="isLoginUpv()">
-                <login-upv></login-upv>
+                <login-upv  redirect-url="redirectUrl"></login-upv>
             </div>
 
 
