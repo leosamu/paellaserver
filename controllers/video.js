@@ -8,7 +8,7 @@ exports.LoadVideos = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
 	var select = '-slides -hidden -thumbnail -roles -duration ' +
 				'-hiddenInSearches -canRead -canWrite ' +
-				'-deletionDate -source -pluginData ' +
+				'-deletionDate -pluginData ' +
 				'-metadata -search -processSlides -repository';
 	var query = req.data ? req.data.query:null;
 	Video.find(query)

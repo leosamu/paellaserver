@@ -13,7 +13,7 @@ exports.routes = {
 			function(req,res,next) {
 				if (req.data.length>0) {
 					var user = req.data[0];
-					req.data = {}
+					req.data = {};
 					req.data.query = { "owner": { $in:[user._id]} };
 					next();
 				}
