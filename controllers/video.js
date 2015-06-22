@@ -6,15 +6,16 @@ var mongoose = require('mongoose');
 //	Output: res.data [ { _id:"video_id", title:"video_title" } ]
 exports.LoadVideos = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	var select = '-slides -hidden -thumbnail -roles -duration ' +
+	var select = '-slides -hidden -roles -duration ' +
 				'-hiddenInSearches -canRead -canWrite ' +
 				'-deletionDate -pluginData ' +
-				'-metadata -search -processSlides -repository';
+				'-metadata -search -processSlides ';
 	var query = req.data ? req.data.query:null;
 	Video.find(query)
 		.skip(req.query.skip)
 		.limit(req.query.limit)
 		.select(select)
+		.populate('repository','server endpoint')
 		.exec(function(err,data) {
 			req.data = data;
 			next();
@@ -85,6 +86,16 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 	else {
 		next();
 	}
+};
+
+exports.LoadThumbnails = function(req,res,next) {
+	if (req.data) {
+		req.data.forEach(function(videoData) {
+			var repo = videoData.repository;
+			if (videoData.thumbnail) videoData.thumbnail = repo.server + repo.endpoint + videoData._id + '/' + videoData.thumbnail;
+		});
+	}
+	next();
 };
 
 function checkVideoData(video) {

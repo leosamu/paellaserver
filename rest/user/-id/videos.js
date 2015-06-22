@@ -25,6 +25,7 @@ exports.routes = {
 				}
 			},
 			VideoController.LoadVideos,
+			VideoController.LoadThumbnails,
 			CommonController.JsonResponse]
 	}
 };
