@@ -42,9 +42,6 @@ exports.LoadChannel = function(req,res,next) {
 		});
 	var select = '-search -processSlides';
 	var query = { "_id":req.params.id };
-	if (!isAdmin) {
-		query.hidden = false;
-	}
 
 	Channel.find(query)
 		.select(select)
