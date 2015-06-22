@@ -1,9 +1,10 @@
 (function() {
 	var catalogModule = angular.module('catalogModule',["ngRoute","ngResource","ui.bootstrap"]);
 
-	var CatalogController = function($scope,$routeParams,Channel,Video) {
+	var CatalogController = function($scope,$routeParams,Channel,Video,User) {
 		$scope.channels = [];
 		$scope.videos = [];
+		$scope.myVideos = [];
 
 		$scope.searchText = decodeURI($routeParams.search || "");
 		$scope.channelId = $scope.searchText=="" ? $routeParams.id:null;
@@ -44,6 +45,14 @@
 			return false;
 		};
 
+		$scope.showMyVideos = function() {
+			if ($scope.numMyVideos()>0) {
+				$scope.currentTab = 2;
+				return true;
+			}
+			return false;
+		};
+
 		$scope.showAny = function() {
 			$scope.currentTab = -1;
 		};
@@ -56,6 +65,10 @@
 			return $scope.currentTab == 1;
 		};
 
+		$scope.myVideosTabSelected = function() {
+			return $scope.currentTab == 2;
+		};
+
 		$scope.anyTabSelected = function() {
 			return $scope.currentTab = -1;
 		};
@@ -66,6 +79,10 @@
 
 		$scope.numChannels = function() {
 			return $scope.channels.length;
+		};
+
+		$scope.numMyVideos = function() {
+			return $scope.myVideos.length;
 		};
 
 		$scope.selectDefaultTab = function() {
@@ -124,6 +141,19 @@
 					});
 			}
 		};
+
+		$scope.loadMyVideos = function() {
+			User.current().$promise
+				.then(function(data) {
+					if (data._id) {
+						return Video.userVideos({ userId:data._id }).$promise
+							.then(function(data) {
+								$scope.myVideos = data;
+							});
+					}
+				});
+			$scope.myVideos = [];
+		};
 		
 		$scope.ownerName = function(channel) {
 			var contactData = channel.owner.length ? channel.owner[0].contactData:{};
@@ -135,6 +165,7 @@
 		};
 		
 		$scope.doSearch();
+		$scope.loadMyVideos();
 
 		// Cargar el contador de vídeos
 		Video.count().$promise
@@ -143,7 +174,7 @@
 			});
 	};
 
-	CatalogController.$inject = ["$scope","$routeParams","Channel","Video"];
+	CatalogController.$inject = ["$scope","$routeParams","Channel","Video","User"];
 	catalogModule.controller('CatalogController',CatalogController);
 
 	catalogModule.config(['$routeProvider', function($routeProvider) {

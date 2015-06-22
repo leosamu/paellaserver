@@ -17,6 +17,9 @@
 	"featured_videos_text":"Featured videos",
 	"videos_text":"Videos",
 	"channels_text":"Channels",
-	"search_text":"Search"
+	"search_text":"Search",
+	"language":"language",
+	"welcome":"Welcome",
+	"myvideos_text":"My videos"
 
 }

@@ -9,7 +9,6 @@ var UserController = require(__dirname + '/../../../controllers/user');
 exports.routes = {
 	listVideos: {
 		get: [
-			AuthController.EnsureAuthenticatedOrDigest,
 			UserController.LoadUser,
 			function(req,res,next) {
 				if (req.data.length>0) {
@@ -25,7 +24,6 @@ exports.routes = {
 					});
 				}
 			},
-			CommonController.Paginate,
 			VideoController.LoadVideos,
 			CommonController.JsonResponse]
 	}

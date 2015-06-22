@@ -18,5 +18,7 @@
 	"videos_text":"Vídeos",
 	"channels_text":"Canals",
 	"search_text":"Cercar",
-	"language":"idioma"
+	"language":"idioma",
+	"welcome":"Benvingut",
+	"myvideos_text":"Els meus vídeos"
 }
