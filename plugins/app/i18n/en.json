@@ -20,6 +20,8 @@
 	"search_text":"Search",
 	"language":"language",
 	"welcome":"Welcome",
-	"myvideos_text":"My videos"
+	"myvideos_text":"My videos",
+
+	"termsofuse-url":"#/termsofuse"
 
 }

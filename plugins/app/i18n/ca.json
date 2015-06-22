@@ -20,5 +20,7 @@
 	"search_text":"Cercar",
 	"language":"idioma",
 	"welcome":"Benvingut",
-	"myvideos_text":"Els meus vídeos"
+	"myvideos_text":"Els meus vídeos",
+
+	"termsofuse-url":"#/termsdus"
 }

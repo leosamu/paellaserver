@@ -1,7 +1,7 @@
 {
 	"site_title":"Portal Polimedia",
 	"user_menu_title":"Administración de Usuarios",
-	"terms_of_use":"Términos de uso",
+	"terms_of_use":"Condiciones de uso",
 	"more_info":"Más información",
 	"access_as_upv_member":"Acceder como miembro de la UPV",
 	"login_text":"Iniciar Sesión",
@@ -20,5 +20,7 @@
 	"search_text":"Buscar",
 	"language":"idioma",
 	"welcome":"Bienvenido",
-	"myvideos_text":"Mis vídeos"
+	"myvideos_text":"Mis vídeos",
+
+	"termsofuse-url":"#/terminosdeuso"
 }
