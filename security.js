@@ -7,6 +7,54 @@ var DigestStrategy = require('passport-http').DigestStrategy;
 var OpenIDStrategy = require('passport-openid').Strategy;
 var UPVStrategy = require('./passport-upv').Strategy;
 
+
+function getUPVRoles(user,done) {
+	try {
+		var oracledb = require('oracledb');
+		var dbConfig = require('./dbconfig.json');
+		
+		var dni = user.auth.UPV.dni;//20455441
+		
+		oracledb.getConnection( dbConfig, function(err, connection) {
+			if (err) {
+			  done(null,user);
+			  return
+			}
+			connection.execute(
+			    "SELECT * FROM SAK_VAPUNTES_ALUMNOS_VW where usuario = lower('" + dni + "')",
+			    {},
+				function(err, result)
+					{
+					if (err) {
+					}
+					else {
+						var columns = {};
+						result.metaData.forEach(function(c, idx){
+							columns[c.name] = idx;
+						});
+						
+						result.rows.forEach(function(r){
+							var role1 = ["ROLE", r[columns.TIPOASI], r[columns.ASI], r[columns.EDICION], r[columns.PERFIL]].join("_").toUpperCase();
+							var role2 = ["ROLE", r[columns.TIPOASI], r[columns.ASI], r[columns.PERFIL]].join("_").toUpperCase();
+							user.roles.push(role1);
+							user.roles.push(role2);
+						});
+					}
+					// Release
+					connection.release(function(err) {
+					});
+					
+					done(null,user);
+				}
+			);	
+		});
+
+	}
+	catch(e) {
+		done(null,user);
+	}
+}
+
 exports.init = function(app) {
 	var configure = require("./configure");
 	var router = express.Router();
@@ -22,7 +70,9 @@ exports.init = function(app) {
 		User.findOne({"_id":obj})
 			.select('-' + passwField)
 			.populate('roles')
-			.exec(done);
+			.exec(function(err,data) {
+				getUPVRoles(data,done);
+			});
 	});
 
 	passport.use(new LocalStrategy(
