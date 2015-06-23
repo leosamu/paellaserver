@@ -91,6 +91,31 @@
 			}
 		};
 
+		$scope.selectBestTab = function() {
+			var videoScore = 0;
+			var channelScore = 0;
+			var itemsToCheck = 4;
+			var re = new RegExp($scope.searchText,"i");
+
+			$scope.videos.some(function(video,index) {
+				videoScore += video.score;
+				if (re.test(video.title)) {
+					videoScore += 40;
+				}
+				return index==itemsToCheck;
+			});
+
+			$scope.channels.some(function(channel,index) {
+				channelScore += channel.score;
+				if (re.test(channel.title)) {
+					channelScore += 40;
+				}
+				return index==itemsToCheck;
+			});
+
+			return videoScore>=channelScore ? $scope.showVideos():$scope.showChannels();
+		};
+
 		// Pagination
 		$scope.totalItems = 10;
 		$scope.currentPage = 1;
@@ -124,7 +149,7 @@
 						};
 						$scope.channels = result.channels;
 						$scope.videos = result.videos;
-						$scope.selectDefaultTab();
+						$scope.selectBestTab();
 					});
 			}
 			else {

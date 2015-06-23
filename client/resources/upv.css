@@ -187,3 +187,7 @@ footer {
 .ps-hidden {
 	opacity: 0.4;
 }
+
+.ps-badge {
+	background-color: #cc0000;
+}
