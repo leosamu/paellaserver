@@ -102,6 +102,7 @@ router.get(['/player/config/config.json'],function(req,res) {
 	playerConfig.auth = playerConfig.auth || {};
 	playerConfig.auth.authCallbackName = "paellaserver_authCallback";
 	playerConfig.auth.userDataCallbackName = "paellaserver_loadUserDataCallback";
+	playerConfig.plugins.list["es.upv.paella.extendedTabAdapterPlugin"] = { enabled:false };
 	
 	playerConfig.plugins.list["es.upv.paella.translecture.CaptionsPlugIn"] = {
 		 "enabled": true,

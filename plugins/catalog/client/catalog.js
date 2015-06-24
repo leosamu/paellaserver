@@ -5,6 +5,7 @@
 		$scope.channels = [];
 		$scope.videos = [];
 		$scope.myVideos = [];
+		$scope.loading = true;
 
 		$scope.searchText = decodeURI($routeParams.search || "");
 		$scope.channelId = $scope.searchText=="" ? $routeParams.id:null;
