@@ -133,6 +133,7 @@
 		};
 
 		$scope.doSearch = function() {
+			$scope.loading = true;
 			if ($scope.searchText && $scope.searchText!="") {
 				location.href = "#/catalog/search/" + encodeURI($scope.searchText);
 			}
@@ -150,6 +151,7 @@
 						$scope.channels = result.channels;
 						$scope.videos = result.videos;
 						$scope.selectBestTab();
+						$scope.loading = false;
 					});
 			}
 			else {
@@ -163,6 +165,7 @@
 						$scope.videos = result.videos;
 						$scope.selectDefaultTab();
 						document.title = result.title;
+						$scope.loading = false;
 					});
 			}
 		};

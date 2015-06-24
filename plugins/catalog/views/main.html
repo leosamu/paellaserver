@@ -35,6 +35,11 @@
         </h1>
 
     </section>
+
+    <section class="ps-loader-container col-xs-offset-4 col-xs-4" ng-show="loading">
+        <span class="ps-loader"></span>
+    </section>
+
     <section class="ps-channel-list row" ng-show="channelTabSelected()">
      <!--   <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination> -->
         <div class="col-md-6 col-xs-12" ng-repeat="channel in channels">

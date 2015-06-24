@@ -191,3 +191,19 @@ footer {
 .ps-badge {
 	background-color: #cc0000;
 }
+
+.ps-loader {
+	margin-top: 80px;
+	background-image: url("images/ajax_loader.gif");
+	display: block;
+	width: 200px;
+	height: 200px;
+	background-size: 100% 100%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.ps-loader-container {
+	padding-top: 20px;
+	padding-bottom: 100px;
+}
