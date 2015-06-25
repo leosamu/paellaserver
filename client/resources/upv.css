@@ -207,3 +207,7 @@ footer {
 	padding-top: 20px;
 	padding-bottom: 100px;
 }
+
+.ps-search-bar-container {
+	line-height: 48px;
+}

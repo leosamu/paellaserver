@@ -10,7 +10,13 @@
 		$scope.searchText = decodeURI($routeParams.search || "");
 		$scope.channelId = $scope.searchText=="" ? $routeParams.id:null;
 		$scope.totalVideos = 0;
-		
+
+		function addSortingIndexes(collection) {
+			collection.forEach(function(item,index) {
+				item.defaultSortingIndex = index;
+			});
+		}
+
 		// Pestañas vídeos/canales
 		$scope.currentTab = -1;
 
@@ -153,6 +159,8 @@
 						$scope.videos = result.videos;
 						$scope.selectBestTab();
 						$scope.loading = false;
+						addSortingIndexes($scope.channels);
+						addSortingIndexes($scope.videos);
 					});
 			}
 			else {
@@ -167,6 +175,8 @@
 						$scope.selectDefaultTab();
 						document.title = result.title;
 						$scope.loading = false;
+						addSortingIndexes($scope.channels);
+						addSortingIndexes($scope.videos);
 					});
 			}
 		};
@@ -178,6 +188,7 @@
 						return Video.userVideos({ userId:data._id }).$promise
 							.then(function(data) {
 								$scope.myVideos = data;
+								addSortingIndexes($scope.myVideos);
 							});
 					}
 				});
@@ -195,6 +206,64 @@
 		
 		$scope.doSearch();
 		$scope.loadMyVideos();
+
+		$scope.sortDefault = function() {
+			function sortFunction(a,b) {
+				if (a.defaultSortingIndex < b.defaultSortingIndex) {
+					return -1;
+				}
+				else if (a.defaultSortingIndex > b.defaultSortingIndex) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+
+			$scope.channels.sort(sortFunction);
+			$scope.videos.sort(sortFunction);
+			$scope.myVideos.sort(sortFunction);
+		};
+
+		$scope.sortName = function() {
+			function sortFunction(a,b) {
+				a = a.title.trim().toLowerCase();
+				b = b.title.trim().toLowerCase();
+				if (a < b) {
+					return -1;
+				}
+				else if (a > b) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+
+			$scope.channels.sort(sortFunction);
+			$scope.videos.sort(sortFunction);
+			$scope.myVideos.sort(sortFunction);
+		};
+
+		$scope.sortDate = function() {
+			function sortFunction(a,b) {
+				a = new Date(a.creationDate);
+				b = new Date(b.defaultSortingIndex);
+				if (a < b) {
+					return -1;
+				}
+				else if (a > b) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+
+			$scope.channels.sort(sortFunction);
+			$scope.videos.sort(sortFunction);
+			$scope.myVideos.sort(sortFunction);
+		};
 
 		// Cargar el contador de vídeos
 		Video.count().$promise

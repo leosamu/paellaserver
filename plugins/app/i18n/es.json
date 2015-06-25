@@ -22,5 +22,9 @@
 	"welcome":"Bienvenido",
 	"myvideos_text":"Mis vídeos",
 
-	"termsofuse-url":"#/terminosdeuso"
+	"termsofuse-url":"#/terminosdeuso",
+	"sort":"Ordenar",
+	"sort_default":"Por defecto",
+	"sort_name":"Título",
+	"sort_date":"Fecha"
 }

@@ -22,6 +22,10 @@
 	"welcome":"Welcome",
 	"myvideos_text":"My videos",
 
-	"termsofuse-url":"#/termsofuse"
+	"termsofuse-url":"#/termsofuse",
+	"sort":"Sort",
+	"sort_default":"Default",
+	"sort_name":"Title",
+	"sort_date":"Date"
 
 }

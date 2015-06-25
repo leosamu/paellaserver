@@ -22,5 +22,9 @@
 	"welcome":"Benvingut",
 	"myvideos_text":"Els meus vídeos",
 
-	"termsofuse-url":"#/termsdus"
+	"termsofuse-url":"#/termsdus",
+	"sort":"Ordenar",
+	"sort_default":"Per defecte",
+	"sort_name":"Títol",
+	"sort_date":"Data"
 }

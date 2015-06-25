@@ -11,6 +11,22 @@
                 <li ng-class="{ active:channelTabSelected() }"><a href ng-click="showChannels()">{{ "channels_text" | translate }} <span class="badge ps-badge" ng-show="numChannels()>0">{{numChannels()}}</span></a></li>
                 <li ng-show="numMyVideos()>0" ng-class="{ active:myVideosTabSelected() }"><a href ng-click="showMyVideos()">{{ "myvideos_text" | translate }} <span class="badge ps-badge" ng-show="numMyVideos()>0">{{numMyVideos()}}</span></a></li>
             </ui>
+
+            <ui class="nav navbar-nav pull-right">
+                <li>
+                    <div class="ps-search-bar-container" dropdown is-open="status.isopen">
+                        <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+                            {{ "sort" | translate }} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li><a href="" ng-click="sortDefault()">{{ "sort_default" | translate }}</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="" ng-click="sortName()">{{ "sort_name" | translate }}</a></li>
+                            <li><a href="" ng-click="sortDate()">{{ "sort_date" | translate }}</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ui>
         </div>
     </section>
     <section class="ps-current-channel" ng-show="channelData">
