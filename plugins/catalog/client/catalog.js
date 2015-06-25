@@ -248,7 +248,7 @@
 		$scope.sortDate = function() {
 			function sortFunction(a,b) {
 				a = new Date(a.creationDate);
-				b = new Date(b.defaultSortingIndex);
+				b = new Date(b.creationDate);
 				if (a < b) {
 					return -1;
 				}
