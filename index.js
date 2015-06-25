@@ -78,10 +78,10 @@ app.use(router);
 app.use(express.static(__dirname + '/client'));
 app.use(express.static(__dirname + '/plugins',{extensions: ['htm','html']}));
 
-router.get(['/player/index.html','/player/'],function(req,res) {
+function getPlayerIndex(req,res) {
 	fs.readFile('./client/player/index.html', 'utf8', function (err,data) {
 		if (err) {
-		 	console.log(err);
+			console.log(err);
 			res.status(500).send('Internal error: missing player files').end();
 		}
 		else {
@@ -92,7 +92,9 @@ router.get(['/player/index.html','/player/'],function(req,res) {
 			res.type('text/html').send(data).end();
 		}
 	});
-});
+}
+
+router.get(['/player/index.html','/player/','/player/embed.html'], getPlayerIndex);
 
 router.get(['/player/config/config.json'],function(req,res) {
 	var playerConfig = require('./client/player/config/config.json');
