@@ -53,7 +53,10 @@
 		};
 
 		$scope.showMyVideos = function() {
-			if ($scope.numMyVideos()>0) {
+			if (!$scope.logged) {
+				location.href = "#/auth/login"
+			}
+			else if ($scope.numMyVideos()>0) {
 				$scope.currentTab = 2;
 				return true;
 			}
@@ -185,11 +188,15 @@
 			User.current().$promise
 				.then(function(data) {
 					if (data._id) {
+						$scope.logged = true;
 						return Video.userVideos({ userId:data._id }).$promise
 							.then(function(data) {
 								$scope.myVideos = data;
 								addSortingIndexes($scope.myVideos);
 							});
+					}
+					else {
+						$scope.logged = false;
 					}
 				});
 			$scope.myVideos = [];
@@ -249,10 +256,10 @@
 			function sortFunction(a,b) {
 				a = new Date(a.creationDate);
 				b = new Date(b.creationDate);
-				if (a < b) {
+				if (a > b) {
 					return -1;
 				}
-				else if (a > b) {
+				else if (a < b) {
 					return 1;
 				}
 				else {

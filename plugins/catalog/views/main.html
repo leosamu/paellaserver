@@ -9,7 +9,7 @@
             <ui class="nav navbar-nav">
                 <li ng-class="{ active:videoTabSelected() }"><a href ng-click="showVideos()">{{ "videos_text" | translate }} <span class="badge ps-badge" ng-show="numVideos()>0">{{numVideos()}}</span></a></li>
                 <li ng-class="{ active:channelTabSelected() }"><a href ng-click="showChannels()">{{ "channels_text" | translate }} <span class="badge ps-badge" ng-show="numChannels()>0">{{numChannels()}}</span></a></li>
-                <li ng-show="numMyVideos()>0" ng-class="{ active:myVideosTabSelected() }"><a href ng-click="showMyVideos()">{{ "myvideos_text" | translate }} <span class="badge ps-badge" ng-show="numMyVideos()>0">{{numMyVideos()}}</span></a></li>
+                <li ng-class="{ active:myVideosTabSelected() }"><a href ng-click="showMyVideos()">{{ "myvideos_text" | translate }} <span class="badge ps-badge" ng-show="numMyVideos()>0">{{numMyVideos()}}</span></a></li>
             </ui>
 
             <ui class="nav navbar-nav pull-right">
