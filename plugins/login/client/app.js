@@ -6,7 +6,7 @@
 
 		$scope.errorCode = Number($routeParams.error);
 
-		$scope._loginMethod = 'local';
+		$scope._loginMethod = 'upv';
 
 		$scope.setLoginMethod = function(method) {
 			$scope._loginMethod = method;

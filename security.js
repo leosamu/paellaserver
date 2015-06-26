@@ -222,12 +222,12 @@ exports.init = function(app) {
 		
 	router.get('/auth/openid/return',
 		passport.authenticate('openid', { successRedirect: '/',
-			failureRedirect: '/#/auth/login/401'
+			failureRedirect: '/#/auth/login'
 		}));
 
-	router.post('/auth/local',
+	router.post('/auth/login',
 		passport.authenticate('local', {
-			failureRedirect: configure.serverUrl() + '/#/auth/local',
+			failureRedirect: configure.serverUrl() + '/#/auth/login',
 			usernameField:'username',
 			passwordField:'password',
 			failureFlash: false }),
