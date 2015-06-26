@@ -187,7 +187,7 @@
 		$scope.loadMyVideos = function() {
 			User.current().$promise
 				.then(function(data) {
-					if (data._id) {
+					if (data._id!="0") {
 						$scope.logged = true;
 						return Video.userVideos({ userId:data._id }).$promise
 							.then(function(data) {

@@ -17,7 +17,7 @@
 
 				$http.get('/rest/currentUser')
 					.success(function(data) {
-						$scope.logged = true;
+						$scope.logged = data._id!="0";
 						$scope.userName = data.contactData.name;
 					})
 					.error(function() {
