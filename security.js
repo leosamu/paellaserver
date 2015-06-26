@@ -225,7 +225,7 @@ exports.init = function(app) {
 			failureRedirect: '/#/auth/login'
 		}));
 
-	router.post('/auth/login',
+	router.post('/auth/local',
 		passport.authenticate('local', {
 			failureRedirect: configure.serverUrl() + '/#/auth/login',
 			usernameField:'username',
