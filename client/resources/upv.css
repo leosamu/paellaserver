@@ -159,6 +159,7 @@ footer {
 	float: right;
 	margin-left: -26px;
 	margin-top: 6px;
+	z-index:1;
 }
 
 .ps-item-menu li p {
