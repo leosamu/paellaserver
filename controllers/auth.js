@@ -89,3 +89,41 @@ exports.EnsureAuthenticatedOrDigest = function (req, res, next) {
 		});
 	}
 };
+
+// Input: req.data: video data
+// Output: req.data: the video data with the new roles
+exports.LoadRoles = function(req,res,next) {
+	function loadItemRoles(item) {
+		if (!item.roles) {
+			item.roles = [
+				{
+					"role":"ANONYMOUS",
+					"read":true,
+					"write":false
+				},
+				{
+					"role":"USER",
+					"read":true,
+					"write":true
+				}
+			]
+		}
+		item.owner.forEach(function(owner) {
+			item.roles.push({
+				"role":owner,
+				"read":true,
+				"write":true
+			});
+		})
+	}
+
+	if (req.data && req.data.forEach) {
+		req.data.forEach(function(itemData) {
+			loadItemRoles(itemData);
+		});
+		next();
+	}
+	else {
+		next();
+	}
+};

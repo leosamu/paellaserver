@@ -9,6 +9,7 @@ exports.routes = {
 	getVideoData: { param:'id', get:[
 		VideoController.LoadVideo,
 		VideoController.LoadUrlFromRepository,
+		AuthController.LoadRoles,
 		CommonController.JsonResponse]},
 
 	checkVideo: { post:[

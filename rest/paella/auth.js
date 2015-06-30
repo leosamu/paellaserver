@@ -38,7 +38,7 @@ function checkOA(responseData,user,video,onSuccess) {
 exports.routes = {
 	getAuthData: { param:'id', get:[
 		VideoController.LoadVideo,
-
+		AuthController.LoadRoles,
 		function(req,res) {
 			var video = req.data[0];
 			var admin = false;
@@ -72,7 +72,7 @@ exports.routes = {
 			if (admin) {
 				responseData.permissions.canWrite = true;
 				responseData.permissions.canContribute = true;
-				res.json(authData);
+				res.json(responseData);
 			}
 			else if (video.pluginData.OA &&
 				video.pluginData.OA &&
@@ -87,6 +87,7 @@ exports.routes = {
 				});
 			}
 			else {
+
 				res.json(responseData);
 			}
 		}]
