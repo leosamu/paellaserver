@@ -110,7 +110,7 @@ exports.LoadRoles = function(req,res,next) {
 		}
 		item.owner.forEach(function(owner) {
 			item.roles.push({
-				"role":owner,
+				"role":"ROLE_" + owner,
 				"read":true,
 				"write":true
 			});
@@ -126,4 +126,19 @@ exports.LoadRoles = function(req,res,next) {
 	else {
 		next();
 	}
+};
+
+exports.getAnonymousUser = function() {
+	return  {
+		"_id":"0",
+		"auth": {},
+		"roles":[
+			{"_id":"ANONYMOUS","description":"Anonymous user"}
+		],
+		"contactData": {
+			"email":"",
+			"lastName":"anonymous",
+			"name":"Anonymous"
+		}
+	};
 };

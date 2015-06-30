@@ -10,18 +10,7 @@ exports.routes = {
 				res.json(req.user);
 			}
 			else {
-				var userData = {
-					"_id":"0",
-					"auth": {},
-					"roles":[
-						{"_id":"ANONYMOUS","description":"Anonymous user"}
-					],
-					"contactData": {
-						"email":"",
-						"lastName":"anonymous",
-						"name":"Anonymous"
-					}
-				};
+				var userData = AuthController.getAnonymousUser();
 
 				res.json(userData);
 			}

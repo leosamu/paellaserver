@@ -44,7 +44,7 @@ exports.routes = {
 			var admin = false;
 			var responseData = {
 				permissions: {
-					canRead: true,
+					canRead: false,
 					canContribute: false,
 					canWrite: false,
 					loadError: false,
@@ -58,18 +58,31 @@ exports.routes = {
 				}
 			};
 
-			if (req.user) {
-				responseData.userData.username = req.user.contactData.email;
-				responseData.userData.name = req.user.contactData.name + " " + req.user.contactData.lastName;
-				admin = req.user.roles.some(function(role) {
-					if (role.isAdmin) {
-						return true;
-					}
-				});
+			if (!req.user) {
+				req.user = AuthController.getAnonymousUser();
 			}
+
+			responseData.userData.username = req.user.contactData.email;
+			responseData.userData.name = req.user.contactData.name + " " + req.user.contactData.lastName;
+
+			var canWrite = false;
+			var canRead = false;
+			video.roles.some(function(videoRole) {
+				return req.user.roles.some(function(userRole) {
+					if (userRole._id==videoRole.role) {
+						canRead = canRead || videoRole.read;
+						canWrite = canWrite || videoRole.write;
+					}
+					return canRead && canWrite;
+				});
+			});
+			admin = req.user.roles.some(function(role) {
+				return role.isAdmin;
+			});
 
 			responseData.permissions.canShare = !video.hideSocial;
 			if (admin) {
+				responseData.permissions.canRead = true;
 				responseData.permissions.canWrite = true;
 				responseData.permissions.canContribute = true;
 				res.json(responseData);
@@ -87,7 +100,9 @@ exports.routes = {
 				});
 			}
 			else {
-
+				responseData.permissions.canRead = canRead;
+				responseData.permissions.canWrite = canWrite;
+				responseData.permissions.canContribute = canWrite;
 				res.json(responseData);
 			}
 		}]
