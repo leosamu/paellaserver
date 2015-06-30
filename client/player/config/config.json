@@ -87,6 +87,7 @@
                 ]
             },
             "es.upv.paella.multipleQualitiesPlugin": {
+                "enabled": true,
                 "showWidthRes": true
             },
             "es.upv.paella.playbackRatePlugin": {

@@ -104,9 +104,11 @@ router.get(['/player/config/config.json'],function(req,res) {
 	playerConfig.auth = playerConfig.auth || {};
 	playerConfig.auth.authCallbackName = "paellaserver_authCallback";
 	playerConfig.auth.userDataCallbackName = "paellaserver_loadUserDataCallback";
+	playerConfig.plugins.enablePluginsByDefault = true;
 	playerConfig.plugins.list["es.upv.paella.extendedTabAdapterPlugin"] = { enabled:false };
+	playerConfig.plugins.list["es.upv.paella.multipleQualitiesPlugin"] = { enabled:true, showWidthRes: true };
 	
-	playerConfig.plugins.list["es.upv.paella.translecture.captionsPlugIn"] = {
+	playerConfig.plugins.list["es.upv.paella.translecture.captionsPlugin"] = {
 		 "enabled": true,
 		 "tLServer": "https://fuster.cc.upv.es/tl-pm",
 		 "tLdb": "pm",
