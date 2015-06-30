@@ -106,7 +106,7 @@ router.get(['/player/config/config.json'],function(req,res) {
 	playerConfig.auth.userDataCallbackName = "paellaserver_loadUserDataCallback";
 	playerConfig.plugins.list["es.upv.paella.extendedTabAdapterPlugin"] = { enabled:false };
 	
-	playerConfig.plugins.list["es.upv.paella.translecture.CaptionsPlugIn"] = {
+	playerConfig.plugins.list["es.upv.paella.translecture.captionsPlugIn"] = {
 		 "enabled": true,
 		 "tLServer": "https://fuster.cc.upv.es/tl-pm",
 		 "tLdb": "pm",
