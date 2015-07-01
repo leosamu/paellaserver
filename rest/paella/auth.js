@@ -35,10 +35,49 @@ function checkOA(responseData,user,video,onSuccess) {
 	});
 }
 
+function AddOARoles(req,res,next) {
+	var nip = "";
+	var riunetUrl = "";
+	var user = req.user;
+	try {
+		if (user.auth.UPV.nip) {
+			nip = user.auth.UPV.nip;
+		}
+	}
+	catch (e) {}
+
+	try {
+		riunetUrl = video.pluginData.OA.url;
+	}
+	catch (e) {}
+
+	var fullurl = "http://riunet.upv.es/upv/oa/OAConsultaPermisos?NIP_LECTOR=" + nip + "&URL_OA=" + riunetUrl + "&XML";
+	request.get(fullurl,function(error,response, body){
+		responseData.permissions.canRead = true;
+		responseData.permissions.canWrite = false;
+		responseData.permissions.canContribute = false;
+
+		var video = req.data[0];
+		if (video) {
+			// Los OA no pueden modificarse
+			video.permissions.forEach(function(permission) {
+				permission.write = false;
+			});
+
+			if (!error && body.search('<value type="raw">NO</value>') >=0) {
+				// Este OA está restringido a los usuarios
+			}
+		}
+		//onSuccess(error,responseData);
+		next();
+	});
+}
+
 exports.routes = {
 	getAuthData: { param:'id', get:[
 		VideoController.LoadVideo,
 		AuthController.LoadRoles,
+		//AddOARoles,
 		function(req,res) {
 			var video = req.data[0];
 			var admin = false;

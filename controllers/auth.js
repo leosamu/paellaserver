@@ -94,7 +94,7 @@ exports.EnsureAuthenticatedOrDigest = function (req, res, next) {
 // Output: req.data: the video data with the new roles
 exports.LoadRoles = function(req,res,next) {
 	function loadItemRoles(item) {
-		if (!item.permissions) {
+		if (!item.permissions || item.permissions.length==0) {
 			item.permissions = [
 				{
 					"role":"ANONYMOUS",
@@ -107,6 +107,9 @@ exports.LoadRoles = function(req,res,next) {
 					"write":true
 				}
 			]
+		}
+		else {
+			item.permissions = JSON.parse(JSON.stringify(item.permissions));
 		}
 		item.owner.forEach(function(owner) {
 			item.permissions.push({
