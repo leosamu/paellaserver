@@ -92,7 +92,9 @@ exports.LoadThumbnails = function(req,res,next) {
 	if (req.data) {
 		req.data.forEach(function(videoData) {
 			var repo = videoData.repository;
-			if (videoData.thumbnail) videoData.thumbnail = repo.server + repo.endpoint + videoData._id + '/' + videoData.thumbnail;
+			if (repo) {
+				if (videoData.thumbnail) videoData.thumbnail = repo.server + repo.endpoint + videoData._id + '/' + videoData.thumbnail;
+			}
 		});
 	}
 	next();
@@ -139,6 +141,29 @@ exports.CheckVideo = function(req,res,next) {
 			}
 		}
 	}
+};
+
+// Execute a $where query in the Video document
+//	Input: req.query.skip, req.query.limit, req.data.query
+//	Output: res.data: the video data.
+exports.Where = function(query,select) {
+	return function(req,res,next) {
+		var Video = require(__dirname + '/../models/video');
+		select = select || '-slides -hidden -roles -duration -source ' +
+			'-hiddenInSearches -canRead -canWrite ' +
+			'-deletionDate ' +
+			'-metadata -search -processSlides ';
+
+		Video.find({ $where:query })
+			.skip(req.query.skip)
+			.limit(req.query.limit)
+			.select(select)
+			.populate('repository','server endpoint')
+			.exec(function(err,data) {
+				req.data = data;
+				next();
+			});
+	};
 };
 
 // Create a new video using the full json object except the identifier

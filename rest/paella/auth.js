@@ -35,6 +35,7 @@ function checkOA(responseData,user,video,onSuccess) {
 	});
 }
 
+/*
 function AddOARoles(req,res,next) {
 	var nip = "";
 	var riunetUrl = "";
@@ -72,6 +73,7 @@ function AddOARoles(req,res,next) {
 		next();
 	});
 }
+*/
 
 exports.routes = {
 	getAuthData: { param:'id', get:[
