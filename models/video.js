@@ -65,7 +65,9 @@ var VideoSchema = new Schema({
 	},
 	pluginData: Schema.Types.Mixed,
 	thumbnail: String,
-	metadata: [ { type: String  } ],
+	metadata: {
+		keywords: [ { type: String } ]
+	},
 	permissions: [
 		{
 			role: { type: String, required:true },
