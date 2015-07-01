@@ -94,8 +94,8 @@ exports.EnsureAuthenticatedOrDigest = function (req, res, next) {
 // Output: req.data: the video data with the new roles
 exports.LoadRoles = function(req,res,next) {
 	function loadItemRoles(item) {
-		if (!item.roles) {
-			item.roles = [
+		if (!item.permissions) {
+			item.permissions = [
 				{
 					"role":"ANONYMOUS",
 					"read":true,
@@ -109,7 +109,7 @@ exports.LoadRoles = function(req,res,next) {
 			]
 		}
 		item.owner.forEach(function(owner) {
-			item.roles.push({
+			item.permissions.push({
 				"role":"ROLE_" + owner,
 				"read":true,
 				"write":true

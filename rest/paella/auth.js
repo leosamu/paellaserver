@@ -67,7 +67,7 @@ exports.routes = {
 
 			var canWrite = false;
 			var canRead = false;
-			video.roles.some(function(videoRole) {
+			video.permissions.some(function(videoRole) {
 				return req.user.roles.some(function(userRole) {
 					if (userRole._id==videoRole.role) {
 						canRead = canRead || videoRole.read;

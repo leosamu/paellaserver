@@ -3,7 +3,7 @@
 	"It seems that your browser is not HTML 5 compatible": "Parece que tu navegador no es compatible con HTML 5. Puedes utilizar cualquiera de los siguientes navegadores:",
 	"The specified video identifier does not exist": "El profesor no ha publicado este vídeo",
 	"This video is not published": "No estás autorizado a ver este recurso",
-	"You are not authorized to view this resource": "No se ha podido mostrar el vídeo porque no estás identificado en el sistema",
+	"You are not authorized to view this resource": "No se ha podido mostrar el vídeo porque no estás identificado en el sistema o no tienes permisos para verlo.",
 	"You are not logged in": "El vídeo no existe",
 	"Continue anyway": "Continuar de todos modos",
 	"1 second ago": "hace 1 segundo",
