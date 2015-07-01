@@ -74,6 +74,9 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 					});
 				}
 				if (videoData.thumbnail) videoData.thumbnail = repo.server + repo.endpoint + videoData._id + '/' + videoData.thumbnail;
+				if (!videoData.slides) {
+					videoData.slides = [];
+				}
 				videoData.slides.forEach(function(slide) {
 					if (slide.url) slide.url = repo.server + repo.endpoint + videoData._id + '/slides/' + slide.url;
 					if (slide.thumb) slide.thumb = repo.server + repo.endpoint + videoData._id + '/slides/' + slide.thumb;
@@ -148,8 +151,15 @@ exports.CheckVideo = function(req,res,next) {
 //	Output: res.data: the video data.
 exports.Where = function(query,select) {
 	return function(req,res,next) {
+		var paramRE = /:(\w[a-zA-Z0-9]*)/g;
+		var result = null;
+		while (result = paramRE.exec(query)) {
+			var varName = result[0];
+			var paramName = result[1];
+			query = query.replace(new RegExp(varName),req.params[paramName]);
+		}
 		var Video = require(__dirname + '/../models/video');
-		select = select || '-slides -hidden -roles -duration -source ' +
+		select = select || '-slides -hidden -roles -duration ' +
 			'-hiddenInSearches -canRead -canWrite ' +
 			'-deletionDate ' +
 			'-metadata -search -processSlides ';

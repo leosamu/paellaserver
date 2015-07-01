@@ -27,5 +27,19 @@ exports.routes = {
 			},
 			VideoController.LoadThumbnails,
 			CommonController.JsonResponse ]
+	},
+
+	getVideo: {
+		param:'id',
+		get:[
+			VideoController.Where("this.pluginData.youtube && this.pluginData.youtube.id==':id'",
+				'-slides -hidden -roles -duration ' +
+				'-hiddenInSearches -canRead -canWrite ' +
+				'-deletionDate ' +
+				'-metadata -search -processSlides '
+			),
+			VideoController.LoadUrlFromRepository,
+			CommonController.JsonResponse
+		]
 	}
 };
