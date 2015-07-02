@@ -186,3 +186,20 @@ exports.Create = function(req,res,next) {
 
 	}
 };
+
+
+// Update a video field
+//	Input:
+//	Output:
+exports.UpdateField = function(fieldName, inputParamName) {
+	return function(req,res,next) {
+		var value = req[inputParamName];
+		function updateField() {
+
+		}
+
+
+
+		next();
+	};
+};
