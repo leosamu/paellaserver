@@ -26,5 +26,6 @@
 	"sort":"Ordenar",
 	"sort_default":"Per defecte",
 	"sort_name":"Títol",
-	"sort_date":"Data"
+	"sort_date":"Data",
+	"sort_author":"Autor"
 }

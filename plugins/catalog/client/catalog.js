@@ -272,6 +272,26 @@
 			$scope.myVideos.sort(sortFunction);
 		};
 
+		$scope.sortAuthor = function() {
+			function sortFunction(a,b) {
+				a = a.owner.length && a.owner[0].contactData && a.owner[0].contactData.name;
+				b = b.owner.length && b.owner[0].contactData && b.owner[0].contactData.name;
+				if (a < b) {
+					return -1;
+				}
+				else if (a > b) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+
+			$scope.channels.sort(sortFunction);
+			$scope.videos.sort(sortFunction);
+			$scope.myVideos.sort(sortFunction);
+		};
+
 		// Cargar el contador de vídeos
 		Video.count().$promise
 			.then(function(result) {

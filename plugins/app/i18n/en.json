@@ -26,6 +26,7 @@
 	"sort":"Sort",
 	"sort_default":"Default",
 	"sort_name":"Title",
-	"sort_date":"Date"
+	"sort_date":"Date",
+	"sort_author":"Author"
 
 }
