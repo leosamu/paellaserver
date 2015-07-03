@@ -22,12 +22,12 @@ exports.routes = {
 	setYoutubeId: {
 		param:'youtubeId',
 		patch: [
-			//AuthController.EnsureAuthenticatedOrDigest,
+			AuthController.EnsureAuthenticatedOrDigest,
 			VideoController.LoadVideo,
 			function(req,res,next) {
 				if (req.data && req.data[0]) {
 					var video = req.data[0];
-					var pluginData = JSON.parse(JSON.stringify(video.pluginData));
+					var pluginData = JSON.parse(JSON.stringify(video.pluginData || {}));
 					pluginData.youtube = {
 						id: req.params.youtubeId
 					};
