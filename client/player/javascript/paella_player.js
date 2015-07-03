@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*** File: src/00_base.js ***/
 /*  
 	Paella HTML 5 Multistream Player
@@ -5839,31 +5840,12 @@ Class ("paella.DefaultInitDelegate", paella.InitDelegate, {
 	}
 });
 
+=======
+>>>>>>> d96b6038936e8a3561b5aeaf1d94699d75a60410
 /*
- *	playerContainer	Player DOM container id
- *	params.config			Use this configuration file
- *	params.data				Paella video data schema
- *	params.url				Repository URL
- */
-paella.load = function(playerContainer, params) {
-	var initObjects = {
-		accessControl: new paella.DefaultAccessControl(),
-		videoLoader: new paella.DefaultVideoLoader(params.data || params.url)
-	};
-
-	if (params.config) {
-		paella.initDelegate = new paella.DefaultInitDelegate(params.config, initObjects);
-	}
-	else {
-		paella.initDelegate = new paella.DefaultInitDelegate(initObjects);
-	}
-	new PaellaPlayer(playerContainer,paella.initDelegate);
-};
-
-/*** File: src/10_paella_extended_adapter.js ***/
-/*
-	Paella HTML 5 Multistream Player
+	Paella HTML5 Multistream Player v.4.1.2
 	Copyright (C) 2013  Universitat Politècnica de València
+<<<<<<< HEAD
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
