@@ -8,7 +8,7 @@ exports.routes = {
 	setYoutubeId: {
 		param:'youtubeId',
 		patch: [
-			//AuthController.EnsureAuthenticatedOrDigest,
+			AuthController.EnsureAuthenticatedOrDigest,
 			ChannelController.LoadChannel,
 			function(req,res,next) {
 				if (req.data) {
