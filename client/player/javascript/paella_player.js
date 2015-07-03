@@ -3657,35 +3657,40 @@ Class ("paella.captions.Caption", {
 	
 	reloadCaptions: function(next) {
 		var self = this;
-			
-		base.ajax.get({url: self._url},
-			function(data, contentType, returnCode, dataRaw) {
-				var parser = captionParserManager._formats[self._format];			
-				if (parser == undefined) {
-					base.log.debug("Error adding captions: Format not supported!");
-					if (next) { next(true); }
-				}
-				else {
-					parser.parse(dataRaw, self._lang.code, function(err, c) {
-						if (!err) {
-							self._captions = c;
-							
-							self._captions.forEach(function(cap){
-								self._index.add({
-									id: cap.id,
-									content: cap.content,
-								});				
-							});							
-						}
-						if (next) { next(err); }						
-					});
-				}
-			},						
-			function(data, contentType, returnCode) {
-				base.log.debug("Error loading captions: " + url);
+	
+	
+		jQuery.ajax({
+			url: self._url,
+			cache:false,
+			type: 'get',
+			dataType: "text",
+		})
+		.done(function(dataRaw){
+			var parser = captionParserManager._formats[self._format];			
+			if (parser == undefined) {
+				base.log.debug("Error adding captions: Format not supported!");
 				if (next) { next(true); }
 			}
-		);
+			else {
+				parser.parse(dataRaw, self._lang.code, function(err, c) {
+					if (!err) {
+						self._captions = c;
+						
+						self._captions.forEach(function(cap){
+							self._index.add({
+								id: cap.id,
+								content: cap.content,
+							});				
+						});							
+					}
+					if (next) { next(err); }						
+				});
+			}			
+		})
+		.fail(function(error){
+			base.log.debug("Error loading captions: " + self._url);
+				if (next) { next(true); }
+		});
 	},
 	
 	getCaptions: function() {
@@ -8983,6 +8988,12 @@ Class ("paella.plugins.CaptionsOnScreen",paella.EventDrivenPlugin,{
 			case paella.events.captionsEnabled:
 				thisClass.buildContent(params);
 				thisClass.captions = true;
+				if(paella.player.controls.isHidden()){
+					thisClass.moveCaptionsOverlay("down");
+				}
+				else {
+					thisClass.moveCaptionsOverlay("top");
+				}
 				break;
 			case paella.events.captionsDisabled:
 				thisClass.hideContent();
@@ -9518,7 +9529,7 @@ Class ("paella.plugins.DescriptionPlugin",paella.TabBarPlugin,{
   
 
 paella.plugins.descriptionPlugin = new paella.plugins.DescriptionPlugin();
-/*** File: plugins/es.upv.paella.editor.SnapShotsEditorPlugin/snapshots_editor.js ***/
+/*** File: plugins/es.upv.paella.editor.snapShotsEditorPlugin/snapshots_editor.js ***/
 Class ("paella.plugins.SnapShotsEditorPlugin",paella.editor.TrackPlugin,{
 	tracks:null,
 	selectedTrackItem:null,
@@ -12821,4 +12832,4 @@ Class ("paella.ZoomPlugin", paella.EventDrivenPlugin,{
 });
 
 paella.plugins.zoomPlugin = new paella.ZoomPlugin();
-paella.version = "4.1.0 - build: 513e07c";
+paella.version = "4.1.3 - build: 18285b4";

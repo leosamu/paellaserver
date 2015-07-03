@@ -216,7 +216,7 @@ textarea {
   text-decoration: underline;
 }
 /*** File: plugins/es.upv.paella.descriptionPlugin/description.less ***/
-/*** File: plugins/es.upv.paella.editor.SnapShotsEditorPlugin/snapshots_editor.less ***/
+/*** File: plugins/es.upv.paella.editor.snapShotsEditorPlugin/snapshots_editor.less ***/
 .snapShotsEditorPluginBox {
   width: 100%;
   height: 100%;
@@ -1503,5 +1503,5 @@ a.btn {
   margin-bottom: -3px;
   margin-right: 2px;
 }
-/*** File: /Users/fernando/Sites/paella/resources/style/skins/dark.less ***/
+/*** File: /Users/miesgre/paella/paella/resources/style/skins/dark.less ***/
 /* Light icons over dark background */
