@@ -143,7 +143,10 @@ exports.LoadChannel = function(req,res,next) {
 				});
 
 				Q.all(populationList).then(function() {
-					req.data = {
+					req.data = JSON.parse(JSON.stringify(data[0]));
+					req.data.videos = videos;
+					req.data.children = children;
+/*					req.data = {
 						_id:data[0]._id,
 						title: data[0].title,
 						creationDate: data[0].creationDate,
@@ -151,6 +154,7 @@ exports.LoadChannel = function(req,res,next) {
 						videos: videos,
 						children: children
 					};
+		*/
 					next();
 				});
 			}
