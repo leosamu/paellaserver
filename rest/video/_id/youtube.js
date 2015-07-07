@@ -23,6 +23,7 @@ exports.routes = {
 		param:'youtubeId',
 		patch: [
 			AuthController.EnsureAuthenticatedOrDigest,
+			AuthController.CheckRole(['YOUTUBE','ADMIN']),
 			VideoController.LoadVideo,
 			function(req,res,next) {
 				if (req.data && req.data[0]) {

@@ -145,3 +145,25 @@ exports.getAnonymousUser = function() {
 		}
 	};
 };
+
+exports.CheckRole = function(roles) {
+	return function(req,res,next) {
+		var user = req.user;
+		if (!user || !user.roles) {
+			res.status(403).json({ status:false, message:"No user logged" });
+		}
+		else {
+			var hasRole = user.roles.some(function(roleData) {
+				return roles.some(function(role) {
+						return roleData._id==role;
+					});
+			});
+			if (hasRole) {
+				next();
+			}
+			else {
+				res.status(401).json({ status:false, message:"Not authorized" });
+			}
+		}
+	}
+};
