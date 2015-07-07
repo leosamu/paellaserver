@@ -4,6 +4,7 @@
 		"ngRoute",
 		'pascalprecht.translate',
 		"catalogModule",
+		"statisticsModule",
 		"loginModule",
 		"legalModule"
 	]);
