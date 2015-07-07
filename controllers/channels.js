@@ -261,10 +261,11 @@ exports.Where = function(query,select) {
 	return function(req,res,next) {
 		var paramRE = /:(\w[a-zA-Z0-9]*)/g;
 		var result = null;
-		while (result = paramRE.exec(query)) {
+		var q = query;
+		while (result = paramRE.exec(q)) {
 			var varName = result[0];
 			var paramName = result[1];
-			query = query.replace(new RegExp(varName),req.params[paramName]);
+			q = q.replace(new RegExp(varName),req.params[paramName]);
 		}
 		var Channel = require(__dirname + '/../models/channel');
 		select = select || '-hidden -roles ' +
@@ -272,7 +273,7 @@ exports.Where = function(query,select) {
 			'-deletionDate ' +
 			'-metadata -search -processSlides ';
 
-		Channel.find({ $where:query })
+		Channel.find({ $where:q })
 			.skip(req.query.skip)
 			.limit(req.query.limit)
 			.select(select)
