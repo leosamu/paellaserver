@@ -253,3 +253,34 @@ exports.ParentsOfVideo = function(req,res,next) {
 		});
 };
 
+
+// Execute a $where query in the Video document
+//	Input: req.query.skip, req.query.limit, req.data.query
+//	Output: res.data: the video data.
+exports.Where = function(query,select) {
+	return function(req,res,next) {
+		var paramRE = /:(\w[a-zA-Z0-9]*)/g;
+		var result = null;
+		while (result = paramRE.exec(query)) {
+			var varName = result[0];
+			var paramName = result[1];
+			query = query.replace(new RegExp(varName),req.params[paramName]);
+		}
+		var Channel = require(__dirname + '/../models/channel');
+		select = select || '-hidden -roles ' +
+			'-hiddenInSearches -canRead -canWrite ' +
+			'-deletionDate ' +
+			'-metadata -search -processSlides ';
+
+		Channel.find({ $where:query })
+			.skip(req.query.skip)
+			.limit(req.query.limit)
+			.select(select)
+			.populate('repository','server endpoint')
+			.exec(function(err,data) {
+				req.data = data;
+				next();
+			});
+	};
+};
+

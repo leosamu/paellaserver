@@ -23,7 +23,6 @@
 					});
 			}
 
-
 			var defaultLanguage = $.cookie('language') ||  navigator.language.substring(0, 2);
 			loadDictionary('es');
 			loadDictionary('en');
@@ -31,7 +30,6 @@
 			loadDictionary('tlh');
 			$translateProvider.preferredLanguage(defaultLanguage);
 			document.head.setAttribute("lang",defaultLanguage);
-
 		}]);
 
 })();

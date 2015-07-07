@@ -189,6 +189,7 @@
 				.then(function(data) {
 					if (data._id!="0") {
 						$scope.logged = true;
+						$scope.isadmin = data.roles.some(function(r) { return r.isAdmin });
 						return Video.userVideos({ userId:data._id }).$promise
 							.then(function(data) {
 								$scope.myVideos = data;
