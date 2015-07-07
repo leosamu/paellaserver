@@ -155,7 +155,7 @@ exports.CheckRole = function(roles) {
 		else {
 			var hasRole = user.roles.some(function(roleData) {
 				return roles.some(function(role) {
-						return roleData._id==role;
+						return roleData==role || roleData._id==role;
 					});
 			});
 			if (hasRole) {
