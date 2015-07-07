@@ -72,7 +72,7 @@
                     </li>
                 </ul>
             </span>
-            <a class="ps-list-item ps-channel" ng-href="#/catalog/channel/{{channel._id}}" ng-class="{ 'ps-hidden':channel.hidden || video.hiddenInSearches }">
+            <a class="ps-list-item ps-channel" ng-href="#/catalog/channel/{{channel._id}}" ng-class="{ 'ps-hidden':(channel.hidden || channel.hiddenInSearches) && isAdmin }">
                 <div class="ps-view">
                     <h2 class="ps-title pull-left">
                         {{channel.title}}
@@ -107,7 +107,7 @@
                     </li>
                 </ul>
             </span>
-            <article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':video.hidden || video.hiddenInSearches }">
+            <article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(video.hidden || video.hiddenInSearches) && isAdmin }">
 
                     <img class="ps-image img-responsive" ng-src="{{thumbnail(video)}}" alt="{{video.title + ' image'}}"/>
                     <h2 class="ps-title text-center">
@@ -145,7 +145,7 @@
                     </li>
                 </ul>
             </span>
-            <article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':video.hidden || video.hiddenInSearches }">
+            <article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(video.hidden || video.hiddenInSearches) && isAdmin }">
 
                 <img class="ps-image img-responsive" ng-src="{{thumbnail(video)}}" alt="{{video.title + ' image'}}"/>
                 <h2 class="ps-title text-center">
