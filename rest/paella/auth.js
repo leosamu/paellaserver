@@ -108,6 +108,10 @@ exports.routes = {
 
 			var canWrite = false;
 			var canRead = false;
+			if (!video.permissions) {
+				video.permissions = [];
+			}
+			
 			video.permissions.some(function(videoRole) {
 				return req.user.roles.some(function(userRole) {
 					if (userRole._id==videoRole.role) {
