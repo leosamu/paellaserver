@@ -5,7 +5,8 @@
 			return $resource("/rest/video/:id", {}, {
 				parents: { url:"/rest/video/:id/parents" },
 				count: { url:"/rest/videos/count" },
-				userVideos: { url:"/rest/user/:userId/videos", isArray:true }
+				userVideos: { url:"/rest/user/:userId/videos", isArray:true },
+				get: {}
 			});
 		}]);
 })();
