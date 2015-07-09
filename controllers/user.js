@@ -15,6 +15,18 @@ exports.LoadUser = function(req,res,next) {
 		});
 };
 
+// Load only the public user data (name and lastname)
+exports.LoadBasicUserData = function(req,res,next) {
+	var User = require(__dirname + '/../models/user');
+	var select = '-search -processSlides -auth -roles -contactData.email';
+	User.find({ "_id":req.params.id})
+		.select(select)
+		.exec(function(err,data) {
+			req.data = data;
+			next();
+		});
+};
+
 // Search user using contact data field
 // 	Search query:  example: 'auth.UPV.nip'
 // 	Input: req.params.search: search string
@@ -45,5 +57,38 @@ exports.Search = function(field,type) {
 				req.data = data;
 				next();
 			});
+	}
+};
+
+// Search users that have videos of type Polimedia
+//	Input: none
+//	Output: req.data
+exports.Authors = function(type) {
+	return function(req,res,next) {
+		var Video = require(__dirname + '/../models/video');
+		Video.aggregate([
+				{
+					$match: {
+						"source.type" : type
+					}
+				},
+				{ $unwind : "$owner" },
+				{
+					$group: {
+						_id: "$owner",
+						count: { $sum: 1 }
+					}
+				}
+			],
+			function(err,result) {
+				if (err) {
+					req.status(500).json({ status:false, message:err.toString() });
+				}
+				else {
+					req.data = result;
+					next();
+				}
+			}
+		);
 	}
 };
