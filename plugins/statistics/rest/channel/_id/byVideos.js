@@ -1,25 +1,29 @@
 var elasticsearch = require('elasticsearch')
+var ChannelController = require(__dirname + '/../../../../../controllers/channels');
 
 exports.routes = {
-	byCountry: { get: [
+	byVideos: { get: [
+		ChannelController.LoadChannel,		
 		function(req,res,next) {			
+			
+			var q = [];
+			req.data.videos.forEach(function(v){
+				q.push("video.videoId:\""+v._id+"\"")
+			});			
+			var query = q.join(" OR ");
 			
 			var byCountrySearch = {
 			  "size": 0,
 			  "aggs": {
 			    "2": {
-			      "date_histogram": {
-			        "field": "date",
-			        "interval": "30m",
-			        "pre_zone": "+02:00",
-			        "pre_zone_adjust_large_interval": true,
-			        "min_doc_count": 1,
-			        "extended_bounds": {
-			          "min": 1436392800000,
-			          "max": 1436479199999
+			      "terms": {
+			        "field": "video.videoId",
+			        "size": 100,
+			        "order": {
+			          "_count": "desc"
 			        }
 			      }
-			    }
+			    }			    
 			  },
 			  "query": {
 			    "filtered": {
@@ -32,29 +36,27 @@ exports.routes = {
 			      "filter": {
 			        "bool": {
 			          "must": [
-					  	{
+		  	            {
 			              "query": {
-			                "match": {
-			                  "video.videoId": {
-			                    "query": req.params.id,
-			                    "type": "phrase"
-			                  }
+			                "query_string": {
+			                  "query": query,
+			                  "analyze_wildcard": true
 			                }
 			              }
 			            },				          
 			            {
 			              "query": {
 			                "query_string": {
-			                  "analyze_wildcard": true,
-			                  "query": "*"
+			                  "query": "*",
+			                  "analyze_wildcard": true
 			                }
 			              }
 			            },
 			            {
 			              "range": {
 			                "date": {
-			                  "gte": req.query.fromDate, //1436392800000,
-			                  "lte": req.query.toDate //1436479199999
+			                  "gte": 1436392800000,
+			                  "lte": 1436479199999
 			                }
 			              }
 			            }
@@ -89,6 +91,8 @@ exports.routes = {
 				else {
 					try {
 						var ret = [];
+						console.log(response.aggregations);
+						
 						response.aggregations["2"].buckets.forEach(function(e){
 							ret.push([e.key, e.doc_count]);
 						});

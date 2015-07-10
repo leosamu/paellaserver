@@ -2,14 +2,14 @@
 	<section class="ps-search-bar navbar navbar-default">
         <div class="container-fluid">
             <ui class="nav navbar-nav">
-            	<li><a href="/player/?id={{video._id}}&autoplay=true">{{video.title}}</a></li>
+            	<li><a href="/player/?id={{video._id}}&autoplay=true"> <span class="glyphicon glyphicon-facetime-video"></span> {{video.title}}</a></li>
             	<li>
             	</li>
             </ui>
 	        
             <ui class="nav navbar-nav pull-right">
-            	<li><a href data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-	            	{{ "Este año" | translate }}
+            	<li><a href data-toggle="collapse" data-target="#timeFilterCollapse" aria-expanded="false" aria-controls="timeFilterCollapse">
+	            	{{ "Select the time interval" | translate }}
 	            	<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
 	            </a></li>
             	<li>
@@ -18,33 +18,121 @@
         </div>
     </section>
     
-	<section id="collapseExample" class="ps-search-bar navbar navbar-default collapse">
-        <div class="container-fluid">
-            <ui class="nav navbar-nav">
-            	<li><a href>Selector</a></li>
-            </ui>
-        </div>
+	<section id="timeFilterCollapse" class="collapse">
+		<h2></h2>
+		<div class="container-fluid">
+			
+		    <ul class="nav nav-tabs">
+		        <li class="nav active"><a data-target="#timefilter" data-toggle="tab">Time Filter</a></li>
+		        <!-- <li class="nav"><a data-target="#refreshinterval" data-toggle="tab">Refresh Interval</a></li> -->
+		    </ul>				
+			<div class="panel panel-default">
+				<div class="panel-body">
+				    <!-- Tab panes -->
+				    <div class="tab-content">
+				        <div class="tab-pane fade in active" id="timefilter">
+
+							<div class="row">
+								<div class="col-md-2">
+									<ul class="nav nav-pills nav-stacked">
+								        <li class="nav active"><a data-target="#timequickfilter" data-toggle="tab">Quick</a></li>
+								        <li class="nav"><a data-target="#timeabsolutefilter" data-toggle="tab">Absolute</a></li>
+								    </ul>
+									
+								</div>
+								<div class="col-md-10">
+									<div class="tab-content">
+										<div class="tab-pane fade in active" id="timequickfilter">
+											<div style="float:left;">
+												<ul style="list-style:none; display:inline-block; vertical-align: top;">
+													<li><a class="btn btn-sm" ng-click="changeInterval('today');">Today</a></li>
+													<li><a class="btn btn-sm" ng-click="changeInterval('week');">This week</a></li>
+													<li><a class="btn btn-sm" ng-click="changeInterval('month');">This month</a></li>
+													<li><a class="btn btn-sm" ng-click="changeInterval('year');">This year</a></li>
+												</ul>
+												<ul style="list-style:none; display:inline-block; vertical-align: top;">
+													<li><a class="btn btn-sm" ng-click="changeInterval('course');">This course</a></li>
+													<li><a class="btn btn-sm" ng-click="changeInterval('semester');">This semester</a></li>
+												</ul>
+											</div>
+										</div>
+										<div class="tab-pane fade" id="timeabsolutefilter">
+											<div class="row">
+												<div class="col-md-4">
+													<div>From:</div>
+													<input type="datetime-local" class="form-control ng-pristine" ng-model="fromDateInput" required>
+												</div>
+												<div class="col-md-4">
+													<div>To:</div>
+													<input type="datetime-local" class="form-control ng-pristine" ng-model="toDateInput" required>
+												</div>
+												<div class="col-md-2">												
+													<div>&nbsp;</div>
+													<a href ng-click="changeTimeInterval(fromDateInput, toDateInput);" type="button" class="btn btn-primary">Go!</span></a>
+												</div>
+												
+											</div>
+										</div>
+									</div>									
+								</div>
+							</div>
+					        
+				        </div>
+				        <div class="tab-pane fade" id="refreshinterval">
+					        TODO
+					    </div>
+				    </div>
+				</div>
+			</div>
+			
+			
+		</div>
+		
+            
+	  	<section class="ps-search-bar">
+		  	<div class="container-fluid" style="text-align: center;">
+			  	<a href data-toggle="collapse" data-target="#timeFilterCollapse" aria-expanded="false" aria-controls="timeFilterCollapse">
+				  	<span class="glyphicon glyphicon-chevron-up"></span>
+	            </a>
+		  	</div>
+	    </section>          
+            
     </section>	
+
 	
 	<section>
-		<h2></h2>
-		
+		<h3>Estadisticas desde {{ fromDate | date:'medium' }} hasta {{ toDate | date:'medium'}}</h3>
+
 		<div class="panel panel-default">
-			<div class="panel-heading"><h3>{{ "Número de visitas" | translate}}</h3></div>
+			<div class="panel-heading">
+				<h3>
+					{{ "Número de visitas" | translate }}
+				</h3>
+			</div>
 			<div class="panel-body">
 				<h2 style="font-size: 60px; text-align: center;"> {{numVisits}} </h2>
 			</div>
 		</div>
 		
 		<div class="panel panel-default">
-			<div class="panel-heading"><h3>{{ "Visitas por fecha" | translate}}<h3></div>
+			<div class="panel-heading">
+				<h3>
+					{{ "Visitas por fecha" | translate}}
+					<a ng-show="byDateDownload" ng-href="{{byDateDownload}}" download="{{video.title}}-byDate.csv" type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span></a>
+				<h3>
+			</div>
 			<div class="panel-body">
 				<div google-chart="ColumnChart" ng-model="byDateChart" trigger="activateChart"></div>
 			</div>
 		</div>
 
 		<div class="panel panel-default">
-			<div class="panel-heading"><h3>{{ "Visitas por país" | translate}}</h3></div>
+			<div class="panel-heading">
+				<h3>
+					{{ "Visitas por país" | translate}}
+					<a ng-show="byCountryDownload" ng-href="{{byCountryDownload}}" download="{{video.title}}-byCountry.csv"type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span></a>
+				</h3>
+			</div>
 			<div class="panel-body">
 				<div google-chart="GeoChart" ng-model="byCountryChart" trigger="activateChart"></div>
 			</div>

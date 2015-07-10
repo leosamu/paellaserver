@@ -1,8 +1,16 @@
 var elasticsearch = require('elasticsearch')
+var ChannelController = require(__dirname + '/../../../../../controllers/channels');
 
 exports.routes = {
 	byCountry: { get: [
+		ChannelController.LoadChannel,		
 		function(req,res,next) {			
+			
+			var q = [];
+			req.data.videos.forEach(function(v){
+				q.push("video.videoId:\""+v._id+"\"")
+			});			
+			var query = q.join(" OR ");
 			
 			var byCountrySearch = {
 			  "size": 0,
@@ -32,13 +40,11 @@ exports.routes = {
 			      "filter": {
 			        "bool": {
 			          "must": [
-					  	{
+		  	            {
 			              "query": {
-			                "match": {
-			                  "video.videoId": {
-			                    "query": req.params.id,
-			                    "type": "phrase"
-			                  }
+			                "query_string": {
+			                  "query": query,
+			                  "analyze_wildcard": true
 			                }
 			              }
 			            },				          
@@ -53,8 +59,8 @@ exports.routes = {
 			            {
 			              "range": {
 			                "date": {
-			                  "gte": req.query.fromDate, //1436392800000,
-			                  "lte": req.query.toDate //1436479199999
+			                  "gte": 1436392800000,
+			                  "lte": 1436479199999
 			                }
 			              }
 			            }
