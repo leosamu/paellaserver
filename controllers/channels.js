@@ -88,14 +88,17 @@ exports.LoadChannel = function(req,res,next) {
 									}
 								});
 							});
+
 							videos.forEach(function(findVideo,index) {
 								if (findVideo._id==videoItem._id) {
-									if (!videoData[0].hidden || isAdmin) {
-										videos[index] = videoItem;
-									}
-									else {
-										videos.splice(index, 1);
-									}
+									videos[index] = videoItem;
+									// Do not hide videos
+									//if (!videoData[0].hidden || isAdmin) {
+									//	videos[index] = videoItem;
+									//}
+									//else {
+									//	videos.splice(index, 1);
+									//}
 								}
 							});
 						}));
@@ -130,12 +133,14 @@ exports.LoadChannel = function(req,res,next) {
 
 							children.forEach(function(findChannel,index) {
 								if (findChannel._id==channelItem._id) {
-									if (!channelData[0].hidden || isAdmin) {
-										children[index] = channelItem;
-									}
-									else {
-										children.splice(index, 1);
-									}
+									children[index] = channelItem;
+									// Do not hide children
+									//if (!channelData[0].hidden || isAdmin) {
+									//	children[index] = channelItem;
+									//}
+									//else {
+									//	children.splice(index, 1);
+									//}
 								}
 							});
 

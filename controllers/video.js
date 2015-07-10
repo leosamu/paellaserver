@@ -22,6 +22,28 @@ exports.LoadVideos = function(req,res,next) {
 		});
 };
 
+
+// Load newest vides (title and identifier) list
+//	Input: req.query.skip, req.query.limit, req.data.query
+//	Output: res.data [ { _id:"video_id", title:"video_title" } ]
+exports.Newest = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	var select = '-slides -hidden -roles -duration -source -blackboard ' +
+		'-hiddenInSearches -canRead -canWrite ' +
+		'-deletionDate -pluginData ' +
+		'-metadata -search -processSlides ';
+	var query = req.data ? req.data.query:null;
+	Video.find(query)
+		.skip(req.query.skip)
+		.limit(req.query.limit)
+		.sort({ creationDate:'desc' })
+		.select(select)
+		.exec(function(err,data) {
+			req.data = data;
+			next();
+		});
+};
+
 // Gets the number of videos in the catalog
 // 	Output: res.data > the number of videos
 exports.Count = function(req,res,next) {

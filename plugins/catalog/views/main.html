@@ -72,13 +72,14 @@
                     </li>
                 </ul>
             </span>
-            <a class="ps-list-item ps-channel" ng-href="#/catalog/channel/{{channel._id}}" ng-class="{ 'ps-hidden':(channel.hidden || channel.hiddenInSearches) && isAdmin }">
+            <a class="ps-list-item ps-channel" ng-href="{{ getChannelUrl(channel) }}" ng-class="{ 'ps-hidden':(channel.hidden || channel.hiddenInSearches), 'ps-admin':isAdmin }">
                 <div class="ps-view">
                     <h2 class="ps-title pull-left">
                         {{channel.title}}
                         <p class="ps-date">{{channel.creationDate | date:"dd/MM/yyyy" }}</p>
                         <p class="ps-author">{{ownerName(channel)}}</p>
                     </h2>
+                    <div class="ps-lock" ng-show="channel.hidden || channel.hiddenInSearches"><i class="glyphicon glyphicon-lock"></i></div>
                     <img class="pm-image img-responsive pull-right hidden-xs" ng-src="{{thumbnail(channel)}}" alt="{{channel.title + ' image'}}"/>
                 </div>
                 <div class="ps-edit text-right hidden-xs">
@@ -107,9 +108,10 @@
                     </li>
                 </ul>
             </span>
-            <article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(video.hidden || video.hiddenInSearches) && isAdmin }">
+            <article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(video.hidden || video.hiddenInSearches), 'ps-admin':isAdmin }">
 
                     <img class="ps-image img-responsive" ng-src="{{thumbnail(video)}}" alt="{{video.title + ' image'}}"/>
+                    <div class="ps-lock" ng-show="video.hidden || video.hiddenInSearches"><i class="glyphicon glyphicon-lock"></i></div>
                     <h2 class="ps-title text-center">
                         {{video.title}}
                         <br/>
@@ -145,9 +147,10 @@
                     </li>
                 </ul>
             </span>
-            <article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(video.hidden || video.hiddenInSearches) && isAdmin }">
+            <article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(video.hidden || video.hiddenInSearches), 'ps-admin': isAdmin }">
 
                 <img class="ps-image img-responsive" ng-src="{{thumbnail(video)}}" alt="{{video.title + ' image'}}"/>
+                <div class="ps-lock" ng-show="video.hidden || video.hiddenInSearches"><i class="glyphicon glyphicon-lock"></i></div>
                 <h2 class="ps-title text-center">
                     {{video.title}}
                     <br/>

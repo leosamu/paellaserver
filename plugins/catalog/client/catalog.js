@@ -43,7 +43,7 @@
 			}
 			return false;
 		};
-		
+
 		$scope.showVideos = function() {
 			if ($scope.numVideos()>0) {
 				$scope.currentTab = 1;
@@ -138,16 +138,38 @@
 			location.href = "#/catalog/channel/" + channel._id;
 		};
 
+		function isVisible(resource) {
+			if ($scope.isSearch) {
+				return !resource.hiddenInSearches;
+			}
+			else {
+				return !resource.hidden;
+			}
+		}
+
 		$scope.openVideo = function(video) {
-			window.open("player/?id=" + video._id + "&autoplay=true");
+			if ($scope.isAdmin || isVisible(video)) {
+				window.open("player/?id=" + video._id + "&autoplay=true");
+			}
+		};
+
+		$scope.getChannelUrl = function(channel) {
+			if ($scope.isAdmin || isVisible(channel)) {
+				return "#/catalog/channel/" + channel._id;
+			}
+			else {
+				return "";
+			}
 		};
 
 		$scope.doSearch = function() {
 			$scope.loading = true;
 			if ($scope.searchText && $scope.searchText!="") {
+				$scope.isSearch = true;
 				location.href = "#/catalog/search/" + encodeURI($scope.searchText);
 			}
 			else if (!$scope.channelId) {
+				$scope.isSearch = false;
 				location.href = "#/catalog";
 			}
 

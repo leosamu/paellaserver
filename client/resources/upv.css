@@ -186,7 +186,6 @@ footer {
 }
 
 .ps-hidden {
-	opacity: 0.4;
 }
 
 .ps-badge {
@@ -211,4 +210,17 @@ footer {
 
 .ps-search-bar-container {
 	line-height: 48px;
+}
+
+.ps-lock {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 5em;
+	color: orange;
 }
