@@ -60,12 +60,16 @@ module.exports = {
 			var itemPath = path + "/" + entry;
         	var stats = fs.lstatSync(itemPath);
         	if (stats.isDirectory()) {
-        		This.routeDirectory(router,itemPath,pluginName);
+        		This.routeDirectory(router,itemPath);
         	}
         	else {
-        		if (pluginName) {
+				var re = /plugins\/(\w+)\/rest(\/.*)*$/i;
+        		if (re.test(path)) {
+					var reData = re.exec(path);
+					var pluginName = reData[1];
+					var pluginSubpath = reData[2] || "/";
         			var pluginEndpoint = configure.config && configure.config.plugins ? configure.config.plugins.endpoint:'/rest/plugins/';
-        			endpoint = pluginEndpoint + pluginName + '/' + entry.split('.')[0];
+        			endpoint = pluginEndpoint + pluginName + pluginSubpath + entry.split('.')[0];
         			This.routeFile(router,itemPath,endpoint);
         		}
         		else {
