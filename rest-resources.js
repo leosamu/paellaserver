@@ -60,7 +60,7 @@ module.exports = {
 			var itemPath = path + "/" + entry;
         	var stats = fs.lstatSync(itemPath);
         	if (stats.isDirectory()) {
-        		This.routeDirectory(router,itemPath);
+        		This.routeDirectory(router,itemPath,pluginName);
         	}
         	else {
         		if (pluginName) {
