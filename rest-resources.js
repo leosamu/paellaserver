@@ -69,7 +69,7 @@ module.exports = {
 					var pluginName = reData[1];
 					var pluginSubpath = reData[2] || "/";
         			var pluginEndpoint = configure.config && configure.config.plugins ? configure.config.plugins.endpoint:'/rest/plugins/';
-        			endpoint = pluginEndpoint + pluginName + pluginSubpath + entry.split('.')[0];
+        			endpoint = pluginEndpoint + pluginName + pluginSubpath + '/' + entry.split('.')[0];
         			This.routeFile(router,itemPath,endpoint);
         		}
         		else {
