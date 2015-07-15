@@ -1,0 +1,37 @@
+<section class="ps-channel-list row">
+    <!--   <pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination> -->
+    <div class="col-md-6 col-xs-12" ng-repeat="channel in channels">
+        <span class="dropdown ps-item-menu" dropdown on-toggle="loadChannelParents(channel._id)">
+            <button class="glyphicon glyphicon-option-horizontal dropdown-toggle" dropdown-toggle>
+                <!--Listado de canales que incluyen este recurso-->
+            </button>
+            <ul class="dropdown-menu">
+                <li><p>{{ "parent_channels_text" | translate }}:</p></li>
+                <li class="divider"></li>
+                <li ng-repeat="parent in parents" ng-show="parent._id!='default'" ng-class="{ disabled:parent._id==channelId }">
+                    <a href ng-href="#/catalog/channel/{{parent._id}}">{{parent.title}}</a>
+                </li>
+            </ul>
+        </span>
+        <a class="ps-list-item ps-channel" ng-href="{{ getChannelUrl(channel) }}" ng-class="{ 'ps-hidden':(channel.hidden || channel.hiddenInSearches), 'ps-admin':isAdmin }">
+            <div class="ps-view">
+                <h2 class="ps-title pull-left">
+                    {{channel.title}}
+                    <p class="ps-date">{{channel.creationDate | date:"dd/MM/yyyy" }}</p>
+                    <p class="ps-author">{{ownerName()}}</p>
+                </h2>
+                <div class="ps-lock" ng-show="channel.hidden || channel.hiddenInSearches"><i class="glyphicon glyphicon-lock"></i></div>
+                <img class="pm-image img-responsive pull-right hidden-xs" ng-src="{{thumbnail(channel)}}" alt="{{channel.title + ' image'}}"/>
+            </div>
+            <div class="ps-edit text-right hidden-xs">
+                <!--
+                <button class="btn">Delete</button>
+                <button class="btn">Move Up</button>
+                <button class="btn">Move Down</button>
+                <button class="btn">Channels</button>
+                <button class="btn">Edit</button>
+                -->
+            </div>
+        </a>
+    </div>
+</section>
