@@ -11,6 +11,8 @@
 		$scope.channelId = $scope.searchText=="" ? $routeParams.id:null;
 		$scope.totalVideos = 0;
 
+		$scope.isEmbed = /embed/i.test(window.location.href);
+
 		function addSortingIndexes(collection) {
 			collection.forEach(function(item,index) {
 				item.defaultSortingIndex = index;
