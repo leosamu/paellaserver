@@ -3,6 +3,10 @@ body {
 	font-size: 12px;
 }
 
+body.ps-body-embed {
+	background-color: transparent;
+}
+
 h1 {
 	padding-left: 17px;
 	font-size: 2em;

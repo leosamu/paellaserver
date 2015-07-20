@@ -1,35 +1,14 @@
 <main>
-    <section class="ps-search-bar navbar navbar-default">
-        <div class="container-fluid">
-            <form class="ps-search navbar-form navbar-left" ng-submit="doSearch()">
-                <input type="search" class="form-control" ng-model="searchText" placeholder="{{ 'search_text' | translate }}"/>
-                <input type="submit" class="btn btn-default" value="{{ 'search_text' | translate }}">
-            </form>
+    <search-bar channels="channels"
+                videos="videos"
+                my-videos="myVideos"
+                search-text="searchText"
+                do-search-function="doSearch"
+                current-tab="currentTab"
+                show-search="true"
+                show-sort="true"
+            ></search-bar>
 
-            <ui class="nav navbar-nav">
-                <li ng-class="{ active:videoTabSelected() }"><a href ng-click="showVideos()">{{ "videos_text" | translate }} <span class="badge ps-badge" ng-show="numVideos()>0">{{numVideos()}}</span></a></li>
-                <li ng-class="{ active:channelTabSelected() }"><a href ng-click="showChannels()">{{ "channels_text" | translate }} <span class="badge ps-badge" ng-show="numChannels()>0">{{numChannels()}}</span></a></li>
-                <li ng-class="{ active:myVideosTabSelected() }"><a href ng-click="showMyVideos()">{{ "myvideos_text" | translate }} <span class="badge ps-badge" ng-show="numMyVideos()>0">{{numMyVideos()}}</span></a></li>
-            </ui>
-
-            <ui class="nav navbar-nav pull-right">
-                <li>
-                    <div class="ps-search-bar-container" dropdown is-open="status.isopen">
-                        <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-                            {{ "sort" | translate }} <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                            <li><a href="" ng-click="sortDefault()">{{ "sort_default" | translate }}</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="" ng-click="sortName()">{{ "sort_name" | translate }}</a></li>
-                            <li><a href="" ng-click="sortDate()">{{ "sort_date" | translate }}</a></li>
-                            <li><a href="" ng-click="sortAuthor()">{{ "sort_author" | translate }}</a></li>
-                        </ul>
-                    </div>
-                </li>
-            </ui>
-        </div>
-    </section>
     <section class="ps-current-channel" ng-show="channelData">
         <h1>
             {{channelData.title}}
@@ -53,24 +32,7 @@
 
     </section>
 
-    <section class="ps-loader-container col-xs-offset-4 col-xs-4" ng-show="loading">
-        <span class="ps-loader"></span>
-    </section>
+    <loader ng-show="loading"></loader>
+    <catalog-contents channels="channels" videos="videos" is-admin="isAdmin" is-search="isSearch" show-parents="true" current-tab="currentTab"></catalog-contents>
 
-    <section class="ps-channel-list row" ng-show="channelTabSelected()">
-        <div class="col-md-6 col-xs-12" ng-repeat="channel in channels">
-            <channel-item channel="channel" is-admin="isAdmin" is-search="isSearch" show-parents="true"></channel-item>
-        </div>
-    </section>
-    <section class="ps-video-list row" ng-show="videoTabSelected()">
-        <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="video in videos">
-            <video-item video="video" is-admin="isAdmin" is-search="isSearch" show-parents="true"></video-item>
-        </div>
-    </section>
-
-    <section class="ps-video-list row" ng-show="myVideosTabSelected()">
-        <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="video in myVideos">
-            <video-item video="video" is-admin="isAdmin" is-search="isSearch" show-parents="true"></video-item>
-        </div>
-    </section>
 </main>

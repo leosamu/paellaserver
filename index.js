@@ -73,6 +73,12 @@ router.get(['/index.html','/'], function(req,res) {
 	res.send(clientIndex);
 });
 
+var clientEmbed = ClientResources.getClientHtml(__dirname + '/client/embed.html');
+router.get(['/embed.html','/'], function(req,res) {
+	res.setHeader("content-type","text/html");
+	res.send(clientEmbed);
+});
+
 app.use(router);
 
 app.use(express.static(__dirname + '/client'));

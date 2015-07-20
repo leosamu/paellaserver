@@ -1,7 +1,7 @@
 (function() {
 	var catalogModule = angular.module('catalogModule',["ngRoute","ngResource","ui.bootstrap"]);
 
-	var CatalogController = function($scope,$routeParams,Channel,Video,User) {
+	catalogModule.controller('CatalogController', ["$scope","$routeParams","Channel","Video","User",function($scope,$routeParams,Channel,Video,User) {
 		$scope.channels = [];
 		$scope.videos = [];
 		$scope.myVideos = [];
@@ -126,42 +126,6 @@
 			return videoScore>=channelScore ? $scope.showVideos():$scope.showChannels();
 		};
 
-		// Pagination
-		$scope.totalItems = 10;
-		$scope.currentPage = 1;
-		
-		$scope.pageChanged = function() {
-			console.log("Page changed: " + $scope.currentPage);
-		};
-
-		$scope.navigateChannel = function(channel) {
-			location.href = "#/catalog/channel/" + channel._id;
-		};
-
-		function isVisible(resource) {
-			if ($scope.isSearch) {
-				return !resource.hiddenInSearches;
-			}
-			else {
-				return !resource.hidden;
-			}
-		}
-
-		$scope.openVideo = function(video) {
-			if ($scope.isAdmin || isVisible(video)) {
-				window.open("player/?id=" + video._id + "&autoplay=true");
-			}
-		};
-
-		$scope.getChannelUrl = function(channel) {
-			if ($scope.isAdmin || isVisible(channel)) {
-				return "#/catalog/channel/" + channel._id;
-			}
-			else {
-				return "";
-			}
-		};
-
 		$scope.doSearch = function() {
 			$scope.loading = true;
 			if ($scope.searchText && $scope.searchText!="") {
@@ -224,16 +188,7 @@
 				});
 			$scope.myVideos = [];
 		};
-		
-		$scope.ownerName = function(channel) {
-			var contactData = channel.owner.length ? channel.owner[0].contactData:{};
-			return contactData ? contactData.name + " " + contactData.lastName:"anonymous";
-		};
 
-		$scope.thumbnail = function(item) {
-			return item.thumbnail || (item.source ? 'resources/images/video-placeholder.jpg':'resources/images/channel-placeholder.gif');
-		};
-		
 		$scope.doSearch();
 		$scope.loadMyVideos();
 
@@ -320,10 +275,7 @@
 			.then(function(result) {
 				$scope.totalVideos = result.count;
 			});
-	};
-
-	CatalogController.$inject = ["$scope","$routeParams","Channel","Video","User"];
-	catalogModule.controller('CatalogController',CatalogController);
+	}]);
 
 	catalogModule.config(['$routeProvider', function($routeProvider) {
 		$routeProvider.
