@@ -1,0 +1,100 @@
+<main>
+	<header-time-selector></header-time-selector>
+	
+	<section ng-controller="ViewMainStatisticsController">
+		<h3>Estadísticas desde {{ fromDate | date:'medium' }} hasta {{ toDate | date:'medium'}}</h3>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Número de visitas" | translate }}
+				</h3>
+			</div>
+			<div class="panel-body">
+				<h2 style="font-size: 60px; text-align: center;"> {{numVisits}} </h2>
+			</div>
+		</div>
+		
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Num visits by catalog" | translate }}
+					<a ng-show="byCatalogDownload" ng-href="{{byCatalogDownload}}" download="{{$parent.header.title}}-byCatalog.csv" type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span></a>
+				</h3>
+			</div>
+			<div class="panel-body">
+			    <table class="table">
+			        <thead>
+			            <tr>
+			                <th>{{ "Catalog" | translate }}</th>
+			                <th>{{ "Num videos viewed" | translate}}</th>
+			                <!--<th>%</th> -->
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr ng-repeat="c in byCatalog">
+			                <td>{{c[0]}}</td>
+			                <td>{{c[1]}}</td>
+			                <!--<td>{{(100*c.count / videosAdded.count) | number: 2}}%</td> -->
+			            </tr>
+			        </tbody>
+			    </table>
+			</div>
+		</div>
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Top 10 authors more viewed" | translate }}
+					<a ng-show="byAuthorDownload" ng-href="{{byAuthorDownload}}" download="{{$parent.header.title}}-byAuthors.csv" type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span></a>
+				</h3>
+			</div>
+			<div class="panel-body">
+			    <table class="table">
+			        <thead>
+			            <tr>
+			                <th>{{ "Author" | translate }}</th>
+			                <th>{{ "Num videos viewed" | translate}}</th>
+			                <!-- <th>%</th> -->
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr ng-repeat="o in byAuthor | limitTo: 20">
+			                <td>{{o[0]}}</td>
+			                <td>{{o[1]}}</td>
+			                <!-- <td>{{(100*o.count / videosAdded.count) | number: 2}}%</td> -->
+			            </tr>
+			        </tbody>
+			    </table>
+			</div>
+		</div>
+		
+		
+				
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Visitas por fecha" | translate}}
+					<a ng-show="byDateDownload" ng-href="{{byDateDownload}}" download="{{$parent.header.title}}-byDate.csv" type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span></a>
+				<h3>
+			</div>
+			<div class="panel-body">
+				<div google-chart="ColumnChart" ng-model="byDateChart" trigger="activateChart"></div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Visitas por país" | translate}}
+					<a ng-show="byCountryDownload" ng-href="{{byCountryDownload}}" download="{{$parent.header.title}}-byCountry.csv"type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span></a>
+				</h3>
+			</div>
+			<div class="panel-body">
+				<div google-chart="GeoChart" ng-model="byCountryChart" trigger="activateChart"></div>
+			</div>
+		</div>
+	</section>
+</main>

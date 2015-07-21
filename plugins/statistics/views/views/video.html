@@ -1,0 +1,42 @@
+<main>
+	<header-time-selector></header-time-selector>
+	
+	<section ng-controller="ViewVideoStatisticsController">
+		<h3>Estadisticas desde {{ fromDate | date:'medium' }} hasta {{ toDate | date:'medium'}}</h3>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Número de visitas" | translate }}
+				</h3>
+			</div>
+			<div class="panel-body">
+				<h2 style="font-size: 60px; text-align: center;"> {{numVisits}} </h2>
+			</div>
+		</div>
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Visitas por fecha" | translate}}
+					<a ng-show="byDateDownload" ng-href="{{byDateDownload}}" download="{{video.title}}-byDate.csv" type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span></a>
+				<h3>
+			</div>
+			<div class="panel-body">
+				<div google-chart="ColumnChart" ng-model="byDateChart" trigger="activateChart"></div>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Visitas por país" | translate}}
+					<a ng-show="byCountryDownload" ng-href="{{byCountryDownload}}" download="{{video.title}}-byCountry.csv"type="button" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-download-alt"></span></a>
+				</h3>
+			</div>
+			<div class="panel-body">
+				<div google-chart="GeoChart" ng-model="byCountryChart" trigger="activateChart"></div>
+			</div>
+		</div>
+	</section>
+</main>

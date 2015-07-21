@@ -1,12 +1,30 @@
 var elasticsearch = require('elasticsearch')
+var ChannelController = require(__dirname + '/../../../../../../controllers/channels');
 
 exports.routes = {
 	byCountry: { get: [
+		ChannelController.LoadChannel,		
 		function(req,res,next) {
 			
-			var byCountrySearch = {
+			var q = [];
+			req.data.videos.forEach(function(v){
+				q.push("video.videoId:\""+v._id+"\"")
+			});			
+			var query = q.join(" OR ");
+			
+			var byCountrySearch = JSON.stringify({
 			  "size": 0,
-			  "aggs": {},
+			  "aggs": {
+			    "2": {
+			      "terms": {
+			        "field": "user.country",
+			        "size": 50,
+			        "order": {
+			          "_count": "desc"
+			        }
+			      }
+			    }
+			  },
 			  "query": {
 			    "filtered": {
 			      "query": {
@@ -18,13 +36,11 @@ exports.routes = {
 			      "filter": {
 			        "bool": {
 			          "must": [
-					  	{
+		  	            {
 			              "query": {
-			                "match": {
-			                  "video.videoId": {
-			                    "query": req.params.id,
-			                    "type": "phrase"
-			                  }
+			                "query_string": {
+			                  "query": query,
+			                  "analyze_wildcard": true
 			                }
 			              }
 			            },				          
@@ -61,11 +77,32 @@ exports.routes = {
 			      "*": {}
 			    }
 			  }
-			};
+			});
 			
+			var f = new Date(parseInt(req.query.fromDate));
+			var t = new Date(parseInt(req.query.toDate));
+			
+			var index = 'media2events-*'
+			if (f.getUTCFullYear() == t.getUTCFullYear()) {
+				if (f.getUTCMonth() == t.getUTCMonth()) {
+					index = 'media2events-' + f.getUTCFullYear() + "." + ("0" + (f.getUTCMonth()+1)).slice(-2);
+				}
+				else {
+					index = 'media2events-' + f.getUTCFullYear() + ".*";
+				}
+			}
+			else {
+				var ii = [];
+				
+				for(var y = f.getUTCFullYear(); y <= t.getUTCFullYear(); y++ ) {
+					ii.push("media2events-" + y + ".*")
+				}
+				index = ii.join(",");
+			}
+						
 			var client = new elasticsearch.Client({host: 'localhost:9200'});			
 			client.search({
-				index: 'media2events-*',
+				index: index,
 				body: byCountrySearch
 			}, function (error, response) {
 				if (error) {
@@ -74,7 +111,12 @@ exports.routes = {
 				}
 				else {
 					try {
-						res.json({count: response.hits.total});
+						var ret = [];
+						response.aggregations["2"].buckets.forEach(function(e){
+							ret.push([e.key, e.doc_count]);
+						});
+						
+						res.json(ret);					
 					}
 					catch(e) {
 						res.status(501);

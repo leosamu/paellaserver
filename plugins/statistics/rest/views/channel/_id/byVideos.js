@@ -1,10 +1,10 @@
 var elasticsearch = require('elasticsearch')
-var ChannelController = require(__dirname + '/../../../../../controllers/channels');
+var ChannelController = require(__dirname + '/../../../../../../controllers/channels');
 
 exports.routes = {
-	byCountry: { get: [
+	byVideos: { get: [
 		ChannelController.LoadChannel,		
-		function(req,res,next) {
+		function(req,res,next) {			
 			
 			var q = [];
 			req.data.videos.forEach(function(v){
@@ -12,18 +12,18 @@ exports.routes = {
 			});			
 			var query = q.join(" OR ");
 			
-			var byCountrySearch = JSON.stringify({
+			var byCountrySearch = {
 			  "size": 0,
 			  "aggs": {
 			    "2": {
 			      "terms": {
-			        "field": "user.country",
-			        "size": 50,
+			        "field": "video.videoId",
+			        "size": 100,
 			        "order": {
 			          "_count": "desc"
 			        }
 			      }
-			    }
+			    }			    
 			  },
 			  "query": {
 			    "filtered": {
@@ -47,16 +47,16 @@ exports.routes = {
 			            {
 			              "query": {
 			                "query_string": {
-			                  "analyze_wildcard": true,
-			                  "query": "*"
+			                  "query": "*",
+			                  "analyze_wildcard": true
 			                }
 			              }
 			            },
 			            {
 			              "range": {
 			                "date": {
-			                  "gte": 1436392800000,
-			                  "lte": 1436479199999
+			                  "gte": req.query.fromDate, //1436392800000,
+			                  "lte": req.query.toDate //1436479199999
 			                }
 			              }
 			            }
@@ -77,11 +77,32 @@ exports.routes = {
 			      "*": {}
 			    }
 			  }
-			});
+			};
 			
+			var f = new Date(parseInt(req.query.fromDate));
+			var t = new Date(parseInt(req.query.toDate));
+			
+			var index = 'media2events-*'
+			if (f.getUTCFullYear() == t.getUTCFullYear()) {
+				if (f.getUTCMonth() == t.getUTCMonth()) {
+					index = 'media2events-' + f.getUTCFullYear() + "." + ("0" + (f.getUTCMonth()+1)).slice(-2);
+				}
+				else {
+					index = 'media2events-' + f.getUTCFullYear() + ".*";
+				}
+			}
+			else {
+				var ii = [];
+				
+				for(var y = f.getUTCFullYear(); y <= t.getUTCFullYear(); y++ ) {
+					ii.push("media2events-" + y + ".*")
+				}
+				index = ii.join(",");
+			}
+						
 			var client = new elasticsearch.Client({host: 'localhost:9200'});			
 			client.search({
-				index: 'media2events-*',
+				index: index,
 				body: byCountrySearch
 			}, function (error, response) {
 				if (error) {
@@ -91,6 +112,8 @@ exports.routes = {
 				else {
 					try {
 						var ret = [];
+						console.log(response.aggregations);
+						
 						response.aggregations["2"].buckets.forEach(function(e){
 							ret.push([e.key, e.doc_count]);
 						});

@@ -1,31 +1,73 @@
 <main>
-	<section class="ps-search-bar navbar navbar-default">
-        <div class="container-fluid">
-            <ui class="nav navbar-nav pull-right">
-            	<li><a href data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-	            	{{ "This Year" | translate }}
-	            	<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-	            </a></li>
-            	<li>
-            	</li>
-            </ui>
-        </div>
-    </section>
-    
-	<section id="collapseExample" class="ps-search-bar navbar navbar-default collapse">
-        <div class="container-fluid">
-            <ui class="nav navbar-nav">
-            	<li><a href>Selector</a></li>
-            </ui>
-        </div>
-    </section>	
-	
-	
-	<h2>Create A Bar Chart With D3 JavaScript</h2>
-	
-	<div id="chart">
-	  <svg id="test1" style="height: 400px;"></svg>
-	</div>
-	
-		
+	<header-time-selector></header-time-selector>
+				
+	<section ng-controller="VideoaAddedStatisticsController">
+		<h3>Estadísticas desde {{ fromDate | date:'medium' }} hasta {{ toDate | date:'medium'}}</h3>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Videos added" | translate }}
+				</h3>
+			</div>
+			<div class="panel-body">
+				<h2 style="font-size: 60px; text-align: center;"> {{videosAdded.count}} </h2>
+			</div>
+		</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Videos added by catalog" | translate }}
+				</h3>
+			</div>
+			<div class="panel-body">
+			    <table class="table">
+			        <thead>
+			            <tr>
+			                <th>{{ "Catalog" | translate }}</th>
+			                <th>{{ "Videos added" | translate}}</th>
+			                <th>%</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr ng-repeat="c in videosAdded.catalogs">
+			                <td>{{c._id}}</td>
+			                <td>{{c.count}}</td>
+			                <td>{{(100*c.count / videosAdded.count) | number: 2}}%</td>
+			            </tr>
+			        </tbody>
+			    </table>
+			</div>
+		</div>
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>
+					{{ "Top 20 authors" | translate }}
+				</h3>
+			</div>
+			<div class="panel-body">
+			    <table class="table">
+			        <thead>
+			            <tr>
+			                <th>{{ "Author" | translate }}</th>
+			                <th>{{ "Videos added" | translate}}</th>
+			                <th>%</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr ng-repeat="o in byOwner | limitTo: 20">
+			                <td>{{o._id.contactData.name}} {{o._id.contactData.lastName}}</td>
+			                <td>{{o.count}}</td>
+			                <td>{{(100*o.count / videosAdded.count) | number: 2}}%</td>
+			            </tr>
+			        </tbody>
+			    </table>
+			</div>
+		</div>
+
+
+	</section>
 </main>

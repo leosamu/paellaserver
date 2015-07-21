@@ -1,5 +1,13 @@
 (function() {
-	var statisticsModule = angular.module('statisticsModule',["ngRoute", "statisticsVideoControllerModule", "statisticsChannelControllerModule"]);
+	var statisticsModule = angular.module('statisticsModule',["ngRoute", "statisticsViewModule"]);
+
+	statisticsModule.directive("headerTimeSelector",function(){  
+		return{
+			restrict : "E",
+			templateUrl: "statistics/views/headerTimeSelector.html"
+		};
+	});
+
 	
 	statisticsModule.directive("googleChart",function(){  
 	    return{
@@ -70,18 +78,110 @@
 				templateUrl: 'statistics/views/main.html',
 				controller: "StatisticsController"
 			}).
-			when('/statistics/video/:id',{
-				templateUrl: 'statistics/views/video.html',
-				controller: "VideoStatisticsController"
+			when('/statistics/views',{
+				templateUrl: 'statistics/views/views/main.html',
+				controller: "StatisticsController"
 			}).
-			when('/statistics/channel/:id',{
-				templateUrl: 'statistics/views/channel.html',
-				controller: "ChannelStatisticsController"
+			when('/statistics/views/video/:id',{
+				templateUrl: 'statistics/views/views/video.html',
+				controller: "StatisticsController"
+			}).
+			when('/statistics/views/user/:id',{
+				templateUrl: 'statistics/views/views/user.html',
+				controller: "StatisticsController"
+			}).
+			when('/statistics/views/channel/:id',{
+				templateUrl: 'statistics/views/views/channel.html',
+				controller: "StatisticsController"
 			});
 	}]);	
 	
+		
+	statisticsModule.controller('StatisticsController',["$scope", "$http", "$routeParams", "Statistics", function($scope, $http, $routeParams, Statistics) {
+		
+		$scope.reloadStats = function() {
+			$scope.$broadcast('reloadStats');
+		};
+		
+		$scope.changeTimeInterval = function(fd, td){
+				$scope.fromDate = $scope.fromDateInput = fd;
+				$scope.toDate = $scope.toDateInput = td;
+				$scope.reloadStats();
+		};
+		
+		$scope.changeInterval = function(val){
+			if (val == 'today') {
+				$scope.changeTimeInterval( moment().startOf('day').toDate(), $scope.toDate = moment().endOf('day').toDate() );
+			}
+			else if (val == 'week') {
+				$scope.changeTimeInterval( moment().startOf('week').toDate(), $scope.toDate = moment().endOf('week').toDate() );
+			}
+			else if (val == 'month') {
+				$scope.changeTimeInterval( moment().startOf('month').toDate(), $scope.toDate = moment().endOf('month').toDate() );
+			}
+			else if (val == 'year') {
+				$scope.changeTimeInterval( moment().startOf('year').toDate(), $scope.toDate = moment().endOf('year').toDate() );
+			}
+			if (val == 'yesterday') {
+				$scope.changeTimeInterval( moment().subtract(1,'day').startOf('day').toDate(), $scope.toDate = moment().subtract(1,'day').endOf('day').toDate() );
+			}
+			else if (val == 'lastweek') {
+				$scope.changeTimeInterval( moment().subtract(1,'week').startOf('week').toDate(), $scope.toDate = moment().subtract(1,'week').endOf('week').toDate() );
+			}
+			else if (val == 'lastmonth') {
+				$scope.changeTimeInterval( moment().subtract(1,'month').startOf('month').toDate(), $scope.toDate = moment().subtract(1,'month').endOf('month').toDate() );
+			}
+			else if (val == 'lastyear') {
+				$scope.changeTimeInterval( moment().subtract(1,'year').startOf('year').toDate(), $scope.toDate = moment().subtract(1,'year').endOf('year').toDate() );
+			}
+			else if (val == 'course') {
+				var f = moment()
+				var m = f.month();
+				if (m<8) {
+					f = f.subtract(1, 'year')
+				}
+				f.month(8);
+				f = f.startOf('month');
+				t = moment(f).add(1,'year').subtract(1, 'second');
+				$scope.changeTimeInterval(f.toDate(), t.toDate());
+			}
+			else if (val == 'semester') {
+				//$scope.fromDate = moment().startOf('year').toDate();
+				//$scope.toDate = moment().endOf('year').toDate();
+				//reloadStats();
+			}
+		};
+		
+	}]);
+
 	
-	statisticsModule.controller('StatisticsController',["$scope", "$http", "$routeParams", "Video", "VideoStatistics", function($scope, $http, $routeParams, Video, VideoStatistics) {
+	statisticsModule.factory("Statistics", ['$resource', function ChannelFactory($resource) {
+		return $resource("/rest/plugins/statistics/added", {}, {
+			count: {url:"/rest/plugins/statistics/added/count"},
+			added: {url:"/rest/plugins/statistics/added/video/added"},
+			byOwner: {url:"/rest/plugins/statistics/added/video/byOwner", isArray:true}
+		});
+	}]);		
+	
+	statisticsModule.controller('VideoaAddedStatisticsController',["$scope", "$routeParams", "Statistics", function($scope, $routeParams, Statistics) {		
+
+		$scope.$parent.header = {
+			title: "Main Video Repository Statistics"
+		}
+
+		$scope.$on('reloadStats', function() {
+			Statistics.count({id:$routeParams.id, fromDate: $scope.fromDate.getTime(), toDate:$scope.toDate.getTime()}, function(ret){
+				$scope.numVisits = ret.count;
+			});
+			Statistics.added({id:$routeParams.id, fromDate: $scope.fromDate.getTime(), toDate:$scope.toDate.getTime()}, function(ret){
+				$scope.videosAdded = ret;
+			});
+			Statistics.byOwner({id:$routeParams.id, fromDate: $scope.fromDate.getTime(), toDate:$scope.toDate.getTime()}, function(ret){
+				$scope.byOwner = ret;
+			});
+		});
+		
+		$scope.changeInterval('month');
 	}]);	
 	
 })();

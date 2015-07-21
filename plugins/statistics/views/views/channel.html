@@ -1,0 +1,31 @@
+<main>
+	<header-time-selector></header-time-selector>
+	
+	<section ng-controller="ViewChannelStatisticsController">	
+		<h3>Estadisticas desde {{ fromDate | date:'medium' }} hasta {{ toDate | date:'medium'}}</h3>			
+		
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>{{ "Número de visitas" | translate}}</h3></div>
+			<div class="panel-body">
+				<h2 style="font-size: 60px; text-align: center;"> {{numVisits}} </h2>
+			</div>
+		</div>		
+		
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>{{ "Visitas por fecha" | translate}}<h3></div>
+			<div class="panel-body">
+				<div google-chart="ColumnChart" ng-model="byDateChart" trigger="activateChart"></div>
+			</div>
+		</div>			
+
+		<div class="panel panel-default">
+			<div class="panel-heading"><h3>{{ "Visitas por país" | translate}}</h3></div>
+			<div class="panel-body">
+				<div google-chart="GeoChart" ng-model="byCountryChart" trigger="activateChart"></div>
+			</div>
+		</div>			
+				
+	</section>
+	
+		
+</main>
