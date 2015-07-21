@@ -3,6 +3,10 @@ body {
 	font-size: 12px;
 }
 
+body.ps-body-embed {
+	background-color: transparent;
+}
+
 h1 {
 	padding-left: 17px;
 	font-size: 2em;
@@ -222,5 +226,5 @@ footer {
 	align-items: center;
 	justify-content: center;
 	font-size: 5em;
-	color: orange;
+	color: #0a7d91;
 }
