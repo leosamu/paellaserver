@@ -1,5 +1,6 @@
 (function() {
 	var catalogModule = angular.module('catalogModule');
+	var historyUrls = [];
 
 	catalogModule.directive('searchBar',function() {
 		return {
@@ -20,6 +21,18 @@
 			controller: ['$scope','User',function ($scope,User) {
 				$scope.logged = false;
 				$scope.isAdmin = false;
+				historyUrls.push(location.href);
+
+				$scope.backEnabled = historyUrls.length>1;
+
+				$scope.back = function() {
+					if ($scope.backEnabled) {
+						historyUrls.pop();	// current page
+						var newUrl = historyUrls.pop();	// previous page
+						location.href = newUrl;
+						$scope.backEnabled = historyUrls.length>1;
+					}
+				};
 
 				$scope.showChannels = function() {
 					if ($scope.numChannels()>0) {
@@ -149,6 +162,22 @@
 					$scope.videos.sort(sortFunction);
 					$scope.myVideos.sort(sortFunction);
 				};
+
+				function checkTabs() {
+					var tabBarItems = 0;
+					if ($scope.showEmptyTabs || $scope.showChannels()) ++tabBarItems;
+					if ($scope.showEmptyTabs || $scope.showVideos()) ++tabBarItems;
+					if ($scope.showSearch) ++tabBarItems;
+					if ($scope.showSort) ++tabBarItems;
+					if ($scope.showMyVideosTab) ++tabBarItems;
+
+					$scope.showTabBar = tabBarItems>1 || $scope.backEnabled;
+				}
+
+				$scope.$watch('channels',checkTabs);
+				$scope.$watch('videos',checkTabs);
+				$scope.$watch('myVideos',checkTabs);
+				checkTabs();
 
 				User.current().$promise
 					.then(function(data) {

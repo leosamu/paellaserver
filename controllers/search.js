@@ -17,7 +17,7 @@ exports.Search = function(req,res,next) {
 		return role.isAdmin;
 	});
 
-	function prepareResult(req,data,collectionName) {
+	function prepareResult(req,data,collectionName,isSearch) {
 		req.data = req.data || {};
 
 		if (isAdmin) {
@@ -26,7 +26,7 @@ exports.Search = function(req,res,next) {
 		else {
 			req.data[collectionName] = [];
 			data.forEach(function(item) {
-				if (!item.hiddenInSearches) {
+				if (!item.hiddenInSearches || !isSearch) {
 					req.data[collectionName].push(item);
 				}
 			});
@@ -63,7 +63,7 @@ exports.Search = function(req,res,next) {
 				}
 			})
 			.then(function(data) {
-				prepareResult(req,data,'channels');
+				prepareResult(req,data,'channels',false);
 				next();
 			});
 	}
@@ -89,7 +89,7 @@ exports.Search = function(req,res,next) {
 					.sort({ score: { $meta: "textScore" } })
 					.limit(1000)
 					.exec(function(err,data) {
-						prepareResult(req,data,'videos');
+						prepareResult(req,data,'videos',true);
 						next();
 					});
 			});
