@@ -5,6 +5,7 @@
 		$scope.channels = [];
 		$scope.videos = [];
 		$scope.myVideos = [];
+		$scope.parents = [];
 		$scope.loading = true;
 
 		$scope.searchText = decodeURI($routeParams.search || "");
@@ -22,8 +23,8 @@
 		// Pestañas vídeos/canales
 		$scope.currentTab = -1;
 
-		$scope.loadChannelParents = function(id) {
-			Channel.parents({id:id}).$promise
+		function loadChannelParents() {
+			Channel.parents({id:$scope.channelId}).$promise
 				.then(function(result) {
 					$scope.parents = result.list;
 				});
@@ -271,6 +272,10 @@
 			$scope.videos.sort(sortFunction);
 			$scope.myVideos.sort(sortFunction);
 		};
+
+		if ($scope.channelId) {
+			loadChannelParents();
+		}
 
 		// Cargar el contador de vídeos
 		Video.count().$promise

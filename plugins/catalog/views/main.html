@@ -12,13 +12,13 @@
     <section class="ps-current-channel" ng-show="channelData">
         <h1>
             {{channelData.title}}
-            <span class="ps-header-link dropdown" dropdown on-toggle="loadChannelParents(channelId)" ng-show="channelId">
+            <span class="ps-header-link dropdown" dropdown ng-show="channelId">
               <a href class="dropdown-toggle" dropdown-toggle>
                   {{ "parent_channels_text" | translate }}
               </a>
               <ul class="dropdown-menu">
                   <li ng-repeat="parent in parents" ng-show="parent._id!='default'">
-                      <a href ng-href="#/catalog/channel/{{parent._id}}">{{parent.title}}</a>
+                      <a href ng-href="#/catalog/channel/{{parent._id}}" disabled>{{parent.title}}</a>
                   </li>
               </ul>
             </span>
