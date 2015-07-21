@@ -13,12 +13,16 @@
 				doSearchFunction: "=",
 				currentTab: "=?",
 				showSearch: "=?",
-				showSort: "=?"
+				showSort: "=?",
+				showMyVideos: "=?",
+				showEmptyTabs: "=?"
 			},
 			controller: ['$scope',function ($scope,Channel) {
 				$scope.currentTab = $scope.currentTab || 0;
 				$scope.showSearch = $scope.showSearch || true;
 				$scope.showSort = $scope.showSort || true;
+				$scope.showMyVideos = $scope.showMyVideos!==undefined ? $scope.showMyVideos:true;
+				$scope.showEmptyTabs = $scope.showEmptyTabs!==undefined ? $scope.showEmptyTabs:true;
 
 
 				$scope.showChannels = function() {

@@ -5,8 +5,10 @@
                 search-text="searchText"
                 do-search-function="doSearch"
                 current-tab="currentTab"
-                show-search="!isEmbed"
-                show-sort="!isEmbed"
+                show-search="showIfNotEmbed"
+                show-sort="showIfNotEmbed"
+                show-my-videos="showIfNotEmbed"
+                show-empty-tabs="showIfNotEmbed"
             ></search-bar>
 
     <section class="ps-current-channel" ng-show="channelData">

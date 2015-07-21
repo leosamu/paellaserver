@@ -13,6 +13,7 @@
 		$scope.totalVideos = 0;
 
 		$scope.isEmbed = /embed/i.test(window.location.href);
+		$scope.showIfNotEmbed = !$scope.isEmbed;
 
 		function addSortingIndexes(collection) {
 			collection.forEach(function(item,index) {
