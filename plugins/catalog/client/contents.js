@@ -8,6 +8,7 @@
 			scope: {
 				channels: "=",
 				videos: "=",
+				myVideos: "=",
 				isAdmin: "=?",
 				isSearch: "=?",
 				showParents: "=?",

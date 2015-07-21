@@ -15,9 +15,9 @@
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
-				$scope.showParents = $scope.showParents || true;
+				$scope.showParents = $scope.showParents!==undefined ?  $scope.showParents:true;
 
-				function isVisible() {
+				$scope.isVisible = function() {
 					if ($scope.isSearch) {
 						return !$scope.channel.hiddenInSearches;
 					}
@@ -35,7 +35,7 @@
 				};
 
 				$scope.getChannelUrl = function() {
-					if ($scope.isAdmin || isVisible()) {
+					if ($scope.isAdmin || $scope.isVisible()) {
 						return "#/catalog/channel/" + $scope.channel._id;
 					}
 					else {

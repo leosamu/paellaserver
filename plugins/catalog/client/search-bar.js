@@ -11,19 +11,15 @@
 				myVideos: "=",
 				searchText: "=",
 				doSearchFunction: "=",
-				currentTab: "=?",
-				showSearch: "=?",
-				showSort: "=?",
-				showMyVideos: "=?",
-				showEmptyTabs: "=?"
+				currentTab: "=",
+				showSearch: "=",
+				showSort: "=",
+				showMyVideosTab: "=",
+				showEmptyTabs: "="
 			},
-			controller: ['$scope',function ($scope,Channel) {
-				$scope.currentTab = $scope.currentTab || 0;
-				$scope.showSearch = $scope.showSearch || true;
-				$scope.showSort = $scope.showSort || true;
-				$scope.showMyVideos = $scope.showMyVideos!==undefined ? $scope.showMyVideos:true;
-				$scope.showEmptyTabs = $scope.showEmptyTabs!==undefined ? $scope.showEmptyTabs:true;
-
+			controller: ['$scope','User',function ($scope,User) {
+				$scope.logged = false;
+				$scope.isAdmin = false;
 
 				$scope.showChannels = function() {
 					if ($scope.numChannels()>0) {
@@ -153,6 +149,17 @@
 					$scope.videos.sort(sortFunction);
 					$scope.myVideos.sort(sortFunction);
 				};
+
+				User.current().$promise
+					.then(function(data) {
+						if (data._id!="0") {
+							$scope.logged = true;
+							$scope.isAdmin = data.roles.some(function(r) { return r.isAdmin });
+						}
+						else {
+							$scope.logged = false;
+						}
+					});
 
 			}]
 		};

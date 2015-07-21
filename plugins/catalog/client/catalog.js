@@ -7,6 +7,7 @@
 		$scope.myVideos = [];
 		$scope.parents = [];
 		$scope.loading = true;
+		$scope.isAdmin = false;
 
 		$scope.searchText = decodeURI($routeParams.search || "");
 		$scope.channelId = $scope.searchText=="" ? $routeParams.id:null;

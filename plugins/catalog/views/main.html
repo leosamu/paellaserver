@@ -5,10 +5,10 @@
                 search-text="searchText"
                 do-search-function="doSearch"
                 current-tab="currentTab"
-                show-search="showIfNotEmbed"
-                show-sort="showIfNotEmbed"
-                show-my-videos="showIfNotEmbed"
-                show-empty-tabs="showIfNotEmbed"
+                show-search="!isEmbed"
+                show-sort="!isEmbed"
+                show-my-videos-tab="!isEmbed"
+                show-empty-tabs="!isEmbed"
             ></search-bar>
 
     <section class="ps-current-channel" ng-show="channelData">
@@ -29,12 +29,12 @@
     <section class="ps-current-channel" ng-hide="channelId">
         <h1>
             {{ "featured_videos_text" | translate }}
-            <span class="ps-video-counter pull-right" ng-show="totalVideos">{{totalVideos}} {{ "available_videos_text" | translate }}</span>
+            <span class="ps-video-counter pull-right" ng-show="totalVideos && !isEmbed">{{totalVideos}} {{ "available_videos_text" | translate }}</span>
         </h1>
 
     </section>
 
     <loader ng-show="loading"></loader>
-    <catalog-contents channels="channels" videos="videos" is-admin="isAdmin" is-search="isSearch" show-parents="true" current-tab="currentTab"></catalog-contents>
+    <catalog-contents channels="channels" videos="videos" my-videos="myVideos" is-admin="isAdmin" is-search="isSearch" show-parents="true" current-tab="currentTab"></catalog-contents>
 
 </main>
