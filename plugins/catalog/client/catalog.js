@@ -31,7 +31,7 @@
 					$scope.parents = result.list;
 				});
 			$scope.parents = [];
-		};
+		}
 
 		$scope.loadVideoParents = function(id) {
 			Video.parents({id:id}).$promise

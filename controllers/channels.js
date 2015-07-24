@@ -61,48 +61,90 @@ exports.LoadChannel = function(req,res,next) {
 			}
 
 			if (data.length>0) {
+				function populateVideoFunction(err,videoData) {
+					var videoItem = {
+						_id:videoData[0]._id,
+						title:videoData[0].title,
+						creationDate:videoData[0].creationDate,
+						owner:[],
+						hidden: videoData[0].hidden,
+						hiddenInSearches: videoData[0].hiddenInSearches
+					};
+					if (videoData[0].thumbnail) {
+						var repo = videoData[0].repository;
+						videoItem.thumbnail = repo.server + repo.endpoint + videoItem._id + "/" + videoData[0].thumbnail;
+					}
+					videoData[0].owner.forEach(function(owner) {
+						videoItem.owner.push({
+							_id:owner._id,
+							contactData: {
+								lastName:owner.contactData ? owner.contactData.lastName:"",
+								name:owner.contactData ? owner.contactData.name:""
+							}
+						});
+					});
+
+					videos.forEach(function(findVideo,index) {
+						if (findVideo._id==videoItem._id) {
+							videos[index] = videoItem;
+							// Do not hide videos
+							//if (!videoData[0].hidden || isAdmin) {
+							//	videos[index] = videoItem;
+							//}
+							//else {
+							//	videos.splice(index, 1);
+							//}
+						}
+					});
+				};
+
 				req.data = data[0];
 				req.data.videos.forEach(function(item, index) {
 					populationList.push(Video.find({"_id":item._id})
 						.populate('owner','contactData.name contactData.lastName')
 						.populate('repository')
-						.exec(function(err,videoData) {
-							var videoItem = {
-								_id:videoData[0]._id,
-								title:videoData[0].title,
-								creationDate:videoData[0].creationDate,
-								owner:[],
-								hidden: videoData[0].hidden,
-								hiddenInSearches: videoData[0].hiddenInSearches
-							};
-							if (videoData[0].thumbnail) {
-								var repo = videoData[0].repository;
-								videoItem.thumbnail = repo.server + repo.endpoint + videoItem._id + "/" + videoData[0].thumbnail;
-							}
-							videoData[0].owner.forEach(function(owner) {
-								videoItem.owner.push({
-									_id:owner._id,
-									contactData: {
-										lastName:owner.contactData ? owner.contactData.lastName:"",
-										name:owner.contactData ? owner.contactData.name:""
-									}
-								});
-							});
-
-							videos.forEach(function(findVideo,index) {
-								if (findVideo._id==videoItem._id) {
-									videos[index] = videoItem;
-									// Do not hide videos
-									//if (!videoData[0].hidden || isAdmin) {
-									//	videos[index] = videoItem;
-									//}
-									//else {
-									//	videos.splice(index, 1);
-									//}
-								}
-							});
-						}));
+						.exec(populateVideoFunction));
 				});
+
+
+				if (req.data.videosQuery) {
+					var videosQuery = null;
+					if (req.data.videosQuery.whereQuery) {
+						videosQuery= { "$where":req.data.videosQuery.whereQuery };
+					}
+					else if (req.data.videosQuery.objectQuery) {
+						try {
+							videosQuery = JSON.parse(req.data.videosQuery.objectQuery);
+						}
+						catch (e) {
+
+						}
+					}
+
+					if (videosQuery) {
+						var result = Video.find(videosQuery)
+							.populate('owner', 'contactData.name contactData.lastName')
+							.populate('repository');
+
+						if (req.data.videosQuery.sort) {
+							result.sort(req.data.videosQuery.sort);
+						}
+						if (req.data.videosQuery.limit) {
+							result.limit(req.data.videosQuery.limit);
+						}
+						populationList.push(
+							result
+							.exec(function(err,videoData) {
+								if (!err && videoData) {
+									videoData.forEach(function(videoItem) {
+										videos.push(videoItem);
+									});
+									populateVideoFunction(err,videoData);
+								}
+							}));
+					}
+				}
+
 
 				req.data.children.forEach(function(item, index) {
 					populationList.push(Channel.find({"_id":item._id})

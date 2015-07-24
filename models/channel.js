@@ -22,7 +22,13 @@ var ChannelSchema = new Schema({
 			read: { type: Boolean, default:true },
 			write: { type: Boolean, default:false }
 		}
-	]
+	],
+	videosQuery: {
+		whereQuery: { type:String },
+		objectQuery: { type:String },
+		limit: { type:Number },
+		sort: Schema.Types.Mixed
+	}
 }, {_id:false});
 
 ChannelSchema.plugin(uuid.plugin, 'Channel');
