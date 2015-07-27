@@ -104,7 +104,7 @@ exports.LoadRoles = function(req,res,next) {
 				{
 					"role":"USER",
 					"read":true,
-					"write":true
+					"write":false
 				}
 			]
 		}
@@ -164,6 +164,38 @@ exports.CheckRole = function(roles) {
 			else {
 				res.status(401).json({ status:false, message:"Not authorized" });
 			}
+		}
+	}
+};
+
+// Checks if the current user can write a resource
+//	in: req.data: a resource or a resource array with one element (the rest will be ignored)
+//	out: call next if success, or returns a 403 if fail
+exports.CheckWrite = function(req,res,next) {
+	var user = req.user;
+	var resource = req.data;
+	var canWrite = false;
+	if (Array.isArray(resource) && resource.length>0) {
+		resource = resource[0];
+	}
+	if (!resource) {
+		res.status(404).json({ status:false, message:"Resource not found"} );
+	}
+	else if (!user) {
+		res.status(401).json({ status:false, message:"Authorization needed"} );
+	}
+	else {
+		canWrite = user.roles.some(function(role) {
+			return role.isAdmin || resource.permissions.some(function(permission) {
+				return permission.role==role._id && permission.write;
+			});
+		});
+
+		if (canWrite) {
+			next();
+		}
+		else {
+			res.status(403).json({ status:false, message:"You are not authorized to edit this resource"})
 		}
 	}
 };

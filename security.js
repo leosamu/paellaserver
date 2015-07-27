@@ -71,7 +71,7 @@ exports.init = function(app) {
 			.select('-' + passwField)
 			.populate('roles')
 			.exec(function(err,data) {
-				data.roles.push(data["_id"]);
+				data.roles.push('ROLE_' + data["_id"]);
 				getUPVRoles(data,done);
 			});
 	});

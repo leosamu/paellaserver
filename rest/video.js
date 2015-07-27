@@ -15,7 +15,8 @@ exports.routes = {
 	checkVideo: { post:[
 		VideoController.CheckVideo,
 		CommonController.JsonResponse
-	]}
+	]},
+
 /*
 	createVideo: { post:[
 		AuthController.CheckAccess(['ADMIN','USER']),
