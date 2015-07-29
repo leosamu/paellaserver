@@ -60,10 +60,15 @@ exports.Count = function(req,res,next) {
 exports.LoadVideo = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
 	var select = '-search -processSlides';
-	Video.find({ "_id":req.params.id})
+	Video.find({ "_id":req.params.id })
 		.select(select)
 		.exec(function(err,data) {
-			req.data = data;
+			if (data.published && !data.published.status) {
+				var user = req.user;
+			}
+			else {
+				req.data = data;
+			}
 			next();
 		});
 };

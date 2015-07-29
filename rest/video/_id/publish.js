@@ -14,11 +14,13 @@ exports.routes = {
 			AuthController.CheckWrite,
 			function(req,res,next) {
 				if (req.data.length) {
+					var Video = require(__dirname + '/../../../models/video');
 					var video = req.data[0];
-					video.published.status = true;
-					video.save();
+					video.published ? video.published.status = true:video.published = { status:true };
+					Video.update({"_id":video._id},{ 'published.status':true },{}, function(err,data) {
+						next();
+					});
 				}
-				next();
 			},
 			CommonController.JsonResponse
 		]
