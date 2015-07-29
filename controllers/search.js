@@ -25,11 +25,18 @@ exports.Search = function(req,res,next) {
 		}
 		else {
 			req.data[collectionName] = [];
-			data.forEach(function(item) {
-				if (!item.hiddenInSearches || !isSearch) {
+			if (collectionName=='channels') {
+				data.forEach(function(item) {
 					req.data[collectionName].push(item);
-				}
-			});
+				});
+			}
+			else if (collectionName=='videos') {
+				data.forEach(function(item) {
+					if (item.published && item.published.status) {
+						req.data[collectionName].push(item);
+					}
+				});
+			}
 		}
 	}
 

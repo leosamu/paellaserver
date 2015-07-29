@@ -86,14 +86,12 @@ exports.LoadChannel = function(req,res,next) {
 
 					videos.forEach(function(findVideo,index) {
 						if (findVideo._id==videoItem._id) {
-							videos[index] = videoItem;
-							// Do not hide videos
-							//if (!videoData[0].hidden || isAdmin) {
-							//	videos[index] = videoItem;
-							//}
-							//else {
-							//	videos.splice(index, 1);
-							//}
+							if ((videoData[index].published && videoData[index].published.status) || isAdmin) {
+								videos[index] = videoItem;
+							}
+							else {
+								videos.splice(index, 1);
+							}
 						}
 					});
 				};
