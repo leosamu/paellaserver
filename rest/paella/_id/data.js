@@ -41,29 +41,35 @@ function loadPolimedia(streamsArray, videos, slaveVideos, preview, slavePreview)
 		streamsArray.push({
 			sources:slaveStreamData,
 			preview:slavePreview
-		})
+		});
 	}
 }
 
 exports.routes = {
 	getVideoData: { extension:'json', get:[
 		VideoController.LoadVideo,
+		VideoController.CheckPublished,
 		VideoController.LoadUrlFromRepository,
 		function(req,res) {
-			var metadata = {
-				"duration":req.data.duration,
-				"title":req.data.title
-			};
-			var streams = [];
+			if (req.data) {
+				var metadata = {
+					"duration":req.data.duration,
+					"title":req.data.title
+				};
+				var streams = [];
 
-			if (req.data.source.type=="polimedia" || req.data.source.type=="external") {
-				loadPolimedia(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
+				if (req.data.source.type=="polimedia" || req.data.source.type=="external") {
+					loadPolimedia(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
+				}
+
+				res.json({
+					"metadata":metadata,
+					"streams":streams,
+					"frameList":req.data.slides
+				});
 			}
-
-			res.json({
-				"metadata":metadata,
-				"streams":streams,
-				"frameList":req.data.slides
-			});
+			else {
+				res.status(404).json({ status:false, message:"No such video" });
+			}
 		}]}
 };

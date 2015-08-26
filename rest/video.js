@@ -8,6 +8,7 @@ var AuthController = require(__dirname + '/../controllers/auth');
 exports.routes = {
 	getVideoData: { param:'id', get:[
 		VideoController.LoadVideo,
+		VideoController.CheckPublished,
 		VideoController.LoadUrlFromRepository,
 		AuthController.LoadRoles,
 		CommonController.JsonResponse]},
@@ -15,7 +16,7 @@ exports.routes = {
 	checkVideo: { post:[
 		VideoController.CheckVideo,
 		CommonController.JsonResponse
-	]},
+	]}
 
 /*
 	createVideo: { post:[

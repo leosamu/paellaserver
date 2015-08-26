@@ -32,7 +32,7 @@ exports.Newest = function(req,res,next) {
 		'-hiddenInSearches -canRead -canWrite ' +
 		'-deletionDate -pluginData ' +
 		'-metadata -search -processSlides ';
-	var query = req.data ? req.data.query:null;
+	var query = { "$where":"this.published && this.published.status"};
 	Video.find(query)
 		.skip(req.query.skip)
 		.limit(req.query.limit)
@@ -65,12 +65,38 @@ exports.LoadVideo = function(req,res,next) {
 		.exec(function(err,data) {
 			if (data.published && !data.published.status) {
 				var user = req.user;
+
 			}
 			else {
 				req.data = data;
 			}
 			next();
 		});
+};
+
+// Call next if the video is published, or if the current user can view the unpublished video.
+exports.CheckPublished = function(req,res,next) {
+	video = (Array.isArray(req.data) ? req.data[0]:req.data);
+	var user = req.user;
+	var isAdmin = user && user.roles.some(function(role) { return role.isAdmin; });
+	var isOwner = video && user && video.owner.some(function(owner) {
+			return user._id==(typeof(owner)=='string' ? owner:owner._id);
+		});
+
+	if (!video) {
+		next();
+		return;
+	}
+
+	var status = (video.published && video.published.status) ||	// The video is not published
+				 isAdmin || 									// The user is not an administrator
+				 isOwner;										// The user is not an owner of the video
+
+	if (!status) {
+		req.data = null;
+	}
+
+	next();
 };
 
 // Load the video url's from the repository
