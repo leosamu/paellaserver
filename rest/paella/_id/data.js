@@ -45,6 +45,50 @@ function loadPolimedia(streamsArray, videos, slaveVideos, preview, slavePreview)
 	}
 }
 
+function loadLiveStream(streamsArray, videos, slaveVideos, preview, slavePreview) {
+	var masterStreamData = {
+		rtmp: []
+	};
+
+	var slaveStreamData = {
+		rtmp: []
+	};
+
+	function addStream(streamData,data) {
+		streamData.rtmp.push({
+			src: {
+				server:data.server,
+				stream:data.stream
+			},
+			mimetype: data.mimetype || "video/mp4",
+			res:{
+				w: data.width || 1280,
+				h: data.height || 720
+			},
+			"isLiveStream": true
+		});
+	}
+
+	videos.forEach(function(video) {
+		addStream(masterStreamData,video);
+	});
+
+	streamsArray.push({
+		sources:masterStreamData,
+		preview:preview
+	});
+
+	if (slaveVideos && slaveVideos.length) {
+		slaveVideos.forEach(function(video) {
+			addStream(slaveStreamData, video);
+		});
+		streamsArray.push({
+			sources:slaveStreamData,
+			preview:slavePreview
+		});
+	}
+}
+
 exports.routes = {
 	getVideoData: { extension:'json', get:[
 		VideoController.LoadVideo,
@@ -60,6 +104,9 @@ exports.routes = {
 
 				if (req.data.source.type=="polimedia" || req.data.source.type=="external") {
 					loadPolimedia(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
+				}
+				else if (req.data.source.type=="live") {
+					loadLiveStream(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
 				}
 
 				res.json({
