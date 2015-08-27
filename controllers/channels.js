@@ -86,7 +86,7 @@ exports.LoadChannel = function(req,res,next) {
 
 					videos.forEach(function(findVideo,index) {
 						if (findVideo._id==videoItem._id) {
-							if ((videoData[index].published && videoData[index].published.status) || isAdmin) {
+							if ((videoData[index] && videoData[index].published && videoData[index].published.status) || isAdmin) {
 								videos[index] = videoItem;
 							}
 							else {
