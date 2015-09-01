@@ -86,7 +86,7 @@ exports.LoadChannel = function(req,res,next) {
 
 					videos.forEach(function(findVideo,index) {
 						if (findVideo._id==videoItem._id) {
-							if ((videoData[index] && videoData[index].published && videoData[index].published.status) || isAdmin) {
+							if ((videoData[0] && videoData[0].published && videoData[0].published.status) || isAdmin) {
 								videos[index] = videoItem;
 							}
 							else {
@@ -103,7 +103,6 @@ exports.LoadChannel = function(req,res,next) {
 						.populate('repository')
 						.exec(populateVideoFunction));
 				});
-
 
 				if (req.data.videosQuery) {
 					var videosQuery = null;
@@ -142,7 +141,6 @@ exports.LoadChannel = function(req,res,next) {
 							}));
 					}
 				}
-
 
 				req.data.children.forEach(function(item, index) {
 					populationList.push(Channel.find({"_id":item._id})
