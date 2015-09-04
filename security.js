@@ -157,7 +157,7 @@ exports.init = function(app) {
 					.select("-auth.polimedia.pass")
 					.exec(function(err,user) {
 						if (err) { return done(err); }
-						
+
 						if (!user) {
 							var nameArray = profile.fullName.split(',');
 							newUser = new User({
@@ -185,7 +185,7 @@ exports.init = function(app) {
 										login:profile.login,
 										dni:profile.dni,
 										nip:profile.nip
-									}
+									};
 							User.update({"contactData.email":{$regex:re}},
 								{ $set:{"auth.UPV":newUser.auth.UPV }})
 								.exec(function(err) {

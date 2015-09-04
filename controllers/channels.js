@@ -298,7 +298,7 @@ exports.ParentsOfVideo = function(req,res,next) {
 
 
 // Execute a $where query in the Video document
-//	Input: req.query.skip, req.query.limit, req.data.query
+//	Input: req.query.skip, req.query.limit, req.data.query, req.user: the owner of the new channel
 //	Output: res.data: the video data.
 exports.Where = function(query,select) {
 	return function(req,res,next) {
@@ -326,5 +326,36 @@ exports.Where = function(query,select) {
 				next();
 			});
 	};
+};
+
+// Create a new channel
+//	Input: req.body: the new channel data (json string or object)
+//	Output: req.data: the new channel data, including the UUID
+exports.CreateChannel = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	var channelData = req.data;
+	var user = req.user;
+	if (!user) {
+		req.status(401).json({ status:false, message:"Could not create channel. No user logged in"});
+		return;
+	}
+
+	if (typeof(channelData)!="object" && !channelData.title) {
+		req.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
+		return;
+	}
+
+	channelData.owner = [ user._id ];
+	var newChannel = new Channel(channelData);
+	newChannel.save(function(err) {
+		if (!err) {
+			req.data = JSON.parse(JSON.stringify(newChannel));
+			delete req.data.__v;
+			next();
+		}
+		else {
+			req.status(500).json({ status:false, message:"Unexpected server error creating new channel: " + err});
+		}
+	})
 };
 

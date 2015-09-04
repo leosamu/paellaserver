@@ -12,16 +12,19 @@ exports.routes = {
 	getChannelData: { param:'id', get:[
 		ChannelController.LoadChannel,
 		ChannelController.LoadUrlFromRepository,
-		CommonController.JsonResponse]}
-/*
+		CommonController.JsonResponse]
+	},
+
 	createChannel: { post:[
-		AuthController.CheckAccess(['ADMIN','USER']),
-		function(req,res) {
-			res.json({
-				status:true,
-				message:"Ok"
-			})
-		}]
+		AuthController.EnsureAuthenticatedOrDigest,
+		AuthController.CheckAccess(['ADMIN']),
+		function(req,res,next) {
+			req.data = req.body;
+			next();
+		},
+		ChannelController.CreateChannel,
+		CommonController.JsonResponse
+	]}
 
 		//function(req,res) {
 		//var id = req.params.id
@@ -31,7 +34,8 @@ exports.routes = {
 		//fooResult.src = data.src;
 		//res.json(fooResult);
 		//}
-	},
+
+	/*,
 	updateChannel: { param:'id', put:function(req,res) {
 		var id = req.params.id
 		data._id = id;
