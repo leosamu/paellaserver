@@ -53,7 +53,10 @@ exports.CheckAccess = function(roles) {
 		var userRoles = [];
 		var access = false;
 		if (req.user && req.user.roles) {
-			userRoles = req.user.roles;
+			// userRoles es un array de modelos, y tendría que ser un array de nombres de rol
+			req.user.roles.forEach(function(roleItem) {
+				userRoles.push(roleItem._id);
+			});
 		}
 		if (roles && roles.length>0) {
 			access = roles.some(function(role) {
