@@ -5,9 +5,9 @@ var mongoose = require('mongoose');
 // 	Input: req.params.id
 //	Output: req.data
 exports.LoadUser = function(req,res,next) {
-	var Video = require(__dirname + '/../models/user');
+	var User = require(__dirname + '/../models/user');
 	var select = '-search -processSlides';
-	Video.find({ "_id":req.params.id})
+	User.find({ "_id":req.params.id})
 		.select(select)
 		.exec(function(err,data) {
 			req.data = data;
