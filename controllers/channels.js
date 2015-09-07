@@ -329,7 +329,7 @@ exports.Where = function(query,select) {
 };
 
 // Create a new channel
-//	Input: req.body: the new channel data (json string or object)
+//	Input: req.data: the new channel data
 //	Output: req.data: the new channel data, including the UUID
 exports.CreateChannel = function(req,res,next) {
 	var Channel = require(__dirname + '/../models/channel');
@@ -358,4 +358,32 @@ exports.CreateChannel = function(req,res,next) {
 		}
 	})
 };
+
+// Update an existing channel
+//	Input: req.data: the new data, req.params.id: the target channel. req.data._id will be ignored
+//	Output: req.data: the new channel data.
+exports.UpdateChannel = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	var channelData = req.data;
+	var user = req.user;
+
+	if (typeof(channelData)!="object" && (!channelData.title || channelData.title=="")) {
+		req.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
+		return;
+	}
+
+	delete channelData._id;
+
+	Channel.update({ "_id":req.params.id }, channelData, { multi:false }, function(err,data) {
+		if (!err) {
+			req.data = channelData;
+			req.data._id = req.params.id;
+			next();
+		}
+		else {
+			req.status(500).json({ status:false, message:"Unexpected server error creating new channel:" + err});
+		}
+	});
+};
+
 

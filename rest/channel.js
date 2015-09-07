@@ -24,6 +24,19 @@ exports.routes = {
 		},
 		ChannelController.CreateChannel,
 		CommonController.JsonResponse
+	]},
+
+	updateChannel: { param:'id', put:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		ChannelController.LoadChannel,
+		AuthController.CheckWrite,
+		//AuthController.CheckAccess(['ADMIN','USER']),
+		function(req,res,next) {
+			req.data = req.body;
+			next();
+		},
+		ChannelController.UpdateChannel,
+		CommonController.JsonResponse
 	]}
 
 		//function(req,res) {
@@ -56,4 +69,4 @@ exports.routes = {
 		res.json({ status:true, message:"Channel deleted"});
 	}}
 	*/
-}
+};
