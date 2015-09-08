@@ -30,7 +30,6 @@ exports.routes = {
 		AuthController.EnsureAuthenticatedOrDigest,
 		ChannelController.LoadChannel,
 		AuthController.CheckWrite,
-		//AuthController.CheckAccess(['ADMIN','USER']),
 		function(req,res,next) {
 			req.data = req.body;
 			next();
