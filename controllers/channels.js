@@ -336,12 +336,12 @@ exports.CreateChannel = function(req,res,next) {
 	var channelData = req.data;
 	var user = req.user;
 	if (!user) {
-		req.status(401).json({ status:false, message:"Could not create channel. No user logged in"});
+		res.status(401).json({ status:false, message:"Could not create channel. No user logged in"});
 		return;
 	}
 
 	if (typeof(channelData)!="object" && !channelData.title) {
-		req.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
+		res.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
 		return;
 	}
 
@@ -354,7 +354,7 @@ exports.CreateChannel = function(req,res,next) {
 			next();
 		}
 		else {
-			req.status(500).json({ status:false, message:"Unexpected server error creating new channel: " + err});
+			res.status(500).json({ status:false, message:"Unexpected server error creating new channel: " + err});
 		}
 	})
 };
@@ -368,7 +368,7 @@ exports.UpdateChannel = function(req,res,next) {
 	var user = req.user;
 
 	if (typeof(channelData)!="object" && (!channelData.title || channelData.title=="")) {
-		req.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
+		res.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
 		return;
 	}
 
@@ -381,9 +381,26 @@ exports.UpdateChannel = function(req,res,next) {
 			next();
 		}
 		else {
-			req.status(500).json({ status:false, message:"Unexpected server error creating new channel:" + err});
+			res.status(500).json({ status:false, message:"Unexpected server error creating new channel:" + err});
 		}
 	});
 };
 
+
+// Delete a channel
+//	Input: req.params.id: the channel id
+//	Output:
+exports.RemoveChannel = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	Channel.find({"_id":req.params.id})
+		.remove()
+		.exec(function(err,data) {
+			if (err) {
+				res.status(500).json({status:false, message:"Error executing query: " + err.message() });
+			}
+			else {
+				next();
+			}
+		});
+};
 

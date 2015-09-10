@@ -36,6 +36,14 @@ exports.routes = {
 		},
 		ChannelController.UpdateChannel,
 		CommonController.JsonResponse
+	]},
+
+	removeChannel: { param:'id', delete:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		ChannelController.LoadChannel,
+		AuthController.CheckWrite,
+		ChannelController.RemoveChannel,
+		CommonController.JsonResponse
 	]}
 
 		//function(req,res) {
