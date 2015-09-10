@@ -11,7 +11,8 @@ exports.routes = {
 		CommonController.JsonResponse]},
     getVideoAnnotationData: { param:'id', get:[
 		AnnotationController.LoadVideoAnnotation,
-		CommonController.JsonResponse]}
+		CommonController.JsonResponse]},
+		
     createAnnotation: { post:[
 		AuthController.EnsureAuthenticatedOrDigest,
 		AuthController.CheckAccess(['ADMIN']),
