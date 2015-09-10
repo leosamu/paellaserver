@@ -93,8 +93,12 @@ function getPlayerIndex(req,res) {
 		else {
 			var appendHeader = '<script src="/player/plugins.js"></script></head>';
 			var resourcesPath = "url:'../rest/paella'";
+			var paellaTitle = '<title>Paella Engage Example</title>';
+			var playerTitle = configure.config.player && configure.config.player.title;
+			var serverTitle = '<title>' + playerTitle + '</title>';
 			data = data.replace('</head>',appendHeader);
 			data = data.replace("url:'../repository/'", resourcesPath);
+			data = data.replace(paellaTitle, serverTitle);
 			res.type('text/html').send(data).end();
 		}
 	});

@@ -26,5 +26,8 @@
 	},
 	"elasticsearch": {
 		"url": "http://localhost:9200"
+	},
+	"player":{
+		"title":"Polimedia"
 	}
 }
