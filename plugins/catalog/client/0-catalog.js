@@ -9,6 +9,7 @@
 		$scope.parents = [];
 		$scope.loading = true;
 		$scope.isAdmin = false;
+		$scope.currentUser = null;
 
 		$scope.searchText = decodeURI($routeParams.search || "");
 		$scope.channelId = $scope.searchText=="" ? $routeParams.id:null;
@@ -170,6 +171,7 @@
 				Channel.all({id:$scope.channelId}).$promise
 					.then(function(result) {
 						$scope.channelData = {
+							id:$scope.channelId,
 							title: result.title,
 							owner: result.owner
 						};
@@ -188,6 +190,7 @@
 			User.current().$promise
 				.then(function(data) {
 					if (data._id!="0") {
+						$scope.currentUser = data;
 						$scope.logged = true;
 						$scope.isAdmin = data.roles.some(function(r) { return r.isAdmin });
 						var userId = data._id;

@@ -18,7 +18,9 @@
 				showSort: "=",
 				showMyVideosTab: "=",
 				showMyChannelsTab: "=",
-				showEmptyTabs: "="
+				showEmptyTabs: "=",
+				currentChannel: "=",
+				currentUser: "="
 			},
 			controller: ['$scope','User',function ($scope,User) {
 				$scope.logged = false;
@@ -202,6 +204,7 @@
 				$scope.$watch('channels',checkTabs);
 				$scope.$watch('videos',checkTabs);
 				$scope.$watch('myVideos',checkTabs);
+				$scope.$watch('myChannels',checkTabs);
 				checkTabs();
 
 				User.current().$promise
@@ -209,6 +212,7 @@
 						if (data._id!="0") {
 							$scope.logged = true;
 							$scope.isAdmin = data.roles.some(function(r) { return r.isAdmin });
+							$scope.currentUser = data;
 						}
 						else {
 							$scope.logged = false;
