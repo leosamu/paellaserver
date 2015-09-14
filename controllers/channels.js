@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Q = require('q');
 
 // Load channel title and identifier list
-//	Input: req.query.skip, req.query.limit
+//	Input: req.data.query: mongodb query object, req.query.skip, req.query.limit
 //	Output: res.data [ { _id:"channel_id", title:"channel_title" } ]
 exports.LoadChannels = function(req,res,next) {
 	var Channel = require(__dirname + '/../models/channel');
@@ -10,8 +10,9 @@ exports.LoadChannels = function(req,res,next) {
 		'-hidden -hiddenInSearches -owned -pluginData ' +
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
-	Channel.count({},function(err, count) {
-		Channel.find()
+	var query = req.data.query || {};
+	Channel.count(query,function(err, count) {
+		Channel.find(query)
 			.skip(req.query.skip)
 			.limit(req.query.limit)
 			.select(select)
@@ -157,7 +158,9 @@ exports.LoadChannel = function(req,res,next) {
 							};
 							if (channelData[0].thumbnail) {
 								var repo = channelData[0].repository;
-								channelItem.thumbnail = repo.server + repo.endpoint + channelItem._id + "/" + channelData[0].thumbnail;
+								if (repo) {
+									channelItem.thumbnail = repo.server + repo.endpoint + channelItem._id + "/channels/" + channelData[0].thumbnail;
+								}
 							}
 							channelData[0].owner.forEach(function(owner) {
 								channelItem.owner.push({

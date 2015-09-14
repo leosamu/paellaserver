@@ -27,6 +27,10 @@
 	"sort_default":"Default",
 	"sort_name":"Title",
 	"sort_date":"Date",
-	"sort_author":"Author"
+	"sort_author":"Author",
+
+	"edit":"Edit",
+	"create_channel":"Create a channel",
+	"mychannels_text":"My Channels"
 
 }

@@ -15,3 +15,9 @@
         <video-item video="video" is-admin="isAdmin" is-search="isSearch" show-parents="true"></video-item>
     </div>
 </section>
+
+<section class="ps-video-list row" ng-show="myChannelsTabSelected()">
+    <div class="col-md-6 col-xs-12" ng-repeat="myChannel in myChannels">
+        <channel-item channel="myChannel" is-admin="isAdmin" is-search="isSearch" show-parents="true"></channel-item>
+    </div>
+</section>

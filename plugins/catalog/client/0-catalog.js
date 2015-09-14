@@ -5,6 +5,7 @@
 		$scope.channels = [];
 		$scope.videos = [];
 		$scope.myVideos = [];
+		$scope.myChannels = [];
 		$scope.parents = [];
 		$scope.loading = true;
 		$scope.isAdmin = false;
@@ -84,6 +85,10 @@
 			return $scope.currentTab == 2;
 		};
 
+		$scope.myChannelsTabSelected = function() {
+			return $scope.currentTab == 3;
+		};
+
 		$scope.anyTabSelected = function() {
 			return $scope.currentTab = -1;
 		};
@@ -98,6 +103,10 @@
 
 		$scope.numMyVideos = function() {
 			return $scope.myVideos.length;
+		};
+
+		$scope.numMyChannels = function() {
+			return $scope.myChannels.length;
 		};
 
 		$scope.selectDefaultTab = function() {
@@ -143,7 +152,7 @@
 			}
 
 			if (!$scope.channelId) {
-				Channel.query({search:$scope.searchText}).$promise
+				Channel.search({search:$scope.searchText}).$promise
 					.then(function(result) {
 						$scope.channelData = {
 							title: null,
@@ -175,27 +184,34 @@
 			}
 		};
 
-		$scope.loadMyVideos = function() {
+		$scope.loadMyItems = function() {
 			User.current().$promise
 				.then(function(data) {
 					if (data._id!="0") {
 						$scope.logged = true;
 						$scope.isAdmin = data.roles.some(function(r) { return r.isAdmin });
-						return Video.userVideos({ userId:data._id }).$promise
+						var userId = data._id;
+						return Video.userVideos({ userId:userId }).$promise
 							.then(function(data) {
 								$scope.myVideos = data;
 								addSortingIndexes($scope.myVideos);
-							});
+								return Channel.userChannels({ userId:userId }).$promise
+							})
+							.then(function(data) {
+								$scope.myChannels = data;
+								addSortingIndexes($scope.myChannels);
+							})
 					}
 					else {
 						$scope.logged = false;
 					}
 				});
 			$scope.myVideos = [];
+			$scope.myChannels = [];
 		};
 
 		$scope.doSearch();
-		$scope.loadMyVideos();
+		$scope.loadMyItems();
 
 		$scope.sortDefault = function() {
 			function sortFunction(a,b) {
@@ -213,6 +229,7 @@
 			$scope.channels.sort(sortFunction);
 			$scope.videos.sort(sortFunction);
 			$scope.myVideos.sort(sortFunction);
+			$scope.myChannels.sort(sortFunction);
 		};
 
 		$scope.sortName = function() {
@@ -233,6 +250,7 @@
 			$scope.channels.sort(sortFunction);
 			$scope.videos.sort(sortFunction);
 			$scope.myVideos.sort(sortFunction);
+			$scope.myChannels.sort(sortFunction);
 		};
 
 		$scope.sortDate = function() {
@@ -253,6 +271,7 @@
 			$scope.channels.sort(sortFunction);
 			$scope.videos.sort(sortFunction);
 			$scope.myVideos.sort(sortFunction);
+			$scope.myChannels.sort(sortFunction);
 		};
 
 		$scope.sortAuthor = function() {
@@ -273,6 +292,7 @@
 			$scope.channels.sort(sortFunction);
 			$scope.videos.sort(sortFunction);
 			$scope.myVideos.sort(sortFunction);
+			$scope.myChannels.sort(sortFunction);
 		};
 
 		if ($scope.channelId) {
