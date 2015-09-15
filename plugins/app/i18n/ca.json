@@ -27,5 +27,9 @@
 	"sort_default":"Per defecte",
 	"sort_name":"Títol",
 	"sort_date":"Data",
-	"sort_author":"Autor"
+	"sort_author":"Autor",
+
+	"edit":"Editar",
+	"create_channel":"Crear un canal",
+	"mychannels_text":"Els meus canals"
 }

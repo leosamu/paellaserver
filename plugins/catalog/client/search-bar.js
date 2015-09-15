@@ -10,13 +10,17 @@
 				channels: "=",
 				videos: "=",
 				myVideos: "=",
+				myChannels: "=",
 				searchText: "=",
 				doSearchFunction: "=",
 				currentTab: "=",
 				showSearch: "=",
 				showSort: "=",
 				showMyVideosTab: "=",
-				showEmptyTabs: "="
+				showMyChannelsTab: "=",
+				showEmptyTabs: "=",
+				currentChannel: "=",
+				currentUser: "="
 			},
 			controller: ['$scope','User',function ($scope,User) {
 				$scope.logged = false;
@@ -61,6 +65,17 @@
 					return false;
 				};
 
+				$scope.showMyChannels = function() {
+					if (!$scope.logged) {
+						location.href = "#/auth/login"
+					}
+					else if ($scope.numMyChannels()>0) {
+						$scope.currentTab = 3;
+						return true;
+					}
+					return false;
+				};
+
 				$scope.numVideos = function() {
 					return $scope.videos.length;
 				};
@@ -73,6 +88,10 @@
 					return $scope.myVideos.length;
 				};
 
+				$scope.numMyChannels = function() {
+					return $scope.myChannels.length;
+				};
+
 				$scope.channelTabSelected = function() {
 					return $scope.currentTab == 0;
 				};
@@ -83,6 +102,10 @@
 
 				$scope.myVideosTabSelected = function() {
 					return $scope.currentTab == 2;
+				};
+
+				$scope.myChannelsTabSelected = function() {
+					return $scope.currentTab == 3;
 				};
 
 				$scope.sortDefault = function() {
@@ -101,6 +124,7 @@
 					$scope.channels.sort(sortFunction);
 					$scope.videos.sort(sortFunction);
 					$scope.myVideos.sort(sortFunction);
+					$scope.myChannels.sort(sortFunction);
 				};
 
 				$scope.sortName = function() {
@@ -121,6 +145,7 @@
 					$scope.channels.sort(sortFunction);
 					$scope.videos.sort(sortFunction);
 					$scope.myVideos.sort(sortFunction);
+					$scope.myChannels.sort(sortFunction);
 				};
 
 				$scope.sortDate = function() {
@@ -141,6 +166,7 @@
 					$scope.channels.sort(sortFunction);
 					$scope.videos.sort(sortFunction);
 					$scope.myVideos.sort(sortFunction);
+					$scope.myChannels.sort(sortFunction);
 				};
 
 				$scope.sortAuthor = function() {
@@ -161,6 +187,7 @@
 					$scope.channels.sort(sortFunction);
 					$scope.videos.sort(sortFunction);
 					$scope.myVideos.sort(sortFunction);
+					$scope.myChannels.sort(sortFunction);
 				};
 
 				function checkTabs() {
@@ -177,6 +204,7 @@
 				$scope.$watch('channels',checkTabs);
 				$scope.$watch('videos',checkTabs);
 				$scope.$watch('myVideos',checkTabs);
+				$scope.$watch('myChannels',checkTabs);
 				checkTabs();
 
 				User.current().$promise
@@ -184,6 +212,7 @@
 						if (data._id!="0") {
 							$scope.logged = true;
 							$scope.isAdmin = data.roles.some(function(r) { return r.isAdmin });
+							$scope.currentUser = data;
 						}
 						else {
 							$scope.logged = false;

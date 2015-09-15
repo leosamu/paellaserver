@@ -9,6 +9,7 @@
 				channels: "=",
 				videos: "=",
 				myVideos: "=",
+				myChannels: "=",
 				isAdmin: "=?",
 				isSearch: "=?",
 				showParents: "=?",
@@ -30,6 +31,10 @@
 
 				$scope.myVideosTabSelected = function() {
 					return $scope.currentTab == 2;
+				};
+
+				$scope.myChannelsTabSelected = function() {
+					return $scope.currentTab == 3;
 				};
 			}]
 		};
