@@ -41,7 +41,9 @@
 
 				$scope.addToChannel = function() {
 					ChannelListPopup($scope.userChannels, false, function(parentChannel) {
-						alert("Añadir canal " + $scope.channel.title + " al canal " + parentChannel.title);
+						Channel.addChannel({ id:parentChannel._id, childId:$scope.channel._id },
+							{ id:'@id', childId:'@childId'}).$promise
+							.then(function(result) {});
 					});
 				};
 

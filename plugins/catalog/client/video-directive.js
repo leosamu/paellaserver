@@ -12,7 +12,7 @@
 				isSearch: "=?",
 				showParents: "=?"
 			},
-			controller: ['$scope','Video','ChannelListPopup', function ($scope,Video,ChannelListPopup) {
+			controller: ['$scope','Video','Channel','ChannelListPopup', function ($scope,Video,Channel,ChannelListPopup) {
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
@@ -33,7 +33,13 @@
 
 				$scope.addToChannel = function() {
 					ChannelListPopup($scope.userChannels, false, function(parentChannel) {
-						alert("Añadir video " + $scope.video.title + " al canal " + parentChannel.title);
+						Channel.addVideo({ id:parentChannel._id, videoId:$scope.video._id },
+							{ id:'@id', videoId:'@videoId'}).$promise
+							.then(function(result) {
+								console.log(result);
+							});
+
+//						alert("Añadir video " + $scope.video.title + " al canal " + parentChannel.title);
 					});
 				};
 

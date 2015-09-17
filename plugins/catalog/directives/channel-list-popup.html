@@ -11,7 +11,7 @@
         <tab ng-repeat="channel in channels | filter:query " heading="{{channel.title}}" select="selectItem(channel)"></tab>
     </tabset>
 
-    <ul class="nav nav-pills" ng-show="navMode">
+    <ul class="" ng-show="navMode">
         <li ng-repeat="channel in channels | filter:query"><a ng-href="{{getChannelUrl(channel)}}" ng-click="close()">{{channel.title}}</a></li>
     </ul>
 
