@@ -31,6 +31,9 @@
 
 	"edit":"Edit",
 	"create_channel":"Create a channel",
-	"mychannels_text":"My Channels"
+	"mychannels_text":"My Channels",
+
+	"close":"Close",
+	"select":"Select"
 
 }

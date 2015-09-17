@@ -228,3 +228,7 @@ footer {
 	font-size: 5em;
 	color: #0a7d91;
 }
+
+.ps-popup-content {
+	padding: 20px;
+}

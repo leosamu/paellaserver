@@ -1,7 +1,7 @@
 (function() {
 	var catalogModule = angular.module('catalogModule',["ngRoute","ngResource","ui.bootstrap"]);
 
-	catalogModule.controller('CatalogController', ["$scope","$routeParams","Channel","Video","User",function($scope,$routeParams,Channel,Video,User) {
+	catalogModule.controller('CatalogController', ["$scope","$routeParams","Channel","Video","User","ChannelListPopup",function($scope,$routeParams,Channel,Video,User,ChannelListPopup) {
 		$scope.channels = [];
 		$scope.videos = [];
 		$scope.myVideos = [];
@@ -34,6 +34,12 @@
 				});
 			$scope.parents = [];
 		}
+
+		$scope.showMyChannels = function() {
+			ChannelListPopup($scope.myChannels, function(selected) {
+				alert(selected._id);
+			});
+		};
 
 		$scope.loadVideoParents = function(id) {
 			Video.parents({id:id}).$promise

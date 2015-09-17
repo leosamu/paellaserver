@@ -31,5 +31,8 @@
 
 	"edit":"Editar",
 	"create_channel":"Crear un canal",
-	"mychannels_text":"Mis Canales"
+	"mychannels_text":"Mis Canales",
+
+	"close":"Cerrar",
+	"select":"Seleccionar"
 }

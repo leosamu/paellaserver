@@ -1,0 +1,18 @@
+
+<section class="ps-popup-content">
+    <h1 class="modal-header">
+        {{ "mychannels_text" | translate }}
+        <p class="pull-right">
+            <input type="search" class="form-control" ng-model="query" placeholder="buscar"/>
+        </p>
+    </h1>
+
+    <tabset vertical="true" type="pills">
+        <tab ng-repeat="channel in channels | filter:query " heading="{{channel.title}}" select="alertMe(channel)"></tab>
+    </tabset>
+
+    <p class="modal-footer">
+        <button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
+        <button class="btn btn-primary" ng-click="accept()" ng-show="selected">{{ "select" | translate }}</button>
+    </p>
+</section>
