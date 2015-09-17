@@ -8,6 +8,7 @@
 			scope: {
 				video: "=",
 				userChannels:"=",
+				currentChannel:"=?",
 				isAdmin: "=?",
 				isSearch: "=?",
 				showParents: "=?"
@@ -20,6 +21,20 @@
 
 				$scope.showParentChannels = function() {
 					ChannelListPopup($scope.parents, true);
+				};
+
+				$scope.getCurrentChannelTitle = function() {
+					return $scope.currentChannel ? $scope.currentChannel.title:"";
+				};
+
+				$scope.removeFromCurrentChannel = function() {
+					if ($scope.currentChannel) {
+						Channel.removeVideo({ id:$scope.currentChannel.id, videoId:$scope.video._id },
+							{ id:'@id', videoId:'@videoId'}).$promise
+							.then(function(result) {
+								location.reload();
+							});
+					}
 				};
 
 				$scope.isVisible = function () {
@@ -36,10 +51,7 @@
 						Channel.addVideo({ id:parentChannel._id, videoId:$scope.video._id },
 							{ id:'@id', videoId:'@videoId'}).$promise
 							.then(function(result) {
-								console.log(result);
 							});
-
-//						alert("Añadir video " + $scope.video.title + " al canal " + parentChannel.title);
 					});
 				};
 

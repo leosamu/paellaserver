@@ -6,20 +6,20 @@
 			restrict: "E",
 			templateUrl: "catalog/directives/catalog-contents.html",
 			scope: {
+				currentChannel: "=",
 				channels: "=",
 				videos: "=",
 				myVideos: "=",
 				myChannels: "=",
 				isAdmin: "=?",
-				isSearch: "=?",
 				showParents: "=?",
 				currentTab: "=?"
 			},
 			controller: ['$scope',function ($scope,Channel) {
 				$scope.isAdmin = $scope.isAdmin || false;
-				$scope.isSearch = $scope.isSearch || false;
 				$scope.showParents = $scope.showParents || true;
 				$scope.currentTab = $scope.currentTab || 0;
+				$scope.isSearch = $scope.currentChannel!=null;
 
 				$scope.channelTabSelected = function() {
 					return $scope.currentTab == 0;

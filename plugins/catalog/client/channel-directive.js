@@ -8,6 +8,7 @@
 			scope: {
 				channel: "=",
 				userChannels:"=",
+				currentChannel:"=?",
 				isAdmin: "=?",
 				isSearch: "=?",
 				showParents: "=?"
@@ -24,6 +25,20 @@
 					}
 					else {
 						return !$scope.channel.hidden;
+					}
+				};
+
+				$scope.getCurrentChannelTitle = function() {
+					return $scope.currentChannel ? $scope.currentChannel.title:"";
+				};
+
+				$scope.removeFromCurrentChannel = function() {
+					if ($scope.currentChannel) {
+						Channel.removeChannel({ id:$scope.currentChannel.id, childId:$scope.channel._id },
+							{ id:'@id', childId:'@childId'}).$promise
+							.then(function(result) {
+								location.reload();
+							});
 					}
 				};
 

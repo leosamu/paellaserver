@@ -36,6 +36,6 @@
 	"close":"Close",
 	"select":"Select",
 
-	"add_to_channel":"Add to a channel"
-
+	"add_to_channel":"Add to a channel",
+  	"remove_from_channel":"Remove from channel"
 }

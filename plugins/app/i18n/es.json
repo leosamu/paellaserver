@@ -36,5 +36,6 @@
 	"close":"Cerrar",
 	"select":"Seleccionar",
 
-	"add_to_channel":"Añadir a un canal"
+	"add_to_channel":"Añadir a un canal",
+  	"remove_from_channel":"Quitar del canal"
 }
