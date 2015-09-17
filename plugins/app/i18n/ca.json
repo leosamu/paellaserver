@@ -34,5 +34,7 @@
 	"mychannels_text":"Els meus canals",
 
 	"close":"Trancar",
-	"select":"Seleccionar"
+	"select":"Seleccionar",
+
+	"add_to_channel":"Afegir a un canal"
 }

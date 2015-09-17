@@ -36,7 +36,7 @@
 		}
 
 		$scope.showMyChannels = function() {
-			ChannelListPopup($scope.myChannels, function(selected) {
+			ChannelListPopup($scope.myChannels, false, function(selected) {
 				alert(selected._id);
 			});
 		};

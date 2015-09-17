@@ -34,6 +34,8 @@
 	"mychannels_text":"My Channels",
 
 	"close":"Close",
-	"select":"Select"
+	"select":"Select",
+
+	"add_to_channel":"Add to a channel"
 
 }

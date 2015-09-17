@@ -7,11 +7,12 @@
 			templateUrl: "catalog/directives/channel-item.html",
 			scope: {
 				channel: "=",
+				userChannels:"=",
 				isAdmin: "=?",
 				isSearch: "=?",
 				showParents: "=?"
 			},
-			controller: ['$scope','Channel', function ($scope,Channel) {
+			controller: ['$scope','Channel', 'ChannelListPopup', function ($scope,Channel,ChannelListPopup) {
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
@@ -24,7 +25,7 @@
 					else {
 						return !$scope.channel.hidden;
 					}
-				}
+				};
 
 				$scope.loadChannelParents = function() {
 					Channel.parents({id:$scope.channel._id}).$promise
@@ -32,6 +33,16 @@
 							$scope.parents = result.list;
 						});
 					$scope.parents = [];
+				};
+
+				$scope.showParentChannels = function() {
+					ChannelListPopup($scope.parents, true);
+				};
+
+				$scope.addToChannel = function() {
+					ChannelListPopup($scope.userChannels, false, function(parentChannel) {
+						alert("Añadir canal " + $scope.channel.title + " al canal " + parentChannel.title);
+					});
 				};
 
 				$scope.getChannelUrl = function() {

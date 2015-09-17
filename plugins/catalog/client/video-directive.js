@@ -7,15 +7,20 @@
 			templateUrl: "catalog/directives/video-item.html",
 			scope: {
 				video: "=",
+				userChannels:"=",
 				isAdmin: "=?",
 				isSearch: "=?",
 				showParents: "=?"
 			},
-			controller: ['$scope','Video', function ($scope,Video) {
+			controller: ['$scope','Video','ChannelListPopup', function ($scope,Video,ChannelListPopup) {
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
 				$scope.showParents = $scope.showParents || true;
+
+				$scope.showParentChannels = function() {
+					ChannelListPopup($scope.parents, true);
+				};
 
 				$scope.isVisible = function () {
 					if ($scope.isSearch) {
@@ -24,7 +29,13 @@
 					else {
 						return !$scope.video.hidden;
 					}
-				}
+				};
+
+				$scope.addToChannel = function() {
+					ChannelListPopup($scope.userChannels, false, function(parentChannel) {
+						alert("Añadir video " + $scope.video.title + " al canal " + parentChannel.title);
+					});
+				};
 
 				$scope.loadParents = function() {
 					Video.parents({id:$scope.video._id}).$promise

@@ -34,5 +34,7 @@
 	"mychannels_text":"Mis Canales",
 
 	"close":"Cerrar",
-	"select":"Seleccionar"
+	"select":"Seleccionar",
+
+	"add_to_channel":"Añadir a un canal"
 }

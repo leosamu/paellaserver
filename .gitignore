@@ -9,3 +9,4 @@ node_modules
 .config.json
 client/bower_components
 dbconfig.json
+.vscode

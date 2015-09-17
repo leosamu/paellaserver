@@ -3,13 +3,12 @@
         <!--Listado de canales que incluyen este recurso-->
     </button>
     <ul class="dropdown-menu">
-        <li><p>{{ "parent_channels_text" | translate }}:</p></li>
+        <li><a ng-click="showParentChannels(parents)">{{ "parent_channels_text" | translate }}</a></li>
         <li class="divider"></li>
-        <li ng-repeat="parent in parents" ng-show="parent._id!='default'" ng-class="{ disabled:parent._id==channelId }">
-            <a href ng-href="#/catalog/channel/{{parent._id}}">{{parent.title}}</a>
-        </li>
+        <li><a ng-click="addToChannel()" ng-show="userChannels.length">{{ "add_to_channel" | translate }}</a></li>
     </ul>
 </span>
+
 <a class="ps-list-item ps-channel" ng-href="{{ getChannelUrl(channel) }}" ng-class="{ 'ps-hidden':(channel.hidden || channel.hiddenInSearches), 'ps-admin':isAdmin }">
     <div class="ps-view">
         <h2 class="ps-title pull-left">

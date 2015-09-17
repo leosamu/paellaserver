@@ -1,11 +1,12 @@
 (function() {
 	var catalogModule = angular.module('catalogModule');
 
-	catalogModule.controller('ChannelListModalController', ["$scope", "$modalInstance", "items", function($scope, $modalInstance, items) {
+	catalogModule.controller('ChannelListModalController', ["$scope", "$modalInstance", "items", "navMode", function($scope, $modalInstance, items, navMode) {
 		$scope.channels = items;
 		$scope.selected = null;
+		$scope.navMode = navMode;
 
-		$scope.alertMe = function(item) {
+		$scope.selectItem = function(item) {
 			$scope.selected = item;
 		};
 
@@ -16,16 +17,24 @@
 		$scope.accept = function() {
 			$modalInstance.close($scope.selected);
 		};
+
+		$scope.getChannelUrl = function(channel) {
+			return "#/catalog/channel/" + channel._id;
+		};
 	}]);
 
 	catalogModule.factory('ChannelListPopup', ['$modal',function($modal) {
-		return function(channelList,onSelected) {
+		return function(channelList,navMode,onSelected) {
 			var modalInstance = $modal.open({
 				templateUrl:'catalog/directives/channel-list-popup.html',
 				controller:'ChannelListModalController',
 				resolve:{
 					items: function() {
 						return channelList;
+					},
+
+					navMode: function() {
+						return navMode;
 					}
 				}
 			});
