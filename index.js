@@ -10,7 +10,7 @@ var repository = require("./repository");
 var cookieParser = require("cookie-parser");
 var passport = require('passport');
 var security = require('./security');
-
+var MongoStore = require('connect-mongo')(session);
 
 var db = mongoose.connection;
 db.once('open', function(callback) {});
@@ -23,8 +23,10 @@ app.use(cookieParser());
 app.use(session({
 	secret:configure.config.session.secret,
 	resave: true,
-	saveUninitialized: true
+	saveUninitialized: true,
+	store: new MongoStore({ mongooseConnection: db })
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
