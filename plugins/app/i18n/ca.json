@@ -37,5 +37,16 @@
 	"select":"Seleccionar",
 
 	"add_to_channel":"Afegir a un canal",
-  	"remove_from_channel":"Treure del canal"
+  	"remove_from_channel":"Treure del canal",
+
+	"edit_channel_text_title":"Editar datos del canal",
+	"create_channel_text_title":"Crear un canal",
+	"edit_text":"Guardar",
+	"create_text":"Crear",
+	"identifier_field_text":"Identificador",
+	"title_field_text":"Título",
+	"channel_title_field_placeholder_text":"nombre descriptivo del canal",
+	"visibility_field_text":"Visibilidad",
+	"hidden_in_list_text":"Oculto en listados",
+	"hidden_in_searches_text":"Oculto en búsquedas"
 }

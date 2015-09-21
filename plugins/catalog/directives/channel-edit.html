@@ -1,0 +1,53 @@
+
+<section class="ps-popup-content">
+    <h1 class="modal-header">
+        {{ titleText | translate }}
+    </h1>
+
+    <form name="channelForm" class="form-horizontal">
+        <fieldset>
+            <!-- Text input-->
+            <div class="form-group" ng-show="channelData._id">
+                <label class="col-md-4 control-label" for="identifier">{{ "identifier_field_text" | translate }}</label>
+                <div class="col-md-5">
+                    <input id="identifier" type="text" class="form-control input-md" disabled ng-model="channelData._id">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="title">{{ "title_field_text" | translate }}</label>
+                <div class="col-md-5">
+                    <input id="title" type="text" placeholder="{{ 'channel_title_field_placeholder_text' | translate }}" class="form-control input-md" required ng-model="channelData.title">
+
+                </div>
+            </div>
+
+            <!-- Multiple Checkboxes -->
+            <div class="form-group">
+                <label class="col-md-4 control-label">{{ "visibility_field_text" | translate }}</label>
+                <div class="col-md-4">
+                    <div class="checkbox">
+                        <label for="isHidden">
+                            <input id="isHidden" type="checkbox" ng-model="channelData.hidden">
+                            {{ "hidden_in_list_text" | translate }}
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label for="isHiddenInSearches">
+                            <input id="isHiddenInSearches" type="checkbox" ng-model="channelData.hiddenInSearches">
+                            {{ "hidden_in_searches_text" | translate }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <p class="modal-footer">
+            <button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
+            <button class="btn btn-primary" ng-click="channelForm.$valid && accept()" ng-disabled="!channelForm.$valid">{{ acceptText | translate }}</button>
+        </p>
+    </form>
+</section>

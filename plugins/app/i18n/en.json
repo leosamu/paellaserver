@@ -37,5 +37,16 @@
 	"select":"Select",
 
 	"add_to_channel":"Add to a channel",
-  	"remove_from_channel":"Remove from channel"
+  	"remove_from_channel":"Remove from channel",
+
+	"edit_channel_text_title":"Edit channel data",
+	"create_channel_text_title":"Create channel",
+	"edit_text":"Save",
+	"create_text":"Create",
+	"identifier_field_text":"Identifier",
+	"title_field_text":"Title",
+	"channel_title_field_placeholder_text":"descriptive title",
+	"visibility_field_text":"Visibility",
+	"hidden_in_list_text":"Hidden in lists",
+	"hidden_in_searches_text":"Hidden in searches"
 }
