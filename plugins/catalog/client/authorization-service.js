@@ -33,13 +33,15 @@
 							});
 
 							// Owner can write
-							r.owner.forEach(function(own) {
-								permissions.push({
-									role: 'ROLE_' + (typeof(own)=='object' ? own._id:own),
-									write: true,
-									read: true
+							if (r.owner) {
+								r.owner.forEach(function(own) {
+									permissions.push({
+										role: 'ROLE_' + (typeof(own)=='object' ? own._id:own),
+										write: true,
+										read: true
+									});
 								});
-							});
+							}
 						}
 						else {	// Specific permissions
 							permissions = r.permissions;

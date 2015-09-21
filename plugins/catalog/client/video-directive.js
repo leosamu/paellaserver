@@ -56,6 +56,7 @@
 						Channel.addVideo({ id:parentChannel._id, videoId:$scope.video._id },
 							{ id:'@id', videoId:'@videoId'}).$promise
 							.then(function(result) {
+								location.reload();
 							});
 					});
 				};

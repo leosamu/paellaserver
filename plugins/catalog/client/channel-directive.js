@@ -67,7 +67,9 @@
 					ChannelListPopup($scope.userChannels, false, function(parentChannel) {
 						Channel.addChannel({ id:parentChannel._id, childId:$scope.channel._id },
 							{ id:'@id', childId:'@childId'}).$promise
-							.then(function(result) {});
+							.then(function(result) {ç
+								location.reload();
+							});
 					});
 				};
 
