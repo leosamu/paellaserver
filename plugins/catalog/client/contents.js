@@ -12,6 +12,7 @@
 				myVideos: "=",
 				myChannels: "=",
 				isAdmin: "=?",
+				currentUser: "=?",
 				showParents: "=?",
 				currentTab: "=?"
 			},
@@ -20,6 +21,7 @@
 				$scope.showParents = $scope.showParents || true;
 				$scope.currentTab = $scope.currentTab || 0;
 				$scope.isSearch = $scope.currentChannel!=null;
+				$scope.currentUser = $scope.currentUser || null;
 
 				$scope.channelTabSelected = function() {
 					return $scope.currentTab == 0;

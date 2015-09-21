@@ -163,11 +163,19 @@ footer {
 	float: right;
 	margin-left: -26px;
 	margin-top: 6px;
-	z-index:1;
 }
 
 .ps-item-menu li p {
 	padding: 3px 10px 3px 10px;
+}
+
+.ps-item-menu-button {
+	z-index: 1;
+}
+
+.ps-item-menu-dropdown {
+	left: auto;
+	right: 0;
 }
 
 .ps-list-item.ps-channel {

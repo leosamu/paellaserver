@@ -115,8 +115,9 @@ exports.LoadRoles = function(req,res,next) {
 			item.permissions = JSON.parse(JSON.stringify(item.permissions));
 		}
 		item.owner.forEach(function(owner) {
+			var ownerId = typeof(owner)=="string" ? owner:owner._id;
 			item.permissions.push({
-				"role":"ROLE_" + owner,
+				"role":"ROLE_" + ownerId,
 				"read":true,
 				"write":true
 			});
@@ -127,6 +128,10 @@ exports.LoadRoles = function(req,res,next) {
 		req.data.forEach(function(itemData) {
 			loadItemRoles(itemData);
 		});
+		next();
+	}
+	else if (req.data && req.data._id) {
+		loadItemRoles(req.data);
 		next();
 	}
 	else {

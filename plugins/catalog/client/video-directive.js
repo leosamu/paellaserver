@@ -11,9 +11,10 @@
 				currentChannel:"=?",
 				isAdmin: "=?",
 				isSearch: "=?",
-				showParents: "=?"
+				showParents: "=?",
+				currentUser: "=?"
 			},
-			controller: ['$scope','Video','Channel','ChannelListPopup', function ($scope,Video,Channel,ChannelListPopup) {
+			controller: ['$scope','Video','Channel','ChannelListPopup','Authorization', function ($scope,Video,Channel,ChannelListPopup,Authorization) {
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
@@ -44,6 +45,10 @@
 					else {
 						return !$scope.video.hidden;
 					}
+				};
+
+				$scope.allowRemove = function() {
+					return Authorization($scope.currentChannel,$scope.currentUser).canWrite();
 				};
 
 				$scope.addToChannel = function() {

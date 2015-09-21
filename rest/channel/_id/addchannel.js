@@ -10,8 +10,9 @@ exports.routes = {
 		patch: [
 			AuthController.EnsureAuthenticatedOrDigest,
 			ChannelController.LoadChannel,
+			AuthController.LoadRoles,
 			function(req,res,next) {
-				if (req.data.length==0) {
+				if (!req.data) {
 					res.status(404).json({ status:false, message:"No such channel with id " + req.params.id });
 				}
 				else {

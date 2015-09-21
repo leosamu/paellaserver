@@ -11,13 +11,18 @@
 				currentChannel:"=?",
 				isAdmin: "=?",
 				isSearch: "=?",
-				showParents: "=?"
+				showParents: "=?",
+				currentUser: "=?"
 			},
-			controller: ['$scope','Channel', 'ChannelListPopup', function ($scope,Channel,ChannelListPopup) {
+			controller: ['$scope','Channel', 'ChannelListPopup','Authorization', function ($scope,Channel,ChannelListPopup,Authorization) {
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
 				$scope.showParents = $scope.showParents!==undefined ?  $scope.showParents:true;
+
+				$scope.isEditable = function() {
+
+				};
 
 				$scope.isVisible = function() {
 					if ($scope.isSearch) {
@@ -48,6 +53,10 @@
 							$scope.parents = result.list;
 						});
 					$scope.parents = [];
+				};
+
+				$scope.allowRemove = function() {
+					return Authorization($scope.currentChannel,$scope.currentUser).canWrite();
 				};
 
 				$scope.showParentChannels = function() {

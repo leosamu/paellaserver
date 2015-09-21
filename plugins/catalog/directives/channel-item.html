@@ -1,12 +1,12 @@
 <span class="dropdown ps-item-menu" dropdown on-toggle="loadChannelParents()" ng-show="showParents">
-    <button class="glyphicon glyphicon-option-horizontal dropdown-toggle" dropdown-toggle>
+    <button class="glyphicon glyphicon-option-horizontal dropdown-toggle ps-item-menu-button" dropdown-toggle>
         <!--Listado de canales que incluyen este recurso-->
     </button>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu ps-item-menu-dropdown">
         <li><a ng-click="showParentChannels(parents)">{{ "parent_channels_text" | translate }}</a></li>
         <li class="divider"></li>
         <li><a ng-click="addToChannel()" ng-show="userChannels.length">{{ "add_to_channel" | translate }}</a></li>
-    <!--    <li><a ng-click="removeFromCurrentChannel()" ng-show="currentChannel">{{ "remove_from_channel" | translate }} "{{ getCurrentChannelTitle() }}"</a></li> -->
+        <li><a ng-click="removeFromCurrentChannel()" ng-show="allowRemove()">{{ "remove_from_channel" | translate }} "{{ getCurrentChannelTitle() }}"</a></li>
     </ul>
 </span>
 

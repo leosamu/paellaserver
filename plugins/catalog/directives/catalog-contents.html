@@ -1,23 +1,23 @@
 
 <section class="ps-channel-list row" ng-show="channelTabSelected()">
     <div class="col-md-6 col-xs-12" ng-repeat="channel in channels">
-        <channel-item channel="channel" is-admin="isAdmin" is-search="isSearch" show-parents="true" user-channels="myChannels" current-channel="currentChannel"></channel-item>
+        <channel-item channel="channel" current-user="currentUser" is-admin="isAdmin" is-search="isSearch" show-parents="true" user-channels="myChannels" current-channel="currentChannel"></channel-item>
     </div>
 </section>
 <section class="ps-video-list row" ng-show="videoTabSelected()">
     <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="video in videos">
-        <video-item video="video" is-admin="isAdmin" is-search="isSearch" show-parents="true" user-channels="myChannels" current-channel="currentChannel"></video-item>
+        <video-item video="video" current-user="currentUser" is-admin="isAdmin" is-search="isSearch" show-parents="true" user-channels="myChannels" current-channel="currentChannel"></video-item>
     </div>
 </section>
 
 <section class="ps-video-list row" ng-show="myVideosTabSelected()">
     <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="video in myVideos">
-        <video-item video="video" is-admin="isAdmin" is-search="isSearch" show-parents="true" user-channels="myChannels"></video-item>
+        <video-item video="video" current-user="currentUser" is-admin="isAdmin" is-search="isSearch" show-parents="true" user-channels="myChannels"></video-item>
     </div>
 </section>
 
 <section class="ps-video-list row" ng-show="myChannelsTabSelected()">
     <div class="col-md-6 col-xs-12" ng-repeat="myChannel in myChannels">
-        <channel-item channel="myChannel" is-admin="isAdmin" is-search="isSearch" show-parents="true" user-channels="myChannels"></channel-item>
+        <channel-item channel="myChannel" current-user="currentUser" is-admin="isAdmin" is-search="isSearch" show-parents="true" user-channels="myChannels"></channel-item>
     </div>
 </section>
