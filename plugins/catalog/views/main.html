@@ -16,7 +16,7 @@
             ></search-bar>
 
 
-    <section class="ps-current-channel" ng-show="channelData">
+    <section class="ps-current-channel" ng-show="channelData && currentTab!=2 && currentTab!=3">
         <h1>
             {{channelData.title}}
             <span class="ps-header-link dropdown" dropdown ng-show="channelId">
@@ -31,7 +31,7 @@
             </span>
         </h1>
     </section>
-    <section class="ps-current-channel" ng-hide="channelId">
+    <section class="ps-current-channel" ng-hide="channelId || currentTab==2 || currentTab==3">
         <h1>
             {{ "featured_videos_text" | translate }}
             <span class="ps-video-counter pull-right" ng-show="totalVideos && !isEmbed">{{totalVideos}} {{ "available_videos_text" | translate }}</span>
