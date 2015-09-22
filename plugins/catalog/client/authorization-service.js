@@ -51,6 +51,9 @@
 				}
 
 				function checkPermission(check) {
+					if (!resource) {
+						return false;
+					}
 					var result = false;
 					var roles = getRoles(user);
 					var permissions = getPermissions(resource);

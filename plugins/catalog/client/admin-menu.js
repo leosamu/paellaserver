@@ -54,7 +54,9 @@
 				};
 
 				$scope.canWriteChannel = function() {
-					return $scope.currentChannel && Authorization($scope.currentChannel, $scope.currentUser).canWrite();
+					return $scope.currentChannel &&
+						$scope.currentChannel.id &&
+						Authorization($scope.currentChannel, $scope.currentUser).canWrite();
 				};
 			}]
 		};
