@@ -3,7 +3,7 @@
 
 	catalogModule.controller('ChannelEditModalController', ["$scope", "$translate", "$modalInstance", "channelData", function($scope, $translate, $modalInstance, channelData) {
 		$scope.channelData = channelData || {};
-		$scope.previousChannelTitle = channelData.title;
+		$scope.previousChannelTitle = $scope.channelData.title;
 		$scope.acceptText = channelData!=null ? "edit_text":"create_text";
 		$scope.titleText =  channelData!=null ? "edit_channel_text_title":"create_channel_text_title";
 
