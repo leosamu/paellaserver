@@ -9,7 +9,7 @@
 				currentUser:"=",
 				currentChannel:"="
 			},
-			controller: ['$scope','Channel','ChannelEditPopup', function ($scope,Channel,ChannelEditPopup) {
+			controller: ['$scope','$translate','Channel','ChannelEditPopup','Authorization', function ($scope,$translate,Channel,ChannelEditPopup,Authorization) {
 				$scope.status = {
 					isopen: false
 				};
@@ -20,8 +20,41 @@
 
 				$scope.createChannel = function() {
 					ChannelEditPopup(null, function(channelData) {
-						console.log("Create channel");
+						Channel.create(channelData).$promise
+							.then(function(data) {
+								location.reload();
+							});
 					});
+				};
+
+				$scope.removeChannel = function() {
+					if (Authorization($scope.currentChannel, $scope.currentUser).canWrite() &
+						confirm($translate.instant("confirm_channel_remove_message"))) {
+						Channel.remove($scope.currentChannel).$promise
+							.then(function(result) {
+								location.href = '/';
+							});
+					}
+				};
+
+				$scope.editChannel = function() {
+					if (Authorization($scope.currentChannel, $scope.currentUser).canWrite() && $scope.currentChannel) {
+						ChannelEditPopup($scope.currentChannel, function (channelData) {
+							if (channelData.owner && channelData.owner.forEach) {
+								channelData.owner.forEach(function(item, index, array) {
+									array[index] = item._id;
+								});
+							}
+							Channel.update(channelData).$promise
+								.then(function(result) {
+									location.reload();
+								});
+						})
+					}
+				};
+
+				$scope.canWriteChannel = function() {
+					return $scope.currentChannel && Authorization($scope.currentChannel, $scope.currentUser).canWrite();
 				};
 			}]
 		};

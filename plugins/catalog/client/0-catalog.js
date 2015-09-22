@@ -163,7 +163,9 @@
 					.then(function(result) {
 						$scope.channelData = {
 							title: null,
-							owner: null
+							owner: null,
+							hidden: false,
+							hiddenInSearches: false
 						};
 						$scope.channels = result.channels;
 						$scope.videos = result.videos;
@@ -179,7 +181,9 @@
 						$scope.channelData = {
 							id:$scope.channelId,
 							title: result.title,
-							owner: result.owner
+							owner: result.owner,
+							hidden: result.hidden,
+							hiddenInSearches: result.hiddenInSearches
 						};
 						$scope.channels = result.children;
 						$scope.videos = result.videos;

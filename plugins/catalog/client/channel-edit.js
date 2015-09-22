@@ -11,8 +11,7 @@
 		};
 
 		$scope.accept = function() {
-			console.log($scope.channelData);
-			$modalInstance.close($scope.selected);
+			$modalInstance.close($scope.channelData);
 		};
 	}]);
 
@@ -28,8 +27,8 @@
 				}
 			});
 
-			modalInstance.result.then(function(selected) {
-				if (typeof(onDone)=='function') onDone(channelData);
+			modalInstance.result.then(function(result) {
+				if (typeof(onDone)=='function') onDone(result);
 			});
 		};
 	}]);

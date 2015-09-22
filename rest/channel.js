@@ -17,7 +17,7 @@ exports.routes = {
 
 	createChannel: { post:[
 		AuthController.EnsureAuthenticatedOrDigest,
-		AuthController.CheckAccess(['ADMIN']),
+		//AuthController.CheckAccess(['ADMIN']),
 		function(req,res,next) {
 			req.data = req.body;
 			next();
@@ -26,9 +26,11 @@ exports.routes = {
 		CommonController.JsonResponse
 	]},
 
-	updateChannel: { param:'id', put:[
+	// Update all the channel fields with the contents of request.body
+	updateChannel: { param:'id', patch:[
 		AuthController.EnsureAuthenticatedOrDigest,
 		ChannelController.LoadChannel,
+		AuthController.LoadRoles,
 		AuthController.CheckWrite,
 		function(req,res,next) {
 			req.data = req.body;
@@ -38,9 +40,24 @@ exports.routes = {
 		CommonController.JsonResponse
 	]},
 
+	// Update only the fields specified in request.body
+	patchChannel: { param:'id', patch:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		ChannelController.LoadChannel,
+		AuthController.LoadRoles,
+		AuthController.CheckWrite,
+		function(req,res,next) {
+			req.data = req.body;
+			next();
+		},
+		ChannelController.PatchChannel,
+		CommonController.JsonResponse
+	]},
+
 	removeChannel: { param:'id', delete:[
 		AuthController.EnsureAuthenticatedOrDigest,
 		ChannelController.LoadChannel,
+		AuthController.LoadRoles,
 		AuthController.CheckWrite,
 		ChannelController.RemoveChannel,
 		CommonController.JsonResponse

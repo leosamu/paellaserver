@@ -389,6 +389,32 @@ exports.UpdateChannel = function(req,res,next) {
 	});
 };
 
+// Update an existing channel with the parameters specified in req.data, and keep unchanged the resto of the elements
+//	Input: req.data: the new data, req.params.id: the target channel. req.data._id will be ignored
+//	Output: req.data: the new channel data.
+exports.PatchChannel = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	var channelData = req.data;
+	var user = req.user;
+
+	if (typeof(channelData)!="object" && (!channelData.title || channelData.title=="")) {
+		res.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
+		return;
+	}
+
+	delete channelData._id;
+
+	Channel.update({ "_id":req.params.id }, { "$set":channelData }, { multi:false }, function(err,data) {
+		if (!err) {
+			req.data = channelData;
+			req.data._id = req.params.id;
+			next();
+		}
+		else {
+			res.status(500).json({ status:false, message:"Unexpected server error creating new channel:" + err});
+		}
+	});
+};
 
 // Delete a channel
 //	Input: req.params.id: the channel id

@@ -47,6 +47,7 @@
 	"title_field_text":"Title",
 	"channel_title_field_placeholder_text":"descriptive title",
 	"visibility_field_text":"Visibility",
-	"hidden_in_list_text":"Hidden in lists",
-	"hidden_in_searches_text":"Hidden in searches"
+	"hidden_in_list_text":"Locked in lists",
+	"hidden_in_searches_text":"Locked in searches",
+  	"confirm_channel_remove_message":"You are about to remove the current channel. This action can't be undone. Do you want to continue?"
 }

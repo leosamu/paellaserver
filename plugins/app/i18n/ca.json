@@ -44,9 +44,10 @@
 	"edit_text":"Guardar",
 	"create_text":"Crear",
 	"identifier_field_text":"Identificador",
-	"title_field_text":"Título",
-	"channel_title_field_placeholder_text":"nombre descriptivo del canal",
-	"visibility_field_text":"Visibilidad",
-	"hidden_in_list_text":"Oculto en listados",
-	"hidden_in_searches_text":"Oculto en búsquedas"
+	"title_field_text":"Títol",
+	"channel_title_field_placeholder_text":"nom descriptiu del canal",
+	"visibility_field_text":"Visibilitad",
+	"hidden_in_list_text":"Bloquejat en llistats",
+	"hidden_in_searches_text":"Bloquejat  en recerques",
+  	"confirm_channel_remove_message":"Está a punto de eliminar el canal actual. Esta acción no se puede deshacer, ¿desea continuar?"
 }

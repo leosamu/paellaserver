@@ -47,6 +47,11 @@
 	"title_field_text":"Título",
 	"channel_title_field_placeholder_text":"nombre descriptivo del canal",
 	"visibility_field_text":"Visibilidad",
-	"hidden_in_list_text":"Oculto en listados",
-	"hidden_in_searches_text":"Oculto en búsquedas"
+	"hidden_in_list_text":"Bloqueado en listas",
+	"hidden_in_searches_text":"Bloqueado en búsquedas",
+
+  	"create_channel_menu_option":"Crear Nuevo Canal",
+  	"edit_channel_menu_option":"Editar Canal Actual",
+  	"remove_channel_menu_option":"Borrar Canal Actual",
+  	"confirm_channel_remove_message":"Está a punto de eliminar el canal actual. Esta acción no se puede deshacer, ¿desea continuar?"
 }
