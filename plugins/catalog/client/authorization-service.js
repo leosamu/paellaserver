@@ -55,12 +55,17 @@
 					var roles = getRoles(user);
 					var permissions = getPermissions(resource);
 					roles.some(function(r) {
-						permissions.some(function(p) {
-							if (p.role==r._id && p[check]) {
-								result = true;
-							}
-							return result;
-						});
+						if (r.isAdmin) {
+							result = true;
+						}
+						else {
+							permissions.some(function(p) {
+								if (p.role==r._id && p[check]) {
+									result = true;
+								}
+								return result;
+							});
+						}
 						return result;
 					});
 
