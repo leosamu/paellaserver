@@ -7,13 +7,15 @@
         </p>
     </h1>
 
-    <tabset vertical="true" type="pills" ng-show="!navMode">
-        <tab ng-repeat="channel in channels | filter:query " heading="{{channel.title}}" select="selectItem(channel)"></tab>
-    </tabset>
+    <div class="ps-popup-list">
+        <tabset vertical="true" type="pills" ng-show="!navMode">
+            <tab ng-repeat="channel in channels | filter:query " heading="{{channel.title}}" select="selectItem(channel)"></tab>
+        </tabset>
 
-    <ul class="" ng-show="navMode">
-        <li ng-repeat="channel in channels | filter:query"><a ng-href="{{getChannelUrl(channel)}}" ng-click="close()">{{channel.title}}</a></li>
-    </ul>
+        <ul class="" ng-show="navMode">
+            <li ng-repeat="channel in channels | filter:query"><a ng-href="{{getChannelUrl(channel)}}" ng-click="close()">{{channel.title}}</a></li>
+        </ul>
+    </div>
 
     <p class="modal-footer">
         <button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>

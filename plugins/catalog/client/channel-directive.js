@@ -56,7 +56,9 @@
 				};
 
 				$scope.allowRemove = function() {
-					return Authorization($scope.currentChannel,$scope.currentUser).canWrite();
+					return Authorization($scope.currentChannel,$scope.currentUser).canWrite() &&
+							$scope.currentChannel &&
+							$scope.currentChannel.id;
 				};
 
 				$scope.showParentChannels = function() {
@@ -67,7 +69,7 @@
 					ChannelListPopup($scope.userChannels, false, function(parentChannel) {
 						Channel.addChannel({ id:parentChannel._id, childId:$scope.channel._id },
 							{ id:'@id', childId:'@childId'}).$promise
-							.then(function(result) {ç
+							.then(function(result) {
 								location.reload();
 							});
 					});

@@ -180,14 +180,6 @@
 					.then(function(result) {
 						$scope.channelData = result || {};
 						$scope.channelData.id = $scope.channelData._id;
-/*						$scope.channelData = {
-							id:$scope.channelId,
-							title: result.title,
-							owner: result.owner,
-							hidden: result.hidden,
-							hiddenInSearches: result.hiddenInSearches
-						};
-						*/
 						$scope.channels = result.children;
 						$scope.videos = result.videos;
 						$scope.selectDefaultTab();
