@@ -50,7 +50,8 @@
 				$scope.allowRemove = function() {
 					return Authorization($scope.currentChannel,$scope.currentUser).canWrite() &&
 						$scope.currentChannel &&
-						$scope.currentChannel.id;
+						$scope.currentChannel.title &&
+						$scope.currentChannel.title!="";
 				};
 
 				$scope.addToChannel = function() {
