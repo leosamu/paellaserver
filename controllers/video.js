@@ -233,12 +233,8 @@ exports.Where = function(query,select) {
 // Create a new video using the full json object except the identifier
 //	Input: req.body.data > valid video object (see CheckVideo)
 // 	Output: req.data > the new video object, including the identifier
-exports.Create = function(req,res,next) {
+exports.CreateVideo = function(req,res,next) {
 
-
-	if (data) {
-
-	}
 };
 
 
