@@ -1,5 +1,6 @@
 
 var mongoose = require('mongoose');
+var RepositoryController = require('./repository');
 
 // Load video title and identifier list
 //	Input: req.query.skip, req.query.limit, req.data.query
@@ -231,10 +232,72 @@ exports.Where = function(query,select) {
 };
 
 // Create a new video using the full json object except the identifier
-//	Input: req.body.data > valid video object (see CheckVideo)
+//	Input: req.data > valid video object
 // 	Output: req.data > the new video object, including the identifier
 exports.CreateVideo = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	var videoData = req.data;
+	var user = req.user;
+	if (!user) {
+		res.status(401).json({ status:false, message:"Could not create video. No user logged in" });
+		return;
+	}
 
+	if (typeof(videoData)!='object' ||
+		!videoData.title ||
+		!videoData.type
+	) {
+		res.status(500).json({ status:false, message:"Could not create video. Invalid video data. Title and type fields are required."});
+		return;
+	}
+
+	if (!videoData.published) {
+		videoData.published = {
+			status:true
+		}
+	}
+
+	if (!videoData.owner) {
+		videoData.owner = [ user._id ];
+	}
+
+	if (!videoData.source) {
+		videoData.source = {
+			type:videoData.type,
+			videos:[]
+		}
+	}
+
+	if (!videoData.pluginData) {
+		videoData.pluginData = {}
+	}
+
+	videoData._id = "";
+	RepositoryController.utils.initializeResource(videoData)
+		.then(function(repository) {
+			delete videoData._id;
+			var newVideo = new Video(videoData);
+			newVideo.repository = repository._id;
+			newVideo.save(function(err, newVideoData) {
+				if (!err) {
+					req.data = JSON.parse(JSON.stringify(newVideoData));
+					delete req.data.__v;
+					RepositoryController.utils.createResourcesDirectory(req.data)
+						.then(function() {
+							next();
+						})
+						.fail(function(err) {
+							res.status(500).json({ status:false, message:err.message });
+						});
+				}
+				else {
+					res.status(500).json({ status:false, message:"Unexpected server error creating new video: " + err.toString()});
+				}
+			});
+		})
+		.fail(function(err) {
+			res.status(500).json({ status:false, message:err.message });
+		});
 };
 
 

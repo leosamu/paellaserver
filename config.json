@@ -29,5 +29,9 @@
 	},
 	"player":{
 		"title":"Polimedia"
+	},
+  	"repository":{
+	  	"default":"polimedia_imported",
+	  	"polimedia":"polimedia_imported"
 	}
 }

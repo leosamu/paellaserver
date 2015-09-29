@@ -132,7 +132,8 @@ exports.routes = {
 				responseData.permissions.canContribute = true;
 				res.json(responseData);
 			}
-			else if (video.pluginData.OA &&
+			else if (video.pluginData &&
+				video.pluginData.OA &&
 				video.pluginData.OA &&
 				video.pluginData.OA.isOA) {
 				checkOA(responseData,req.user,video,function(err,authData) {

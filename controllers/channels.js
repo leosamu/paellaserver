@@ -343,7 +343,7 @@ exports.CreateChannel = function(req,res,next) {
 		return;
 	}
 
-	if (typeof(channelData)!="object" && !channelData.title) {
+	if (typeof(channelData)!="object" || !channelData.title) {
 		res.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
 		return;
 	}
