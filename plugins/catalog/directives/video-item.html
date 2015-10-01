@@ -10,7 +10,7 @@
     </ul>
 </span>
 
-<article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(!isVisible()), 'ps-admin':isAdmin }">
+<article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(!isVisible()), 'ps-admin':isAdmin, 'ps-unprocessed':video.unprocessed }">
     <img class="ps-image img-responsive" ng-src="{{thumbnail(video)}}" alt="{{video.title + ' image'}}"/>
     <div class="ps-lock" ng-show="!isVisible()"><i class="glyphicon glyphicon-lock"></i></div>
     <h2 class="ps-title text-center">

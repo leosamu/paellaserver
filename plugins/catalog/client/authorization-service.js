@@ -117,6 +117,15 @@
 
 						return canWrite;
 						*/
+					},
+
+					haveRole: function(checkRoles) {
+						var roles = getRoles(user);
+						return roles.some(function(r) {
+							return checkRoles.some(function(chR) {
+								return typeof(r)=="string" ? r==chR: r._id==chR;
+							});
+						});
 					}
 				}
 			};

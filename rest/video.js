@@ -21,9 +21,20 @@ exports.routes = {
 		},
 		VideoController.CreateVideo,
 		CommonController.JsonResponse
+	]},
+
+	updateVideo: { param:'id', patch:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		VideoController.LoadVideo,
+		AuthController.LoadRoles,
+		AuthController.CheckWrite,
+		function(req,res,next) {
+			req.data = req.body;
+			next();
+		},
+		VideoController.UpdateVideo,
+		CommonController.JsonResponse
 	]}
-
-
 /*
 
 	,

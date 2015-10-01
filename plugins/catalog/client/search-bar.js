@@ -22,12 +22,19 @@
 				currentChannel: "=",
 				currentUser: "="
 			},
-			controller: ['$scope','User',function ($scope,User) {
+			controller: ['$scope','User','AuthorSearch',function ($scope,User,AuthorSearch) {
 				$scope.logged = false;
 				$scope.isAdmin = false;
 				historyUrls.push(location.href);
 
 				$scope.backEnabled = historyUrls.length>1;
+
+				$scope.searchByAuthor = function() {
+					AuthorSearch(function(selectedAuthor) {
+						$scope.searchText = "";
+						location.href = "#/catalog/author/" + selectedAuthor.id;
+					})
+				};
 
 				$scope.back = function() {
 					if ($scope.backEnabled) {

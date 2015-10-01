@@ -9,7 +9,16 @@
 				currentUser:"=",
 				currentChannel:"="
 			},
-			controller: ['$scope','$translate','Channel','ChannelEditPopup','Authorization', function ($scope,$translate,Channel,ChannelEditPopup,Authorization) {
+			controller: ['$scope','$translate',
+				'Channel',
+				'Video',
+				'ChannelEditPopup',
+				'VideoEditPopup',
+				'Authorization',
+				'ChannelListPopup',
+				'AuthorSearch',
+				'User',
+				function ($scope,$translate,Channel,Video,ChannelEditPopup,VideoEditPopup,Authorization,ChannelListPopup,AuthorSearch,User) {
 				$scope.status = {
 					isopen: false
 				};
@@ -57,6 +66,63 @@
 					return $scope.currentChannel &&
 						$scope.currentChannel.id &&
 						Authorization($scope.currentChannel, $scope.currentUser).canWrite();
+				};
+
+				$scope.canUploadPolimedia = function() {
+					return Authorization(null,$scope.currentUser).haveRole(['ADMIN','POLIMEDIA']);
+				};
+
+				$scope.createPolimedia = function() {
+					VideoEditPopup(null, true, 'polimedia', function(videoData) {
+						Video.create(videoData).$promise
+							.then(function(data) {
+								// Show video data
+							});
+					});
+				};
+
+				$scope.editVideo = function(videoData) {
+					switch (typeof(videoData)) {
+						case 'string':
+							var id = videoData;
+							break;
+						case 'object':
+							var id = videoData.id || videoData._id;
+							break;
+						default:
+							// TODO: error
+					}
+
+					Video.get({ id:id }).$promise
+						.then(function(data) {
+							VideoEditPopup(data, true, null, function(newVideoData) {
+								newVideoData.id = id;
+								Video.update(newVideoData).$promise
+									.then(function(result) {
+										location.reload();
+									});
+							});
+						});
+				};
+
+				$scope.showUnprocessedVideos = function() {
+					Video.unprocessed().$promise
+						.then(function(data) {
+							ChannelListPopup(data, false, function(selectedVideo) {
+								$scope.editVideo(selectedVideo);
+							});
+						});
+				};
+
+				$scope.showVideosByAuthor = function() {
+					AuthorSearch(function(selectedAuthor) {
+						User.videos({ id:selectedAuthor.id }).$promise
+							.then(function(data) {
+								ChannelListPopup(data, false, function(selectedVideo) {
+									$scope.editVideo(selectedVideo);
+								});
+							});
+					});
 				};
 			}]
 		};

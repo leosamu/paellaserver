@@ -12,6 +12,7 @@
 		$scope.currentUser = null;
 
 		$scope.searchText = decodeURI($routeParams.search || "");
+		$scope.authorId = $scope.searchText=="" ? $routeParams.author:null;
 		$scope.channelId = $scope.searchText=="" ? $routeParams.id:null;
 		$scope.totalVideos = 0;
 
@@ -149,7 +150,11 @@
 
 		$scope.doSearch = function() {
 			$scope.loading = true;
-			if ($scope.searchText && $scope.searchText!="") {
+			if ($scope.authorId) {
+				$scope.isSearch = true;
+				location.href = "#/catalog/author/" + $scope.authorId;
+			}
+			else if ($scope.searchText && $scope.searchText!="") {
 				$scope.isSearch = true;
 				location.href = "#/catalog/search/" + encodeURI($scope.searchText);
 			}
@@ -158,7 +163,20 @@
 				location.href = "#/catalog";
 			}
 
-			if (!$scope.channelId) {
+			if ($scope.authorId) {
+				$scope.channels = [];
+				$scope.videos = [];
+				User.videos({ id:$scope.authorId }).$promise
+					.then(function(data) {
+						$scope.videos = data;
+						$scope.channels = [];
+						$scope.showVideos();
+						$scope.loading = false;
+						addSortingIndexes($scope.channels);
+						addSortingIndexes($scope.videos);
+					});
+			}
+			else if (!$scope.channelId) {
 				Channel.search({search:$scope.searchText}).$promise
 					.then(function(result) {
 						$scope.channelData = {
@@ -169,6 +187,7 @@
 						};
 						$scope.channels = result.channels;
 						$scope.videos = result.videos;
+						$scope.selectTa
 						$scope.selectBestTab();
 						$scope.loading = false;
 						addSortingIndexes($scope.channels);
@@ -327,6 +346,11 @@
 			}).
 
 			when('/catalog/channel/:id', {
+				templateUrl: 'catalog/views/main.html',
+				controller: 'CatalogController'
+			}).
+
+			when('/catalog/author/:author', {
 				templateUrl: 'catalog/views/main.html',
 				controller: 'CatalogController'
 			});

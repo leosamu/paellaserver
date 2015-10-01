@@ -92,3 +92,24 @@ exports.Authors = function(type) {
 		);
 	}
 };
+
+// Create user
+//	Input: req.body: the user object
+//	Output: req.data: the new user object, with the identifier
+exports.CreateUser = function(req,res,next) {
+	var User = require(__dirname + '/../models/user');
+	var userData = req.body;
+	if (!userData.contactData || !userData.contactData.name || !userData.contactData.email) {
+		res.status(401).json({ status:false, message:"Invalid user data" });
+	}
+	else {
+		if (!userData.roles || !userData.roles.length) {
+			userData.roles = [ "USER" ];
+		}
+		var newUser = new User(userData);
+		newUser.save(function(err,result) {
+			req.data = result;
+			next();
+		});
+	}
+};

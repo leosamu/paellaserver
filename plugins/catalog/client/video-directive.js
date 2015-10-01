@@ -39,7 +39,10 @@
 				};
 
 				$scope.isVisible = function () {
-					if ($scope.isSearch) {
+					if ($scope.video.unprocessed) {
+						return false;
+					}
+					else if ($scope.isSearch) {
 						return !$scope.video.hiddenInSearches;
 					}
 					else {

@@ -106,7 +106,7 @@ exports.CheckPublished = function(req,res,next) {
 exports.LoadUrlFromRepository = function(req,res,next) {
 	var Repository = require(__dirname + '/../models/repository');
 	if (req.data && req.data.length>0 && req.data[0].source && req.data[0].source.videos) {
-		var videoData = req.data[0];
+		var videoData = JSON.parse(JSON.stringify(req.data[0]));
 		Repository.find({"_id":videoData.repository})
 			.exec(function(err,repo) {
 				if (repo.length>0) {
@@ -117,13 +117,19 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 				}
 				videoData.source.videos.forEach(function(video) {
 					if (video.src) {
-						video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + video.src;
+						var videoSrc = video.src;
+						video.src_file = videoSrc;
+						video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + videoSrc;
+						video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
 					}
 				});
 				if (videoData.source.slaveVideos && videoData.source.slaveVideos.forEach) {
 					videoData.source.slaveVideos.forEach(function(video) {
 						if (video.src) {
-							video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + video.src;
+							var videoSrc = video.src;
+							video.src_file = videoSrc;
+							video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + videoSrc;
+							video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
 						}
 					});
 				}
@@ -155,6 +161,49 @@ exports.LoadThumbnails = function(req,res,next) {
 		});
 	}
 	next();
+};
+
+// Load the video url's from the repository
+//	Input: req.data (video)
+//	Output: req.data (video) with the full video url
+exports.LoadStorageDataFromRepository = function(req,res,next) {
+	var Repository = require(__dirname + '/../models/repository');
+	if (req.data && req.data.length>0) {
+		var videoList = JSON.parse(JSON.stringify(req.data));
+		videoList.forEach(function(videoData) {
+			Repository.find({"_id":videoData.repository})
+				.exec(function(err,repo) {
+					if (repo.length>0) {
+						repo = repo[0];
+					}
+					else {
+						repo = { server:'', endpoint:'' };
+					}
+					videoData.source.videos.forEach(function(video) {
+						if (video.src) {
+							var videoSrc = video.src;
+							video.src_file = videoSrc;
+							video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + videoSrc;
+							video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
+						}
+					});
+					if (videoData.source.slaveVideos && videoData.source.slaveVideos.forEach) {
+						videoData.source.slaveVideos.forEach(function(video) {
+							if (video.src) {
+								var videoSrc = video.src;
+								video.src_file = videoSrc;
+								video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + video.src;
+								video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
+							}
+						});
+					}
+					next();
+				});
+		});
+	}
+	else {
+		next();
+	}
 };
 
 function checkVideoData(video) {
@@ -261,6 +310,10 @@ exports.CreateVideo = function(req,res,next) {
 		videoData.owner = [ user._id ];
 	}
 
+	if (!videoData.unprocessed) {
+		videoData.unprocessed = true;
+	}
+
 	if (!videoData.source) {
 		videoData.source = {
 			type:videoData.type,
@@ -300,6 +353,36 @@ exports.CreateVideo = function(req,res,next) {
 		});
 };
 
+// Create a new video using the full json object except the identifier
+//	Input: req.data > valid video object
+// 	Output: req.data > the new video object, including the identifier
+exports.UpdateVideo = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	var videoData = req.data;
+	var user = req.user;
+	if (!user) {
+		res.status(401).json({ status:false, message:"Could not update video. No user logged in" });
+		return;
+	}
+
+	if (typeof(videoData)!='object') {
+		res.status(500).json({ status:false, message:"Could not update video. Invalid video data."});
+		return;
+	}
+
+	delete videoData._id;
+
+	Video.update({ "_id":req.params.id}, { "$set":videoData }, { multy:false }, function(err,data) {
+		if (!err) {
+			req.data = videoData;
+			req.data._id = req.params.id;
+			next();
+		}
+		else {
+			res.status(500).json({ status:false, message:"Unexpected server error creating new video: " + err.message });
+		}
+	});
+};
 
 // Update a video field
 //	Input:

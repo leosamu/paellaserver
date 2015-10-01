@@ -1,0 +1,30 @@
+<div class="form-group">
+	<label class="col-md-4 control-label" for="author-id">{{ "identifier_text" | translate }}</label>
+	<div class="col-md-5">
+		<input id="author-id" type="text" class="form-control input-md" ng-model="id" disabled>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-md-4 control-label" for="email">{{ "email_text" | translate }}</label>
+	<div class="col-md-5">
+		<input id="email" type="text" class="form-control input-md" required ng-model="email" ng-change="mailChanged()">
+
+	</div>
+	<div class="col-md-1">
+		<i class="ps-form-item glyphicon glyphicon-ok" style="color:green;" ng-show="found"></i>
+		<i class="ps-form-item glyphicon glyphicon-remove" style="color:red;" ng-show="!found && searchDone"></i>
+		<loader-field ng-show="searching"></loader-field>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-md-4 control-label" for="author-name">{{ "name_text" | translate }}</label>
+	<div class="col-md-5">
+		<input id="author-name" type="text" class="form-control input-md" required ng-model="name">
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-md-4 control-label" for="lastname-name">{{ "lastname_text" | translate }}</label>
+	<div class="col-md-5">
+		<input id="lastname-name" type="text" class="form-control input-md" ng-model="lastName">
+	</div>
+</div>

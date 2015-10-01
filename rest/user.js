@@ -8,5 +8,12 @@ var AuthController = require(__dirname + '/../controllers/auth');
 exports.routes = {
 	getUserData: { param:'id', get:[
 		UserController.LoadBasicUserData,
-		CommonController.JsonResponse]}
+		CommonController.JsonResponse]},
+
+	createUser: { post:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		AuthController.CheckRole(['ADMIN','POLIMEDIA']),
+		UserController.CreateUser,
+		CommonController.JsonResponse
+	]}
 };

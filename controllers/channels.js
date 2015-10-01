@@ -411,7 +411,7 @@ exports.PatchChannel = function(req,res,next) {
 			next();
 		}
 		else {
-			res.status(500).json({ status:false, message:"Unexpected server error creating new channel:" + err});
+			res.status(500).json({ status:false, message:"Unexpected server error creating new channel:" + err.message});
 		}
 	});
 };

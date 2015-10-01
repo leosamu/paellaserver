@@ -9,6 +9,10 @@
                 <li><a href="" ng-click="editChannel()" ng-show="canWriteChannel()">{{ "edit_channel_menu_option" | translate }}</a></li>
                 <li class="divider" ng-show="canWriteChannel()"></li>
                 <li><a href="" ng-click="removeChannel()" ng-show="canWriteChannel()">{{ "remove_channel_menu_option" | translate }}</a></li>
+                <li class="divider" ng-show="canUploadPolimedia()"></li>
+                <li><a href="" ng-show="canUploadPolimedia()" ng-click="createPolimedia()">{{ "create_polimedia_menu_option" | translate }}</a></li>
+                <li><a href="" ng-show="canUploadPolimedia()" ng-click="showUnprocessedVideos()">{{ "show_unprocessed_videos" | translate }}</a></li>
+                <li><a href="" ng-show="canUploadPolimedia()" ng-click="showVideosByAuthor()">{{ "show_videos_by_author" | translate }}</a></li>
             </ul>
         </div>
     </li>
