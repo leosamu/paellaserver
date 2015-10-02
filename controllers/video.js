@@ -294,7 +294,8 @@ exports.CreateVideo = function(req,res,next) {
 
 	if (typeof(videoData)!='object' ||
 		!videoData.title ||
-		!videoData.type
+		!videoData.source ||
+		!videoData.source.type
 	) {
 		res.status(500).json({ status:false, message:"Could not create video. Invalid video data. Title and type fields are required."});
 		return;

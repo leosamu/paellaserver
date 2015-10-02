@@ -19,7 +19,7 @@
 		{{ titleText | translate }}
 	</h1>
 
-	<form name="videoForm" class="form-horizontal">
+	<form name="videoForm" class="form-horizontal" novalidate>
 		<fieldset>
 			<!-- Text input-->
 			<div class="form-group" ng-show="videoData._id">
@@ -54,6 +54,9 @@
 			<div class="alert alert-warning" role="alert" ng-show="!videoData.authorId && videoData.authorEmail">{{ "create_author_warning" | translate }}</div>
 
 			<accordion>
+				<accordion-group heading="{{ 'categories' | translate }}" is-open="true">
+					<unesco-code-list ng-model="videoData.unescoCodes"></unesco-code-list>
+				</accordion-group>
 				<accordion-group heading="{{ 'polimedia_video_details_title' | translate }}">
 					<div class="form-group">
 						<label class="col-md-4 control-label" for="title">{{ "file_name" | translate }}</label>

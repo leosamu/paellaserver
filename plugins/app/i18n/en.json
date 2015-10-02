@@ -77,5 +77,10 @@
 	"no":"Norwegian",
 	"fi":"Finnish",
 	"kk":"Kazakh",
-	"ar":"Arabic"
+	"ar":"Arabic",
+
+	"categories":"Categories",
+	"no_categories_selected_text":"There isn't any category selected",
+	"add_category_text":"Add category",
+	"select_subcategory_text":"Select category"
 }

@@ -26,7 +26,10 @@ exports.utils = {
 				return false;
 			}
 		}
-		else if (resource && resource._id!==undefined && resource.type && typeof(resource.type)=="string") {
+		else if (resource && resource._id!==undefined &&
+			((resource.type && typeof(resource.type)=="string")) ||
+			(resource.source && typeof(resource.source.type)=="string")
+		) {
 			return true;
 		}
 		else {
@@ -54,6 +57,7 @@ exports.utils = {
 	initializeResource: function(resource) {
 		var deferred = Q.defer();
 		var result = null;
+		var resourceType = resource.type || (resource.source && resource.source.type);
 
 		if (this.assertValidResource(resource, deferred)
 			&& !this.isResourceInitialized(resource)
@@ -61,7 +65,7 @@ exports.utils = {
 			var config = configure.config;
 			for (var type in config.repository) {
 				var repo = config.repository[type];
-				if (type==resource.type) {
+				if (type==resourceType) {
 					result = repo;
 					break;
 				}

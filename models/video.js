@@ -72,7 +72,7 @@ var VideoSchema = new Schema({
 		]
 	},
 	unprocessed: { type:Boolean, default:false },
-	pluginData: Schema.Types.Mixed,
+	pluginData: { type:Object },
 	thumbnail: String,
 	metadata: {
 		keywords: [ { type: String } ]

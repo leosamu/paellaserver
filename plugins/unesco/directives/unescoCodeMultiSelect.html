@@ -1,0 +1,15 @@
+<div class="form-group">
+	<div class="col-sm-12">
+		<select class="form-control input-sm" placeholder="Unesco code" ng-model="code" unesco-code="1" ng-options="code as 'unesco:'+code | translate for code in unesco1">
+			<option value=""> {{ 'add_category_text' | translate }}</option>
+		</select>	
+
+		<select class="form-control input-sm" placeholder="Unesco code" ng-model="code" unesco-code="2" ng-hide="code.length<2 || unesco2.length==0" ng-options="code as 'unesco:'+code | translate for code in unesco2">
+			<option value=""> {{ 'select_subcategory_text' | translate }}</option>
+		</select>	
+
+		<select class="form-control input-sm" placeholder="Unesco code" ng-model="code" unesco-code="3" ng-hide="code.length<4 || unesco3.length==0" ng-options="code as 'unesco:'+code | translate for code in unesco3">
+			<option value=""> {{ 'select_subcategory_text' | translate }}</option>
+		</select>		
+	</div>
+</div>

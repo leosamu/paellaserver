@@ -78,6 +78,7 @@
 				$scope.videoData.hidden = savedData.hidden;
 				$scope.videoData.hiddenInSearches = savedData.hidenInSearches;
 				$scope.videoData.link = "";
+				$scope.videoData.unescoCodes = savedData.unescoCodes || [];
 
 				$scope.selectedLanguage = { "id":"es" };
 
@@ -110,6 +111,7 @@
 						$scope.videoData.path = video.path;
 						$scope.videoData.hidden = dbVideoData.hidden;
 						$scope.videoData.hiddenInSearches = dbVideoData.hidenInSearches;
+						$scope.videoData.unescoCodes = dbVideoData.pluginData.unesco && dbVideoData.pluginData.unesco.codes || [];
 
 						$scope.videoData.unprocessed = dbVideoData.unprocessed;
 
@@ -140,7 +142,12 @@
 				owner:[ $scope.videoData.authorId ],
 				hidden:$scope.videoData.hidden,
 				hiddenInSearches:$scope.videoData.hiddenInSearches,
-				unprocessed:$scope.videoData.unprocessed
+				unprocessed:$scope.videoData.unprocessed,
+				pluginData:{
+					unesco:{
+						codes:$scope.videoData.unescoCodes
+					}
+				}
 			};
 		}
 

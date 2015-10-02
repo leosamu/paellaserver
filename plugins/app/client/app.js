@@ -3,6 +3,7 @@
 	var app = angular.module('paellaserver', [
 		"ngRoute",
 		'pascalprecht.translate',
+		'unescoModule',
 		"catalogModule",
 		"statisticsModule",
 		"loginModule",

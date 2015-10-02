@@ -94,6 +94,11 @@
 	"no":"Noruego",
 	"fi":"Finés",
 	"kk":"Kazajo",
-	"ar":"Árabe"
+	"ar":"Árabe",
+
+	"categories":"Categorías",
+	"no_categories_selected_text":"No hay ninguna categoria seleccionada",
+	"add_category_text":"Añadir categoría",
+	"select_subcategory_text":"Seleccionar subcategoría"
 
 }
