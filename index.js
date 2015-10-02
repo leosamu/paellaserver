@@ -117,6 +117,11 @@ function startServer() {
 		playerConfig.plugins.list["es.upv.paella.extendedTabAdapterPlugin"] = { enabled:false };
 		playerConfig.plugins.list["es.upv.paella.multipleQualitiesPlugin"] = { enabled:true, showWidthRes: true };
 
+		playerConfig.plugins.list["es.upv.paella.usertracking.GoogleAnalyticsSaverPlugIn"] = {
+			"enabled": true,
+			"trackingID": "UA-26470475-7"
+		};
+
 		playerConfig.plugins.list["es.upv.paella.translecture.captionsPlugin"] = {
 			"enabled": true,
 			"tLServer": "https://fuster.cc.upv.es/tl-pm",
