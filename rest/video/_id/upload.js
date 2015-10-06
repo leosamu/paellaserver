@@ -38,7 +38,7 @@ function move (oldPath, newPath, callback) {
 
 exports.routes = {
 	upload: {
-		upload:'video',
+		upload:'file',
 		post: [
 			AuthController.EnsureAuthenticatedOrDigest,
 			VideoController.LoadVideoPopulate,

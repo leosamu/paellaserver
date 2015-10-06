@@ -1,5 +1,5 @@
 (function() {
-	var catalogModule = angular.module('catalogModule',["ngRoute","ngResource","ui.bootstrap"]);
+	var catalogModule = angular.module('catalogModule',["ngRoute","ngResource","ui.bootstrap","ngFileUpload"]);
 
 	catalogModule.controller('CatalogController', ["$scope","$routeParams","Channel","Video","User","ChannelListPopup",function($scope,$routeParams,Channel,Video,User,ChannelListPopup) {
 		$scope.channels = [];
