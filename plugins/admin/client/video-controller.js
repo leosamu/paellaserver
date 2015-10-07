@@ -125,7 +125,7 @@
 					},
 					selectedVideos: function () {
 						var videos = [];
-						$scope.videos.results.forEach(function(v){
+						$scope.videos.list.forEach(function(v){
 							if (v.selected) {
 								videos.push(v);
 							}

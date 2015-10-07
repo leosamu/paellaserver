@@ -84,7 +84,7 @@
 
 
 		<h1>Videos</h1>
-		<h6>{{videos.paginate.total}} videos</h6>		
+		<h6>{{videos.total}} videos</h6>		
 		
 		<div class="table-responsive">
 			<table class="table table-hover">
@@ -99,7 +99,7 @@
 					</tr>
 				</thead>
 				<tbody ng-hide="loadingVideos">
-					<tr ng-repeat="v in videos.results">
+					<tr ng-repeat="v in videos.list">
 						<td><input type="checkbox" ng-model="v.selected"></td>
 						<td>{{v.creationDate | amDateFormat:'ll'}}</td>
 						<td>{{v.title}}</td>
@@ -111,7 +111,7 @@
 									<a class="btn btn-xs btn-default" href="/player/?id={{v._id}}&autoplay=true"> <span class="glyphicon glyphicon-eye-open"></span> </a>
 									<a class="btn btn-xs btn-default" href="#/statistics/views/video/{{v._id}}"> <span class="glyphicon glyphicon-stats"></span> </a>
 									<a class="btn btn-xs btn-default" href="#/admin/videos/edit/{{v._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
-									<button class="btn btn-xs btn-danger" ng-click="deleteVideo(v_id)"> <span class="glyphicon glyphicon-remove"></span> </button>
+									<button class="btn btn-xs btn-danger" ng-click="deleteVideo(v._id)"> <span class="glyphicon glyphicon-remove"></span> </button>
 								</div>
 							</div>
 						</td>
@@ -125,7 +125,7 @@
 
 			<div role="toolbar" class="btn-toolbar">
 				<div class="btn-group" style="margin-top:-20px">		
-					<pagination total-items="videos.paginate.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+					<pagination total-items="videos.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
 				</div>
 
 				<div class="btn-group pull-right">
