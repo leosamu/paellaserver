@@ -9,7 +9,8 @@
 				get: { },
 				create: { url:"/rest/video", method:'POST' },
 				unprocessed: { url:"/rest/videos/unprocessed", method:'GET', isArray:true },
-				update: { method:'PATCH', params:{ 'id':'@id' }}
+				update: { method:'PATCH', params:{ 'id':'@id' }},
+				query: {url:'/rest/videos', params:{limit:100, skip:0}, isArray:false}
 			});
 		}]);
 })();

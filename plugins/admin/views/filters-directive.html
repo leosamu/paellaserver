@@ -1,0 +1,54 @@
+<form class="navbar-form" novalidate>
+	<div class="form-group">
+	
+		<button class="btn btn-default btn-sm" ng-click="addingFilter=!addingFilter">
+			<span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+		</button>
+	</div>
+	<span ng-show="addingFilter">
+		<div class="form-group">
+			<select class="form-control input-sm" ng-model="filterSelected" ng-options="f as f.label for f in selectableFiltes">
+			</select>
+		</div>
+		<div class="form-group" ng-show="filterSelected.type == 'enum'">
+			<select class="form-control input-sm" ng-model="filterParam" ng-options="f as f.label for f in filterSelected.values" ng-change="addEnumFilter()">
+			</select>
+		</div>
+
+		<div class="form-group" ng-show="filterSelected.type == 'text'">
+			<input type="text" class="form-control input-sm" ng-model="filterParam"></input>
+		</div>
+		<div class="form-group" ng-show="filterSelected.type == 'text'">
+			<button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="addTextFilter()"></span></button>
+		</div>
+
+
+		<div class="form-group" ng-show="filterSelected.type == 'timeInterval'">
+			<div class="input-group">
+				<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="filterParam.start" is-open="datePickerStartOpened" close-text="Close" disabled />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="datePickerStartOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</div>
+			<div class="input-group" ng-show="filterParam.start">
+				<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="filterParam.end" min-date="filterParam.start" is-open="datePickerEndOpened" close-text="Close" ng-change="addIntervalDateFilter()" disabled />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</div>
+		</div>
+		<!--
+		<div class="form-group">
+			<button class="btn btn-default btn-sm">Añadir</button>	
+		</div>
+		-->
+	</span>
+	<div class="form-group">		
+		<span class="label label-primary" ng-repeat="f in filters" style="margin-left:2px;">
+			{{f.filter.label}}: {{f.value.label}}
+			<a href style="color:#fff" ng-click="removeFilter(f)">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+			</a>
+		</span>
+	</div>		
+</form>		

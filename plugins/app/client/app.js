@@ -6,6 +6,7 @@
 		'unescoModule',
 		"catalogModule",
 		"statisticsModule",
+		"adminModule",
 		"loginModule",
 		"legalModule"
 	]);
