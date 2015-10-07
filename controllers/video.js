@@ -11,16 +11,29 @@ exports.LoadVideos = function(req,res,next) {
 				'-hiddenInSearches -canRead -canWrite ' +
 				'-deletionDate -pluginData ' +
 				'-metadata -search -processSlides ';
+				
 	var query = req.data ? req.data.query:null;
-	Video.find(query)
-		.skip(req.query.skip)
-		.limit(req.query.limit)
-		.select(select)
-		.populate('repository','server endpoint')
-		.exec(function(err,data) {
-			req.data = data;
-			next();
-		});
+
+	Video.find(query).count().exec(function(errCount, count) {
+		Video.find(query)
+			.skip(req.query.skip)
+			.limit(req.query.limit)
+			.select(select)
+			.populate('repository','server endpoint')
+			.populate('owner', 'contactData.name contactData.lastName')
+			.exec(function(err,data) {
+				req.data = {
+					paginate: {
+						total: count,
+						limit: req.query.limit,
+						skip: req.query.skip
+					},
+					results: data
+				};
+				next();
+			});
+	});				
+				
 };
 
 
