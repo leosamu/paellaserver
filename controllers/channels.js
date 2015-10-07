@@ -10,7 +10,7 @@ exports.LoadChannels = function(req,res,next) {
 		'-hidden -hiddenInSearches -owned -pluginData ' +
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
-	var query = req.data.query || {};
+	var query = req.data && req.data.query || {};
 	Channel.count(query,function(err, count) {
 		Channel.find(query)
 			.skip(req.query.skip)

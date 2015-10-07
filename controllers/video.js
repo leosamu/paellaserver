@@ -23,13 +23,11 @@ exports.LoadVideos = function(req,res,next) {
 			.populate('owner', 'contactData.name contactData.lastName')
 			.exec(function(err,data) {
 				req.data = {
-					paginate: {
-						total: count,
-						limit: req.query.limit,
-						skip: req.query.skip
-					},
-					results: data
-				};
+					total: count,
+					skip: Number(req.query.skip),
+					limit: Number(req.query.limit),
+					list:data
+				};			
 				next();
 			});
 	});				
@@ -165,8 +163,8 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 };
 
 exports.LoadThumbnails = function(req,res,next) {
-	if (req.data) {
-		req.data.forEach(function(videoData) {
+	if (req.data && req.data.list) {
+		req.data.list.forEach(function(videoData) {
 			var repo = videoData.repository;
 			if (repo) {
 				if (videoData.thumbnail) videoData.thumbnail = repo.server + repo.endpoint + videoData._id + '/' + videoData.thumbnail;
