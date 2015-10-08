@@ -13,15 +13,15 @@
 	}]);
 	
 	
-	app.controller("AdminVideosListController", ["$scope", "$modal", "$base64", "$timeout", "Video", "VideoFilters", "VideoActions", "AdminState", 
-	function($scope, $modal, $base64, $timeout, Video, VideoFilters, VideoActions, AdminState) {
+	app.controller("AdminVideosListController", ["$scope", "$modal", "$base64", "$timeout", "Video", "VideoFilters", "Actions", "AdminState", 
+	function($scope, $modal, $base64, $timeout, Video, VideoFilters, Actions, AdminState) {
 		$scope.state=AdminState;
 		$scope.state.videoFilters=[];
 
 		$scope.currentPage=1;
 		$scope.filterQuery = null;
 		$scope.selectableFilters = VideoFilters;
-		$scope.videoActions = VideoActions.$get();
+		$scope.videoActions = Actions.$get("video");
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;
 
@@ -113,51 +113,15 @@
 		};
 		
 		$scope.doAction = function(action) {
-				
-			var modalInstance = $modal.open({
-				templateUrl: 'runVideoAction.html',
-				size: '',
-				backdrop: 'static',
-				keyboard: false,
-				resolve: {
-					action: function() {
-						return action;
-					},
-					selectedVideos: function () {
-						var videos = [];
-						$scope.videos.list.forEach(function(v){
-							if (v.selected) {
-								videos.push(v);
-							}
-						});					
-						return videos;
-					}
-				},
-				controller: function ($scope, $modalInstance, selectedVideos, action) {
-					$scope.action = action;
-					$scope.totalActions = selectedVideos.length;
-					$scope.successError = 0;
-					$scope.successCompleted = 0;
-					
-					
-					if ( $scope.totalActions > 0) {
-						selectedVideos.forEach(function(v){
-							var p = action.doAction(v)
-							p.then(function() {
-								$scope.successCompleted = $scope.successCompleted + 1;
-							},
-							function(){								
-								$scope.successError = $scope.successError + 1;
-							});
-						});
-					}
-					
-					
-					$scope.accept = function () {
-						$modalInstance.close();
-					};
+			
+			var selectedVideos= [];			
+			$scope.videos.list.forEach(function(v){
+				if (v.selected) {
+					selectedVideos.push(v);
 				}
-			});		
+			});						
+				
+			Actions.runAction(action, selectedVideos);
 		};
 	}])
 	
