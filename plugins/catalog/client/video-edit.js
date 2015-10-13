@@ -1,7 +1,17 @@
 (function() {
 	var catalogModule = angular.module('catalogModule');
 
-	catalogModule.controller('VideoEditModalController', ["$scope", "$translate", "$modalInstance", "User", "Upload", "videoData", "advancedForm", "type", function($scope, $translate, $modalInstance, User, Upload, videoData, advancedForm, type) {
+	catalogModule.controller('VideoEditModalController', [
+		"$scope",
+		"$translate",
+		"$modalInstance",
+		"User",
+		"Upload",
+		"UploadQueue",
+		"videoData",
+		"advancedForm",
+		"type",
+	function($scope, $translate, $modalInstance, User, Upload, UploadQueue, videoData, advancedForm, type) {
 		var savedData = {};
 		try {
 			savedData = JSON.parse($.cookie('cachedUserData'));
@@ -42,6 +52,10 @@
 		$scope.validLanguages.forEach(function(item) {
 			item.name = $translate.instant(item.name);
 		});
+
+		$scope.addToUploadQueue = function() {
+			UploadQueue().addVideo(getDBVideoData());
+		};
 
 		$scope.upload = function(file) {
 			if ($scope.editVideoId) {
@@ -142,7 +156,7 @@
 		function getDBVideoData() {
 			var saveData = JSON.stringify($scope.videoData);
 			$.cookie('cachedUserData', saveData);
-			return {
+			var result = {
 				title: $scope.videoData.title,
 				source: {
 					type: $scope.type,
@@ -168,6 +182,11 @@
 					}
 				}
 			};
+
+			if ($scope.editVideoId) {
+				result._id = $scope.editVideoId;
+			}
+			return result;
 		}
 
 		$scope.close = function() {
