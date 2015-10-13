@@ -100,14 +100,6 @@
 							<button ng-click="addToUploadQueue()">Add to upload queue</button>
 						</div>
 					</div>
-					<div class="form-group" ng-show="editVideoId">
-						<div class="col-md-4 control-label">{{ "upload_file" | translate }}</div>
-						<div class="col-md-8">
-							<div ngf-drop="upload($file)" class="drop-box"
-									ngf-drag-over-class="dragover" ngf-multiple="false"
-									ngf-pattern="'video/mp4'">Drop videos here</div>
-						</div>
-					</div>
 				</accordion-group>
 				<accordion-group heading="{{ 'polimedia_video_operator' | translate }}">
 					<author-field id="operatorData.id" name="operatorData.name" last-name="operatorData.lastName" email="operatorData.email"></author-field>

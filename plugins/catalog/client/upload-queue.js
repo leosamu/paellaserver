@@ -41,6 +41,18 @@
 				$.cookie('uploadQueueData',JSON.stringify(videoQueue));
 			}
 
+			function setProgress(id,event) {
+				updateQueue();
+				if (videoQueue.some(function(video) {
+					if (video.id==id || video._id==id) {
+						video.progress = event.loaded / event.total;
+						return true;
+					}
+				})) {
+					saveQueue();
+				}
+			}
+
 			return {
 				addVideo:function(videoData) {
 					addVideo(videoData);
@@ -53,6 +65,10 @@
 				getQueue:function() {
 					updateQueue();
 					return videoQueue;
+				},
+
+				progress:function(id,event) {
+					setProgress(id,event);
 				}
 			}
 		};
@@ -64,12 +80,16 @@
 			templateUrl: "catalog/directives/upload-queue.html",
 			scope: {
 			},
-			controller:["$scope","Upload","UploadQueue",function($scope,Upload,UploadQueue) {
+			controller:["$scope","$timeout","Upload","UploadQueue",function($scope,$timeout,Upload,UploadQueue) {
 				$scope.queue = [];
 
-				function updateQueue() {
+				function doUpdateQueue() {
 					$scope.queue = UploadQueue().getQueue();
-					setTimeout(function() { updateQueue(); }, 2000);
+				}
+
+				function updateQueue() {
+					doUpdateQueue();
+					$timeout(function() { updateQueue(); }, 2000);
 				}
 
 				$scope.removeFromQueue = function(video) {
@@ -92,7 +112,10 @@
 								//console.log("error");
 							},
 							function(evt) {
-								//console.log("progress");
+								var url = evt.config.url;
+								var id = url.replace('rest/video/','').replace('/upload','');
+								UploadQueue().progress(id,evt);
+								doUpdateQueue();
 							});
 					}
 				};

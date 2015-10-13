@@ -99,6 +99,9 @@
 	"categories":"Categorías",
 	"no_categories_selected_text":"No hay ninguna categoria seleccionada",
 	"add_category_text":"Añadir categoría",
-	"select_subcategory_text":"Seleccionar subcategoría"
+	"select_subcategory_text":"Seleccionar subcategoría",
+
+	"upload_queue_title":"Vídeos pendientes de subir",
+	"drop_videos_text":"Arrastrar vídeo aquí"
 
 }
