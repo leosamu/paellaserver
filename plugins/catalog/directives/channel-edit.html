@@ -43,6 +43,14 @@
                 </div>
             </div>
 
+
+			<accordion>
+				<accordion-group heading="{{ 'author' | translate }}" is-open="true">
+					<author-field id="owner._id" name="owner.contactData.name" last-name="owner.contactData.lastName" email="owner.contactData.email"></author-field>
+					<div class="alert alert-warning" role="alert" ng-show="!owner._id && owner.email">{{ "create_author_warning" | translate }}</div>
+				</accordion-group>
+			</accordion>
+
         </fieldset>
 
         <p class="modal-footer">

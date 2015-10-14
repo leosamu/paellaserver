@@ -7,6 +7,7 @@
         <li class="divider"></li>
         <li><a ng-click="addToChannel()" ng-show="userChannels.length">{{ "add_to_channel" | translate }}</a></li>
         <li><a ng-click="removeFromCurrentChannel()" ng-show="allowRemove()">{{ "remove_from_channel" | translate }} "{{ getCurrentChannelTitle() }}"</a></li>
+        <li><a ng-click="editChannel()" ng-show="allowEdit()">{{ "edit_channel_text_title" | translate }}</a></li>
     </ul>
 </span>
 

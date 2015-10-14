@@ -14,7 +14,7 @@
 				showParents: "=?",
 				currentUser: "=?"
 			},
-			controller: ['$scope','Channel', 'ChannelListPopup','Authorization', function ($scope,Channel,ChannelListPopup,Authorization) {
+			controller: ['$scope','Channel', 'ChannelEditPopup','ChannelListPopup','Authorization', function ($scope,Channel,ChannelEditPopup,ChannelListPopup,Authorization) {
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
@@ -31,6 +31,24 @@
 					else {
 						return !$scope.channel.hidden;
 					}
+				};
+
+				$scope.allowEdit = function() {
+					return Authorization($scope.channel,$scope.currentUser).canWrite();
+				};
+
+				$scope.editChannel = function() {
+					var channelData = $scope.channel;
+
+					Channel.get({ id:channelData._id }).$promise
+						.then(function(channelData) {
+							ChannelEditPopup(channelData, function (channelData) {
+								Channel.update(channelData).$promise
+									.then(function(result) {
+										location.reload();
+									});
+							});
+						});
 				};
 
 				$scope.getCurrentChannelTitle = function() {
