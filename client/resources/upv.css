@@ -269,3 +269,31 @@ footer {
 .ps-unprocessed {
 	opacity: 0.5;
 }
+
+.ps-remove-icon {
+	color: red;
+}
+
+.ps-drop-box {
+	padding: 6px;
+	border: 1px dotted gray;
+	border-radius: 4px;
+}
+
+.ps-upload-queue-item {
+	height: 52px;
+}
+
+.ps-upload-queue-item-title {
+	margin-right: 30px;
+}
+
+.ps-upload-progress-container {
+	width: 121px;
+}
+
+.ps-upload-progress-bar {
+	display: block;
+	height: 8px;
+	background-color: #D6D6D6;
+}

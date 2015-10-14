@@ -31,6 +31,7 @@
     "jquery-cookie": "~1.4.1",
     "moment": "~2.10.3",
     "ngInfiniteScroll": "~1.2.1",
+    "ng-file-upload": "~9.0.6",
     "nvd3": "~1.8.1"
   }
 }

@@ -1,5 +1,6 @@
 var fs = require('fs');
 var configure = require(__dirname + '/configure');
+var multer = require('multer');
 
 module.exports = {
 	routeFile: function(router,path,endpointBase) {
@@ -24,10 +25,11 @@ module.exports = {
             	var method = null;
             	var callback = null;
             	var param = route.param;
+				var upload = route.upload;
 				var extension = route.extension;
             	for (method in route) {
             		var value = route[method];
-            		if (typeof(value)=="function" || typeof(value)=="object") {
+            		if (method!='upload' && (typeof(value)=="function" || typeof(value)=="object")) {
             			callback = value;
             			break;
             		}
@@ -42,8 +44,13 @@ module.exports = {
 
 
 				endpoint = endpoint.replace(/[\-_]{1}/, ':');
-            	console.log(endpoint + " > " + method);
-            	router[method](endpoint,callback);
+				console.log(endpoint + " > " + method);
+				if (upload) {
+					router[method](endpoint, multer({ dest:__dirname + "/uploads" }).single(upload), callback);
+				}
+				else {
+					router[method](endpoint, callback);
+				}
             }
 		}
 		else {

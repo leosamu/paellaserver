@@ -18,7 +18,8 @@
 				'ChannelListPopup',
 				'AuthorSearch',
 				'User',
-				function ($scope,$translate,Channel,Video,ChannelEditPopup,VideoEditPopup,Authorization,ChannelListPopup,AuthorSearch,User) {
+				'UploadQueue',
+				function ($scope,$translate,Channel,Video,ChannelEditPopup,VideoEditPopup,Authorization,ChannelListPopup,AuthorSearch,User,UploadQueue) {
 				$scope.status = {
 					isopen: false
 				};
@@ -77,6 +78,7 @@
 						Video.create(videoData).$promise
 							.then(function(data) {
 								// Show video data
+								UploadQueue().addVideo(data);
 							});
 					});
 				};
@@ -110,7 +112,7 @@
 						.then(function(data) {
 							ChannelListPopup(data, false, function(selectedVideo) {
 								$scope.editVideo(selectedVideo);
-							});
+							}, "unprocessed_videos_text");
 						});
 				};
 
@@ -120,7 +122,7 @@
 							.then(function(data) {
 								ChannelListPopup(data, false, function(selectedVideo) {
 									$scope.editVideo(selectedVideo);
-								});
+								}, "videos_by_author_text");
 							});
 					});
 				};

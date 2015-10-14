@@ -1,7 +1,17 @@
 (function() {
 	var catalogModule = angular.module('catalogModule');
 
-	catalogModule.controller('VideoEditModalController', ["$scope", "$translate", "$modalInstance", "User", "videoData", "advancedForm", "type", function($scope, $translate, $modalInstance, User, videoData, advancedForm, type) {
+	catalogModule.controller('VideoEditModalController', [
+		"$scope",
+		"$translate",
+		"$modalInstance",
+		"User",
+		"Upload",
+		"UploadQueue",
+		"videoData",
+		"advancedForm",
+		"type",
+	function($scope, $translate, $modalInstance, User, Upload, UploadQueue, videoData, advancedForm, type) {
 		var savedData = {};
 		try {
 			savedData = JSON.parse($.cookie('cachedUserData'));
@@ -9,6 +19,7 @@
 		catch(e) {}
 
 		$scope.videoData = {};
+		$scope.editVideoId = null;
 		$scope.operatorData = {};
 		$scope.acceptText = videoData!=null ? "edit_text":"create_text";
 		$scope.titleText =  videoData!=null ? "edit_video_text_title":"create_video_text_title";
@@ -41,6 +52,27 @@
 		$scope.validLanguages.forEach(function(item) {
 			item.name = $translate.instant(item.name);
 		});
+
+		$scope.addToUploadQueue = function() {
+			UploadQueue().addVideo(getDBVideoData());
+		};
+
+		$scope.upload = function(file) {
+			if ($scope.editVideoId) {
+				Upload.upload({
+					url:'rest/video/' + $scope.editVideoId + '/upload',
+					file: file
+				}).then(function(resp) {
+						console.log("done");
+					},
+					function(resp) {
+						console.log("error");
+					},
+					function(evt) {
+						console.log("progress");
+					});
+			}
+		};
 
 		function loadUser(id) {
 			return User.find({ id:id }).$promise;
@@ -88,6 +120,7 @@
 				var mainOwner = dbVideoData.owner[0];
 				var video = dbVideoData.source && dbVideoData.source.videos && dbVideoData.source.videos[0];
 				$scope.type = dbVideoData.source && dbVideoData.source.type;
+				$scope.editVideoId = dbVideoData._id;
 
 				loadUser(mainOwner)
 					.then(function(ownerData) {
@@ -123,7 +156,7 @@
 		function getDBVideoData() {
 			var saveData = JSON.stringify($scope.videoData);
 			$.cookie('cachedUserData', saveData);
-			return {
+			var result = {
 				title: $scope.videoData.title,
 				source: {
 					type: $scope.type,
@@ -149,6 +182,11 @@
 					}
 				}
 			};
+
+			if ($scope.editVideoId) {
+				result._id = $scope.editVideoId;
+			}
+			return result;
 		}
 
 		$scope.close = function() {

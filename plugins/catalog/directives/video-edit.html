@@ -21,11 +21,17 @@
 
 	<form name="videoForm" class="form-horizontal" novalidate>
 		<fieldset>
+			<div class="form-group" ng-show="editVideoId">
+				<div class="col-md-11">
+					<h3><a ng-href="http://localhost:4000/player/?id={{ editVideoId }}&autoplay=true" target="_blank">{{ videoData.title }}</a></h3>
+				</div>
+			</div>
+
 			<!-- Text input-->
-			<div class="form-group" ng-show="videoData._id">
+			<div class="form-group" ng-show="editVideoId">
 				<label class="col-md-4 control-label" for="identifier">{{ "identifier_field_text" | translate }}</label>
 				<div class="col-md-5">
-					<input id="identifier" type="text" class="form-control input-md" disabled ng-model="videoData._id">
+					<input id="identifier" type="text" class="form-control input-md" disabled ng-model="editVideoId">
 				</div>
 			</div>
 
@@ -50,10 +56,11 @@
 
 			<hr />
 
-			<author-field id="videoData.authorId" name="videoData.authorName" last-name="videoData.authorLastName" email="videoData.authorEmail"></author-field>
-			<div class="alert alert-warning" role="alert" ng-show="!videoData.authorId && videoData.authorEmail">{{ "create_author_warning" | translate }}</div>
-
 			<accordion>
+				<accordion-group heading="{{ 'author' | translate }}" is-open="true">
+					<author-field id="videoData.authorId" name="videoData.authorName" last-name="videoData.authorLastName" email="videoData.authorEmail"></author-field>
+					<div class="alert alert-warning" role="alert" ng-show="!videoData.authorId && videoData.authorEmail">{{ "create_author_warning" | translate }}</div>
+				</accordion-group>
 				<accordion-group heading="{{ 'categories' | translate }}" is-open="true">
 					<unesco-code-list ng-model="videoData.unescoCodes"></unesco-code-list>
 				</accordion-group>
@@ -85,14 +92,9 @@
 							<span>{{ videoData.path }}</span>
 						</div>
 					</div>
-					<div class="form-group">
-						<div class="col-md-4 col-md-offset-4">
-							<div class="checkbox">
-								<label for="unprocessed">
-									<input type="checkbox" name="unprocessed" id="unprocessed" ng-model="videoData.unprocessed">
-									{{ "unprocessed" | translate }}
-								</label>
-							</div>
+					<div class="form-group" ng-show="editVideoId">
+						<div class="col-md-offset-4">
+							<button class="btn" ng-click="addToUploadQueue()">{{ "add_to_upload_queue" | translate }}</button>
 						</div>
 					</div>
 				</accordion-group>

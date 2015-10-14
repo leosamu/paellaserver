@@ -10,3 +10,5 @@ node_modules
 client/bower_components
 dbconfig.json
 .vscode
+
+uploads/*

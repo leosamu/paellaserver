@@ -1,0 +1,27 @@
+<div class="ps-upload-queue" ng-show="queue.length">
+
+	<accordion>
+		<accordion-group is-open="false">
+			<accordion-heading>
+				{{ 'upload_queue_title' | translate }}
+				<span class="badge">{{ queue.length }}</span>
+			</accordion-heading>
+			<ul class="list-group">
+				<li class="list-group-item ps-upload-queue-item" ng-repeat="video in queue">
+					<i class="glyphicon glyphicon-remove ps-remove-icon" ng-click="removeFromQueue(video)"></i>
+					<span class="ps-upload-queue-item-title">{{ video.title }}</span>
+					<div ngf-drop="upload(video,$file)" class="ps-drop-box drop-box pull-right"
+						 ngf-drag-over-class="dragover" ngf-multiple="false"
+						 ngf-pattern="'video/mp4'">
+						<div class="ps-upload-progress-container" ng-show="video.progress">
+							<span class="ps-upload-progress-bar" style="width:{{ video.progress * 100 }}%"></span>
+						</div>
+						<i class="glyphicon glyphicon-upload" ng-show="!video.progress"></i>
+						<span ng-show="!video.progress">{{ "drop_videos_text" | translate }}</span>
+					</div>
+
+				</li>
+			</ul>
+		</accordion-group>
+	</accordion>
+</div>

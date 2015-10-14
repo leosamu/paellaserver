@@ -112,8 +112,8 @@ exports.utils = {
 				deferred.reject(new Error("Could not load repository"));
 			}
 			else {
-				var path = repoData.path.slice(-1)!='/' ? repoData.path + '/':repoData.paht;
-				path += resource._id;
+				var path = repoData.path.slice(-1)!='/' ? repoData.path + '/':repoData.path;
+				path += resource._id + "/polimedia";
 				var mkdirp = require('mkdirp');
 				mkdirp(path, function(err) {
 					if (!err) {

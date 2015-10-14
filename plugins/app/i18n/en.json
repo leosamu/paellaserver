@@ -82,5 +82,10 @@
 	"categories":"Categories",
 	"no_categories_selected_text":"There isn't any category selected",
 	"add_category_text":"Add category",
-	"select_subcategory_text":"Select category"
+	"select_subcategory_text":"Select category",
+
+	"upload_queue_title":"Upload videos",
+	"drop_videos_text":"Drop video here",
+
+	"add_to_upload_queue":"Add to upload queue"
 }

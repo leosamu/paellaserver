@@ -19,8 +19,8 @@ function startServer() {
 	var security = require('./security');
 	var MongoStore = require('connect-mongo')(session);
 
-	app.use(bodyParser.urlencoded({ extended: true }));
-	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({ extended: true, limit:'500mb' }));
+	app.use(bodyParser.json({ limit: '500mb' }));
 	app.use(methodOverride());
 	app.use(cookieParser());
 
@@ -116,6 +116,11 @@ function startServer() {
 		playerConfig.plugins.enablePluginsByDefault = true;
 		playerConfig.plugins.list["es.upv.paella.extendedTabAdapterPlugin"] = { enabled:false };
 		playerConfig.plugins.list["es.upv.paella.multipleQualitiesPlugin"] = { enabled:true, showWidthRes: true };
+
+		playerConfig.plugins.list["es.upv.paella.usertracking.GoogleAnalyticsSaverPlugIn"] = {
+			"enabled": true,
+			"trackingID": "UA-26470475-7"
+		};
 
 		playerConfig.plugins.list["es.upv.paella.translecture.captionsPlugin"] = {
 			"enabled": true,
