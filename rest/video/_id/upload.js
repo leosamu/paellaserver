@@ -6,6 +6,7 @@ var ChannelController = require(__dirname + '/../../../controllers/channels');
 var VideoController = require(__dirname + '/../../../controllers/video');
 var CommonController = require(__dirname + '/../../../controllers/common');
 var AuthController = require(__dirname + '/../../../controllers/auth');
+var TaskController = require(__dirname + '/../../../controllers/task');
 
 function move (oldPath, newPath, callback) {
 	fs.rename(oldPath, newPath, function (err) {
@@ -50,13 +51,18 @@ exports.routes = {
 				if (videoData.source.videos.length) {
 					var mainVideo = videoData.source.videos[0];
 					move(req.file.path,mainVideo.path,function() {
-						next();
+						var Video = require(__dirname + "/../../../models/video");
+						Video.update({ "_id":videoData._id},{ $set:{ "unprocessed":false }})
+							.then(function() {
+								next();
+							});
 					});
 				}
 				else {
 					res.status(500).json({ error:true, message:"Error uploading file. " });
 				}
 			},
+			TaskController.AddVideoTasks,
 			CommonController.JsonResponse
 		]
 	}
