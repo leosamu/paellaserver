@@ -6,6 +6,7 @@ var Utils = {
 		return new Task({
 			task:'encode',
 			targetType:'video',
+			error:false,
 			targetId:videoData._id
 		}).save();
 	},
@@ -14,6 +15,7 @@ var Utils = {
 		return new Task({
 			task:'extractSlides',
 			targetType:'video',
+			error:false,
 			targetId:videoData._id
 		}).save();
 	}
