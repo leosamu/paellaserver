@@ -31,13 +31,6 @@
             </span>
         </h1>
     </section>
-    <section class="ps-current-channel" ng-hide="channelId || currentTab==2 || currentTab==3">
-        <h1>
-            {{ "featured_videos_text" | translate }}
-            <span class="ps-video-counter pull-right" ng-show="totalVideos && !isEmbed">{{totalVideos}} {{ "available_videos_text" | translate }}</span>
-        </h1>
-
-    </section>
 
     <loader ng-show="loading"></loader>
     <catalog-contents current-channel="channelData" current-user="currentUser" channels="channels" videos="videos" my-videos="myVideos" my-channels="myChannels" is-admin="isAdmin" show-parents="true" current-tab="currentTab"></catalog-contents>

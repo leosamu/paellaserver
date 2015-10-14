@@ -40,5 +40,15 @@
         </ui>
 
         <admin-menu current-channel="currentChannel" current-user="currentUser"></admin-menu>
+
+		<ui class="nav navbar-nav pull-right" ng-show="showSort && links.length">
+			<li>
+				<div class="ps-search-bar-container">
+					<button type="button" class="btn btn-default" ng-click="showLinks()">Lista de enlaces</button>
+				</div>
+			</li>
+		</ui>
+
+
     </div>
 </section>

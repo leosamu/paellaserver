@@ -112,7 +112,7 @@
 						.then(function(data) {
 							ChannelListPopup(data, false, function(selectedVideo) {
 								$scope.editVideo(selectedVideo);
-							});
+							}, "unprocessed_videos_text");
 						});
 				};
 
@@ -122,7 +122,7 @@
 							.then(function(data) {
 								ChannelListPopup(data, false, function(selectedVideo) {
 									$scope.editVideo(selectedVideo);
-								});
+								}, "videos_by_author_text");
 							});
 					});
 				};

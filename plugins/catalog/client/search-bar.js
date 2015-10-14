@@ -22,10 +22,29 @@
 				currentChannel: "=",
 				currentUser: "="
 			},
-			controller: ['$scope','User','AuthorSearch',function ($scope,User,AuthorSearch) {
+			controller: ['$scope','User','AuthorSearch','ChannelListPopup',function ($scope,User,AuthorSearch,ChannelListPopup) {
 				$scope.logged = false;
 				$scope.isAdmin = false;
+				$scope.links = [];
 				historyUrls.push(location.href);
+
+				function updateLinks() {
+					switch ($scope.currentTab) {
+						case 0:
+							$scope.links = $scope.channels;
+							break;
+						case 1:
+							$scope.links = $scope.videos;
+							break;
+						case 2:
+							$scope.links = $scope.myVideos;
+							break;
+						case 3:
+							$scope.links = $scope.myChannels;
+							break;
+					}
+				}
+
 
 				$scope.backEnabled = historyUrls.length>1;
 
@@ -45,9 +64,14 @@
 					}
 				};
 
+				$scope.showLinks = function() {
+					ChannelListPopup($scope.links, true, null, "links_list_text");
+				};
+
 				$scope.showChannels = function() {
 					if ($scope.numChannels()>0) {
 						$scope.currentTab = 0;
+						updateLinks();
 						return true;
 					}
 					return false;
@@ -56,6 +80,7 @@
 				$scope.showVideos = function() {
 					if ($scope.numVideos()>0) {
 						$scope.currentTab = 1;
+						updateLinks();
 						return true;
 					}
 					return false;
@@ -67,6 +92,7 @@
 					}
 					else if ($scope.numMyVideos()>0) {
 						$scope.currentTab = 2;
+						updateLinks();
 						return true;
 					}
 					return false;
@@ -78,6 +104,7 @@
 					}
 					else if ($scope.numMyChannels()>0) {
 						$scope.currentTab = 3;
+						updateLinks();
 						return true;
 					}
 					return false;
@@ -220,11 +247,14 @@
 							$scope.logged = true;
 							$scope.isAdmin = data.roles.some(function(r) { return r.isAdmin });
 							$scope.currentUser = data;
+							updateLinks();
 						}
 						else {
 							$scope.logged = false;
+							updateLinks();
 						}
 					});
+				updateLinks();
 
 			}]
 		};

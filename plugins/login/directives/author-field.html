@@ -1,10 +1,4 @@
 <div class="form-group">
-	<label class="col-md-4 control-label" for="author-id">{{ "identifier_text" | translate }}</label>
-	<div class="col-md-5">
-		<input id="author-id" type="text" class="form-control input-md" ng-model="id" disabled>
-	</div>
-</div>
-<div class="form-group">
 	<label class="col-md-4 control-label" for="email">{{ "email_text" | translate }}</label>
 	<div class="col-md-5">
 		<input id="email" type="text" class="form-control input-md" required ng-model="email" ng-change="mailChanged()">
@@ -16,15 +10,18 @@
 		<loader-field ng-show="searching"></loader-field>
 	</div>
 </div>
-<div class="form-group">
+<div class="form-group" ng-hide="id">
 	<label class="col-md-4 control-label" for="author-name">{{ "name_text" | translate }}</label>
 	<div class="col-md-5">
 		<input id="author-name" type="text" class="form-control input-md" required ng-model="name">
 	</div>
 </div>
-<div class="form-group">
+<div class="form-group" ng-hide="id">
 	<label class="col-md-4 control-label" for="lastname-name">{{ "lastname_text" | translate }}</label>
 	<div class="col-md-5">
 		<input id="lastname-name" type="text" class="form-control input-md" ng-model="lastName">
 	</div>
+</div>
+<div class="form-group" ng-show="id">
+	<label class="col-md-8 control-label">{{ name }} {{ lastName }}</label>
 </div>

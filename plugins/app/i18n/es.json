@@ -102,6 +102,13 @@
 	"select_subcategory_text":"Seleccionar subcategoría",
 
 	"upload_queue_title":"Vídeos pendientes de subir",
-	"drop_videos_text":"Arrastrar vídeo aquí"
+	"drop_videos_text":"Arrastrar vídeo aquí",
+
+	"add_to_upload_queue":"Añadir a cola de subida",
+
+	"links_list_text":"Listado de enlaces",
+
+	"videos_by_author_text":"Vídeos por autor",
+	"unprocessed_videos_text":"Vídeos sin procesar"
 
 }

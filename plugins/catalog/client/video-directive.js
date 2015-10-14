@@ -14,7 +14,7 @@
 				showParents: "=?",
 				currentUser: "=?"
 			},
-			controller: ['$scope','Video','Channel','ChannelListPopup','Authorization', function ($scope,Video,Channel,ChannelListPopup,Authorization) {
+			controller: ['$scope','Video','Channel','ChannelListPopup','Authorization','VideoEditPopup', function ($scope,Video,Channel,ChannelListPopup,Authorization,VideoEditPopup) {
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
@@ -55,6 +55,25 @@
 						$scope.currentChannel &&
 						$scope.currentChannel.title &&
 						$scope.currentChannel.title!="";
+				};
+
+				$scope.allowEdit = function() {
+					return Authorization($scope.video,$scope.currentUser).canWrite();
+				};
+
+				$scope.editVideo = function() {
+					var videoData = $scope.video;
+
+					Video.get({ id:videoData._id }).$promise
+						.then(function(data) {
+							VideoEditPopup(data, true, null, function(newVideoData) {
+								newVideoData.id = newVideoData._id;
+								Video.update(newVideoData).$promise
+									.then(function(result) {
+										location.reload();
+									});
+							});
+						});
 				};
 
 				$scope.addToChannel = function() {
