@@ -12,7 +12,22 @@ exports.routes = {
 			function(req,res,next) {
 				var youtubeId = req.data && req.data.length && req.data[0] &&
 					req.data[0].pluginData.youtube && req.data[0].pluginData.youtube.id;
-				req.data = { youtubeId:youtubeId };
+				if (youtubeId) {
+					var yt = req.data[0].pluginData.youtube;
+					req.data = {
+						youtubeId:youtubeId,
+						date: yt.date,
+						commentCount: yt.commentCount,
+						viewCount: yt.viewCount,
+						favoriteCount: yt.favoriteCount,
+						dislikeCount: yt.dislikeCount,
+						likeCount: yt.likeCount
+					};
+				}
+				else {
+					req.data = {};
+				}
+
 				next();
 			},
 			CommonController.JsonResponse
@@ -29,9 +44,9 @@ exports.routes = {
 				if (req.data && req.data[0]) {
 					var video = req.data[0];
 					var pluginData = JSON.parse(JSON.stringify(video.pluginData || {}));
-					pluginData.youtube = {
-						id: req.params.youtubeId
-					};
+					var body = req.body;
+					pluginData.youtube = body;
+					pluginData.youtube.id = req.params.youtubeId;
 					video.pluginData = pluginData;
 					video.save(function(err) {
 						if (err) {
