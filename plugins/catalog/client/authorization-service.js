@@ -78,45 +78,10 @@
 				return {
 					canRead: function() {
 						return checkPermission('read');
-						/*
-						var canRead = false;
-						var roles = getRoles(user);
-						var permissions = getPermissions(resource);
-
-
-						roles.some(function(r) {
-							permissions.some(function(p) {
-								if (p.role==r._id && p.read) {
-									canRead = true;
-								}
-								return canRead;
-							});
-							return canRead;
-						});
-
-						return canRead;
-						*/
 					},
 
 					canWrite: function() {
 						return checkPermission('write');
-						/*
-						var canWrite = false;
-						var roles = getRoles(user);
-						var permissions = getPermissions(resource);
-
-						roles.some(function(r) {
-							permissions.some(function(p) {
-								if (p.role==r._id && p.write) {
-									canWrite = true;
-								}
-								return canWrite;
-							});
-							return canWrite;
-						});
-
-						return canWrite;
-						*/
 					},
 
 					haveRole: function(checkRoles) {
@@ -125,6 +90,13 @@
 							return checkRoles.some(function(chR) {
 								return typeof(r)=="string" ? r==chR: r._id==chR;
 							});
+						});
+					},
+
+					isAdmin: function() {
+						var roles = getRoles(user);
+						return roles.some(function(r) {
+							return r.isAdmin;
 						});
 					}
 				}

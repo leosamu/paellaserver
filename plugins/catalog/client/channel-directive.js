@@ -43,6 +43,7 @@
 					Channel.get({ id:channelData._id }).$promise
 						.then(function(channelData) {
 							ChannelEditPopup(channelData, function (channelData) {
+								channelData.id = channelData._id;
 								Channel.update(channelData).$promise
 									.then(function(result) {
 										location.reload();

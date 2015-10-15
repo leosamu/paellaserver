@@ -109,6 +109,7 @@
 	"links_list_text":"Listado de enlaces",
 
 	"videos_by_author_text":"Vídeos por autor",
-	"unprocessed_videos_text":"Vídeos sin procesar"
+	"unprocessed_videos_text":"Vídeos sin procesar",
+	"author":"Autor"
 
 }
