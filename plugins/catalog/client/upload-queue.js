@@ -8,7 +8,10 @@
 
 			function addVideo(videoData) {
 				updateQueue();
-				videoQueue.push(videoData);
+				videoQueue.push({
+					_id:videoData._id,
+					title:videoData.title
+				});
 				saveQueue();
 			}
 
