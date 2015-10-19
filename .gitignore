@@ -12,3 +12,4 @@ dbconfig.json
 .vscode
 
 uploads/*
+npm-debug.log

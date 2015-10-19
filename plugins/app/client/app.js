@@ -2,6 +2,7 @@
 (function() {
 	var app = angular.module('paellaserver', [
 		"ngRoute",
+		'me-lazyload',
 		'pascalprecht.translate',
 		'unescoModule',
 		"catalogModule",

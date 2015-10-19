@@ -19,7 +19,7 @@
             <p class="ps-author">{{ownerName(channel)}}</p>
         </h2>
         <div class="ps-lock" ng-show="!isVisible()"><i class="glyphicon glyphicon-lock"></i></div>
-        <img class="pm-image img-responsive pull-right hidden-xs" ng-src="{{thumbnail(channel)}}" alt="{{ channel.title + ' image' }}"/>
+        <img class="pm-image img-responsive pull-right hidden-xs" lazy-src="{{thumbnail(channel)}}" alt="{{ channel.title + ' image' }}"/>
     </div>
     <div class="ps-edit text-right hidden-xs">
         <!--
