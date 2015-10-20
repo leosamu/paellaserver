@@ -22,7 +22,7 @@
 				currentChannel: "=",
 				currentUser: "="
 			},
-			controller: ['$scope','User','AuthorSearch','ChannelListPopup',function ($scope,User,AuthorSearch,ChannelListPopup) {
+			controller: ['$scope','$window','User','AuthorSearch','ChannelListPopup',function ($scope,$window,User,AuthorSearch,ChannelListPopup) {
 				$scope.logged = false;
 				$scope.isAdmin = false;
 				$scope.links = [];
@@ -45,6 +45,9 @@
 					}
 				}
 
+				function onShowTab() {
+					$(window).trigger("ps:loadDone");
+				}
 
 				$scope.backEnabled = historyUrls.length>1;
 
@@ -52,6 +55,7 @@
 					AuthorSearch(function(selectedAuthor) {
 						$scope.searchText = "";
 						location.href = "#/catalog/author/" + selectedAuthor.id;
+						onShowTab();
 					})
 				};
 
@@ -61,6 +65,7 @@
 						var newUrl = historyUrls.pop();	// previous page
 						location.href = newUrl;
 						$scope.backEnabled = historyUrls.length>1;
+						onShowTab();
 					}
 				};
 
@@ -72,6 +77,7 @@
 					if ($scope.numChannels()>0) {
 						$scope.currentTab = 0;
 						updateLinks();
+						onShowTab();
 						return true;
 					}
 					return false;
@@ -81,6 +87,7 @@
 					if ($scope.numVideos()>0) {
 						$scope.currentTab = 1;
 						updateLinks();
+						onShowTab();
 						return true;
 					}
 					return false;
@@ -93,6 +100,7 @@
 					else if ($scope.numMyVideos()>0) {
 						$scope.currentTab = 2;
 						updateLinks();
+						onShowTab();
 						return true;
 					}
 					return false;
@@ -105,6 +113,7 @@
 					else if ($scope.numMyChannels()>0) {
 						$scope.currentTab = 3;
 						updateLinks();
+						onShowTab();
 						return true;
 					}
 					return false;
@@ -233,6 +242,7 @@
 					if ($scope.showMyVideosTab) ++tabBarItems;
 
 					$scope.showTabBar = tabBarItems>1 || $scope.backEnabled;
+					onShowTab();
 				}
 
 				$scope.$watch('channels',checkTabs);
@@ -253,6 +263,7 @@
 							$scope.logged = false;
 							updateLinks();
 						}
+						onShowTab();
 					});
 				updateLinks();
 
