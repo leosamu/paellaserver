@@ -27,6 +27,15 @@ var Utils = {
 			error:false,
 			targetId:videoData._id
 		}).save();
+	},
+
+	notify:function(videoData) {
+		return new Task({
+			task:'notify',
+			targetType:'video',
+			error:false,
+			targetId:videoData._id
+		}).save();
 	}
 };
 
@@ -42,6 +51,7 @@ exports.AddVideoTasks = function(req,res,next) {
 		tasks.push(Utils.genLowRes(video));
 		tasks.push(Utils.extractSlides(video));
 		tasks.push(Utils.processTranslectures(video));
+		tasks.push(Utils.notify(video));
 	}
 
 	if (Array.isArray(req.data)) {
