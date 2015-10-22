@@ -60,6 +60,7 @@ exports.routes = {
 			},
 			TaskController.AddVideoTasks,
 			function(req,res,next) {
+				var videoData = req.data[0];
 				var Video = require(__dirname + "/../../../models/video");
 				Video.update({ "_id":videoData._id},{ $set:{ "unprocessed":false }})
 					.then(function() {
