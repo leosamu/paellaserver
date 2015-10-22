@@ -51,7 +51,9 @@ exports.AddVideoTasks = function(req,res,next) {
 		tasks.push(Utils.genLowRes(video));
 		tasks.push(Utils.extractSlides(video));
 		tasks.push(Utils.processTranslectures(video));
-		tasks.push(Utils.notify(video));
+		if (video.unprocessed) {
+			tasks.push(Utils.notify(video));
+		}
 	}
 
 	if (Array.isArray(req.data)) {

@@ -51,11 +51,7 @@ exports.routes = {
 				if (videoData.source.videos.length) {
 					var mainVideo = videoData.source.videos[0];
 					move(req.file.path,mainVideo.path,function() {
-						var Video = require(__dirname + "/../../../models/video");
-						Video.update({ "_id":videoData._id},{ $set:{ "unprocessed":false }})
-							.then(function() {
-								next();
-							});
+						next();
 					});
 				}
 				else {
@@ -63,6 +59,13 @@ exports.routes = {
 				}
 			},
 			TaskController.AddVideoTasks,
+			function(req,res,next) {
+				var Video = require(__dirname + "/../../../models/video");
+				Video.update({ "_id":videoData._id},{ $set:{ "unprocessed":false }})
+					.then(function() {
+						next();
+					});
+			},
 			CommonController.JsonResponse
 		]
 	}
