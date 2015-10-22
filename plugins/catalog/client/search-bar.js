@@ -22,31 +22,37 @@
 				currentChannel: "=",
 				currentUser: "="
 			},
-			controller: ['$scope','$window','User','AuthorSearch','ChannelListPopup',function ($scope,$window,User,AuthorSearch,ChannelListPopup) {
+			controller: ['$scope','$window','User','AuthorSearch','ChannelListPopup','VideoListPopup',function ($scope,$window,User,AuthorSearch,ChannelListPopup,VideoListPopup) {
 				$scope.logged = false;
 				$scope.isAdmin = false;
 				$scope.links = [];
+				$scope.linkType = "";
 				historyUrls.push(location.href);
 
 				function updateLinks() {
 					switch ($scope.currentTab) {
 						case 0:
 							$scope.links = $scope.channels;
+							$scope.linkType = "channel";
 							break;
 						case 1:
 							$scope.links = $scope.videos;
+							$scope.linkType = "video";
 							break;
 						case 2:
 							$scope.links = $scope.myVideos;
+							$scope.linkType = "video";
 							break;
 						case 3:
 							$scope.links = $scope.myChannels;
+							$scope.linkType = "channel";
 							break;
 					}
 				}
 
 				function onShowTab() {
 					$(window).trigger("ps:loadDone");
+					updateLinks();
 				}
 
 				$scope.backEnabled = historyUrls.length>1;
@@ -70,7 +76,8 @@
 				};
 
 				$scope.showLinks = function() {
-					ChannelListPopup($scope.links, true, null, "links_list_text");
+					var list = $scope.linkType=="video" ? VideoListPopup:ChannelListPopup;
+					list($scope.links, true, null, "links_list_text");
 				};
 
 				$scope.showChannels = function() {

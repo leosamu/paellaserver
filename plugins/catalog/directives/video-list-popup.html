@@ -1,0 +1,24 @@
+
+<section class="ps-popup-content">
+	<h1 class="modal-header">
+		{{ title | translate }}
+		<p class="pull-right">
+			<input type="search" class="form-control" ng-model="query" placeholder="buscar"/>
+		</p>
+	</h1>
+
+	<div class="ps-popup-list">
+		<tabset vertical="true" type="pills" ng-show="!navMode">
+			<tab ng-repeat="video in videos | filter:query " heading="{{video.title}}" select="selectItem(video)"></tab>
+		</tabset>
+
+		<ul class="" ng-show="navMode">
+			<li ng-repeat="video in videos | filter:query"><a ng-href="{{getVideoUrl(video)}}" ng-click="close()">{{video.title}}</a></li>
+		</ul>
+	</div>
+
+	<p class="modal-footer">
+		<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
+		<button class="btn btn-primary" ng-click="accept()" ng-show="selected" ng-show="!navMode">{{ "select" | translate }}</button>
+	</p>
+</section>

@@ -46,6 +46,14 @@ exports.routes = {
 					var pluginData = JSON.parse(JSON.stringify(video.pluginData || {}));
 					var body = req.body;
 					pluginData.youtube = body;
+					if (body.date) {
+						try {
+							body.date = new Date(body.date);
+						}
+						catch (e) {
+
+						}
+					}
 					pluginData.youtube.id = req.params.youtubeId;
 					video.pluginData = pluginData;
 					video.save(function(err) {

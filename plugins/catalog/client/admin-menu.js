@@ -16,10 +16,11 @@
 				'VideoEditPopup',
 				'Authorization',
 				'ChannelListPopup',
+				'VideoListPopup',
 				'AuthorSearch',
 				'User',
 				'UploadQueue',
-				function ($scope,$translate,Channel,Video,ChannelEditPopup,VideoEditPopup,Authorization,ChannelListPopup,AuthorSearch,User,UploadQueue) {
+			function ($scope,$translate,Channel,Video,ChannelEditPopup,VideoEditPopup,Authorization,ChannelListPopup,VideoListPopup,AuthorSearch,User,UploadQueue) {
 				$scope.status = {
 					isopen: false
 				};
@@ -83,6 +84,15 @@
 					});
 				};
 
+				$scope.newestVideos = function() {
+					Video.newest().$promise
+						.then(function(data) {
+							VideoListPopup(data, false, function (selectedVideo) {
+								$scope.editVideo(selectedVideo);
+							}, "newest_videos");
+						});
+				};
+
 				$scope.editVideo = function(videoData) {
 					switch (typeof(videoData)) {
 						case 'string':
@@ -110,7 +120,7 @@
 				$scope.showUnprocessedVideos = function() {
 					Video.unprocessed().$promise
 						.then(function(data) {
-							ChannelListPopup(data, false, function(selectedVideo) {
+							VideoListPopup(data, false, function(selectedVideo) {
 								$scope.editVideo(selectedVideo);
 							}, "unprocessed_videos_text");
 						});
@@ -120,7 +130,7 @@
 					AuthorSearch(function(selectedAuthor) {
 						User.videos({ id:selectedAuthor.id }).$promise
 							.then(function(data) {
-								ChannelListPopup(data, false, function(selectedVideo) {
+								VideoListPopup(data, false, function(selectedVideo) {
 									$scope.editVideo(selectedVideo);
 								}, "videos_by_author_text");
 							});

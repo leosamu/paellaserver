@@ -110,6 +110,10 @@
 
 	"videos_by_author_text":"Vídeos por autor",
 	"unprocessed_videos_text":"Vídeos sin procesar",
-	"author":"Autor"
+	"author":"Autor",
+
+	"show_link_list":"Lista de enlaces",
+	"show_newest_videos":"Mostrar los últimos vídeos",
+	"newest_videos":"Últimos vídeos"
 
 }

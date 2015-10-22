@@ -6,6 +6,7 @@
 				parents: { url:"/rest/video/:id/parents" },
 				count: { url:"/rest/videos/count" },
 				userVideos: { url:"/rest/user/:userId/videos", isArray:true },
+				newest: { url:"/rest/videos/newest", isArray:true },
 				get: { },
 				create: { url:"/rest/video", method:'POST' },
 				unprocessed: { url:"/rest/videos/unprocessed", method:'GET', isArray:true },
