@@ -224,38 +224,6 @@ exports.LoadStorageDataFromRepository = function(req,res,next) {
 					}
 				});
 			}
-			//next();
-			/*
-
-			Repository.find({"_id":videoData.repository})
-				.exec(function(err,repo) {
-					if (repo.length>0) {
-						repo = repo[0];
-					}
-					else {
-						repo = { server:'', endpoint:'' };
-					}
-					videoData.source.videos.forEach(function(video) {
-						if (video.src) {
-							var videoSrc = video.src;
-							video.src_file = videoSrc;
-							video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + videoSrc;
-							video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
-						}
-					});
-					if (videoData.source.slaveVideos && videoData.source.slaveVideos.forEach) {
-						videoData.source.slaveVideos.forEach(function(video) {
-							if (video.src) {
-								var videoSrc = video.src;
-								video.src_file = videoSrc;
-								video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + video.src;
-								video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
-							}
-						});
-					}
-					next();
-				});
-				*/
 		});
 		req.data = videoList;
 		next();

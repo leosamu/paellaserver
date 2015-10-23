@@ -22,29 +22,38 @@
 				currentChannel: "=",
 				currentUser: "="
 			},
-			controller: ['$scope','User','AuthorSearch','ChannelListPopup',function ($scope,User,AuthorSearch,ChannelListPopup) {
+			controller: ['$scope','$window','User','AuthorSearch','ChannelListPopup','VideoListPopup',function ($scope,$window,User,AuthorSearch,ChannelListPopup,VideoListPopup) {
 				$scope.logged = false;
 				$scope.isAdmin = false;
 				$scope.links = [];
+				$scope.linkType = "";
 				historyUrls.push(location.href);
 
 				function updateLinks() {
 					switch ($scope.currentTab) {
 						case 0:
 							$scope.links = $scope.channels;
+							$scope.linkType = "channel";
 							break;
 						case 1:
 							$scope.links = $scope.videos;
+							$scope.linkType = "video";
 							break;
 						case 2:
 							$scope.links = $scope.myVideos;
+							$scope.linkType = "video";
 							break;
 						case 3:
 							$scope.links = $scope.myChannels;
+							$scope.linkType = "channel";
 							break;
 					}
 				}
 
+				function onShowTab() {
+					$(window).trigger("ps:loadDone");
+					updateLinks();
+				}
 
 				$scope.backEnabled = historyUrls.length>1;
 
@@ -52,6 +61,7 @@
 					AuthorSearch(function(selectedAuthor) {
 						$scope.searchText = "";
 						location.href = "#/catalog/author/" + selectedAuthor.id;
+						onShowTab();
 					})
 				};
 
@@ -61,17 +71,20 @@
 						var newUrl = historyUrls.pop();	// previous page
 						location.href = newUrl;
 						$scope.backEnabled = historyUrls.length>1;
+						onShowTab();
 					}
 				};
 
 				$scope.showLinks = function() {
-					ChannelListPopup($scope.links, true, null, "links_list_text");
+					var list = $scope.linkType=="video" ? VideoListPopup:ChannelListPopup;
+					list($scope.links, true, null, "links_list_text");
 				};
 
 				$scope.showChannels = function() {
 					if ($scope.numChannels()>0) {
 						$scope.currentTab = 0;
 						updateLinks();
+						onShowTab();
 						return true;
 					}
 					return false;
@@ -81,6 +94,7 @@
 					if ($scope.numVideos()>0) {
 						$scope.currentTab = 1;
 						updateLinks();
+						onShowTab();
 						return true;
 					}
 					return false;
@@ -93,6 +107,7 @@
 					else if ($scope.numMyVideos()>0) {
 						$scope.currentTab = 2;
 						updateLinks();
+						onShowTab();
 						return true;
 					}
 					return false;
@@ -105,6 +120,7 @@
 					else if ($scope.numMyChannels()>0) {
 						$scope.currentTab = 3;
 						updateLinks();
+						onShowTab();
 						return true;
 					}
 					return false;
@@ -233,6 +249,7 @@
 					if ($scope.showMyVideosTab) ++tabBarItems;
 
 					$scope.showTabBar = tabBarItems>1 || $scope.backEnabled;
+					onShowTab();
 				}
 
 				$scope.$watch('channels',checkTabs);
@@ -253,6 +270,7 @@
 							$scope.logged = false;
 							updateLinks();
 						}
+						onShowTab();
 					});
 				updateLinks();
 

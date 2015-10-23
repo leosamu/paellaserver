@@ -174,6 +174,7 @@
 						$scope.loading = false;
 						addSortingIndexes($scope.channels);
 						addSortingIndexes($scope.videos);
+						setTimeout(function() { $(window).trigger("ps:loadDone") }, 100);
 					});
 			}
 			else if (!$scope.channelId) {
@@ -192,6 +193,8 @@
 						$scope.loading = false;
 						addSortingIndexes($scope.channels);
 						addSortingIndexes($scope.videos);
+
+						setTimeout(function() { $(window).trigger("ps:loadDone") }, 100);
 					});
 			}
 			else {
@@ -206,6 +209,7 @@
 						$scope.loading = false;
 						addSortingIndexes($scope.channels);
 						addSortingIndexes($scope.videos);
+						setTimeout(function() { $(window).trigger("ps:loadDone") }, 100);
 					});
 			}
 		};
