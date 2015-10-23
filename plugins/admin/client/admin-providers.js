@@ -1,35 +1,61 @@
 (function() {
-	var app = angular.module('adminModule');
 	
+	var app = angular.module('adminModule');	
 		
-	app.provider('ChannelFilters', function () {		
-		var filters = [];
+	app.factory('Filters', function () {
+		var filters = {};
 		
 		return {		
-			registerFilter: function (filter) {
-				filters.push(filter);
+			registerFilter: function (context, filter) {
+				if (!(context in filters)) {
+					filters[context] = [];
+				}
+				filters[context].push(filter);
 			},
 			
-			$get: function () {
-				return filters;
+			makeQuery : function(selectedFilters, searchText) {
+				var querys = [];
+				var final_query = {}
+			
+				selectedFilters.forEach(function(f){
+					if (f.filter.type == 'enum') {
+						var q = {};
+						q[f.filter.field] =  f.value.value;
+						querys.push(q);
+					}
+					else if (f.filter.type == 'text') {
+						var q = {};
+						a[f.filter.field] =  { $regex: f.value.value, $options: 'i' }
+						querys.push(q);
+					}				
+					else if (f.filter.type == 'timeInterval') {
+						var q1 = {}, q2 = {};
+						q1[f.filter.field] = {"$gte": f.value.value.start };
+						q2[f.filter.field] = {"$lte": moment(f.value.value.end).endOf('day').toDate() };					
+						querys.push(q1);
+						querys.push(q2);
+					}
+					else {
+						console.log("Tipo de filtro no definido: " + f.filter.type)
+					}
+				});
+				
+				if (searchText) {
+					querys.push({"$text": { $search: searchText } });
+				}
+				
+				if (querys.length > 0) {
+					final_query = {"$and": querys};
+				}
+				
+				return final_query;
+			},
+			
+			$get: function (context) {
+				return filters[context] || [];
 			}
 		};
 	});
-	
-			
-	app.provider('VideoFilters', function () {		
-		var filters = [];
-		
-		return {		
-			registerFilter: function (filter) {
-				filters.push(filter);
-			},
-			
-			$get: function () {
-				return filters;
-			}
-		};
-	});	
 
 
 	app.factory('Actions', ['$modal', function ($modal) {

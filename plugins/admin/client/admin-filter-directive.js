@@ -7,17 +7,20 @@
 	
 		return {
 			restrict: 'E',
-			require: 'ngModel',
 			scope: {
-				filters: "=ngModel",
-				selectableFiltes: "="
+				stateFilters: "=",				
+				availableFilters: "="
 			},
-			controller: ['$scope', function($scope) {
-				$scope.filters  = $scope.filters || [];
-				$scope.addingFilter = false;								
+			controller: ['$scope',  function($scope) {
+				$scope.stateFilters  = $scope.stateFilters || {};
+				$scope.stateFilters.filters  = $scope.stateFilters.filters || [];
+				
+				$scope.addingFilter = false;
+								
+				
 								
 				$scope.addEnumFilter = function() {
-					$scope.filters.push({
+					$scope.stateFilters.filters.push({
 						filter: $scope.filterSelected,
 						value: $scope.filterParam
 					});
@@ -26,7 +29,7 @@
 					$scope.addingFilter = false;
 				};
 				$scope.addTextFilter = function() {
-					$scope.filters.push({
+					$scope.stateFilters.filters.push({
 						filter: $scope.filterSelected,
 						value: {
 							value: $scope.filterParam,
@@ -39,7 +42,7 @@
 				};
 				
 				$scope.addIntervalDateFilter = function() {
-					$scope.filters.push({
+					$scope.stateFilters.filters.push({
 						filter: $scope.filterSelected,
 						value: {
 							value: $scope.filterParam,
@@ -52,40 +55,15 @@
 				}
 				
 				$scope.removeFilter = function(f) {
-					var idx =  $scope.filters.indexOf(f);
+					var idx =  $scope.stateFilters.filters.indexOf(f);
 					if (idx > -1) {
-						$scope.filters.splice(idx, 1);
+						$scope.stateFilters.filters.splice(idx, 1);
 					}
 				};				
-				
 
 			}],
-			templateUrl: 'admin/views/filters-directive.html'
+			templateUrl: 'admin/views/directives/filters-directive.html'
 		};
 	});
-	
-	
-	
-	app.directive("adminVideoEditorPlugins", ['$compile', function($compile){
-		return {
-			restrict: 'E',
-			scope: {
-				plugins: "="
-			},
-			link: function(scope, element, attrs, ctrl) {			
-				var accordion= $compile("<accordion close-others='oneAtATime'></accordion>")(scope);		
-				element.append(accordion)			
-				scope.$watch('plugins', function () {
-					var plugins = scope.plugins || {};			
-					var keys = Object.keys(plugins);					
-					keys.forEach(function(k){				
-						accordion.append($compile('<accordion-group heading="'+k+'"><h4>TODO</h4></accordion-group>')(scope));
-					});	
-				});
-			}
-		};
-	}]);
-
-
 	
 })();
