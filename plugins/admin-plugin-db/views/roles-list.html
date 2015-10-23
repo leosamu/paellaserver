@@ -1,0 +1,135 @@
+<main>		
+
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+    
+				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>				
+					<li>
+						<a href="#/admin/videos">
+				    		Videos
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/channels">
+				    		Canales
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/users">
+				    		Usuarios
+				    	</a>
+				    </li>
+					<li class="active">
+						<a href="#/admin/roles">
+				    		Roles
+				    	</a>
+				    </li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>	
+		<div style="height: 30px;"></div>
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">			
+				<h2>Roles</h2>
+				<h6>{{roles.total}} Roles</h6>		
+			
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Rol</th>
+								<th>Descripción</th>
+								<th width="80px;">Admin</th>
+								<th width="80px;">Acciones</th>
+							</tr>
+						</thead>
+						<tbody ng-hide="loadingVideos">
+							<tr ng-repeat="r in roles.list" ng-class="{warning:r.isAdmin}">
+								<td>{{r._id}}</td>
+								<td>{{r.description}}</td>
+								<td><span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':r.isAdmin, 'glyphicon-remove':(!r.isAdmin)}"> </td>
+								<td>
+									<div class="btn-toolbar" role="toolbar">
+										<div class="btn-group" role="group">
+											<a class="btn btn-xs btn-default" href="#/admin/roles/edit/{{r._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+											<button class="btn btn-xs btn-danger" ng-click="deleteRole(r._id)"> <span class="glyphicon glyphicon-remove"></span> </button>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<loader ng-show="loadingVideos"></loader>			
+				</div>
+				
+		
+				<div role="toolbar" class="btn-toolbar pull-right">
+					<div class="btn-group">
+						<a type="button" class="btn btn-sm btn-primary" href="#/admin/roles/new">
+							<span class="glyphicon glyphicon-plus"></span> Añadir un rol
+						</a>
+					</div>
+				</div>		
+			</div>
+		</div>	
+		
+		
+		<div>
+
+			<div role="toolbar" class="btn-toolbar">
+				<div class="btn-group" style="margin-top:-20px">		
+					<pagination total-items="roles.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+				</div>
+
+				<div class="btn-group pull-right">
+					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadRoles()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+			</div>
+			
+		</div>
+				
+	</section>
+</main>
+
+
+
+
+<script type="text/ng-template" id="confirmDeleteRole.html">
+	<div class="modal-header">
+		<h4 class="modal-title text-danger">¿Estás seguro?</h4>
+	</div>
+	<div class="modal-body">
+		<p>¿Estás seguro de querer borrar este rol?</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>
+		<button type="button" class="btn btn-danger" ng-click="accept()">Si</button>
+	</div>	
+</script>

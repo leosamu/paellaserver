@@ -1,0 +1,85 @@
+<form class="form-horizontal" novalidate>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Tipo de video</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" ng-model="video.source.type">
+		</div>
+	</div>
+</form>
+
+<accordion close-others='false'>
+	<accordion-group heading="Video principal (presentador)" is-open="true">
+		<form class="form-horizontal" novalidate>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Nombre del archivo</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" ng-model="video.source.videos[0].src">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 col-xs-12 control-label">Resolución</label>
+				<div class="col-sm-5 col-xs-6">
+					<input type="text" class="form-control" ng-model="video.source.videos[0].width">
+				</div>
+				<div class="col-sm-5 col-xs-6">
+					<input type="text" class="form-control" ng-model="video.source.videos[0].height">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">mimetype</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" ng-model="video.source.videos[0].mimetype">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Fecha de grabación</label>
+				<div class="col-sm-10">
+					<div class="input-group">
+						<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.source.videos[0].recordingDate" is-open="datePickerEndOpened" close-text="Close" disabled />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</div>
+				</div>
+				
+				
+				
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Operador de grabación</label>
+				<div class="col-sm-10">						
+					<div class="input-group">
+						<input type="text" class="form-control" value="{{video.source.videos[0].operator}}" disabled />
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default"><i class="glyphicon glyphicon-user"></i></button>
+						</span>
+					</div>			
+				</div>
+				
+				
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Enlace</label>
+				<div class="col-sm-10">
+					<p class="form-control-static">
+						<a href="">{{video.source.videos[0].src}}</a>
+					</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Ruta en el servidor</label>
+				<div class="col-sm-10">
+					<p class="form-control-static"> {{video.source.videos[0].src}} </p>
+				</div>
+			</div>
+			
+			
+		</form>		
+	</accordion-group>
+	
+	<accordion-group heading="Video secundatio (diapositivas)" ng-show="video.source.slaveVideos.length > 0">
+		
+	</accordion-group>
+</accordion>

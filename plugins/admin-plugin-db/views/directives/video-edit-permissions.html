@@ -1,0 +1,46 @@
+<div class="table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>ROL</th>
+				<th>Lectura</th>
+				<th>Escritura</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="p in video.permissions">
+				<td>{{p.role}}</td>
+				<td>
+					<input type="checkbox" ng-model="p.read">
+				</td>
+				<td>
+					<input type="checkbox" ng-model="p.write">
+				</td>
+				<td>
+					<div class="btn-toolbar" role="toolbar">
+						<div class="btn-group" role="group">
+							<button class="btn btn-xs btn-danger" ng-click="deletePermission(p)">
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th><input class="form-control input-sm" type="text" ng-model="addRoleText"></th>
+				<th><input type="checkbox" ng-model="addRoleRead"></th>
+				<th><input type="checkbox" ng-model="addRoleWrite"></th>	
+				
+				<th>
+					<button class="btn btn-default btn-xs" ng-click="addRole()" ng-disabled="!addRoleText">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</th>
+			</tr>
+		</tfoot>
+
+	</table>
+</div>

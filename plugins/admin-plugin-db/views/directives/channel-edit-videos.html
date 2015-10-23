@@ -1,0 +1,106 @@
+<div class="row">
+	<div ng-class="{'col-md-8': !addVideosMode, 'col-md-offset-1': !addVideosMode, 'col-md-4': addVideosMode}">
+	
+		<div class="panel panel-default" ng-class="{'panel-warning':channel.videos.length==0}">
+			<div class="panel-heading" ng-hide="channel.videos.length>0">
+				<h5>La lista de videos está vacía</h5>
+				<p class="list-group-item-text"> Añade algún video</p>
+			</div>
+	
+			<ul class="list-group" ui-sortable ng-model="channel.videos">
+				<li class="list-group-item" ng-repeat="v in channel.videos">
+					<h5 class="list-group-item-heading">							
+					    <div class="btn-group" dropdown is-open="status.isopen">
+					      <button type="button" class="btn btn-primary btn-xs" dropdown-toggle>
+					        {{$index+1}} <span class="caret"></span>
+					      </button>
+					      <ul class="dropdown-menu" role="menu">
+					        <li role="menuitem"><a href="/player/?id={{v._id}}&autoplay=true" target="_blank"> <span class="glyphicon glyphicon-eye-open"></span> Visualizar </a></li>
+					        <li role="menuitem"><a href="#/statistics/views/video/{{v._id}}" target="_blank"> <span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
+					        <li role="menuitem"><a href="#/admin/videos/edit/{{v._id}}" target="_blank"> <span class="glyphicon glyphicon-pencil"></span> Editar</a></li>
+					        <li class="divider"></li>
+					        <li role="menuitem"><a class="text-danger" href ng-click="removeVideoFromChannel(v)"> <span class="glyphicon glyphicon-remove"></span> Eliminar de este canal</a></li>
+					      </ul>
+					    </div>															
+						<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>
+					</h5>
+					<p class="list-group-item-text text-danger">
+						{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}
+					</p>
+					<p class="list-group-item-text">
+						<span class="label label-default">{{v.creationDate | amDateFormat:'ll'}}</span>								
+						<small>{{v._id}}</small>
+					</p>
+				</li>
+			</ul>
+		</div>	
+		
+		
+	</div>
+	<div class="col-md-2" ng-hide="addVideosMode==true">
+		<button class="btn btn-default" ng-click="addVideosMode=true"> Añadir videos </button>
+	</div>
+	
+	<div class="col-md-8" ng-show="addVideosMode==true">
+	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a class="btn btn-default" ng-click="addVideosMode=false"> <span class="glyphicon glyphicon-arrow-right"></span> </a>
+				<admin-filter-directive class="btn-group" state-filters="state.videoFilters" available-filters="selectableFilters"></admin-filter-directive>
+			</div>	
+
+	
+
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Título</th>
+							<th>Autor</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody ng-hide="loadingVideos">
+						<tr ng-repeat="v in videos.list" ng-class="{'success':existsVideoInChannel(v)}">
+							<td>{{v.creationDate | amDateFormat:'ll'}}</td>
+							<td>{{v.title}}<br/><small>{{v._id}}</small></td>
+							<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>
+							<td>
+								<div class="btn-toolbar" role="toolbar">
+									<div class="btn-group" role="group">
+										<a class="btn btn-xs btn-default" target="_blank" href="/player/?id={{v._id}}&autoplay=true"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+										<a class="btn btn-xs btn-default" ng-click="addVideoToChannel(v)" ng-hide="existsVideoInChannel(v)"> <span class="glyphicon glyphicon-plus"></span> </a>
+										<a class="btn btn-xs btn-default" ng-click="removeVideoFromChannel(v)" ng-show="existsVideoInChannel(v)"> <span class="glyphicon glyphicon-minus"></span> </a>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<loader ng-show="loadingVideos"></loader>			
+			</div>
+		</div>
+		
+		<div>
+			<div role="toolbar" class="btn-toolbar">
+				<div class="btn-group" style="margin-top:-20px">		
+					<pagination total-items="videos.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+				</div>
+
+				<div class="btn-group pull-right">
+					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadVideos()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+			</div>
+			
+		</div>		
+		
+	</div>
+</div>

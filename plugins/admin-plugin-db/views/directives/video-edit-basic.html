@@ -1,0 +1,63 @@
+<form class="form-horizontal" novalidate>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Identificador</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">{{video._id}}</p>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Thumbnail</label>
+		<div class="col-md-4 col-sm-5">
+			<img class="img-responsive2 img-thumbnail" ng-if="video.thumbnail" ng-src="{{video.repository.server}}/{{video.repository.endpoint}}{{video._id}}/{{video.thumbnail}}">			
+			<img class="img-responsive2 img-thumbnail" ng-if="!video.thumbnail" src="/resources/images/channel-placeholder.gif">
+		</div>
+	</div>					
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Título</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" placeholder="Título" ng-model="video.title">
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Propietario</label>
+		<div class="col-sm-10">
+			<owners-select-or-create owners="video.owner"></owners-select-or-create>
+		</div>
+	</div>				
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Idioma</label>
+		<div class="col-sm-10">
+			<language-select language="video.language"></language-select>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Palabras clave</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" placeholder="Título" ng-model="video.metadata.keywords[0]" disabled>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Visibilidad</label>
+		<div class="col-sm-10">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="video.hidden"> Bloqueado en listas
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="video.hiddenInSearches"> Bloqueado en búsquedas
+				</label>
+			</div>
+		</div>
+	</div>
+	
+
+</form>	

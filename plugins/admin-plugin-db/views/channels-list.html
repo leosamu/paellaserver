@@ -1,0 +1,166 @@
+<main>		
+
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+    
+				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>				
+					<li>
+						<a href="#/admin/videos">
+				    		Videos
+				    	</a>
+				    </li>
+					<li class="active">
+						<a href="#/admin/channels">
+				    		Canales
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/users">
+				    		Usuarios
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/roles">
+				    		Roles
+				    	</a>
+				    </li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+		<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:0px;">
+		
+			<div class="btn-toolbar" role="toolbar">
+				<div class="btn-group" role="group">
+					<form class="navbar-form">			
+						<button type="button" class="btn btn-default dropdown-toggle input-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Acción <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li ng-repeat="a in channelActions">
+								<a href ng-click="doAction(a)"> {{a.label}} </a>
+							</li>
+							<li ng-show="channelActions && channelActions.length == 0">
+								<a href> No hay acciones disponibles </a>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<admin-filter-directive class="btn-group" state-filters="state.channelFilters" available-filters="selectableFilters"></admin-filter-directive>
+			</div>
+		</div>
+
+
+		<h1>Canales</h1>
+		<h6>{{channels.total}} canales</h6>		
+		
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></th>
+						<th>Fecha</th>
+						<th>Título</th>
+						<th>Autor</th>
+						<th># V/Ch</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody ng-hide="loadingChannels">
+					<tr ng-repeat="c in channels.list">
+						<td><input type="checkbox" ng-model="v.selected"></td>
+						<td>{{c.creationDate | amDateFormat:'ll'}}</td>
+						<td>{{c.title}}</td>
+						<td>{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}</td>
+						<td>{{c.videos.length || 0}} / {{c.chlildren.length || 0}}</td>
+						<td>
+							<div class="btn-toolbar" role="toolbar">
+								<div class="btn-group" role="group">
+									<a class="btn btn-xs btn-default" href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+									<a class="btn btn-xs btn-default" href="#/statistics/views/channel/{{c._id}}"> <span class="glyphicon glyphicon-stats"></span> </a>
+									<a class="btn btn-xs btn-default" href="#/admin/channels/edit/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+									<button class="btn btn-xs btn-danger" ng-click="deleteChannel(c._id)"> <span class="glyphicon glyphicon-remove"></span> </button>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<loader ng-show="loadingChannels"></loader>			
+		</div>
+		
+		<div>
+
+			<div role="toolbar" class="btn-toolbar">
+				<div class="btn-group" style="margin-top:-20px">		
+					<pagination total-items="channels.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+				</div>
+
+				<div class="btn-group pull-right">
+					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadChannels()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+			</div>
+			
+		</div>
+				
+	</section>
+</main>
+
+
+
+<script type="text/ng-template" id="runVideoAction.html">
+	<div class="modal-header">
+		<h4 class="modal-title text-danger">Realizando la acción</h4>
+	</div>
+	<div class="modal-body">
+		<p>{{action.label}}</p>
+		
+		<uib-progress class="active" ng-class="{'progress-striped':(successCompleted+successError)<totalActions}">
+			<uib-bar type="success" value="100*(successCompleted/totalActions)">
+				<span ng-show="successCompleted>0">{{successCompleted}}/{{totalActions}}</span>
+			</uib-bar>
+			<uib-bar type="danger" value="100*(successError/totalActions)">
+				<span ng-show="successError>0">{{successError}}/{{totalActions}}</span>
+			</uib-bar>
+		</uib-progress>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" ng-click="accept()" ng-disabled="(successCompleted+successError)<totalActions">Continuar</button>
+	</div>	
+</script>
+
+<script type="text/ng-template" id="confirmDeleteChannel.html">
+	<div class="modal-header">
+		<h4 class="modal-title text-danger">¿Estás seguro?</h4>
+	</div>
+	<div class="modal-body">
+		<p>¿Estás seguro de querer borrar este canal?</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>
+		<button type="button" class="btn btn-danger" ng-click="accept()">Si</button>
+	</div>	
+</script>

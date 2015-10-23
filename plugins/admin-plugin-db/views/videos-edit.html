@@ -1,0 +1,144 @@
+<main>		
+
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>				
+					<li class="active">
+						<a href="#/admin/videos">
+				    		Videos
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/channels">
+				    		Canales
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/users">
+				    		Usuarios
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/roles">
+				    		Roles
+				    	</a>
+				    </li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+		<div style="height: 30px;"></div>
+			
+		<div class="panel panel-primary">
+			<div class="panel-heading">			
+				<h2>Editando el vídeo</h2>
+			</div>
+			<div class="panel-body">				
+				<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
+					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Información básica</a></li>
+					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>Información Avanzada</a></li> 
+					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Videos </a></li>			
+					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Plugins </a></li>
+					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Permisos</a></li>
+					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Adjuntos</a></li>
+					<li role="presentation" ng-click="tab=7" ng-class="{active:tab==7}"><a href>JSON Object</a></li>
+				</ul>		
+				
+				<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
+				  <div class="panel-body">
+						
+						<div class="tab-pane" ng-show="tab==1">		
+							<video-edit-basic video="video"></video-edit-basic>
+						</div>
+						
+						<div class="tab-pane" ng-show="tab==2">		
+							<video-edit-advanced video="video"></video-edit-advanced>
+						</div>
+						
+										
+						<div class="tab-pane" ng-show="tab==3">
+							<video-edit-videos video="video"></video-edit-videos>
+						</div>	
+		
+						<div class="tab-pane" ng-show="tab==4">
+							<admin-video-editor-plugins video="video"></admin-video-editor-plugins>
+						</div>	
+		
+						<div class="tab-pane" ng-show="tab==5">
+							<video-edit-permissions video="video"></video-edit-permissions>
+						</div>	
+		
+		
+						<div class="tab-pane" ng-show="tab==6">
+						
+							<accordion close-others='false'>
+								<accordion-group>
+									<accordion-heading>
+										Detector de diapositivas <span class='badge'>{{video.slides.length || 0}}</span>
+									</accordion-heading>
+									<div class="table-responsive">
+										<table class="table table-hover">
+											<thead>
+												<tr>
+													<th>Instante de tiempo</th>
+													<th>Imagen</th>
+													<th>Formato</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="s in video.slides">
+													<td>{{s.time}}</td>
+													<td>{{s.url}}</td>
+													<td>{{s.mimetype}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</accordion-group>
+								<accordion-group>
+									<accordion-heading>
+										Fotos de la pizarra <span class='badge'>{{video.blackboard.length || 0}}</span>
+									</accordion-heading>						
+								</accordion-group>
+								<accordion-group>
+									<accordion-heading>
+										Ficheros adjuntos <span class='badge'>{{video.attachments.length || 0}}</span>
+									</accordion-heading>						
+								</accordion-group>
+							</accordion>
+						</div>
+		
+						<div class="tab-pane" ng-show="tab==7">
+							<pre> {{video | json:4}} </pre>
+						</div>
+						
+						
+				  </div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
+				<button class="btn btn-primary pull-right" ng-click="updateVideo()">Guardar</button>
+			</div>
+		</div>			
+				
+	</section>
+</main>
