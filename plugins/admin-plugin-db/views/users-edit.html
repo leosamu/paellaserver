@@ -1,0 +1,143 @@
+<main>		
+
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+    
+				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>				
+					<li>
+						<a href="#/admin/videos">
+				    		Videos
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/channels">
+				    		Canales
+				    	</a>
+				    </li>
+					<li class="active">
+						<a href="#/admin/users">
+				    		Usuarios
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/roles">
+				    		Roles
+				    	</a>
+				    </li>
+				    
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+	
+		<div style="height: 30px;"></div>
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">			
+				<h2>Editando el Usuario: <small>{{user._id}}</small></h2>			
+			</div>
+			<div class="panel-body">
+			
+				<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
+					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Información básica</a></li>
+					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Sistema Autenticación</span></a></li>
+					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>JSON Object</span></a></li>
+				</ul>			
+			
+			
+				<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
+					<div class="panel-body">		
+				
+						<div class="tab-pane" ng-show="tab==1">
+							<form class="form-horizontal" novalidate>			
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Nombre</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" placeholder="Nombre" ng-model="user.contactData.name">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Nombre</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" placeholder="Apellidos" ng-model="user.contactData.lastName">
+									</div>
+								</div>
+			
+								<div class="form-group">
+									<label class="col-sm-2 control-label">E-mail</label>
+									<div class="col-sm-10">
+										<input type="email" class="form-control" placeholder="e-mail" ng-model="user.contactData.email">
+									</div>
+								</div>
+			
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Teléfono</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" placeholder="Teléfono" ng-model="user.contactData.tlf">
+									</div>
+								</div>
+			
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Genero</label>
+									<div class="col-sm-10">
+										<select class="form-control"  ng-model="user.contactData.gender">
+											<option value="">Selecciona el genero</option>
+											<option value="M">Masculino</option>
+											<option value="F">Femenino</option>
+										</select>
+									</div>
+								</div>
+			
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Roles</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" placeholder="Roles" ng-model="user.roles" ng-list>
+									</div>
+								</div>			
+							</form>
+						</div>
+						
+						<div class="tab-pane" ng-show="tab==2">
+							<div class="alert alert-warning" role="alert" ng-hide="user.auth.polimedia">
+								<p>El usuario no tiene el sistema de autenticación local.</p>
+								<button  class="btn btn-warning btn-xs" ng-click="createLocalAuth()">Crear autenticación local</button>
+							</div>
+							<admin-user-editor-autentication user="user"></admin-user-editor-autentication>
+						</div>
+						
+						<div class="tab-pane" ng-show="tab==3">
+							<pre> {{user | json:4}} </pre>
+						</div>						
+
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
+				<button class="btn btn-primary pull-right" ng-click="updateRole()">Guardar</button>
+			</div>
+		</div>
+			
+	</section>
+</main>

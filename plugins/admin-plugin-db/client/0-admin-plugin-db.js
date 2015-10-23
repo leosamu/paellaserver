@@ -22,6 +22,19 @@
 				controller: "AdminChannelsEditController"
 			})
 			
+			.when('/admin/users', {
+				templateUrl: 'admin-plugin-db/views/users-list.html',
+				controller: "AdminUsersListController"
+			})
+			.when('/admin/users/edit/:id', {
+				templateUrl: 'admin-plugin-db/views/users-edit.html',
+				controller: "AdminUsersEditController"
+			})
+			.when('/admin/users/new', {
+				templateUrl: 'admin-plugin-db/views/users-new.html',
+				controller: "AdminUsersNewController"
+			})
+
 			.when('/admin/roles', {
 				templateUrl: 'admin-plugin-db/views/roles-list.html',
 				controller: "AdminRolesListController"
