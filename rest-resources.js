@@ -43,7 +43,7 @@ module.exports = {
 				}
 
 
-				endpoint = endpoint.replace(/[\-_]{1}/, ':');
+				endpoint = endpoint.replace(/\/[\-_]{1}/, '/:');
 				console.log(endpoint + " > " + method);
 				if (upload) {
 					router[method](endpoint, multer({ dest:__dirname + "/uploads" }).single(upload), callback);
@@ -70,7 +70,7 @@ module.exports = {
         		This.routeDirectory(router,itemPath);
         	}
         	else {
-				var re = /plugins\/(\w+)\/rest(\/.*)*$/i;
+				var re = /plugins\/([\w_-]+)\/rest(\/.*)*$/i;
         		if (re.test(path)) {
 					var reData = re.exec(path);
 					var pluginName = reData[1];
