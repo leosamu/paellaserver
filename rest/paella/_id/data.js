@@ -95,7 +95,7 @@ exports.routes = {
 		VideoController.CheckPublished,
 		VideoController.LoadUrlFromRepository,
 		function(req,res) {
-			if (req.data) {
+			if (req.data && req.data.source) {
 				var metadata = {
 					"duration":req.data.duration,
 					"title":req.data.title
