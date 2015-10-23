@@ -9,6 +9,7 @@
 
 		$scope.selectItem = function(item) {
 			$scope.selected = item;
+			$modalInstance.close($scope.selected);
 		};
 
 		$scope.close = function() {
@@ -61,6 +62,7 @@
 
 		$scope.selectItem = function(item) {
 			$scope.selected = item;
+			$modalInstance.close($scope.selected);
 		};
 
 		$scope.close = function() {
