@@ -9,6 +9,10 @@
 				templateUrl: 'admin/views/main.html',
 				controller: "AdminController"
 			})
+			.when('/admin/unauthorized', {
+				templateUrl: 'admin/views/unauthorized.html',
+				controller: "AdminUnauthorizedController"
+			})
 
 		function loadDictionary(lang) {
 			$.ajax('admin/i18n/' + lang + '.json')
@@ -26,14 +30,13 @@
 	app.run(['$rootScope', '$location', 'User', 'Authorization', function($rootScope, $location, User, Authorization) {
 		$rootScope.$on('$routeChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
 			if (toState) {
-				if (/^\/admin/.test(toState.$$route.originalPath) == true) {
-				
+				if (/^\/admin/.test(toState.$$route.originalPath) == true) {				
 					User.current().$promise.then(function(currentUser){
 						
 						var AdminUIResource = {
 							"permissions" : [ 
 								 {
-								 "role" : "ADMIN",
+								 "role" : "ADMIN_UI",
 								 "write" : true,
 								 "read" : true
 								 }
@@ -42,16 +45,16 @@
 						
 						var auth = Authorization(AdminUIResource, currentUser)
 						if (auth.canRead() == false) {
-							$location.path('/auth/login');
+							if (currentUser._id == 0) {
+								$location.path('/auth/login');
+							}
+							else {
+								$location.path('/admin/unauthorized');								
+							}
 						}					
 					})
 				}
 			}
-			/*
-			else {
-				$location.path('/auth/login');
-			}
-			*/
 		});	
 	}]);
 	

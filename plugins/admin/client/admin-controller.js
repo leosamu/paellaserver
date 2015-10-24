@@ -7,6 +7,11 @@
 		$scope.plugins = AdminPlugin;
 
 	}]);
+
+
+	app.controller("AdminUnauthorizedController", ['$scope', function($scope) {
+		console.log("ii");
+	}]);
 	
 	
 	
