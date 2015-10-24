@@ -51,7 +51,7 @@
 		Actions.registerAction(
 			{
 				context: "video",			
-				label: "Subir a YouYube",
+				label: "Subir a Youtube",
 				runAction: function(v) {
 					var task1 = {
 						task: "uploadToYoutube",
