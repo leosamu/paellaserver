@@ -52,6 +52,6 @@
 
 
 	
-	angular.module('adminPluginsModule').registerPlugin(plugin, "/admin/videos", "Data Base");	
+	angular.module('adminPluginsModule').registerPlugin(plugin, "/admin/videos", "Videos");	
 	
 })();

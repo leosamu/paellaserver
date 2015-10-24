@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginUsers');
 
 	
 	app.controller("AdminRolesNewController", ["$scope", "RoleCRUD", function($scope, RoleCRUD){	

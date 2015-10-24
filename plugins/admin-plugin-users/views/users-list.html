@@ -17,16 +17,6 @@
     
 				<ul class="nav navbar-nav">
 				    <admin-plugins-menu></admin-plugins-menu>				
-					<li>
-						<a href="#/admin/videos">
-				    		Videos
-				    	</a>
-				    </li>
-					<li>
-						<a href="#/admin/channels">
-				    		Canales
-				    	</a>
-				    </li>
 					<li class="active">
 						<a href="#/admin/users">
 				    		Usuarios
@@ -168,15 +158,15 @@
 	</div>	
 </script>
 
-<script type="text/ng-template" id="confirmDeleteRole.html">
+<script type="text/ng-template" id="confirmDeleteUser.html">
 	<div class="modal-header">
 		<h4 class="modal-title text-danger">¿Estás seguro?</h4>
 	</div>
 	<div class="modal-body">
-		<p>¿Estás seguro de querer borrar este rol?</p>
+		<p>¿Estás seguro de querer borrar este usuario?</p>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>
-		<button type="button" class="btn btn-danger" ng-click="accept()">Si</button>
+		<button type="button" class="btn btn-danger" ng-click="accept()" disabled>Si</button>
 	</div>	
 </script>

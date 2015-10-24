@@ -17,16 +17,6 @@
     
 				<ul class="nav navbar-nav">
 				    <admin-plugins-menu></admin-plugins-menu>				
-					<li>
-						<a href="#/admin/videos">
-				    		Videos
-				    	</a>
-				    </li>
-					<li>
-						<a href="#/admin/channels">
-				    		Canales
-				    	</a>
-				    </li>
 					<li class="active">
 						<a href="#/admin/users">
 				    		Usuarios
@@ -48,16 +38,17 @@
 	
 		<div style="height: 30px;"></div>
 		
-		<div class="panel panel-default">
+		<div class="panel panel-primary">
 			<div class="panel-heading">			
-				<h2>Editando el Usuario: <small>{{user._id}}</small></h2>			
+				<h2>Editando el Usuario</h2>			
 			</div>
 			<div class="panel-body">
 			
 				<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
 					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Información básica</a></li>
-					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Sistema Autenticación</span></a></li>
-					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>JSON Object</span></a></li>
+					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Roles dinámicos</span></a></li>
+					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Sistema de autenticación</span></a></li>
+					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>JSON Object</span></a></li>
 				</ul>			
 			
 			
@@ -67,6 +58,13 @@
 						<div class="tab-pane" ng-show="tab==1">
 							<form class="form-horizontal" novalidate>			
 								<div class="form-group">
+									<label class="col-sm-2 control-label">ID</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" placeholder="Nombre" value="{{user._id}}" disabled>
+									</div>
+								</div>
+
+								<div class="form-group">
 									<label class="col-sm-2 control-label">Nombre</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control" placeholder="Nombre" ng-model="user.contactData.name">
@@ -74,7 +72,7 @@
 								</div>
 								
 								<div class="form-group">
-									<label class="col-sm-2 control-label">Nombre</label>
+									<label class="col-sm-2 control-label">Apellidos</label>
 									<div class="col-sm-10">
 										<input type="text" class="form-control" placeholder="Apellidos" ng-model="user.contactData.lastName">
 									</div>
@@ -115,6 +113,12 @@
 						</div>
 						
 						<div class="tab-pane" ng-show="tab==2">
+							<div class="alert alert-info" role="alert">
+								<p>Listado de roles que el usuario obtiene por otros sistemas (sakai, ...)</p>
+							</div>							
+						</div>						
+
+						<div class="tab-pane" ng-show="tab==3">
 							<div class="alert alert-warning" role="alert" ng-hide="user.auth.polimedia">
 								<p>El usuario no tiene el sistema de autenticación local.</p>
 								<button  class="btn btn-warning btn-xs" ng-click="createLocalAuth()">Crear autenticación local</button>
@@ -122,7 +126,7 @@
 							<admin-user-editor-autentication user="user"></admin-user-editor-autentication>
 						</div>
 						
-						<div class="tab-pane" ng-show="tab==3">
+						<div class="tab-pane" ng-show="tab==4">
 							<pre> {{user | json:4}} </pre>
 						</div>						
 

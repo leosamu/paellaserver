@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginUsers');
 
 		
 	app.directive("adminUserEditorAutentication", ['$compile', '$injector', '$filter',  function($compile, $injector, $filter){
@@ -54,7 +54,7 @@
 				authData: "=",
 				userId: "="
 			},		
-			templateUrl: 'admin-plugin-db/views/directives/user-auth-polimedia.html'
+			templateUrl: 'admin-plugin-users/views/directives/user-auth-polimedia.html'
 		};
 	});	
 	
@@ -65,7 +65,7 @@
 				authData: "=",
 				userId: "="
 			},		
-			templateUrl: 'admin-plugin-db/views/directives/user-auth-upv.html'
+			templateUrl: 'admin-plugin-users/views/directives/user-auth-upv.html'
 		};
 	});		
 	
