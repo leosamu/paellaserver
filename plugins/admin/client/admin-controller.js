@@ -10,9 +10,7 @@
 
 
 	app.controller("AdminUnauthorizedController", ['$scope', function($scope) {
-		console.log("ii");
 	}]);
-	
-	
+		
 	
 })();

@@ -37,8 +37,6 @@
 			templateUrl: 'admin/views/directives/admin-plugins-menu.html'
 		};
 	
-	
-	
-	});
+	});		
 	
 })();

@@ -1,7 +1,11 @@
 (function() {
-	var plugin = angular.module('adminPluginUsers',[]);
+	var plugin = angular.module('adminPluginUsers', ['AuthorizationRoutesModule']);
 
-	plugin.config(['$routeProvider', function($routeProvider) {
+	plugin.config(['$routeProvider', 'AuthorizationRoutesProvider', function($routeProvider, AuthorizationRoutesProvider) {
+		
+		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin\/users/, "ADMIN");
+		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin\/roles/, "ADMIN");
+		
 		
 		$routeProvider
 			.when('/admin/users', {

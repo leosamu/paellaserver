@@ -1,8 +1,11 @@
 (function() {
 
-	var app = angular.module('adminModule',['adminPluginsModule', "ngRoute", "base64", "angularMoment", "ui.sortable"]);	
+	var app = angular.module('adminModule', ['AuthorizationRoutesModule', 'adminPluginsModule', "ngRoute", "base64", "angularMoment", "ui.sortable"]);	
 	
-	app.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
+	
+	app.config(['$routeProvider', '$translateProvider', 'AuthorizationRoutesProvider', function($routeProvider, $translateProvider, AuthorizationRoutesProvider) {
+				
+		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin/, "ADMIN_UI");
 		
 		$routeProvider
 			.when('/admin', {
@@ -22,37 +25,15 @@
 		}
 
 		loadDictionary('es');
-		loadDictionary('ca');
+		loadDictionary('ca');		
 	}]);		
 		
 		
-		
-	app.run(['$rootScope', '$location', 'User', 'Authorization', function($rootScope, $location, User, Authorization) {
+	app.run(['$rootScope', 'AuthorizationRoutes', function($rootScope, AuthorizationRoutes) {	 	
 		$rootScope.$on('$routeChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-			if (toState) {
-				if (/^\/admin/.test(toState.$$route.originalPath) == true) {				
-					User.current().$promise.then(function(currentUser){
-						
-						var AdminUIResource = {
-							"permissions" : [ 
-								 {
-								 "role" : "ADMIN_UI",
-								 "write" : true,
-								 "read" : true
-								 }
-							]
-						};
-						
-						var auth = Authorization(AdminUIResource, currentUser)
-						if (auth.canRead() == false) {
-							if (currentUser._id == 0) {
-								$location.path('/auth/login');
-							}
-							else {
-								$location.path('/admin/unauthorized');								
-							}
-						}					
-					})
+			if (toState && toState.$$route && toState.$$route.originalPath) {
+				if (toState.$$route.originalPath != '/admin/unauthorized') {
+					AuthorizationRoutes.check(toState.$$route.originalPath);
 				}
 			}
 		});	

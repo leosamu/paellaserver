@@ -1,7 +1,10 @@
 (function() {
-	var plugin = angular.module('adminPluginDB',[]);
+	var plugin = angular.module('adminPluginDB', ['AuthorizationRoutesModule']);
 
-	plugin.config(['$routeProvider', function($routeProvider) {
+	plugin.config(['$routeProvider', 'AuthorizationRoutesProvider', function($routeProvider, AuthorizationRoutesProvider) {
+		
+		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin\/videos/, "ADMIN_UI_VIDEO");
+		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin\/channels/, "ADMIN_UI_VIDEO");
 		
 		$routeProvider
 			.when('/admin/videos', {

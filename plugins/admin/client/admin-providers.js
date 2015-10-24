@@ -1,7 +1,8 @@
 (function() {
 	
 	var app = angular.module('adminModule');	
-		
+
+
 	app.factory('Filters', function () {
 		var filters = {};
 		
