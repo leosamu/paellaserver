@@ -4,7 +4,7 @@
 	
 	app.controller("AdminVideosEditController", ["$scope","$routeParams", "VideoCRUD", function($scope, $routeParams, VideoCRUD){	
 		$scope.video = VideoCRUD.get({id: $routeParams.id});
-		
+				
 		
 		$scope.updateVideo = function() {
 			VideoCRUD.update($scope.video).$promise.then(function() {

@@ -1,11 +1,28 @@
 <form class="form-horizontal" novalidate>
 
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Catalogo</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" ng-model="video.catalog">
-		</div>
-	</div>				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Fecha de grabación</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.source.videos[0].recordingDate" is-open="datePickerEndOpened" close-text="Close" disabled />
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Operador de grabación</label>
+					<div class="col-sm-10">						
+						<div class="input-group">
+							<input type="text" class="form-control" value="{{video.source.videos[0].operator}}" disabled />
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-default"><i class="glyphicon glyphicon-user"></i></button>
+							</span>
+						</div>			
+					</div>
+				</div>
+
 
 
 	<div class="form-group">
@@ -13,7 +30,14 @@
 		<div class="col-sm-10">
 			<input type="text" class="form-control" ng-model="video.repository._id" disabled>
 		</div>
-	</div>				
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Catálogo</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" ng-model="video.catalog">
+		</div>
+	</div>
 
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Compartir</label>
@@ -25,18 +49,15 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Publicar</label>
-		<div class="col-sm-10">							
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" ng-model="video.published.status"> ¿El video está publicado?
-				</label>
-			</div>
+		<label class="col-sm-2 control-label">Ruta en el servidor</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">
+				{{video.repository.path}}{{video._id}}
+			</p>
 		</div>
 	</div>
-	
-	
+
 
 </form>

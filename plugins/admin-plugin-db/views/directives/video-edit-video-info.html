@@ -1,0 +1,44 @@
+
+<form class="form-horizontal" novalidate>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Nombre del archivo</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" ng-model="videoInfo.src">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 col-xs-12 control-label">Resolución</label>
+		<div class="col-sm-5 col-xs-6">
+			<input type="text" class="form-control" ng-model="videoInfo.width">
+		</div>
+		<div class="col-sm-5 col-xs-6">
+			<input type="text" class="form-control" ng-model="videoInfo.height">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">mimetype</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" ng-model="videoInfo.mimetype">
+		</div>
+	</div>	
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Enlace</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">
+				<a href="{{repository.server}}{{repository.endpoint}}{{videoId}}/{{videoInfo.src}}">
+					{{repository.server}}{{repository.endpoint}}{{videoId}}/{{videoInfo.src}}
+				</a>
+			</p>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Ruta en el servidor</label>
+		<div class="col-sm-10">
+			<p class="form-control-static">
+			{{repository.path}}{{videoId}}/{{video.src}}
+			</p>
+		</div>
+	</div>
+	
+</form>	

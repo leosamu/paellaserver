@@ -2,114 +2,20 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Tipo de video</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" ng-model="video.source.type">
+			<input type="text" class="form-control" ng-model="video.source.type" disabled>
 		</div>
 	</div>
 </form>
 
 <accordion close-others='false'>
-	<accordion-group heading="Video principal (presentador)" is-open="true">
-	
-		<div class="table-responsive">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>Resolución</th>
-						<th>URL</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="v in video.source.videos">
-						<td>{{v.width}}x{{v.height}}</td>
-						<td>
-							<a ng-href="{{video.repository.server}}{{video.repository.endpoint}}{{video._id}}/{{v.src}}">
-								{{video.repository.server}}{{video.repository.endpoint}}{{video._id}}/{{v.src}}
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="alert alert-info">
 
+	<accordion-group ng-repeat="v in video.source.videos" heading="Video del ponente - {{v.width}}x{{v.height}}" is-open="false" >
+		<video-edit-video-info video-info="v" repository="video.repository" video-id="video._id"></video-edit-video-info>
+	</accordion-group>
 
-			<form class="form-horizontal" novalidate>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">Nombre del archivo</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="video.source.videos[0].src">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 col-xs-12 control-label">Resolución</label>
-					<div class="col-sm-5 col-xs-6">
-						<input type="text" class="form-control" ng-model="video.source.videos[0].width">
-					</div>
-					<div class="col-sm-5 col-xs-6">
-						<input type="text" class="form-control" ng-model="video.source.videos[0].height">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">mimetype</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" ng-model="video.source.videos[0].mimetype">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">Fecha de grabación</label>
-					<div class="col-sm-10">
-						<div class="input-group">
-							<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.source.videos[0].recordingDate" is-open="datePickerEndOpened" close-text="Close" disabled />
-							<span class="input-group-btn">
-								<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
-							</span>
-						</div>
-					</div>
-					
-					
-					
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">Operador de grabación</label>
-					<div class="col-sm-10">						
-						<div class="input-group">
-							<input type="text" class="form-control" value="{{video.source.videos[0].operator}}" disabled />
-							<span class="input-group-btn">
-								<button type="button" class="btn btn-default"><i class="glyphicon glyphicon-user"></i></button>
-							</span>
-						</div>			
-					</div>
-					
-					
-				</div>
-	
-	
-				<div class="form-group">
-					<label class="col-sm-2 control-label">Enlace</label>
-					<div class="col-sm-10">
-						<p class="form-control-static">
-							<a href="">{{video.source.videos[0].src}}</a>
-						</p>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">Ruta en el servidor</label>
-					<div class="col-sm-10">
-						<p class="form-control-static"> {{video.source.videos[0].src}} </p>
-					</div>
-				</div>
-				
-				
-			</form>	
-
-		</div>	
+	<accordion-group ng-repeat="v in video.source.slaveVideos" heading="Video de las diapositivas - {{v.width}}x{{v.height}}" is-open="false" >
+		<video-edit-video-info video-info="v" repository="video.repository" video-id="video._id"></video-edit-video-info>
 	</accordion-group>
 
 
-
-
-	
-	<accordion-group heading="Video secundatio (diapositivas)" ng-show="video.source.slaveVideos.length > 0">
-		
-	</accordion-group>
 </accordion>

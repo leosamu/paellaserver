@@ -18,7 +18,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Título</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" placeholder="Título" ng-model="video.title">
+			<input type="text" class="form-control" ng-model="video.title">
 		</div>
 	</div>
 	
@@ -39,7 +39,7 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Palabras clave</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" placeholder="Título" ng-model="video.metadata.keywords[0]" disabled>
+			<input type="text" class="form-control" ng-model="video.metadata.keywords" ng-list>
 		</div>
 	</div>
 
@@ -57,7 +57,43 @@
 				</label>
 			</div>
 		</div>
-	</div>
-	
+	</div>	
 
-</form>	
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Publicar</label>
+		<div class="col-sm-10">							
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="video.published.status"> Marcado como publicado
+				</label>
+			</div>
+		</div>
+	</div>	
+
+	<div class="form-group" ng-show="(!video.published.status)">
+		<label class="col-sm-2 control-label">Publicar el video automaticamente</label>
+		<div class="col-sm-10">
+			<div class="input-group">
+				<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.published.publicationDate" is-open="datePickerPublicationDateOpened" close-text="Close" disabled />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="datePickerPublicationDateOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-offset-2 col-sm-10 alert alert-success" ng-show="videoPublishedStatus == 'published'">
+		El video está publicado y disponible para ser visualizado.
+	</div>
+	<div class="col-sm-offset-2 col-sm-10 alert alert-danger" ng-show="videoPublishedStatus == 'unpublished'">
+		El video no está publicado. Solo podrán visualizar el video los usuarios que tengan permiso de edición sobre el video.
+	</div>
+	<div class="col-sm-offset-2 col-sm-10 alert alert-warning" ng-show="videoPublishedStatus == 'futurePublished'">
+		El video no está publicado. Se publicará automaticamente el {{video.published.publicationDate | amDateFormat: 'll'}}
+	</div>
+
+
+
+
+</form>

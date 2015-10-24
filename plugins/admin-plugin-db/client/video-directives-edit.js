@@ -95,6 +95,30 @@
 			scope: {
 				video: "="	
 			},
+			controller: ['$scope', function($scope) {
+				$scope.$watch('video.published', function(){
+					
+					if ($scope.video && $scope.video.published) {
+						if ($scope.video.published.status == true) {
+							$scope.videoPublishedStatus = "published";
+						}
+						else {
+							if ($scope.video.published.publicationDate == undefined) {
+								$scope.videoPublishedStatus = "unpublished";
+							}
+							else {
+								if ($scope.video.published.publicationDate > new Date()) {
+									$scope.videoPublishedStatus = "futurePublished";
+								}
+								else {
+									$scope.videoPublishedStatus = "published";								
+								}
+							}
+						}
+					}
+				}, true);
+				
+			}],
 			templateUrl: 'admin-plugin-db/views/directives/video-edit-basic.html'
 		}
 	});
@@ -114,11 +138,24 @@
 		return {
 			restrict: 'E',
 			scope: {
-				video: "="	
+				video: "="
 			},
 			templateUrl: 'admin-plugin-db/views/directives/video-edit-videos.html'
 		}
 	});
+
+	app.directive("videoEditVideoInfo", function(){
+		return {
+			restrict: 'E',
+			scope: {
+				videoInfo: "=",
+				repository: "=",
+				videoId: "=" 
+			},
+			templateUrl: 'admin-plugin-db/views/directives/video-edit-video-info.html'
+		}
+	});
+
 	
 	app.directive("videoEditPermissions", function(){
 		return {
