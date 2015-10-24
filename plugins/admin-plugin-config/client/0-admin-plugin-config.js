@@ -1,5 +1,5 @@
 (function() {
-	var plugin = angular.module('adminPluginDB',[]);
+	var plugin = angular.module('adminPluginConfig',[]);
 
 	plugin.config(['$routeProvider', function($routeProvider) {
 		
