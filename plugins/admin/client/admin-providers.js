@@ -108,7 +108,7 @@
 				};					
 				
 				if (action.beforeRun) {	
-					action.beforeRun("video", items).then(function(actionParams) {
+					action.beforeRun(items).then(function(actionParams) {
 						doAction(actionParams);
 					});
 				}

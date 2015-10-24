@@ -19,8 +19,14 @@ exports.routes = {
 			function(req,res) {			
 				var skip = req.query.skip || 0;
 				var limit = req.query.limit || 10;
-				var query = {}; //JSON.parse(new Buffer((req.query.filters), 'base64').toString());
-								
+				var query = {};
+				try {
+					query = JSON.parse(new Buffer((req.query.filters), 'base64').toString());
+				}
+				catch(e){}
+					
+				console.log(JSON.stringify(query));
+				
 				Model.find(query).count().exec(function(errCount, count) {
 					if(errCount) { return res.sendStatus(500); }
 					
