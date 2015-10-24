@@ -2,14 +2,24 @@
 
 	var app = angular.module('adminModule',['adminPluginsModule', "ngRoute", "base64", "angularMoment", "ui.sortable"]);	
 	
-	app.config(['$routeProvider', function($routeProvider) {
+	app.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
 		
 		$routeProvider
 			.when('/admin', {
 				templateUrl: 'admin/views/main.html',
 				controller: "AdminController"
 			})
-	}]);
+
+		function loadDictionary(lang) {
+			$.ajax('admin/i18n/' + lang + '.json')
+			.success(function(data) {
+				$translateProvider.translations(lang, data);
+			});
+		}
+
+		loadDictionary('es');
+		loadDictionary('ca');
+	}]);		
 		
 		
 		
