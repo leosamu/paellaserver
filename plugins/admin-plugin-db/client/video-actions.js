@@ -2,23 +2,29 @@
 	var app = angular.module('adminPluginDB');
 	
 	
-	app.run(['Actions', '$q', function(Actions, $q) {
+	app.run(['Actions', '$q', 'TaskCRUD', function(Actions, $q, TaskCRUD) {
 
 		Actions.registerAction(
 			{
 				context: "video",			
 				label: "Recodificar videos",
 				runAction: function(v) {
-					var ms = Math.floor((Math.random() * 10000) + 1);
-				
-					var deferred = $q.defer();
-
-					setTimeout(function() {
-						console.log("TODO: Recodificar video " + v._id);
-						deferred.resolve("");
-					}, ms);
+					var task1 = {
+						task: "encode",
+						targetType: "video",
+						targetId: v._id,
+						error: false
+					};
+					var task2 = {
+						task: "extractSlides",
+						targetType: "video",
+						targetId: v._id,
+						error: false
+					};
 					
-					return deferred.promise;
+					return TaskCRUD.save(task1).$promise.then(function(){
+						return TaskCRUD.save(task2).$promise;
+					});
 				}
 			}
 		);
@@ -29,16 +35,14 @@
 				context: "video",			
 				label: "Enviar a transLectures",
 				runAction: function(v) {
-					var ms = Math.floor((Math.random() * 10000) + 1);
-				
-					var deferred = $q.defer();
-
-					setTimeout(function() {
-						console.log("TODO: translectures video " + v._id);
-						deferred.resolve("");
-					}, ms);
+					var task1 = {
+						task: "translectures",
+						targetType: "video",
+						targetId: v._id,
+						error: false
+					};
 					
-					return deferred.promise;
+					return TaskCRUD.save(task1).$promise;
 				}
 			}
 		);
@@ -49,17 +53,14 @@
 				context: "video",			
 				label: "Subir a YouYube",
 				runAction: function(v) {
-					var ms = Math.floor((Math.random() * 10000) + 1);
-				
-					var deferred = $q.defer();
+					var task1 = {
+						task: "uploadToYoutube",
+						targetType: "video",
+						targetId: v._id,
+						error: false
+					};
 					
-
-					setTimeout(function() {
-						console.log("TODO: Youtube video " + v._id);
-						deferred.resolve("");
-					}, ms);
-					
-					return deferred.promise;
+					return TaskCRUD.save(task1).$promise;
 				}
 			}
 		);
