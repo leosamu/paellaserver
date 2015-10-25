@@ -2,10 +2,19 @@
 	var app = angular.module('adminPluginDB');
 
 	
-	
 	app.controller("AdminChannelsEditController", ["$scope","$routeParams", "ChannelCRUD", "VideoCRUD", "AdminState", function($scope, $routeParams, ChannelCRUD, VideoCRUD, AdminState) {
 		$scope.state = AdminState;
 		$scope.channel = ChannelCRUD.get({id: $routeParams.id});
+		
+		$scope.channel.$promise.then(function(channel){
+			if (!channel.metadata) {
+				channel.metadata = {};
+			}
+			if (channel && channel.metadata &&	(typeof(channel.metadata.keywords)=="string")) {
+				channel.metadata.keywords = channel.metadata.keywords.split(",");
+			}
+			$scope.channel = channel;
+		});
 
 
 		/*

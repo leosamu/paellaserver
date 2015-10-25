@@ -20,39 +20,15 @@
 				templateUrl: 'admin-plugin-db/views/channels-list.html',
 				controller: "AdminChannelsListController"
 			})			
+			.when('/admin/channels/new', {
+				templateUrl: 'admin-plugin-db/views/channels-new.html',
+				controller: "AdminChannelsNewController"
+			})			
 			.when('/admin/channels/edit/:id', {
 				templateUrl: 'admin-plugin-db/views/channels-edit.html',
 				controller: "AdminChannelsEditController"
 			})
-			
-			.when('/admin/users', {
-				templateUrl: 'admin-plugin-db/views/users-list.html',
-				controller: "AdminUsersListController"
-			})
-			.when('/admin/users/edit/:id', {
-				templateUrl: 'admin-plugin-db/views/users-edit.html',
-				controller: "AdminUsersEditController"
-			})
-			.when('/admin/users/new', {
-				templateUrl: 'admin-plugin-db/views/users-new.html',
-				controller: "AdminUsersNewController"
-			})
-
-			.when('/admin/roles', {
-				templateUrl: 'admin-plugin-db/views/roles-list.html',
-				controller: "AdminRolesListController"
-			})
-			.when('/admin/roles/edit/:id', {
-				templateUrl: 'admin-plugin-db/views/roles-edit.html',
-				controller: "AdminRolesEditController"
-			})
-			.when('/admin/roles/new', {
-				templateUrl: 'admin-plugin-db/views/roles-new.html',
-				controller: "AdminRolesNewController"
-			})
-			
 	}]);
-
 
 	
 	angular.module('adminPluginsModule').registerPlugin(plugin, "/admin/videos", "Videos");	

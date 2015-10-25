@@ -10,12 +10,21 @@ exports.routes = {
 				
 				Model.findById(req.params.id)
 				.populate('repository')
-				.populate('owner')					
+				.populate('owner')
+				.populate('children')
+				.populate('videos')
+				
 				.exec(function(err, item) {
 					if(err) { return res.sendStatus(500); }
 					
 					if (item) {
-						res.status(200).send(item);
+						Model.populate(item, {path: 'children.owner', model:"User"}, function(err, item){
+							if(err) { return res.sendStatus(500); }
+							Model.populate(item, {path: 'videos.owner', model:"User"}, function(err, item){
+								if(err) { return res.sendStatus(500); }
+								res.status(200).send(item);
+							});
+						});
 					}
 					else {
 						res.sendStatus(404);

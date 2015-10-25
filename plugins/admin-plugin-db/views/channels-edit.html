@@ -45,6 +45,9 @@
 					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Información básica</a></li>
 					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Canales <span class="badge">{{channel.children.length || 0}}</span></a></li>
 					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Videos <span class="badge">{{channel.videos.length || 0}}</span></a></li>
+					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Plugins </a></li>					
+					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Permisos</a></li>
+					
 				</ul>
 				
 				
@@ -62,7 +65,15 @@
 						<div class="tab-pane" ng-show="tab==3">		
 							<channel-edit-videos channel="channel"></channel-edit-videos>
 						</div>
+						
+						<div class="tab-pane" ng-show="tab==4">
+							<admin-video-editor-plugins video="channel"></admin-video-editor-plugins>
+						</div>	
 		
+						<div class="tab-pane" ng-show="tab==5">
+							<video-edit-permissions video="channel"></video-edit-permissions>
+						</div>	
+				
 					</div>
 				</div>
 			</div>

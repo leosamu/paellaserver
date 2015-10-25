@@ -32,13 +32,13 @@ exports.routes = {
 					.populate('owner')
 					.exec(function(err, items) {
 						if(err) { return res.sendStatus(500); }
-						
+												
 						res.status(200).send({
 							total: count,
 							skip: Number(skip),
 							limit: Number(limit),
-							list:items							
-						});
+							list: items
+						})
 					});					
 				});
 			}
