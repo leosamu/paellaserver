@@ -5,6 +5,7 @@
 	app.controller("AdminChannelsEditController", ["$scope","$routeParams", "ChannelCRUD", "VideoCRUD", "AdminState", function($scope, $routeParams, ChannelCRUD, VideoCRUD, AdminState) {
 		$scope.state = AdminState;
 		$scope.channel = ChannelCRUD.get({id: $routeParams.id});
+		$scope.updating = false;
 		
 		$scope.channel.$promise.then(function(channel){
 			if (!channel.metadata) {
@@ -27,8 +28,21 @@
 		
 		
 		$scope.updateChannel = function() {
-			ChannelCRUD.update($scope.channel).$promise.then(function(){  //TODO
-				console.log("update");
+			$scope.updating = true;		
+			ChannelCRUD.update($scope.channel).$promise.then(
+				function() {
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("Video actualizado", "El video se ha actualizado correctamente.");
+					}
+				},
+				function() {
+					return MessageBox("Error", "Ha ocurrido un error al actualizar el video.");
+				}
+			).finally(function(){
+				$scope.updating = false;
 			});
 		}
 	}]);	

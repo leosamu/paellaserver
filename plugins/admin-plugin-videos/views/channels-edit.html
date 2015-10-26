@@ -81,7 +81,9 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
-				<button class="btn btn-primary pull-right" ng-click="updateChannel()">Guardar</button>
+				<button class="btn btn-primary pull-right" ng-click="updateChannel()" ng-disabled="updating">
+					<loader-field ng-show="updating"></loader-field>  Guardar
+				</button>
 			</div>
 		</div>
 	</section>

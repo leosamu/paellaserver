@@ -126,7 +126,9 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
-				<button class="btn btn-primary pull-right" ng-click="updateVideo()">Guardar</button>
+				<button class="btn btn-primary pull-right" ng-click="updateVideo()" ng-disabled="updating">
+					<loader-field ng-show="updating"></loader-field>  Guardar
+				</button>
 			</div>
 		</div>			
 				

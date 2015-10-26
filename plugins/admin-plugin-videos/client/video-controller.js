@@ -1,14 +1,28 @@
 (function() {
 	var app = angular.module('adminPluginVideos');
-
 	
-	app.controller("AdminVideosEditController", ["$scope","$routeParams", "VideoCRUD", function($scope, $routeParams, VideoCRUD){	
+	
+	
+	app.controller("AdminVideosEditController", ["$scope","$routeParams", "$window", "MessageBox", "VideoCRUD", function($scope, $routeParams, $window, MessageBox, VideoCRUD){	
 		$scope.video = VideoCRUD.get({id: $routeParams.id});
+		$scope.updating = false;
 				
-		
 		$scope.updateVideo = function() {
-			VideoCRUD.update($scope.video).$promise.then(function() {
-				console.log("update");
+			$scope.updating = true;
+			VideoCRUD.update($scope.video).$promise.then(
+				function() {
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("Video actualizado", "El video se ha actualizado correctamente.");
+					}
+				},
+				function() {
+					return MessageBox("Error", "Ha ocurrido un error al actualizar el video.");
+				}
+			).finally(function(){
+				$scope.updating = false;
 			});
 		}
 	}]);
