@@ -25,5 +25,15 @@
 		};
 	});
 
+	app.directive('videoPluginUnesco', function(){
+		return {
+			restrict: 'E',
+			scope: {
+				pluginData: "=",
+				videoId: "="
+			},		
+			templateUrl: 'admin-plugin-videos/views/directives/video-plugin-unesco.html'
+		};
+	});
 	
 })();
