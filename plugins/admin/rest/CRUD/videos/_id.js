@@ -38,7 +38,15 @@ exports.routes = {
 		patch: [
 			AuthController.CheckRole(['ADMIN']),
 			function(req,res) {			
-				res.sendStatus(500);
+				Video.findByIdAndUpdate({"_id": req.params.id }, req.body, function(err, item) {
+					if(err) { return res.sendStatus(500); }
+					if (item) {
+						res.status(204).send(item);
+					}
+					else {
+						res.sendStatus(500);
+					}
+				});
 			}
 		]
 	}
