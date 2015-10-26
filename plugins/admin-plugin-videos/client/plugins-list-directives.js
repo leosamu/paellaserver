@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginVideos');
 
 	app.directive("pluginsList", ['$compile', '$injector', '$filter',  function($compile, $injector, $filter){
 		return {

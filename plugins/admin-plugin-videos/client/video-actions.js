@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginVideos');
 	
 	
 	app.run(['Actions', '$q', 'TaskCRUD', function(Actions, $q, TaskCRUD) {

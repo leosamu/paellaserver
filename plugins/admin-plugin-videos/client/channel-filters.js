@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginVideos');
 
 	
 	app.run(['Filters' , function(Filters) {

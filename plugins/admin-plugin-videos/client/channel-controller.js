@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginVideos');
 
 	
 	app.controller("AdminChannelsEditController", ["$scope","$routeParams", "ChannelCRUD", "VideoCRUD", "AdminState", function($scope, $routeParams, ChannelCRUD, VideoCRUD, AdminState) {

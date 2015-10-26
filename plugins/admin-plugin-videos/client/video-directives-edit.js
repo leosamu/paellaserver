@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginVideos');
 
 	app.directive('languageSelect', function(){
 		return {
@@ -31,7 +31,7 @@
 				];
 
 			}],
-			templateUrl: 'admin-plugin-db/views/directives/language-select.html'
+			templateUrl: 'admin-plugin-videos/views/directives/language-select.html'
 		};
 	});
 
@@ -46,7 +46,7 @@
 				$scope.changeOwner = function() {
 				
 					var modalInstance = $modal.open({
-						templateUrl: 'admin-plugin-db/views/modal/select-owner.html',
+						templateUrl: 'admin-plugin-videos/views/modal/select-owner.html',
 						size: '',
 						backdrop: 'static',
 						keyboard: false,
@@ -85,7 +85,7 @@
 					});
 				};
 			}],
-			templateUrl: 'admin-plugin-db/views/directives/owners-select-or-create.html'
+			templateUrl: 'admin-plugin-videos/views/directives/owners-select-or-create.html'
 		};
 	});
 
@@ -119,7 +119,7 @@
 				}, true);
 				
 			}],
-			templateUrl: 'admin-plugin-db/views/directives/video-edit-basic.html'
+			templateUrl: 'admin-plugin-videos/views/directives/video-edit-basic.html'
 		}
 	});
 	
@@ -130,7 +130,7 @@
 			scope: {
 				video: "="	
 			},
-			templateUrl: 'admin-plugin-db/views/directives/video-edit-advanced.html'
+			templateUrl: 'admin-plugin-videos/views/directives/video-edit-advanced.html'
 		}
 	});
 		
@@ -140,7 +140,7 @@
 			scope: {
 				video: "="
 			},
-			templateUrl: 'admin-plugin-db/views/directives/video-edit-videos.html'
+			templateUrl: 'admin-plugin-videos/views/directives/video-edit-videos.html'
 		}
 	});
 
@@ -152,7 +152,7 @@
 				repository: "=",
 				videoId: "=" 
 			},
-			templateUrl: 'admin-plugin-db/views/directives/video-edit-video-info.html'
+			templateUrl: 'admin-plugin-videos/views/directives/video-edit-video-info.html'
 		}
 	});
 	

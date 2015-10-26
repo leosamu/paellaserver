@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginVideos');
 	
 
 	app.directive("channelEditBasic", function(){
@@ -8,7 +8,7 @@
 			scope: {
 				channel: "="
 			},
-			templateUrl: 'admin-plugin-db/views/directives/channel-edit-basic.html'
+			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-basic.html'
 		};
 	});
 
@@ -84,7 +84,7 @@
 				};
 				
 			}],
-			templateUrl: 'admin-plugin-db/views/directives/channel-edit-videos.html'
+			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-videos.html'
 		};
 	});
 
@@ -161,7 +161,7 @@
 				};
 				
 			}],
-			templateUrl: 'admin-plugin-db/views/directives/channel-edit-channels.html'
+			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-channels.html'
 		};
 	});
 	

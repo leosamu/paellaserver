@@ -1,5 +1,5 @@
 (function() {
-	var plugin = angular.module('adminPluginDB', ['AuthorizationRoutesModule']);
+	var plugin = angular.module('adminPluginVideos', ['AuthorizationRoutesModule']);
 
 	plugin.config(['$routeProvider', 'AuthorizationRoutesProvider', function($routeProvider, AuthorizationRoutesProvider) {
 		
@@ -8,24 +8,24 @@
 		
 		$routeProvider
 			.when('/admin/videos', {
-				templateUrl: 'admin-plugin-db/views/videos-list.html',
+				templateUrl: 'admin-plugin-videos/views/videos-list.html',
 				controller: "AdminVideosListController"
 			})
 			.when('/admin/videos/edit/:id', {
-				templateUrl: 'admin-plugin-db/views/videos-edit.html',
+				templateUrl: 'admin-plugin-videos/views/videos-edit.html',
 				controller: "AdminVideosEditController"
 			})
 			
 			.when('/admin/channels', {
-				templateUrl: 'admin-plugin-db/views/channels-list.html',
+				templateUrl: 'admin-plugin-videos/views/channels-list.html',
 				controller: "AdminChannelsListController"
 			})			
 			.when('/admin/channels/new', {
-				templateUrl: 'admin-plugin-db/views/channels-new.html',
+				templateUrl: 'admin-plugin-videos/views/channels-new.html',
 				controller: "AdminChannelsNewController"
 			})			
 			.when('/admin/channels/edit/:id', {
-				templateUrl: 'admin-plugin-db/views/channels-edit.html',
+				templateUrl: 'admin-plugin-videos/views/channels-edit.html',
 				controller: "AdminChannelsEditController"
 			})
 	}]);

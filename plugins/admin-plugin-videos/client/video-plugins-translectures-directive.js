@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginVideos');
 	
 	
 	app.directive('videoPluginTranslectures', function(){
@@ -9,7 +9,7 @@
 				pluginData: "=",
 				videoId: "="
 			},		
-			templateUrl: 'admin-plugin-db/views/directives/video-plugin-translectures.html'
+			templateUrl: 'admin-plugin-videos/views/directives/video-plugin-translectures.html'
 		};
 	});
 
@@ -21,7 +21,7 @@
 				pluginData: "=",
 				videoId: "="
 			},		
-			templateUrl: 'admin-plugin-db/views/directives/video-plugin-youtube.html'
+			templateUrl: 'admin-plugin-videos/views/directives/video-plugin-youtube.html'
 		};
 	});
 

@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var app = angular.module('adminPluginVideos');
 	
 	app.directive("permissionsEditor", function(){
 		return {
@@ -23,7 +23,7 @@
 					console.log(p);
 				}
 			}],
-			templateUrl: 'admin-plugin-db/views/directives/permissions-editor.html'
+			templateUrl: 'admin-plugin-videos/views/directives/permissions-editor.html'
 		}
 	});	
 	
