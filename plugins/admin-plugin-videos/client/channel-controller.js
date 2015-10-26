@@ -2,7 +2,7 @@
 	var app = angular.module('adminPluginVideos');
 
 	
-	app.controller("AdminChannelsEditController", ["$scope","$routeParams", "ChannelCRUD", "VideoCRUD", "AdminState", function($scope, $routeParams, ChannelCRUD, VideoCRUD, AdminState) {
+	app.controller("AdminChannelsEditController", ["$scope","$routeParams", "$window", "MessageBox", "ChannelCRUD", "VideoCRUD", "AdminState", function($scope, $routeParams, $window, MessageBox, ChannelCRUD, VideoCRUD, AdminState) {
 		$scope.state = AdminState;
 		$scope.channel = ChannelCRUD.get({id: $routeParams.id});
 		$scope.updating = false;
