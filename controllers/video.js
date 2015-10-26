@@ -22,12 +22,7 @@ exports.LoadVideos = function(req,res,next) {
 			.populate('repository','server endpoint')
 			.populate('owner', 'contactData.name contactData.lastName')
 			.exec(function(err,data) {
-				req.data = {
-					total: count,
-					skip: Number(req.query.skip),
-					limit: Number(req.query.limit),
-					list:data
-				};			
+				req.data = data;
 				next();
 			});
 	});				
