@@ -87,5 +87,7 @@
 	"upload_queue_title":"Upload videos",
 	"drop_videos_text":"Drop video here",
 
-	"add_to_upload_queue":"Add to upload queue"
+	"add_to_upload_queue":"Add to upload queue",
+
+	"open_admin_page":"Open admin page"
 }

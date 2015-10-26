@@ -82,5 +82,7 @@
 	"categories":"Categories",
 	"no_categories_selected_text":"No hi ha cap categoria sel·leccionada",
 	"add_category_text":"Afegir una categoria",
-	"select_subcategory_text":"Sel·leccionar una subcategoria"
+	"select_subcategory_text":"Sel·leccionar una subcategoria",
+
+	"open_admin_page":"Obrir pàgina d'administració"
 }

@@ -74,6 +74,10 @@
 					return Authorization(null,$scope.currentUser).haveRole(['ADMIN','POLIMEDIA']);
 				};
 
+				$scope.canViewAdminPage = function() {
+					return Authorization(null,$scope.currentUser).haveRole(['ADMIN','ADMIN_UI']);
+				};
+
 				$scope.createPolimedia = function() {
 					VideoEditPopup(null, true, 'polimedia', function(videoData) {
 						Video.create(videoData).$promise
