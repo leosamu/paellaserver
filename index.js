@@ -137,14 +137,31 @@ function startServer() {
 	});
 }
 
-mongoose.connect(configure.configFile.db.url, function(err, res) {
+var options = {
+	server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } }
+};
+
+
+/*
+mongoose.connect(configure.configFile.db.url, options, function(err, res) {
 	if (err) throw err;
 	console.log("Conected to polimedia");
 	configure.checkInitConfig(function() {
 		startServer();
 	});
 });
+*/
 
+
+mongoose.connect(configure.configFile.db.url, options);
+
+var conn = mongoose.connection;
+conn.once('open', function() {
+	console.log("Conected to polimedia");
+	configure.checkInitConfig(function() {
+		startServer();
+	});
+});
 
 
 
