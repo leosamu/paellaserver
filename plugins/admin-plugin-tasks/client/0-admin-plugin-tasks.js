@@ -1,5 +1,5 @@
 (function() {
-	var plugin = angular.module('adminPluginTask', ['AuthorizationRoutesModule']);
+	var plugin = angular.module('adminPluginTasks', ['AuthorizationRoutesModule']);
 
 	plugin.config(['$routeProvider', 'AuthorizationRoutesProvider', function($routeProvider, AuthorizationRoutesProvider) {
 		

@@ -1,10 +1,10 @@
 (function() {
-	var app = angular.module('adminPluginDB');
+	var plugin = angular.module('adminPluginTasks');
 
 	
 	
 	
-	app.controller("AdminTasksListController", ["$scope", "$modal", "$base64", "$timeout", "TaskCRUD", "AdminState", 
+	plugin.controller("AdminTasksListController", ["$scope", "$modal", "$base64", "$timeout", "TaskCRUD", "AdminState", 
 	function($scope, $modal, $base64, $timeout, TaskCRUD, AdminState) {
 		$scope.state=AdminState;
 
