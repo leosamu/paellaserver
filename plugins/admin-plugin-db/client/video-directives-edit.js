@@ -155,33 +155,5 @@
 			templateUrl: 'admin-plugin-db/views/directives/video-edit-video-info.html'
 		}
 	});
-
-	
-	app.directive("videoEditPermissions", function(){
-		return {
-			restrict: 'E',
-			scope: {
-				video: "="	
-			},
-			controller: ['$scope', function($scope){
-				$scope.addRole = function() {
-					$scope.video.permissions.push({
-						role: $scope.addRoleText,
-						read: $scope.addRoleRead,
-						write: $scope.addRoleWrite
-					});
-					$scope.addRoleText = null;
-					$scope.addRoleRead = false;
-					$scope.addRoleWrite = false;
-				};
-				
-				$scope.deletePermission = function(p) {
-					console.log(p);
-				}
-			}],
-			templateUrl: 'admin-plugin-db/views/directives/video-edit-permissions.html'
-		}
-	});	
-	
 	
 })();

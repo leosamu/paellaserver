@@ -1,18 +1,23 @@
 (function() {
 	var app = angular.module('adminPluginDB');
-	
-	
-	app.directive("adminVideoEditorPlugins", ['$compile', '$injector', '$filter',  function($compile, $injector, $filter){
+
+	app.directive("pluginsList", ['$compile', '$injector', '$filter',  function($compile, $injector, $filter){
 		return {
 			restrict: 'E',
 			scope: {
-				video: "="
+				plugins: "="
 			},
-			link: function(scope, element, attrs, ctrl) {			
+			link: function(scope, element, attrs) {
+				if (!attrs.type) {
+					throw new Error("Attribute type not defined")
+				}
+				
+				var type = attrs.type.toLowerCase();
 				var accordion= $compile("<accordion close-others='false'></accordion>")(scope);		
 				element.append(accordion)
-				scope.$watch('video.pluginData', function () {
-					var plugins = scope.video.pluginData || {};			
+				
+				scope.$watch('plugins', function (newValue) {
+					var plugins = newValue || {};			
 					var keys = $filter('orderBy')(Object.keys(plugins));
 										
 					
@@ -25,27 +30,27 @@
 					
 					//Add plugins
 					keys.forEach(function(pluginKey) {
+						var pluginKeyLower = pluginKey.toLowerCase();
+					
 						var ee = accordion.children().toArray().some(function(e){ return e.getAttribute('heading')==pluginKey; });
 					
 						if (ee == false) {
-							var pluginDirective = pluginKey.toLowerCase() + "-video-plugin";
+							var pluginDirective = type +"-plugin-" + pluginKeyLower;
 							
 							var body = '';
-							if ($injector.has(pluginKey.toLowerCase()+"VideoPluginDirective")) {
-								body = '<' + pluginDirective + ' plugin-data="video.pluginData[\''+ pluginKey +'\']" video-id="\''+scope.video._id+'\'"></' + pluginDirective + '>';
+							var directiveName = type + "Plugin" + pluginKeyLower[0].toUpperCase() + pluginKeyLower.slice(1) + "Directive";
+							if ($injector.has(directiveName)) {
+								body = '<' + pluginDirective + ' plugin-data="plugins[\''+ pluginKey +'\']" id="\''+attrs.id+'\'"></' + pluginDirective + '>';
 							}
 							else {
 								body = '<pre class="text-danger">' + $filter('json')(plugins[pluginKey], 4)  + ' </pre>'	
 							}
-							
 							accordion.append($compile('<accordion-group heading="'+pluginKey+'">'+body+'</accordion-group>')(scope));
 						}
 					});	
 				}, true);
 			}
-		};
+		}
 	}]);
-
-
 	
 })();

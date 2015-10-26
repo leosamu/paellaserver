@@ -2,7 +2,7 @@
 	var app = angular.module('adminPluginDB');
 	
 	
-	app.directive('translecturesVideoPlugin', function(){
+	app.directive('videoPluginTranslectures', function(){
 		return {
 			restrict: 'E',
 			scope: {
@@ -14,7 +14,7 @@
 	});
 
 
-	app.directive('youtubeVideoPlugin', function(){
+	app.directive('videoPluginYoutube', function(){
 		return {
 			restrict: 'E',
 			scope: {

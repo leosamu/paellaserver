@@ -123,7 +123,10 @@
 								<p>El usuario no tiene el sistema de autenticación local.</p>
 								<button  class="btn btn-warning btn-xs" ng-click="createLocalAuth()">Crear autenticación local</button>
 							</div>
-							<admin-user-editor-autentication user="user"></admin-user-editor-autentication>
+							
+							<plugins-list plugins="user.auth" id="{{user._id}}" type="userauth"></plugins-list>
+
+							
 						</div>
 						
 						<div class="tab-pane" ng-show="tab==4">

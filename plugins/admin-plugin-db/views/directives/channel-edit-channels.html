@@ -42,52 +42,48 @@
 	<div class="col-md-8" ng-show="addChannelMode==true">
 	
 	
-		<div class="well well-sm pull-right" style="padding:0px; margin-bottom:0px; margin-top:10px;">		
-			<div class="btn-toolbar" role="toolbar">
+	<div class="panel panel-default">
+			<div class="panel-heading">
+				<a class="btn btn-default" ng-click="addChannelMode=false"> <span class="glyphicon glyphicon-arrow-right"></span> </a>
 				<admin-filter-directive class="btn-group" state-filters="state.channelFilters" available-filters="selectableFilters"></admin-filter-directive>
+			</div>	
+	
+	
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Título</th>
+							<th>Autor</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody ng-hide="loadingChannels">
+						<tr ng-repeat="v in channels.list" ng-class="{'success':existsChannelInChannel(v)}">
+							<td>{{v.creationDate | amDateFormat:'ll'}}</td>
+							<td>{{v.title}}<br/><small>{{v._id}}</small></td>
+							<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>
+							<td>
+								<div class="btn-toolbar" role="toolbar">
+									<div class="btn-group" role="group">
+										<a class="btn btn-xs btn-default" target="_blank" href="/#/catalog/channel/{{v._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+										<a class="btn btn-xs btn-default" ng-click="addChannelToChannel(v)" ng-hide="existsChannelInChannel(v)"> <span class="glyphicon glyphicon-plus"></span> </a>
+										<a class="btn btn-xs btn-default" ng-click="removeChannelFromChannel(v)" ng-show="existsChannelInChannel(v)"> <span class="glyphicon glyphicon-minus"></span> </a>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<loader ng-show="loadingChannels"></loader>			
 			</div>
 		</div>
-	
-		<h1>
-			<a class="btn btn-default" ng-click="addChannelMode=false"> <span class="glyphicon glyphicon-arrow-right"></span> </a>
-			Buscador de Canales
-		</h1>
-
-		<div class="table-responsive">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>Fecha</th>
-						<th>Título</th>
-						<th>Autor</th>
-						<th>Acciones</th>
-					</tr>
-				</thead>
-				<tbody ng-hide="loadingChannels">
-					<tr ng-repeat="v in channels.list" ng-class="{'success':existsChannelInChannel(v)}">
-						<td>{{v.creationDate | amDateFormat:'ll'}}</td>
-						<td>{{v.title}}<br/><small>{{v._id}}</small></td>
-						<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>
-						<td>
-							<div class="btn-toolbar" role="toolbar">
-								<div class="btn-group" role="group">
-									<a class="btn btn-xs btn-default" target="_blank" href="/#/catalog/channel/{{v._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
-									<a class="btn btn-xs btn-default" ng-click="addChannelToChannel(v)" ng-hide="existsChannelInChannel(v)"> <span class="glyphicon glyphicon-plus"></span> </a>
-									<a class="btn btn-xs btn-default" ng-click="removeChannelFromChannel(v)" ng-show="existsChannelInChannel(v)"> <span class="glyphicon glyphicon-minus"></span> </a>
-								</div>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<loader ng-show="loadingChannels"></loader>			
-		</div>
-		
 		
 		<div>
 			<div role="toolbar" class="btn-toolbar">
 				<div class="btn-group" style="margin-top:-20px">		
-					<pagination total-items="chanels.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+					<pagination total-items="channels.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
 				</div>
 
 				<div class="btn-group pull-right">

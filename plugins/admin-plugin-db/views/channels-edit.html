@@ -67,11 +67,11 @@
 						</div>
 						
 						<div class="tab-pane" ng-show="tab==4">
-							<admin-video-editor-plugins video="channel"></admin-video-editor-plugins>
+							<plugins-list plugins="channel.pluginData" id="{{channel._id}}" type="channel"></plugins-list>
 						</div>	
 		
 						<div class="tab-pane" ng-show="tab==5">
-							<video-edit-permissions video="channel"></video-edit-permissions>
+							<permissions-editor permissions="channel.permissions"></permissions-editor>
 						</div>	
 				
 					</div>

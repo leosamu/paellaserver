@@ -9,7 +9,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="p in video.permissions">
+			<tr ng-repeat="p in permissions">
 				<td>{{p.role}}</td>
 				<td>
 					<input type="checkbox" ng-model="p.read">
@@ -35,7 +35,7 @@
 				<th><input type="checkbox" ng-model="addRoleWrite"></th>	
 				
 				<th>
-					<button class="btn btn-default btn-xs" ng-click="addRole()" ng-disabled="!addRoleText">
+					<button class="btn btn-default btn-xs" ng-click="addPermission()" ng-disabled="!addRoleText">
 						<span class="glyphicon glyphicon-plus"></span>
 					</button>
 				</th>
