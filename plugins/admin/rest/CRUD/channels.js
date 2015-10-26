@@ -26,6 +26,7 @@ exports.routes = {
 					if(errCount) { return res.sendStatus(500); }
 					
 					Model.find(query)
+					.sort("-creationDate")					
 					.skip(skip)
 					.limit(limit)
 					.populate('repository')

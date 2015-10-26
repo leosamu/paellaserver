@@ -3,6 +3,11 @@
 		{{'Menu' | translate}} <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
 	</a>
 	<ul class="dropdown-menu">
+		<li>
+			<a href="#/admin"> {{'Administration page' | translate}} </a>
+		</li>
+		<li role="separator" class="divider"></li>
+		
 		<li ng-repeat="p in plugins">
 			<a href="#{{p.route}}"> {{p.label | translate}} </a>
 		</li>

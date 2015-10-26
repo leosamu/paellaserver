@@ -3,14 +3,11 @@
 
 	
 	app.controller("AdminController", ['$scope', 'AdminPlugin', function($scope, AdminPlugin) {
-
 		$scope.plugins = AdminPlugin;
-
 	}]);
 
 
 	app.controller("AdminUnauthorizedController", ['$scope', function($scope) {
-	}]);
-		
+	}]);		
 	
 })();
