@@ -4,8 +4,8 @@
 	
 	
 	
-	plugin.controller("AdminTasksListController", ["$scope", "$modal", "$base64", "$timeout", "TaskCRUD", "AdminState", 
-	function($scope, $modal, $base64, $timeout, TaskCRUD, AdminState) {
+	plugin.controller("AdminTasksListController", ["$scope", "$modal", "$base64", "$timeout", "MessageBox", "TaskCRUD", "AdminState", 
+	function($scope, $modal, $base64, $timeout, MessageBox, TaskCRUD, AdminState) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
@@ -41,10 +41,13 @@
 						$modalInstance.dismiss();
 					};
 					$scope.accept = function () {
-						console.log("TODO")
 						$modalInstance.close();
 					};
-				}
+				}				
+			});
+			
+			modalInstance.result.then(function(){
+				return MessageBox("Eliminar tarea", "Operación no implementada");
 			});
 		};
 	}])
