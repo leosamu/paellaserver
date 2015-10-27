@@ -21,8 +21,8 @@ var Catalog = new Schema({
 			upload: { type: Boolean, default:false }
 		}
 	],
-	defaultRepository: { type:String, ref:'Repository' }
-	canBeDeletedByOwner: false
+	defaultRepository: { type:String, ref:'Repository' },
+	canBeDeletedByOwner: {type: Boolean, default: false }
 
 });
 
