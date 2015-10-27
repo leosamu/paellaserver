@@ -4,6 +4,8 @@ var uuid = require('mongoose-uuid');
 
 var VideoSchema = new Schema({
 	repository: { type:String, ref:'Repository' },
+	catalog: { type: String, ref:'Catalog' },
+	
 	slides: [
 		{
 			mimetype: String,
@@ -38,16 +40,17 @@ var VideoSchema = new Schema({
 	deletionDate: Date,
 	language: String,
 	title: String,
-	catalog: String,
 	duration: { type:Number },
 	source: {
-		type: { type: String },
+		type: { type: String },  //internos, externos
+		live: { type: Boolean, default: false},
+		link:  { type: String },
 		videos: [
 			{
 				mimetype: { type: String },
 				src: { type: String },
 				href: { type: String },
-				link: { type: String },
+				link: { type: String },  //TODO: Quitar
 				server: { type: String },
 				stream: { type: String },
 				width: { type: Number },
@@ -61,7 +64,7 @@ var VideoSchema = new Schema({
 				mimetype: { type: String },
 				src: { type: String },
 				href: { type: String },
-				link: { type: String },
+				link: { type: String },   //TODO: Quitar
 				server: { type: String },
 				stream: { type: String },
 				width: { type: Number },
