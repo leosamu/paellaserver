@@ -163,13 +163,15 @@ exports.LoadChannel = function(req,res,next) {
 								}
 							}
 							channelData[0].owner.forEach(function(owner) {
-								channelItem.owner.push({
+								if (owner) {
+									channelItem.owner.push({
 									_id:owner._id,
 									contactData: {
-										lastName:owner.contactData ? owner.contactData.lastName:"",
-										name:owner.contactData ? owner.contactData.name:""
-									}
-								});
+											lastName:owner.contactData ? owner.contactData.lastName:"",
+											name:owner.contactData ? owner.contactData.name:""
+										}
+									});
+								}
 							});
 
 							children.forEach(function(findChannel,index) {
