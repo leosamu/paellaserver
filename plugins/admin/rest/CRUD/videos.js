@@ -21,7 +21,6 @@ exports.routes = {
 				var limit = req.query.limit || 10;
 				var query = JSON.parse(new Buffer(req.query.filters, 'base64').toString());
 				
-				
 				Video.find(query).count().exec(function(errCount, count) {
 					if(errCount) { return res.sendStatus(500); }
 					

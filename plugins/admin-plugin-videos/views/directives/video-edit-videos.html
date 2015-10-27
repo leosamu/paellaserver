@@ -7,15 +7,40 @@
 	</div>
 </form>
 
-<accordion close-others='false'>
+<div class="alert alert-warning" ng-show="video.unprocessed">
+	<p>
+		Aun no se han subido los ficheros.
+	</p>
 
-	<accordion-group ng-repeat="v in video.source.videos" heading="Video del ponente - {{v.width}}x{{v.height}}" is-open="false" >
-		<video-edit-video-info video-info="v" repository="video.repository" video-id="video._id"></video-edit-video-info>
-	</accordion-group>
+	<div class="row">
+		<div class="col-sm-12">
+			<button class="btn btn-warning btn-xs" ng-click="">
+				Subir ficheros
+			</button>
+		</div>
+	</div>			
 
-	<accordion-group ng-repeat="v in video.source.slaveVideos" heading="Video de las diapositivas - {{v.width}}x{{v.height}}" is-open="false" >
-		<video-edit-video-info video-info="v" repository="video.repository" video-id="video._id"></video-edit-video-info>
-	</accordion-group>
+</div>
 
+<div ng-hide="video.unprocessed">
+	<accordion close-others='false'>
+	
+		<accordion-group ng-repeat="v in video.source.videos" heading="Video del ponente - {{v.width}}x{{v.height}}" is-open="false" >
+			<video-edit-video-info video-info="v" repository="video.repository" video-id="video._id"></video-edit-video-info>
+		</accordion-group>
+	
+		<accordion-group ng-repeat="v in video.source.slaveVideos" heading="Video de las diapositivas - {{v.width}}x{{v.height}}" is-open="false" >
+			<video-edit-video-info video-info="v" repository="video.repository" video-id="video._id"></video-edit-video-info>
+		</accordion-group>
+	
+	</accordion>
+	
+	<div class="row">
+		<div class="col-sm-12">
+			<button class="btn btn-default btn-xs pull-right" ng-click="">
+				Subir ficheros
+			</button>
+		</div>
+	</div>	
+</div>
 
-</accordion>

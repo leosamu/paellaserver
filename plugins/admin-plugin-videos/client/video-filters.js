@@ -57,6 +57,22 @@
 		
 		Filters.registerFilter("video",
 			{
+				"label": "Pendiente de subir",
+				"field": "unprocessed",
+				"type": "enum",
+				"values": [
+					{
+						"value": true, "label": "Si"
+					},
+					{
+						"value": false, "label": "No"
+					}
+				]
+			}
+		);
+		
+		Filters.registerFilter("video",
+			{
 				"label": "Youtube",
 				"field": "pluginData.youtube.id",
 				"type": "exists",

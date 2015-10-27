@@ -2,7 +2,7 @@
 
 	var app = angular.module('AuthorizationRoutesModule', []);
 	
-	
+		
 	app.provider('AuthorizationRoutes', [ function(){
 		var authRoutes = [];
 		

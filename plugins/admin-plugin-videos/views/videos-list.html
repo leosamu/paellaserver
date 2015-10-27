@@ -74,7 +74,8 @@
 								<th>Título</th>
 								<th>Autor</th>
 								<th>Tipo</th>
-								<th>Acciones</th>
+								<th>Catalogo</th>
+								<th width="110px">Acciones</th>
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingVideos">
@@ -84,11 +85,12 @@
 								<td>{{v.title}}</td>
 								<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>
 								<td>{{v.source.type}}</td>
+								<td>{{v.catalog}}</td>
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">
-											<a class="btn btn-xs btn-default" href="/player/?id={{v._id}}&autoplay=true"> <span class="glyphicon glyphicon-eye-open"></span> </a>
-											<a class="btn btn-xs btn-default" href="#/statistics/views/video/{{v._id}}"> <span class="glyphicon glyphicon-stats"></span> </a>
+											<a class="btn btn-xs btn-default" target="_blank" href="/player/?id={{v._id}}&autoplay=true"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+											<a class="btn btn-xs btn-default" target="_blank" href="#/statistics/views/video/{{v._id}}"> <span class="glyphicon glyphicon-stats"></span> </a>
 											<a class="btn btn-xs btn-default" href="#/admin/videos/edit/{{v._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
 											<button class="btn btn-xs btn-danger" ng-click="deleteVideo(v._id)"> <span class="glyphicon glyphicon-remove"></span> </button>
 										</div>
