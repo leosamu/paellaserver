@@ -1,7 +1,7 @@
 (function() {
 	var loginModule = angular.module('loginModule');
 
-	loginModule.directive('loginWidget', function() {
+	loginModule.directive('loginWidget', ['User', function(User) {
 		return {
 			restrict: "E",
 			templateUrl:"login/directives/login-widget.html",
@@ -15,15 +15,16 @@
 					location.reload();
 				};
 
-				$http.get('/rest/currentUser')
-					.success(function(data) {
+				User.current().$promise.then(
+					function(data) {
 						$scope.logged = data._id!="0";
 						$scope.userName = data.contactData.name;
-					})
-					.error(function() {
+					},
+					function() {
 						$scope.logged = false;
-					});
+					}
+				);
 			}]
 		};
-	});
+	}]);
 })();
