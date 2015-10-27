@@ -14,6 +14,7 @@ var ChannelSchema = new Schema({
 	pluginData: Schema.Types.Mixed,
 	thumbnail: String,
 	repository: { type:String, ref:'Repository' },
+	catalog: { type: String, ref:'Catalog' },	
 	title: String,
 	videos: [ { type:String, ref:'Video' } ],
 	permissions: [
