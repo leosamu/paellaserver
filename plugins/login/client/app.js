@@ -1,6 +1,7 @@
 (function() {
 	var loginModule = angular.module('loginModule', ["ngRoute", "ngResource", "ui.bootstrap"]);
 
+	
 	function LoginController($scope,$location,$routeParams) {
 		$scope.redirectUrl = $location.$$search.redirect;
 
@@ -24,7 +25,22 @@
 	LoginController.$inject = ["$scope","$location","$routeParams"];
 	loginModule.controller('LoginController',LoginController);
 
-	loginModule.config(['$routeProvider', function($routeProvider) {
+	loginModule.config(['$provide', '$routeProvider', function($provide, $routeProvider) {
+	
+		$provide.decorator( 'User', [ "$delegate", function( $delegate ){
+			var currentFn = $delegate.current;
+			var currentUser = null;
+			
+			$delegate.current = function(){
+				if (currentUser == null) {
+					currentUser = currentFn();
+				}
+				return currentUser;
+			};
+						
+			return $delegate;			
+		}]);
+			
 		$routeProvider
 			.when('/auth/login',{
 				templateUrl: '/login/views/main.html',
