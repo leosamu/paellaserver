@@ -7,7 +7,8 @@ var Utils = {
 			task:'encode',
 			targetType:'video',
 			error:false,
-			targetId:videoData._id
+			targetId:videoData._id,
+			priority:10
 		}).save();
 	},
 
@@ -16,7 +17,8 @@ var Utils = {
 			task:'extractSlides',
 			targetType:'video',
 			error:false,
-			targetId:videoData._id
+			targetId:videoData._id,
+			priority:10
 		}).save();
 	},
 
@@ -25,7 +27,8 @@ var Utils = {
 			task:'translectures',
 			targetType:'video',
 			error:false,
-			targetId:videoData._id
+			targetId:videoData._id,
+			priority:10
 		}).save();
 	},
 
@@ -34,7 +37,8 @@ var Utils = {
 			task:'notify',
 			targetType:'video',
 			error:false,
-			targetId:videoData._id
+			targetId:videoData._id,
+			priority:10
 		}).save();
 	},
 
@@ -43,7 +47,8 @@ var Utils = {
 			task:'md5',
 			targetType:'video',
 			error:false,
-			targetId:videoData._id
+			targetId:videoData._id,
+			priority:10
 		}).save();
 	}
 };

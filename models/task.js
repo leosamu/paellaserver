@@ -10,7 +10,8 @@ var TaskSchema = new Schema({
 	targetType: String,
 	targetId: String,
 	parameters: String,
-	processing: Boolean
+	processing: Boolean,
+	priority: Number
 });
 
 TaskSchema.plugin(uuid.plugin, 'Task');
