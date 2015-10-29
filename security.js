@@ -263,6 +263,12 @@ exports.init = function(app) {
 
 		})(req,res,next);
 	});
+
+	router.get('/rest/auth/logout', function(req, res){
+		req.logout();
+		req.session.destroy();
+		res.send({ status:true, message:"logout successfull"});
+	});
 /*
 		passport.authenticate('local', {
 			failureRedirect: configure.serverUrl() + '/#/auth/login',
