@@ -12098,7 +12098,8 @@ Class ("paella.plugins.translectures.CaptionsPlugIn", paella.EventDrivenPlugin, 
 														
 							var l_edit_url;							
 							if (self.config.tLEdit) {
-								l_edit_url = self.config.tLEdit
+								l_edit_url = self.config.tlServer + 
+										self.config.tLEdit
 									.replace(/\$\{videoId\}/ig, video_id)
 									.replace(/\$\{tLdb\}/ig, self.config.tLdb)
 									.replace(/\$\{tl.lang.code\}/ig, l.code);
@@ -13045,4 +13046,4 @@ Class ("paella.ZoomPlugin", paella.EventDrivenPlugin,{
 });
 
 paella.plugins.zoomPlugin = new paella.ZoomPlugin();
-paella.version = "4.1.10 - build: 94ce741";
+paella.version = "4.1.10 - build: 69241c2";
