@@ -91,12 +91,15 @@ function startServer() {
 			}
 			else {
 				var appendHeader = '<script src="/player/plugins.js"></script></head>';
-				var resourcesPath = "url:'../rest/paella'";
+		//		var resourcesPath = "url:'../rest/paella'";
 				var paellaTitle = '<title>Paella Engage Example</title>';
 				var playerTitle = configure.config.player && configure.config.player.title;
 				var serverTitle = '<title>' + playerTitle + '</title>';
+
+				var onLoad = "loadPlayer();";	// see plugins/login/player/load_callback.js
 				data = data.replace('</head>',appendHeader);
-				data = data.replace("url:'../repository/'", resourcesPath);
+		//		data = data.replace("url:'../repository/'", resourcesPath);
+				data = data.replace("paella.load('playerContainer',{ url:'../repository/' });", onLoad);
 				data = data.replace(paellaTitle, serverTitle);
 				res.type('text/html').send(data).end();
 			}

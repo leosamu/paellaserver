@@ -1,6 +1,6 @@
 
 var paellaserver_authCallback = function(redirect) {
-	redirect = redirect ? "?redirect=" + encodeURIComponent(redirect): "";
+	redirect = redirect ? "?redirect=/" + encodeURIComponent(redirect): "";
 	return "/#/auth/login" + redirect;
 };
 
@@ -34,3 +34,13 @@ var paellaserver_loadUserDataCallback = function(onSuccess) {
 		});
 
 };
+
+
+function loadPlayer() {
+	var containerId = "playerContainer";
+	var resourcesPath = "../rest/paella";
+	paella.load(containerId, { url:resourcesPath, auth: {
+		authCallbackName: "paellaserver_authCallback",
+		userDataCallbackName: "paellaserver_loadUserDataCallback"
+	}});
+}
