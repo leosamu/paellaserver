@@ -9,27 +9,24 @@
 	500 - Internal Server Error
 */
 
-var Video = require(__dirname + '/../../../../models/video');
+var Model = require(__dirname + '/../../../../models/catalog');
 var AuthController = require(__dirname + '/../../../../controllers/auth');
 
 exports.routes = {
-	videos: { 
+	list: { 
 		get: [
 			AuthController.CheckRole(['ADMIN']),
 			function(req,res) {			
 				var skip = req.query.skip || 0;
 				var limit = req.query.limit || 10;
-				var query = JSON.parse(new Buffer(req.query.filters, 'base64').toString());
-				
-				Video.find(query).count().exec(function(errCount, count) {
+				var query = {}; //JSON.parse(new Buffer((req.query.filters), 'base64').toString());
+								
+				Model.find(query).count().exec(function(errCount, count) {
 					if(errCount) { return res.sendStatus(500); }
 					
-					Video.find(query)
-					.sort("-creationDate")
+					Model.find(query)
 					.skip(skip)
 					.limit(limit)
-					.populate('repository')
-					.populate('owner')					
 					.exec(function(err, items) {
 						if(err) { return res.sendStatus(500); }
 						
@@ -43,6 +40,31 @@ exports.routes = {
 				});
 			}
 		]
-	}
+	},
+	
+	createModel: {
+		post: [
+			AuthController.CheckRole(['ADMIN']),
+			function(req,res) {			
+				var item = new Model(req.body);
+				
+				item.save(function(err) {
+					if(!err) {
+						res.status(201);
+						res.send(item);
+					}
+					else {
+						res.sendStatus(500);
+					}
+				});				
+			}
+		]
+	},	
 }
+
+
+
+
+
+
 

@@ -27,7 +27,14 @@ exports.routes = {
 		delete: [
 			AuthController.CheckRole(['ADMIN']),
 			function(req,res) {			
-				res.sendStatus(500);
+				Model.remove({"_id": req.params.id }, function(err, todo) {
+					if (!err) {
+						res.sendStatus(204);
+					}
+					else {
+						res.sendStatus(500);
+					}
+			    });					
 			}
 		]
 	},

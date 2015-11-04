@@ -73,7 +73,7 @@
 								<th>Título</th>
 								<th>Autor</th>
 								<th># V/Ch</th>
-								<th>Acciones</th>
+								<th width="110px">Acciones</th>
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingChannels">
@@ -86,8 +86,8 @@
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">
-											<a class="btn btn-xs btn-default" href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
-											<a class="btn btn-xs btn-default" href="#/statistics/views/channel/{{c._id}}"> <span class="glyphicon glyphicon-stats"></span> </a>
+											<a class="btn btn-xs btn-default" target="_blank" href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+											<a class="btn btn-xs btn-default" target="_blank" href="#/statistics/views/channel/{{c._id}}"> <span class="glyphicon glyphicon-stats"></span> </a>
 											<a class="btn btn-xs btn-default" href="#/admin/channels/edit/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
 											<button class="btn btn-xs btn-danger" ng-click="deleteChannel(c._id)"> <span class="glyphicon glyphicon-remove"></span> </button>
 										</div>
