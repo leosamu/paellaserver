@@ -12098,7 +12098,7 @@ Class ("paella.plugins.translectures.CaptionsPlugIn", paella.EventDrivenPlugin, 
 														
 							var l_edit_url;							
 							if (self.config.tLEdit) {
-								l_edit_url = self.config.tlServer + 
+								l_edit_url = self.config.tLServer +
 										self.config.tLEdit
 									.replace(/\$\{videoId\}/ig, video_id)
 									.replace(/\$\{tLdb\}/ig, self.config.tLdb)
