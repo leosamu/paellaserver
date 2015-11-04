@@ -20,6 +20,10 @@
 				templateUrl: 'admin-plugin-config/views/catalogs-list.html',
 				controller: "AdminCatalogsListController"
 			})
+			.when('/admin/catalogs/edit/:id', {
+				templateUrl: 'admin-plugin-config/views/catalogs-edit.html',
+				controller: "AdminCatalogsEditController"
+			})
 	}]);
 
 

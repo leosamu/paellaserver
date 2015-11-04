@@ -2,6 +2,21 @@
 	var plugin = angular.module('adminPluginConfig');
 
 
+	plugin.controller("AdminCatalogsEditController", ["$scope", "$routeParams", "$modal", "$base64", "$timeout", "MessageBox", "CatalogCRUD", "AdminState", 
+	function($scope, $routeParams, $modal, $base64, $timeout, MessageBox, CatalogCRUD, AdminState) {
+	
+	
+		$scope.catalog = CatalogCRUD.get({id: $routeParams.id});
+		
+		
+		$scope.updateCatalog = function() {
+			CatalogCRUD.update($scope.catalog).$promise.then(function() {
+				console.log("update");
+			});
+		}	
+	
+	}]);
+	
 	
 	plugin.controller("AdminCatalogsListController", ["$scope", "$modal", "$base64", "$timeout", "MessageBox", "CatalogCRUD", "AdminState", 
 	function($scope, $modal, $base64, $timeout, MessageBox, CatalogCRUD, AdminState) {
@@ -28,7 +43,6 @@
 			}, 500);
 		};
 
-
 		$scope.deleteCatalog = function(id) {
 			var modalInstance = $modal.open({
 				templateUrl: 'confirmDeleteCatalog.html',
@@ -44,9 +58,18 @@
 				}				
 			});
 			
-			modalInstance.result.then(function(){
-				return MessageBox("Eliminar catalogo", "Operación no implementada");
-			});
+			modalInstance.result
+			.then(function() {
+				return CatalogCRUD.remove({id:id}).$promise;
+			})
+			.then(
+				function() {
+					$scope.reloadCatalogs();
+				},
+				function() {
+					return MessageBox("Eliminar catalogo", "Ha ocurrido un error");
+				}
+			);	
 		};
 	}])	
 	
