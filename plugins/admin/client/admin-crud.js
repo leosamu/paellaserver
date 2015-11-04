@@ -43,5 +43,13 @@
 		});
 	}]);
 	
+	app.factory('CatalogCRUD', ['$resource', function($resource){
+		return $resource('/rest/plugins/admin/CRUD/catalogs/:id', {'id':'@_id'}, {
+			'query': {method: 'GET', isArray: false },
+			'update': {method: 'PATCH'},
+			'save': {method: 'POST', params: {'id': null}}
+		});
+	}]);
+	
 })();
 	
