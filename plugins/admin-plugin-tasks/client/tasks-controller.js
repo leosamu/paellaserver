@@ -46,8 +46,12 @@
 				}				
 			});
 			
-			modalInstance.result.then(function(){
-				return MessageBox("Eliminar tarea", "Operación no implementada");
+			modalInstance.result
+			.then(function() {
+				return TaskCRUD.remove({id:id}).$promise;
+			})
+			.then(function() {
+				$scope.reloadTasks();
 			});
 		};
 	}])
