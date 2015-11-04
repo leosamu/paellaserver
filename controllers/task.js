@@ -7,7 +7,8 @@ var Utils = {
 			task:'encode',
 			targetType:'video',
 			error:false,
-			targetId:videoData._id
+			targetId:videoData._id,
+			priority:10
 		}).save();
 	},
 
@@ -16,7 +17,8 @@ var Utils = {
 			task:'extractSlides',
 			targetType:'video',
 			error:false,
-			targetId:videoData._id
+			targetId:videoData._id,
+			priority:10
 		}).save();
 	},
 
@@ -25,7 +27,8 @@ var Utils = {
 			task:'translectures',
 			targetType:'video',
 			error:false,
-			targetId:videoData._id
+			targetId:videoData._id,
+			priority:10
 		}).save();
 	},
 
@@ -34,7 +37,18 @@ var Utils = {
 			task:'notify',
 			targetType:'video',
 			error:false,
-			targetId:videoData._id
+			targetId:videoData._id,
+			priority:10
+		}).save();
+	},
+
+	generateMD5:function(videoData) {
+		return new Task({
+			task:'md5',
+			targetType:'video',
+			error:false,
+			targetId:videoData._id,
+			priority:10
 		}).save();
 	}
 };
@@ -51,6 +65,7 @@ exports.AddVideoTasks = function(req,res,next) {
 		tasks.push(Utils.genLowRes(video));
 		tasks.push(Utils.extractSlides(video));
 		tasks.push(Utils.processTranslectures(video));
+		tasks.push(Utils.generateMD5(video));
 		if (video.unprocessed) {
 			tasks.push(Utils.notify(video));
 		}
