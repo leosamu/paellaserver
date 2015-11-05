@@ -2,7 +2,7 @@
 var paellaserver_authCallback = function(redirect) {
 	try {
 		redirect = (redirect[0] == '/') ? redirect : "/"+redirect;
-		redirect = encodeURIComponent(redirect);
+		redirect = "?redirect=/" + encodeURIComponent(redirect);
 	}
 	catch(e) {
 		redirect = "";
