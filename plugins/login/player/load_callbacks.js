@@ -1,6 +1,13 @@
 
 var paellaserver_authCallback = function(redirect) {
-	redirect = redirect ? "?redirect=/" + encodeURIComponent(redirect): "";
+	try {
+		redirect = (redirect[0] == '/') ? redirect : "/"+redirect;
+		redirect = encodeURIComponent(redirect);
+	}
+	catch(e) {
+		redirect = "";
+	}
+
 	return "/#/auth/login" + redirect;
 };
 
