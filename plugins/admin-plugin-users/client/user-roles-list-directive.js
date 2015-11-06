@@ -1,8 +1,8 @@
 (function() {
-	var app = angular.module('adminPluginUsers');
+	var plugin = angular.module('adminPluginUsers');
 	
 	
-	app.directive('userRolesList', function(){
+	plugin.directive('userRolesList', function(){
 		return {
 			restrict: 'E',
 			scope: {
