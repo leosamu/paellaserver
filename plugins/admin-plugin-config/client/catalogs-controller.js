@@ -2,6 +2,21 @@
 	var plugin = angular.module('adminPluginConfig');
 
 
+	plugin.controller("AdminCatalogsNewController", ["$scope", "$modal", "MessageBox", "CatalogCRUD", 
+	function($scope, $modal, MessageBox, CatalogCRUD) {
+	
+		$scope.catalog = {}
+		
+		
+		$scope.createCatalog = function() {
+			CatalogCRUD.save($scope.catalog).$promise.then(function() {
+				console.log("Create");
+			});
+		}	
+	
+	}]);
+
+
 	plugin.controller("AdminCatalogsEditController", ["$scope", "$routeParams", "$modal", "$base64", "$timeout", "MessageBox", "CatalogCRUD", "AdminState", 
 	function($scope, $routeParams, $modal, $base64, $timeout, MessageBox, CatalogCRUD, AdminState) {
 	
