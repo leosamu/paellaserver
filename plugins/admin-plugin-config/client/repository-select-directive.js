@@ -46,11 +46,16 @@
 				});
 				
 				scope.$watch('repository', function(value) {
-					if (!value) {
-						setTimeout(function(){
+					setTimeout(function(){
+						if (!value) {
 							select.selectize.clearOptions();							
-						}, 0);
-					}
+						}
+						else {
+							select.selectize.addOption({_id: value})
+							//select.selectize.refreshOptions();
+							select.selectize.setValue(value);
+						}
+					}, 0);			
 				});
 			}
 		}
