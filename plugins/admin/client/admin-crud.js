@@ -23,7 +23,7 @@
 	}]);
 
 	app.factory('RepositoryCRUD', ['$resource', function($resource){
-		return $resource('/rest/plugins/admin/CRUD/reposirories/:id', {'id':'@_id'}, {
+		return $resource('/rest/plugins/admin/CRUD/repositories/:id', {'id':'@_id'}, {
 			'query': {method: 'GET', isArray: false },
 			'update': {method: 'PATCH'}
 		});
