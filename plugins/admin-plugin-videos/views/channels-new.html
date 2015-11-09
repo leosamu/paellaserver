@@ -1,0 +1,89 @@
+<main>		
+
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+    
+				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>				
+					<li>
+						<a href="#/admin/videos">
+				    		Videos
+				    	</a>
+				    </li>
+					<li class="active">
+						<a href="#/admin/channels">
+				    		Canales
+				    	</a>
+				    </li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+		<div style="height: 30px;"></div>
+			
+		<div class="panel panel-primary">
+			<div class="panel-heading">	
+				<h2>Nuevo canal</h2>
+			</div>
+			<div class="panel-body">
+				<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
+					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Información básica</a></li>
+					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Canales <span class="badge">{{channel.children.length || 0}}</span></a></li>
+					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Videos <span class="badge">{{channel.videos.length || 0}}</span></a></li>
+					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Plugins </a></li>					
+					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Permisos</a></li>					
+				</ul>
+				
+				
+				<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
+					<div class="panel-body">		
+				
+						<div class="tab-pane" ng-show="tab==1">
+							<channel-edit-basic channel="channel"></channel-edit-basic>
+						</div>
+						
+						<div class="tab-pane" ng-show="tab==2">
+							<channel-edit-channels channel="channel"></channel-edit-channels>
+						</div>
+				
+						<div class="tab-pane" ng-show="tab==3">		
+							<channel-edit-videos channel="channel"></channel-edit-videos>
+						</div>
+						
+						<div class="tab-pane" ng-show="tab==4">
+							<plugins-list plugins="channel.pluginData" id="{{channel._id}}" type="channel"></plugins-list>
+						</div>	
+		
+						<div class="tab-pane" ng-show="tab==5">
+							<permissions-editor permissions="channel.permissions"></permissions-editor>
+						</div>	
+				
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
+				<button class="btn btn-primary pull-right" ng-click="createChannel()" ng-disabled="updating">
+					<loader-field ng-show="updating"></loader-field>  Crear
+				</button>
+			</div>
+		</div>
+	</section>
+</main>

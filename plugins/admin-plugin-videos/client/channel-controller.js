@@ -1,6 +1,21 @@
 (function() {
 	var app = angular.module('adminPluginVideos');
 
+	app.controller("AdminChannelsNewController", ["$scope", function($scope){
+		
+		$scope.channel= {
+			owner: [],
+			permissions:[],
+			videos:[],
+			children:[],
+			pluginData: {},
+			creationDate: new Date()
+		};
+		
+		
+		
+	}]);
+	
 	
 	app.controller("AdminChannelsEditController", ["$scope","$routeParams", "$window", "MessageBox", "ChannelCRUD", "VideoCRUD", "AdminState", function($scope, $routeParams, $window, MessageBox, ChannelCRUD, VideoCRUD, AdminState) {
 		$scope.state = AdminState;
