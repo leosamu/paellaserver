@@ -9,8 +9,9 @@
 		
 		
 		$scope.createCatalog = function() {
-			CatalogCRUD.save($scope.catalog).$promise.then(function() {
-				console.log("Create");
+			CatalogCRUD.save($scope.catalog).$promise
+			.then(function() {
+				window.history.back();
 			});
 		}	
 	
