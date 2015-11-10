@@ -21,12 +21,12 @@
 				    		Configuration
 				    	</a>
 				    </li>
-					<li >
+					<li class="active">
 						<a href="#/admin/repositories">
 				    		Repositories
 				    	</a>
 				    </li>
-					<li class="active">
+					<li>
 						<a href="#/admin/catalogs">
 				    		Catalogs
 				    	</a>
@@ -45,8 +45,8 @@
 		
 		<div class="panel panel-primary">
 			<div class="panel-heading">			
-				<h2>Catalogs</h2>
-				<h6>{{catalogs.total}} catalogs</h6>
+				<h2>Repositories</h2>
+				<h6>{{repositories.total}} repositories</h6>
 			
 			</div>
 			<div class="panel-body">
@@ -54,25 +54,23 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>Catalog</th>
+								<th>Repository</th>
 								<th>Description</th>
-								<th>Can owners delete?</th>
+								<th>URL</th>
 								<th width="80px;">Actions</th>
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingVideos">
-							<tr ng-repeat="c in catalogs.list" ng-class="{danger:t.error, success:t.processing}">
+							<tr ng-repeat="c in repositories.list" ng-class="{danger:t.error, success:t.processing}">
 								<td>{{c._id}}</td>
 								<td>{{c.description}}</td>
-								<td>
-									<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':c.canBeDeletedByOwner, 'glyphicon-remove':(!c.canBeDeletedByOwner)}">
-								</td>
+								<td>{{c.server}}{{c.endpoint}}</td>
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">
-											<a class="btn btn-xs btn-default" href="#/admin/catalogs/edit/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+											<a class="btn btn-xs btn-default" href="#/admin/repositories/edit/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
 										
-											<button class="btn btn-xs btn-danger" ng-click="deleteCatalog(c._id)">
+											<button class="btn btn-xs btn-danger" ng-click="deleteRepository(c._id)">
 												<span class="glyphicon glyphicon-remove"></span>
 											</button>
 										</div>
@@ -86,8 +84,8 @@
 		
 				<div role="toolbar" class="btn-toolbar pull-right">
 					<div class="btn-group">
-						<a type="button" class="btn btn-sm btn-primary" href="#/admin/catalogs/new">
-							<span class="glyphicon glyphicon-plus"></span> Add a Catalog
+						<a type="button" class="btn btn-sm btn-primary" href="#/admin/repositories/new">
+							<span class="glyphicon glyphicon-plus"></span> Add a Repository
 						</a>
 					</div>
 				</div>					
@@ -100,11 +98,11 @@
 
 			<div role="toolbar" class="btn-toolbar">
 				<div class="btn-group" style="margin-top:-20px">		
-					<pagination total-items="catalogs.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+					<pagination total-items="repositories.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
 				</div>
 
 				<div class="btn-group pull-right">
-					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadCatalogs()">
+					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadRepositories()">
 						<option value="5">5</option>
 						<option value="10">10</option>
 						<option value="20">20</option>
@@ -123,12 +121,12 @@
 
 
 
-<script type="text/ng-template" id="confirmDeleteCatalog.html">
+<script type="text/ng-template" id="confirmDeleteRepository.html">
 	<div class="modal-header">
 		<h4 class="modal-title text-danger">¿Estás seguro?</h4>
 	</div>
 	<div class="modal-body">
-		<p>¿Estás seguro de querer borrar este catálogo?</p>
+		<p>¿Estás seguro de querer borrar este repositorio?</p>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>
