@@ -14,16 +14,31 @@
 	<div class="form-group">
 		<label class="col-sm-2 col-xs-12 control-label">Resolución</label>
 		<div class="col-sm-5 col-xs-6">
-			<input type="text" class="form-control" ng-model="videoInfo.width">
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="videoInfo.width" ng-disabled="!editWidth">
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-danger" ng-click="editWidth=!editWidth"><i class="glyphicon glyphicon-pencil"></i></button>
+				</span>
+			</div>			
 		</div>
 		<div class="col-sm-5 col-xs-6">
-			<input type="text" class="form-control" ng-model="videoInfo.height">
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="videoInfo.height" ng-disabled="!editHeight">
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-danger" ng-click="editHeight=!editHeight"><i class="glyphicon glyphicon-pencil"></i></button>
+				</span>
+			</div>			
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-2 control-label">mimetype</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" ng-model="videoInfo.mimetype">
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="videoInfo.mimetype" ng-disabled="!editMimetype">
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-danger" ng-click="editMimetype=!editMimetype"><i class="glyphicon glyphicon-pencil"></i></button>
+				</span>
+			</div>			
 		</div>
 	</div>	
 
