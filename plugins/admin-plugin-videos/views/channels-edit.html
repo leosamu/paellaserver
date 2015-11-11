@@ -53,27 +53,27 @@
 				
 				<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
 					<div class="panel-body">		
-				
-						<div class="tab-pane" ng-show="tab==1">
-							<channel-edit-basic channel="channel"></channel-edit-basic>
-						</div>
-						
-						<div class="tab-pane" ng-show="tab==2">
-							<channel-edit-channels channel="channel"></channel-edit-channels>
-						</div>
-				
-						<div class="tab-pane" ng-show="tab==3">		
-							<channel-edit-videos channel="channel"></channel-edit-videos>
-						</div>
-						
-						<div class="tab-pane" ng-show="tab==4">
-							<plugins-list plugins="channel.pluginData" id="{{channel._id}}" type="channel"></plugins-list>
-						</div>	
-		
-						<div class="tab-pane" ng-show="tab==5">
-							<permissions-editor permissions="channel.permissions"></permissions-editor>
-						</div>	
-				
+						<form name="form" class="form-horizontal" novalidate>
+							<div class="tab-pane" ng-show="tab==1">
+								<channel-edit-basic channel="channel"></channel-edit-basic>
+							</div>
+							
+							<div class="tab-pane" ng-show="tab==2">
+								<channel-edit-channels channel="channel"></channel-edit-channels>
+							</div>
+					
+							<div class="tab-pane" ng-show="tab==3">		
+								<channel-edit-videos channel="channel"></channel-edit-videos>
+							</div>
+							
+							<div class="tab-pane" ng-show="tab==4">
+								<plugins-list plugins="channel.pluginData" id="{{channel._id}}" type="channel"></plugins-list>
+							</div>	
+			
+							<div class="tab-pane" ng-show="tab==5">
+								<permissions-editor permissions="channel.permissions"></permissions-editor>
+							</div>	
+						</form>
 					</div>
 				</div>
 			</div>
@@ -81,7 +81,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
-				<button class="btn btn-primary pull-right" ng-click="updateChannel()" ng-disabled="updating">
+				<button class="btn btn-primary pull-right" ng-click="updateChannel()" ng-disabled="updating || !form.$valid">
 					<loader-field ng-show="updating"></loader-field>  Guardar
 				</button>
 			</div>

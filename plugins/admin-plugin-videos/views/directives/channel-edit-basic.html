@@ -1,76 +1,85 @@
+<div class="form-group" ng-show="channel._id">
+	<label class="col-sm-2 control-label">Imagen</label>
+	<div class="col-sm-10">
+		<img ng-if="channel.thumbnail" ng-src="{{channel.thumbnail}}">			
+		<img ng-if="!channel.thumbnail" src="/resources/images/channel-placeholder.gif">
+		<!--
+		<button type="button" class="btn btn-default btn-xs">
+			<span class="glyphicon glyphicon-picture"></span> Cambiar imagen del canal
+		</button>
+		-->
+	</div>
+</div>
 
-				
-<form class="form-horizontal" novalidate>
+<div class="form-group has-feedback" ng-class="{'has-error': !($parent.form.title.$valid)}">
+	<label class="col-sm-2 control-label">Título</label>
+	<div class="col-sm-10">
+		<input name="title" type="text" class="form-control" placeholder="Título" ng-model="channel.title" required>
+	</div>
+</div>
 
-	<div class="form-group" ng-show="channel._id">
-		<label class="col-sm-2 control-label">Imagen</label>
-		<div class="col-sm-10">
-			<img ng-if="channel.thumbnail" ng-src="{{channel.thumbnail}}">			
-			<img ng-if="!channel.thumbnail" src="/resources/images/channel-placeholder.gif">
-			<!--
-			<button type="button" class="btn btn-default btn-xs">
-				<span class="glyphicon glyphicon-picture"></span> Cambiar imagen del canal
-			</button>
-			-->
+<div class="form-group has-feedback">
+	<label class="col-sm-2 control-label">Propietario</label>
+	<div class="col-sm-10">
+		<owners-select-or-create owners="channel.owner"></owners-select-or-create>			
+	</div>
+</div>		
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Palabras clave</label>
+	<div class="col-sm-10">
+		<input type="text" class="form-control" ng-model="channel.metadata.keywords" ng-list>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Visibilidad</label>
+	<div class="col-sm-10">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="channel.hidden"> Bloqueado en listas
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="channel.hiddenInSearches"> Bloqueado en búsquedas
+			</label>
 		</div>
 	</div>
-	
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Título</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" placeholder="Título" ng-model="channel.title">
-		</div>
-	</div>
-	
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Propietario</label>
-		<div class="col-sm-10">
-			<owners-select-or-create owners="channel.owner"></owners-select-or-create>			
-		</div>
-	</div>		
-	
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Palabras clave</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" ng-model="channel.metadata.keywords" ng-list>
-		</div>
-	</div>
+</div>
 
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Visibilidad</label>
-		<div class="col-sm-10">
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" ng-model="channel.hidden"> Bloqueado en listas
-				</label>
-			</div>
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" ng-model="channel.hiddenInSearches"> Bloqueado en búsquedas
-				</label>
-			</div>
+<div class="form-group has-feedback" ng-class="{'has-error': !($parent.form.catalog.$valid)}">
+	<label class="col-sm-2 control-label">Catalogo</label>
+	<div class="col-sm-10">
+		<catalog-select catalog="channel.catalog"></catalog-select>
+		<input name="catalog" ng-model="channel.catalog" required style="display:none;"> 
+	</div>
+</div>
+
+<div class="form-group has-feedback" ng-class="{'has-error': !($parent.form.repository.$valid)}">
+	<label class="col-sm-2 control-label">Repositorio</label>
+	<div class="col-sm-10">		
+		<div class="input-group">
+			<input name="repository" type="text" class="form-control" ng-model="channel.repository._id" ng-disabled="!editRepository" required>
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-danger" ng-click="editRepository=!editRepository"><i class="glyphicon glyphicon-pencil"></i></button>
+			</span>
+		</div>		
+		
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Fecha de creación</label>
+	<div class="col-sm-10">
+		<div class="input-group">
+			<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="channel.creationDate" is-open="datePickerEndOpened" close-text="Close" readonly />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+			</span>
 		</div>
 	</div>
+</div>
 
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Repositorio</label>
-		<div class="col-sm-10">
-			<input type="text" class="form-control" ng-model="channel.repository._id" disabled>
-		</div>
-	</div>
-
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Fecha de creación</label>
-		<div class="col-sm-10">
-			<div class="input-group">
-				<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="channel.creationDate" min-date="filterParam.start" is-open="datePickerEndOpened" close-text="Close" disabled />
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
-				</span>
-			</div>
-		</div>
-	</div>
-
-</form>
 
 
