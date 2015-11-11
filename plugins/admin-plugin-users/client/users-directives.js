@@ -8,10 +8,11 @@
 			scope: {
 				authData: "=",
 				userId: "="
-			},		
+			},
 			templateUrl: 'admin-plugin-users/views/directives/userauth-plugin-polimedia.html'
 		};
 	});	
+	
 	
 	app.directive('userauthPluginUpv', function(){
 		return {
