@@ -43,10 +43,11 @@
 			<div class="panel-body">
 				<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
 					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Información básica</a></li>
-					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Canales <span class="badge">{{channel.children.length || 0}}</span></a></li>
-					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Videos <span class="badge">{{channel.videos.length || 0}}</span></a></li>
-					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Plugins </a></li>					
-					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Permisos</a></li>
+					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>Información avanzada</a></li>
+					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Canales <span class="badge">{{channel.children.length || 0}}</span></a></li>
+					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Videos <span class="badge">{{channel.videos.length || 0}}</span></a></li>
+					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Plugins </a></li>					
+					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Permisos</a></li>
 					
 				</ul>
 				
@@ -57,20 +58,24 @@
 							<div class="tab-pane" ng-show="tab==1">
 								<channel-edit-basic channel="channel"></channel-edit-basic>
 							</div>
-							
+
 							<div class="tab-pane" ng-show="tab==2">
+								<channel-edit-advanced channel="channel"></channel-edit-advanced>
+							</div>
+							
+							<div class="tab-pane" ng-show="tab==3">
 								<channel-edit-channels channel="channel"></channel-edit-channels>
 							</div>
 					
-							<div class="tab-pane" ng-show="tab==3">		
+							<div class="tab-pane" ng-show="tab==4">		
 								<channel-edit-videos channel="channel"></channel-edit-videos>
 							</div>
 							
-							<div class="tab-pane" ng-show="tab==4">
+							<div class="tab-pane" ng-show="tab==5">
 								<plugins-list plugins="channel.pluginData" id="{{channel._id}}" type="channel"></plugins-list>
 							</div>	
 			
-							<div class="tab-pane" ng-show="tab==5">
+							<div class="tab-pane" ng-show="tab==6">
 								<permissions-editor permissions="channel.permissions"></permissions-editor>
 							</div>	
 						</form>

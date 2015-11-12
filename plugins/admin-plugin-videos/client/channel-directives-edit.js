@@ -12,6 +12,67 @@
 		};
 	});
 
+	app.directive("channelEditAdvanced", function(){
+		return {
+			restrict: 'E',
+			scope: {
+				channel: "="
+			},
+			controller: ['$scope', function($scope) {
+			
+				$scope.$watch('channel.videosQuery', function(query) {
+					if (query == undefined) {
+						$scope.channelType = "normal";
+					}
+					else {
+						$scope.channelType = "dynamic";
+						if (query.whereQuery != undefined) {
+							$scope.findType = '$where';
+						}
+						else {							
+							$scope.findType = 'query';
+						}
+					}
+				}, true);
+
+				$scope.$watch('findType', function(type) {
+					if (type =='$where') {
+						$scope.channel.videosQuery.objectQuery = undefined;
+						$scope.channel.videosQuery.whereQuery = $scope.channel.videosQuery.whereQuery || "";
+					}
+					else if (type =='query') {
+						$scope.channel.videosQuery.whereQuery = undefined;
+						$scope.channel.videosQuery.objectQuery = $scope.channel.videosQuery.objectQuery || "";
+					}					
+				});
+
+
+				$scope.$watch('channelType', function(type) {
+					if (type == 'normal') {
+						$scope.channel.videosQuery = undefined;
+					}
+					else if (type == 'dynamic') {
+						if (!$scope.channel.videosQuery) {
+							$scope.channel.videosQuery = {};
+						}
+					}
+				});
+			
+
+				$scope.linkToSakai = function() {
+					if (!$scope.channel.pluginData) {
+						$scope.channel.pluginData = {};
+					}
+					$scope.channel.pluginData.sakai = {code: "XX_YY"};
+					$scope.channel.videosQuery = {
+						objectQuery: '{"pluginData.sakai.codes":"XX_YY"}'
+					}
+				}
+
+			}],
+			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-advanced.html'
+		};
+	});
 
 
 	app.directive("channelEditVideos", function(){	
