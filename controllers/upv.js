@@ -3,7 +3,7 @@ var request = require('request');
 var https = require('https');
 var querystring = require('querystring');
 var Q = require("q");
-var Iconv = require('iconv').Iconv;
+var iconv = require('iconv-lite');
 
 var Utils = {
 	userByEmail:function(email) {
@@ -28,8 +28,8 @@ var Utils = {
 						deferred.reject(new Error("Error " + response.statusCode));
 					}
 					else {
-						var iconv = new Iconv('latin1','utf-8');
-						body = iconv.convert(body).toString('utf-8');
+//						var iconv = new Iconv('latin1','utf-8');
+						body = iconv.decode(body).toString('iso-8895-1');
 						deferred.resolve(body);
 					}
 				});

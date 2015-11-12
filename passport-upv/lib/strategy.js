@@ -6,8 +6,8 @@ var passport = require('passport')
   , url = require('url')
   , https = require('https');
   
-var Iconv  = require('iconv').Iconv;
-
+//var Iconv  = require('iconv').Iconv;
+var iconv = require('iconv-lite');
 
 /**
  * `Strategy` constructor.
@@ -75,8 +75,9 @@ Strategy.prototype.authenticate = function(req, options) {
 			return body += chunk;
 		});
 		res.on('end', function() {	
-			var iconv_latin1 = new Iconv('latin1', 'utf-8');	
-			body = iconv_latin1.convert(new Buffer(body, 'binary')).toString('utf-8');		
+//			var iconv_latin1 = new Iconv('latin1', 'utf-8');	
+//			body = iconv_latin1.convert(new Buffer(body, 'binary')).toString('utf-8');
+			body = iconv.decode(new Buffer(body), 'iso-8859-1');
 			
 			if (body.substr(0,5) == "ERROR") {
 				return self.error(new Error('UPV authentication failed. ' + body));

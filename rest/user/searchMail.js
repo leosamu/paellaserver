@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var Iconv = require('iconv').Iconv;
 var Buffer = require('buffer').Buffer;
 
 var UPVController = require(__dirname + '/../../controllers/upv');
