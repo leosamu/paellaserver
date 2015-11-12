@@ -20,8 +20,7 @@ var Utils = {
 						'Content-type': "application/x-www-form-urlencoded; charset=ISO-8859-1"
 					}
 				},
-				function(error, response, body) {
-					if (error) {
+				function(error, response, body) {if (error) {
 						deferred.reject(error);
 					}
 					else if (response.statusCode>=400) {
@@ -29,7 +28,7 @@ var Utils = {
 					}
 					else {
 //						var iconv = new Iconv('latin1','utf-8');
-						body = iconv.decode(body).toString('iso-8895-1');
+						body = iconv.decode(body,'iso-8859-1');
 						deferred.resolve(body);
 					}
 				});
