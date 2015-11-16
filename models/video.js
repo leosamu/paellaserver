@@ -2,6 +2,16 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var uuid = require('mongoose-uuid');
 
+
+var SliceSchema = new Schema({
+	_id: String,
+	type: String,
+	start: Number,
+	end: Number,
+	enabled: Boolean
+});
+
+
 var VideoSchema = new Schema({
 	repository: { type:String, ref:'Repository' },
 	catalog: { type: String, ref:'Catalog' },
@@ -86,7 +96,8 @@ var VideoSchema = new Schema({
 			read: { type: Boolean, default:true },
 			write: { type: Boolean, default:false }
 		}
-	]
+	],
+	slices: [SliceSchema]
 }, {_id:false});
 
 VideoSchema.plugin(uuid.plugin, 'Video');
