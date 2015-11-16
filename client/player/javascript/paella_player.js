@@ -5664,10 +5664,11 @@ Class ("paella.PaellaPlayer", paella.PlayerBase,{
 					if (paella.player.isLiveStream()) {
 						This.showPlaybackBar();
 					}
+					/*
 					else if (playOnLoad) {
 						This.play();
 					}
-					
+					*/
 					This.onresize();
 				}
 				else {
@@ -5764,6 +5765,9 @@ Class ("paella.PaellaPlayer", paella.PlayerBase,{
 		}
 
 		paella.pluginManager.loadPlugins("paella.EarlyLoadPlugin");
+		if (paella.player.videoContainer._autoplay){
+			this.play();
+		}		
 	},
 
 	play:function() {
