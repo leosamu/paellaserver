@@ -132,6 +132,16 @@ function startServer() {
 			"tLEdit": "/rest/plugins/translectures/redirectToEditor/${videoId}?lang=${tl.lang.code}"
 		};
 
+		playerConfig.data = {
+	        "enabled": true,
+	        "dataDelegates": {
+	            "default": "CookieDataDelegate",
+	            "trimming": "MediaServiceTrimmingDataDelegate",
+	            "breaks": "MediaServiceBreksDataDelegate",
+	            "userInfo": "UserDataDelegate"
+	        }
+	    };
+
 		res.json(playerConfig);
 	});
 
