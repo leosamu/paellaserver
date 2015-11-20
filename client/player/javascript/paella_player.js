@@ -6882,6 +6882,11 @@ Class ("paella.editor.Timeline", {
 		this.loadPlugins();
 
 		this.setupCursors();
+		
+		var self = this;
+		paella.events.bind(paella.events.documentChanged,function(event,params) {
+			self.rebuildAllTracks();
+		});		
 	},
 
 	setupCursors:function() {
@@ -6960,6 +6965,12 @@ Class ("paella.editor.Timeline", {
 		this.selectTrackList(this.currentTrackList);
 	},
 
+	rebuildAllTracks: function() {
+		this.trackItemList.forEach(function(track) {
+			track.rebuild()
+		});		
+	},
+	
 	rebuildTrack:function(pluginName) {
 		var plugins = paella.editor.pluginManager.trackPlugins;
 		for (var i=0; i<this.trackItemList.length; ++i) {
