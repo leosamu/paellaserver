@@ -132,13 +132,18 @@ function startServer() {
 			"tLEdit": "/rest/plugins/translectures/redirectToEditor/${videoId}?lang=${tl.lang.code}"
 		};
 
+		playerConfig.plugins.list["es.upv.paella.mediaserver.editor.videoExportsPlugin"] = {
+			"enabled": true,
+		};
+
 		playerConfig.data = {
 	        "enabled": true,
 	        "dataDelegates": {
 	            "default": "CookieDataDelegate",
 	            "trimming": "MediaServiceTrimmingDataDelegate",
 	            "breaks": "MediaServiceBreksDataDelegate",
-	            "userInfo": "UserDataDelegate"
+	            "userInfo": "UserDataDelegate",
+	            "videoExports": "MediaServiceVideoExportsDataDelegate"
 	        }
 	    };
 
