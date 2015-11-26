@@ -2,40 +2,62 @@
 	var app = angular.module('adminPluginVideos');
 	
 	
-	app.run(['Actions', '$q', '$modal', function(Actions, $q, $modal) {
+	app.run(['Actions', '$q', 'ChannelCRUD', '$modal', function(Actions, $q, ChannelCRUD, $modal) {
 
 		Actions.registerAction(
 			{
-				label: "test",
+				label: "Get link to videos",
 				context: "channel",
 				beforeRun: function(items) {
 					var deferred = $q.defer();
-										
-					var modalInstance = $modal.open({
-						template: "<h1>Hola</h1>"
-					});
-										
-					deferred.resolve({});
 					
-					return modalInstance.result;					
-					//return deferred.promise;					
+					var promises = [];
+					items.forEach(function(ch){
+						var p = ChannelCRUD.get({id: ch._id}).$promise;
+						promises.push(p);
+					});
+					
+					$q.all(promises)
+					.then(function(resolve){
+						var videos = [];
+						resolve.forEach(function(ch){						
+							if (ch.videos) {
+								ch.videos.forEach(function(v) {
+									videos.push(v._id);
+								});
+							}
+						});
+						
+						var modalInstance = $modal.open({
+							templateUrl:'admin-plugin-videos/views/modal/video-links.html',
+							controller:['$scope', '$modalInstance', 'videos', function($scope, $modalInstance, videos){
+								$scope.videos = videos;
+
+								$scope.accept = function () {
+									$modalInstance.close();
+								};								
+							}],
+							resolve:{
+								videos: function() {
+									return videos;
+								}
+							},
+							backdrop: true
+						});
+			
+						modalInstance.result.finally(function(result) {
+							deferred.reject();
+						});
+					});														
+					return deferred.promise;					
 				},
 				
 				runAction: function(item, params) {
-					console.log(params);
-					var ms = Math.floor((Math.random() * 10000) + 1);
-				
 					var deferred = $q.defer();
-					setTimeout(function() {
-						console.log("TODO: test " + item._id);
-						deferred.resolve("");
-					}, ms);
-					
+					deferred.resolve();
 					return deferred.promise;
 				}
-				
 			}
 		);
-				
 	}]);	
 })();

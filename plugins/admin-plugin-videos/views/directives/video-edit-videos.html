@@ -2,7 +2,12 @@
 	<div class="form-group">
 		<label class="col-sm-2 control-label">Tipo de video</label>
 		<div class="col-sm-10">
-			<input type="text" class="form-control" ng-model="video.source.type" disabled>
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="video.source.type" ng-disabled="!editSourceType">
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-danger" ng-click="editSourceType=!editSourceType"><i class="glyphicon glyphicon-pencil"></i></button>
+				</span>
+			</div>
 		</div>
 	</div>
 </form>

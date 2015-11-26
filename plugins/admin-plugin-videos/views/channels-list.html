@@ -78,7 +78,7 @@
 						</thead>
 						<tbody ng-hide="loadingChannels">
 							<tr ng-repeat="c in channels.list">
-								<td><input type="checkbox" ng-model="v.selected"></td>
+								<td><input type="checkbox" ng-model="c.selected"></td>
 								<td>{{c.creationDate | amDateFormat:'ll'}}</td>
 								<td>{{c.title}}</td>
 								<td>{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}</td>
@@ -98,6 +98,15 @@
 					</table>
 					<loader ng-show="loadingChannels"></loader>			
 				</div>
+				
+				<div role="toolbar" class="btn-toolbar pull-right">
+					<div class="btn-group">
+						<a type="button" class="btn btn-sm btn-primary" href="#/admin/channels/new">
+							<span class="glyphicon glyphicon-plus"></span> Añadir un canal
+						</a>
+					</div>
+				</div>					
+				
 				
 			</div>
 		</div>

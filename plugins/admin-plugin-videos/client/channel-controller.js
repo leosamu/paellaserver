@@ -1,8 +1,40 @@
 (function() {
 	var app = angular.module('adminPluginVideos');
 
+	app.controller("AdminChannelsNewController", ["$scope", 'User', 'CatalogCRUD', function($scope, User, CatalogCRUD){
+		
+		$scope.channel= {
+			owner: [User.current()],
+			permissions:[],
+			videos:[],
+			children:[],
+			pluginData: {},
+			repository: {},
+			creationDate: new Date()
+		};
+		
+		
+		$scope.$watch('channel.catalog', function(catalog) {
+			if (catalog) {
+				CatalogCRUD.get({id:catalog}).$promise
+				.then(
+					function(c) {						
+						$scope.channel.repository = {_id: c.defaultRepository};
+					},
+					function() {
+						$scope.channel.repository = null;
+					}
+				);
+				
+			}
+			else {
+				$scope.channel.repository = null;				
+			}
+		});		
+	}]);
 	
-	app.controller("AdminChannelsEditController", ["$scope","$routeParams", "$window", "MessageBox", "ChannelCRUD", "VideoCRUD", "AdminState", function($scope, $routeParams, $window, MessageBox, ChannelCRUD, VideoCRUD, AdminState) {
+	
+	app.controller("AdminChannelsEditController", ["$scope","$routeParams", "$window", "MessageBox", "ChannelCRUD", "VideoCRUD", "CatalogCRUD", "AdminState", function($scope, $routeParams, $window, MessageBox, ChannelCRUD, VideoCRUD, CatalogCRUD, AdminState) {
 		$scope.state = AdminState;
 		$scope.channel = ChannelCRUD.get({id: $routeParams.id});
 		$scope.updating = false;
@@ -15,6 +47,7 @@
 				channel.metadata.keywords = channel.metadata.keywords.split(",");
 			}
 			$scope.channel = channel;
+			$scope.channel.creationDate = new Date(channel.creationDate);
 		});
 
 
@@ -44,7 +77,8 @@
 			).finally(function(){
 				$scope.updating = false;
 			});
-		}
+		};
+				
 	}]);	
 	
 	

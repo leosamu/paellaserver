@@ -31,6 +31,6 @@
 	}]);
 
 	
-	angular.module('adminPluginsModule').registerPlugin(plugin, "/admin/videos", "Videos");	
+	angular.module('adminPluginsModule').registerPlugin(plugin, "/admin/videos", "Contents");	
 	
 })();
