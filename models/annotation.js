@@ -9,6 +9,7 @@ var Annotation = new Schema({
 	time: { type:Number },
 	duration: { type:Number },
 	content: String
+//	private: Boolean
 }, {_id:false});
 
 module.exports = mongoose.model('Annotation', Annotation);
