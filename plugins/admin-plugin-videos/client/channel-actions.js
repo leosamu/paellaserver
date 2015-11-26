@@ -20,26 +20,35 @@
 					$q.all(promises)
 					.then(function(resolve){
 						var videos = [];
-						var html = "<h1>Listado de videos</h1><ul>";
 						resolve.forEach(function(ch){						
 							if (ch.videos) {
-								ch.videos.forEach(function(v){
-									html = html + "<li>https://media.upv.es/player/?id=" + v._id + '</li>';
-									console.log(v._id);								
+								ch.videos.forEach(function(v) {
+									videos.push(v._id);
 								});
 							}
 						});
 						
-						html = html + '</ul>';
 						var modalInstance = $modal.open({
-							template: html
-						});						
-					});
-										
-					
-					//deferred.resolve({});
-					
-//					return modalInstance.result;					
+							templateUrl:'admin-plugin-videos/views/modal/video-links.html',
+							controller:['$scope', '$modalInstance', 'videos', function($scope, $modalInstance, videos){
+								$scope.videos = videos;
+
+								$scope.accept = function () {
+									$modalInstance.close();
+								};								
+							}],
+							resolve:{
+								videos: function() {
+									return videos;
+								}
+							},
+							backdrop: true
+						});
+			
+						modalInstance.result.finally(function(result) {
+							deferred.reject();
+						});
+					});														
 					return deferred.promise;					
 				},
 				
