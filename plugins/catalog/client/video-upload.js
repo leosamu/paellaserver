@@ -20,8 +20,8 @@
 
 		$scope.videoData = {};
 		$scope.editVideoId = null;
-		$scope.acceptText = videoData!=null ? "edit_text":"Subir";
-		$scope.titleText =  videoData!=null ? "upload_video_text_title":"Subir video";
+		$scope.acceptText = videoData!=null ? "edit_text":"create_text";
+		$scope.titleText =  videoData!=null ? "upload_video_text_title":"upload_video_text_title";
 		$scope.advancedForm = advancedForm;
 		$scope.type = type;
 

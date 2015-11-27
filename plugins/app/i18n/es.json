@@ -56,10 +56,13 @@
   	"confirm_channel_remove_message":"Está a punto de eliminar el canal actual. Esta acción no se puede deshacer, ¿desea continuar?",
 
 	"create_polimedia_menu_option":"Crear Polimedia",
+	"upload_video_menu_option":"Subir video",
 	"video_title_field_placeholder_text":"Título descriptivo del vídeo",
 	"create_video_text_title":"Crear vídeo",
+	"upload_video_text_title":"Subir vídeo",
 	"edit_video_text_title":"Editar vídeo",
 	"polimedia_video_details_title":"Datos del vídeo",
+	"politube_video_details_title":"Detalles del vídeo",
 	"email_text":"E-Mail",
 	"user_email_placeholder":"",
 	"name_text":"Nombre",

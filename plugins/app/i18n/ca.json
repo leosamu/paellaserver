@@ -51,6 +51,13 @@
 	"hidden_in_searches_text":"Bloquejat  en recerques",
   	"confirm_channel_remove_message":"Está a punto de eliminar el canal actual. Esta acción no se puede deshacer, ¿desea continuar?",
 
+	"create_channel_menu_option":"Crear un canal",
+	"upload_video_menu_option":"Pujar video",
+	"upload_video_text_title": "Pujar video",
+	"video_title_field_placeholder_text": "Títol descriptiu del video",
+	"politube_video_details_title":"detalls del video",
+	"drop_videos_text":"arrossegar el video açí",   
+
 	"create_author_warning":"No se ha encontrado el autor, se creará uno nuevo con los datos especificados",
 	"video_edit_path":"Ruta en el servidor",
 	"video_edit_link":"Enllaç",
@@ -85,4 +92,5 @@
 	"select_subcategory_text":"Sel·leccionar una subcategoria",
 
 	"open_admin_page":"Obrir pàgina d'administració"
+	
 }

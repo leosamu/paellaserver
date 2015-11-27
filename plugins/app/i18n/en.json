@@ -50,6 +50,12 @@
 	"hidden_in_list_text":"Locked in lists",
 	"hidden_in_searches_text":"Locked in searches",
   	"confirm_channel_remove_message":"You are about to remove the current channel. This action can't be undone. Do you want to continue?",
+	  
+	"create_channel_menu_option":"Create channel",
+	"upload_video_menu_option":"Upload video",
+	"upload_video_text_title": "Upload video",
+	"video_title_field_placeholder_text": "video descriptive title",
+	"politube_video_details_title":"video details",   
 
 	"create_polimedia_menu_option":"Create Polimedia",
 	"create_author_warning":"No author found with this e-mail. A new author will be created with the specified data.",
