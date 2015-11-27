@@ -227,6 +227,24 @@
 	});
 	
 	
+	app.directive("channelEditPlugins", function(){
+		return {
+			restrict: 'E',
+			scope: {
+				channel: "="
+			},
+			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-plugins.html',
+			controller: ['$scope', function($scope) {
+			
+				$scope.linkToSakai = function() {
+					if (!$scope.channel.pluginData) {
+						$scope.channel.pluginData = {};
+					}
+					$scope.channel.pluginData.sakai = {code: "XX_YY"};
+				}				
+			}]
+		};
+	});	
 
 				
 })();
