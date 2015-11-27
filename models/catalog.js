@@ -5,14 +5,14 @@ var Schema = mongoose.Schema;
 var Catalog = new Schema({
 	_id: { type: String },
 	description: { type: String },
+	type: { type: String, enum:['videos', 'channels'] },
 	inheritedPermissions: [
 		{
 			role: { type: String, required:true },
 			read: { type: Boolean, default:true },
 			write: { type: Boolean, default:false }			
 		}
-	],
-	
+	],	
 	permissions: [
 		{
 			role: { type: String, required:true },
