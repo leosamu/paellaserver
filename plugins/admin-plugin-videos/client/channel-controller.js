@@ -1,7 +1,7 @@
 (function() {
 	var app = angular.module('adminPluginVideos');
 
-	app.controller("AdminChannelsNewController", ["$scope", 'User', 'CatalogCRUD', function($scope, User, CatalogCRUD){
+	app.controller("AdminChannelsNewController", ["$scope", "$window", 'User', 'CatalogCRUD', "ChannelCRUD", "MessageBox", function($scope, $window, User, CatalogCRUD, ChannelCRUD, MessageBox){
 		
 		$scope.channel= {
 			owner: [User.current()],
@@ -30,7 +30,27 @@
 			else {
 				$scope.channel.repository = null;				
 			}
-		});		
+		});
+		
+		
+		$scope.createChannel = function() {
+			$scope.updating = true;
+			ChannelCRUD.save($scope.channel).$promise.then(
+				function() {
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("New channel", "A new channel has benn created.");
+					}
+				},
+				function() {
+					return MessageBox("Error", "An error has happened creating the channel.");
+				}
+			).finally(function(){
+				$scope.updating = false;
+			});						
+		}
 	}]);
 	
 	
