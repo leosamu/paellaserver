@@ -4,8 +4,16 @@
 	
 	
 	app.controller("AdminVideosEditController", ["$scope","$routeParams", "$window", "MessageBox", "VideoCRUD", function($scope, $routeParams, $window, MessageBox, VideoCRUD){	
-		$scope.video = VideoCRUD.get({id: $routeParams.id});
 		$scope.updating = false;
+
+		VideoCRUD.get({id: $routeParams.id}).$promise.then(function(v){
+			$scope.video = v;
+			
+			$scope.video.creationDate = new Date($scope.video.creationDate);
+			if ($scope.video.published && $scope.video.published.publicationDate) {
+				$scope.video.published.publicationDate = new Date($scope.video.published.publicationDate);
+			}
+		});
 				
 		$scope.updateVideo = function() {
 			$scope.updating = true;

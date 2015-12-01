@@ -1,64 +1,60 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label">Nombre del archivo</label>
+	<div class="col-sm-10">
+		<div class="input-group">
+			<input type="text" class="form-control" ng-model="videoInfo.src" ng-disabled="!editSRC" />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-danger" ng-click="editSRC=!editSRC"><i class="glyphicon glyphicon-pencil"></i></button>
+			</span>
+		</div>			
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 col-xs-12 control-label">Resolución</label>
+	<div class="col-sm-5 col-xs-6">
+		<div class="input-group">
+			<input type="text" class="form-control" ng-model="videoInfo.width" ng-disabled="!editWidth">
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-danger" ng-click="editWidth=!editWidth"><i class="glyphicon glyphicon-pencil"></i></button>
+			</span>
+		</div>			
+	</div>
+	<div class="col-sm-5 col-xs-6">
+		<div class="input-group">
+			<input type="text" class="form-control" ng-model="videoInfo.height" ng-disabled="!editHeight">
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-danger" ng-click="editHeight=!editHeight"><i class="glyphicon glyphicon-pencil"></i></button>
+			</span>
+		</div>			
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">mimetype</label>
+	<div class="col-sm-10">
+		<div class="input-group">
+			<input type="text" class="form-control" ng-model="videoInfo.mimetype" ng-disabled="!editMimetype">
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-danger" ng-click="editMimetype=!editMimetype"><i class="glyphicon glyphicon-pencil"></i></button>
+			</span>
+		</div>			
+	</div>
+</div>	
 
-<form class="form-horizontal" novalidate>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Nombre del archivo</label>
-		<div class="col-sm-10">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="videoInfo.src" ng-disabled="!editSRC" />
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-danger" ng-click="editSRC=!editSRC"><i class="glyphicon glyphicon-pencil"></i></button>
-				</span>
-			</div>			
-		</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Enlace</label>
+	<div class="col-sm-10">
+		<p class="form-control-static">
+			<a href="{{repository.server}}{{repository.endpoint}}{{videoId}}/polimedia/{{videoInfo.src}}">
+				{{repository.server}}{{repository.endpoint}}{{videoId}}/polimedia/{{videoInfo.src}}
+			</a>
+		</p>
 	</div>
-	<div class="form-group">
-		<label class="col-sm-2 col-xs-12 control-label">Resolución</label>
-		<div class="col-sm-5 col-xs-6">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="videoInfo.width" ng-disabled="!editWidth">
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-danger" ng-click="editWidth=!editWidth"><i class="glyphicon glyphicon-pencil"></i></button>
-				</span>
-			</div>			
-		</div>
-		<div class="col-sm-5 col-xs-6">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="videoInfo.height" ng-disabled="!editHeight">
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-danger" ng-click="editHeight=!editHeight"><i class="glyphicon glyphicon-pencil"></i></button>
-				</span>
-			</div>			
-		</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label">Ruta en el servidor</label>
+	<div class="col-sm-10">
+		<p class="form-control-static">
+		{{repository.path}}{{videoId}}/polimedia/{{videoInfo.src}}
+		</p>
 	</div>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">mimetype</label>
-		<div class="col-sm-10">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="videoInfo.mimetype" ng-disabled="!editMimetype">
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-danger" ng-click="editMimetype=!editMimetype"><i class="glyphicon glyphicon-pencil"></i></button>
-				</span>
-			</div>			
-		</div>
-	</div>	
-
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Enlace</label>
-		<div class="col-sm-10">
-			<p class="form-control-static">
-				<a href="{{repository.server}}{{repository.endpoint}}{{videoId}}/polimedia/{{videoInfo.src}}">
-					{{repository.server}}{{repository.endpoint}}{{videoId}}/polimedia/{{videoInfo.src}}
-				</a>
-			</p>
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Ruta en el servidor</label>
-		<div class="col-sm-10">
-			<p class="form-control-static">
-			{{repository.path}}{{videoId}}/polimedia/{{videoInfo.src}}
-			</p>
-		</div>
-	</div>
-	
-</form>	
+</div>
