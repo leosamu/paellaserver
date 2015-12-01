@@ -40,6 +40,17 @@
 		$scope.timeoutSearchText = null;
 
 
+		$scope.$watch('selectAll', function(value, old){
+			if (value != old) {
+				try{
+					$scope.videos.list.forEach(function(v){
+						v.selected = value;
+					});
+				}
+				catch(e) {}
+			}
+		});
+
 		$scope.$watch('state.videoFilters', function(){ 
 			if ($scope.state.videoFilters) {
 				var final_query = Filters.makeQuery($scope.state.videoFilters.filters || [], $scope.state.videoFilters.searchText);
