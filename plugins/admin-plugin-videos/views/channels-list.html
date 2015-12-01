@@ -68,7 +68,7 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></th>
+								<th><input type="checkbox" ng-model="selectAll"></th>
 								<th>Fecha</th>
 								<th>Título</th>
 								<th>Autor</th>
@@ -77,7 +77,7 @@
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingChannels">
-							<tr ng-repeat="c in channels.list">
+							<tr ng-repeat="c in channels.list" ng-class="{danger: c.deletionDate}">
 								<td><input type="checkbox" ng-model="c.selected"></td>
 								<td>{{c.creationDate | amDateFormat:'ll'}}</td>
 								<td>{{c.title}}</td>
@@ -89,7 +89,14 @@
 											<a class="btn btn-xs btn-default" target="_blank" href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
 											<a class="btn btn-xs btn-default" target="_blank" href="#/statistics/views/channel/{{c._id}}"> <span class="glyphicon glyphicon-stats"></span> </a>
 											<a class="btn btn-xs btn-default" href="#/admin/channels/edit/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
-											<button class="btn btn-xs btn-danger" ng-click="deleteChannel(c._id)"> <span class="glyphicon glyphicon-remove"></span> </button>
+
+											<button class="btn btn-xs btn-danger" ng-click="deleteChannel(c)" ng-hide="c.deletionDate">
+												<span class="glyphicon glyphicon-trash"></span>
+											</button>
+											<button class="btn btn-xs btn-warning" ng-click="restoreChannel(c)" ng-show="c.deletionDate">
+												<span class="glyphicon glyphicon-repeat"></span>
+											</button>
+
 										</div>
 									</div>
 								</td>
@@ -170,3 +177,19 @@
 		<button type="button" class="btn btn-danger" ng-click="accept()">Si</button>
 	</div>	
 </script>
+
+<script type="text/ng-template" id="confirmRestoreChannel.html">
+	<div class="modal-header">
+		<h4 class="modal-title text-danger">¿Estás seguro?</h4>
+	</div>
+	<div class="modal-body">
+		<p>¿Estás seguro de querer restaurar este canal?</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>
+		<button type="button" class="btn btn-danger" ng-click="accept()">Si</button>
+	</div>	
+</script>
+
+
+
