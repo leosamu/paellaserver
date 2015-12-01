@@ -51,74 +51,71 @@
 				</ul>		
 				
 				<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
-				  <div class="panel-body">
-						
-						<div class="tab-pane" ng-show="tab==1">		
-							<video-edit-basic video="video"></video-edit-basic>
-						</div>
-						
-						<div class="tab-pane" ng-show="tab==2">		
-							<video-edit-advanced video="video"></video-edit-advanced>
-						</div>
-						
-										
-						<div class="tab-pane" ng-show="tab==3">
-							<video-edit-videos video="video"></video-edit-videos>
-						</div>	
-		
-						<div class="tab-pane" ng-show="tab==4">
-							<plugins-list plugins="video.pluginData" id="{{video._id}}" type="video"></plugins-list>
-						</div>	
-		
-						<div class="tab-pane" ng-show="tab==5">
-							<permissions-editor permissions="video.permissions"></permissions-editor>							
-						</div>	
-		
-		
-						<div class="tab-pane" ng-show="tab==6">
-						
-							<accordion close-others='false'>
-								<accordion-group>
-									<accordion-heading>
-										Detector de diapositivas <span class='badge'>{{video.slides.length || 0}}</span>
-									</accordion-heading>
-									<div class="table-responsive">
-										<table class="table table-hover">
-											<thead>
-												<tr>
-													<th>Instante de tiempo</th>
-													<th>Imagen</th>
-													<th>Formato</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr ng-repeat="s in video.slides">
-													<td>{{s.time}}</td>
-													<td>{{s.url}}</td>
-													<td>{{s.mimetype}}</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</accordion-group>
-								<accordion-group>
-									<accordion-heading>
-										Fotos de la pizarra <span class='badge'>{{video.blackboard.length || 0}}</span>
-									</accordion-heading>						
-								</accordion-group>
-								<accordion-group>
-									<accordion-heading>
-										Ficheros adjuntos <span class='badge'>{{video.attachments.length || 0}}</span>
-									</accordion-heading>						
-								</accordion-group>
-							</accordion>
-						</div>
-<!--		
-						<div class="tab-pane" ng-show="tab==7">
-							<pre> {{video | json:4}} </pre>
-						</div>
--->						
-				  </div>
+					<div class="panel-body">
+						<form name="form" class="form-horizontal" novalidate>
+
+							<div class="tab-pane" ng-show="tab==1">		
+								<video-edit-basic video="video"></video-edit-basic>
+							</div>
+							
+							<div class="tab-pane" ng-show="tab==2">		
+								<video-edit-advanced video="video"></video-edit-advanced>
+							</div>
+							
+											
+							<div class="tab-pane" ng-show="tab==3">
+								<video-edit-videos video="video"></video-edit-videos>
+							</div>	
+			
+							<div class="tab-pane" ng-show="tab==4">
+								<plugins-list plugins="video.pluginData" id="{{video._id}}" type="video"></plugins-list>
+							</div>	
+			
+							<div class="tab-pane" ng-show="tab==5">
+								<permissions-editor permissions="video.permissions"></permissions-editor>							
+							</div>	
+			
+			
+							<div class="tab-pane" ng-show="tab==6">
+							
+								<accordion close-others='false'>
+									<accordion-group>
+										<accordion-heading>
+											Detector de diapositivas <span class='badge'>{{video.slides.length || 0}}</span>
+										</accordion-heading>
+										<div class="table-responsive">
+											<table class="table table-hover">
+												<thead>
+													<tr>
+														<th>Instante de tiempo</th>
+														<th>Imagen</th>
+														<th>Formato</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="s in video.slides">
+														<td>{{s.time}}</td>
+														<td>{{s.url}}</td>
+														<td>{{s.mimetype}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</accordion-group>
+									<accordion-group>
+										<accordion-heading>
+											Fotos de la pizarra <span class='badge'>{{video.blackboard.length || 0}}</span>
+										</accordion-heading>						
+									</accordion-group>
+									<accordion-group>
+										<accordion-heading>
+											Ficheros adjuntos <span class='badge'>{{video.attachments.length || 0}}</span>
+										</accordion-heading>						
+									</accordion-group>
+								</accordion>
+							</div>
+						</form>
+					</div>					  
 				</div>
 			</div>
 		</div>
@@ -127,7 +124,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
-				<button class="btn btn-primary pull-right" ng-click="updateVideo()" ng-disabled="updating">
+				<button class="btn btn-primary pull-right" ng-click="updateVideo()" ng-disabled="updating || !form.$valid">
 					<loader-field ng-show="updating"></loader-field>  Guardar
 				</button>
 			</div>
