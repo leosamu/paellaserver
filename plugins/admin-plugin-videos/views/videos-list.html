@@ -79,7 +79,7 @@
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingVideos">
-							<tr ng-repeat="v in videos.list">
+							<tr ng-repeat="v in videos.list" ng-class="{danger: v.deletionDate}">
 								<td><input type="checkbox" ng-model="v.selected"></td>
 								<td>{{v.creationDate | amDateFormat:'ll'}}</td>
 								<td>{{v.title}}</td>
@@ -92,7 +92,13 @@
 											<a class="btn btn-xs btn-default" target="_blank" href="/player/?id={{v._id}}&autoplay=true"> <span class="glyphicon glyphicon-eye-open"></span> </a>
 											<a class="btn btn-xs btn-default" target="_blank" href="#/statistics/views/video/{{v._id}}"> <span class="glyphicon glyphicon-stats"></span> </a>
 											<a class="btn btn-xs btn-default" href="#/admin/videos/edit/{{v._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
-											<button class="btn btn-xs btn-danger" ng-click="deleteVideo(v._id)"> <span class="glyphicon glyphicon-remove"></span> </button>
+											<button class="btn btn-xs btn-danger" ng-click="deleteVideo(v)" ng-hide="v.deletionDate">
+												<span class="glyphicon glyphicon-trash"></span>
+											</button>											
+											<button class="btn btn-xs btn-warning" ng-click="restoreVideo(v)" ng-show="v.deletionDate">
+												<span class="glyphicon glyphicon-repeat"></span>
+											</button>											
+											
 										</div>
 									</div>
 								</td>
@@ -158,6 +164,19 @@
 	</div>
 	<div class="modal-body">
 		<p>¿Estás seguro de querer borrar este video?</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>
+		<button type="button" class="btn btn-danger" ng-click="accept()">Si</button>
+	</div>	
+</script>
+
+<script type="text/ng-template" id="confirmRestoreVideo.html">
+	<div class="modal-header">
+		<h4 class="modal-title text-danger">¿Estás seguro?</h4>
+	</div>
+	<div class="modal-body">
+		<p>¿Estás seguro de querer restaurar este video?</p>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>

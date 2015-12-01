@@ -167,7 +167,8 @@
 						.then(
 							function(){
 								$modalInstance.close();
-								reloadChannels();
+								//reloadChannels();
+								ch.deletionDate = Date.now();
 							},
 							function(){
 								$modalInstance.close();
@@ -191,34 +192,28 @@
 						$modalInstance.dismiss();
 					};
 					$scope.accept = function () {
-						ChannelCRUD.remove({id: ch._id}).$promise
+						ChannelCRUD.get({id: ch._id}).$promise
 						.then(
-							function(){
-								$modalInstance.close();
-								ChannelCRUD.get({id: ch._id}).$promise
-								.then(
-									function(c) {
-										c.deletionDate = null;
-										return ChannelCRUD.update(c).$promise;
-									},
-									function(){
-										MessageBox("Error", "An error has happened restoring the channel.");
-									}
-								)
-								.then(
-									function(){										
-										reloadChannels();
-									},
-									function(){
-										MessageBox("Error", "An error has happened restoring the channel.");
-									}
-								)								
+							function(c) {
+								c.deletionDate = null;
+								return ChannelCRUD.update(c).$promise;
 							},
 							function(){
-								$modalInstance.close();
 								MessageBox("Error", "An error has happened restoring the channel.");
 							}
-						);
+						)
+						.then(
+							function(){										
+								//reloadChannels();
+								ch.deletionDate = null;
+							},
+							function(){
+								MessageBox("Error", "An error has happened restoring the channel.");
+							}
+						)
+						.finally(function(){
+							$modalInstance.close();							
+						});
 					};
 				}
 			});
