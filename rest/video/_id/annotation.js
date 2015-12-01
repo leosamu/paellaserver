@@ -14,7 +14,7 @@ exports.routes = {
 		get:[		
 			VideoController.LoadVideo,
 			AuthController.LoadRoles,
-			AuthController.CheckAccess,
+//			AuthController.CheckAccess,
 			AnnotationController.LoadAnnotation,
 			CommonController.JsonResponse
 		]
@@ -24,7 +24,7 @@ exports.routes = {
 		post:[
 			VideoController.LoadVideo,
 			AuthController.LoadRoles,
-			AuthController.CheckWrite,
+//			AuthController.CheckWrite,
 			AnnotationController.CreateAnnotation,
 			CommonController.JsonResponse
 		]
@@ -35,7 +35,7 @@ exports.routes = {
 		patch:[
 			VideoController.LoadVideo,
 			AuthController.LoadRoles,
-			AuthController.CheckWrite,
+//			AuthController.CheckWrite,
 			AnnotationController.UpdateAnnotation,
 			CommonController.JsonResponse
 		]
@@ -46,7 +46,7 @@ exports.routes = {
 		delete:[
 			VideoController.LoadVideo,
 			AuthController.LoadRoles,
-			AuthController.CheckWrite,
+//			AuthController.CheckWrite,
 			AnnotationController.DeleteAnnotation,
 			CommonController.JsonResponse
 		]

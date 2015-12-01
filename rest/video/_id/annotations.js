@@ -11,7 +11,7 @@ exports.routes = {
 		get:[
 			VideoController.LoadVideo,
 			AuthController.LoadRoles,
-			AuthController.CheckAccess,	
+//			AuthController.CheckAccess,	
 			// TODO: Paginator					
 			AnnotationController.LoadAnnotations,
 			CommonController.JsonResponse
