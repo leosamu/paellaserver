@@ -33,7 +33,7 @@
 	"create_channel":"Crear un canal",
 	"mychannels_text":"Els meus canals",
 
-	"close":"Trancar",
+	"close":"Tancar",
 	"select":"Seleccionar",
 
 	"add_to_channel":"Afegir a un canal",
@@ -46,7 +46,7 @@
 	"identifier_field_text":"Identificador",
 	"title_field_text":"Títol",
 	"channel_title_field_placeholder_text":"nom descriptiu del canal",
-	"visibility_field_text":"Visibilitad",
+	"visibility_field_text":"Visibilitat",
 	"hidden_in_list_text":"Bloquejat en llistats",
 	"hidden_in_searches_text":"Bloquejat  en recerques",
   	"confirm_channel_remove_message":"Está a punto de eliminar el canal actual. Esta acción no se puede deshacer, ¿desea continuar?",
