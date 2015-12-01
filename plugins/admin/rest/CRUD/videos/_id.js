@@ -29,7 +29,15 @@ exports.routes = {
 		delete: [
 			AuthController.CheckRole(['ADMIN']),
 			function(req,res) {			
-				res.sendStatus(500);
+				Video.findByIdAndUpdate({"_id": req.params.id }, {$set: {deletionDate: Date.now()}}, function(err, item) {
+					if(err) { return res.sendStatus(500); }			
+					if (item) {
+						res.sendStatus(204);
+					}
+					else {
+						res.sendStatus(500);
+					}
+				});
 			}
 		]
 	},

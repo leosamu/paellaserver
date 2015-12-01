@@ -28,8 +28,8 @@
 	}]);
 	
 	
-	app.controller("AdminVideosListController", ["$scope", "$modal", "$base64", "$timeout", "VideoCRUD", "Filters", "Actions", "AdminState", 
-	function($scope, $modal, $base64, $timeout, VideoCRUD, Filters, Actions, AdminState) {
+	app.controller("AdminVideosListController", ["$scope", "$modal", "$base64", "$timeout", "VideoCRUD", "Filters", "Actions", "AdminState", "MessageBox",
+	function($scope, $modal, $base64, $timeout, VideoCRUD, Filters, Actions, AdminState, MessageBox) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
@@ -39,6 +39,17 @@
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;
 
+
+		$scope.$watch('selectAll', function(value, old){
+			if (value != old) {
+				try{
+					$scope.videos.list.forEach(function(v){
+						v.selected = value;
+					});
+				}
+				catch(e) {}
+			}
+		});
 
 		$scope.$watch('state.videoFilters', function(){ 
 			if ($scope.state.videoFilters) {
@@ -66,7 +77,8 @@
 		};
 
 
-		$scope.deleteVideo = function(id) {
+		$scope.deleteVideo = function(v) {
+			var reloadVideos = $scope.reloadVideos;
 			var modalInstance = $modal.open({
 				templateUrl: 'confirmDeleteVideo.html',
 				size: '',
@@ -76,12 +88,65 @@
 						$modalInstance.dismiss();
 					};
 					$scope.accept = function () {
-						console.log("TODO")
-						$modalInstance.close();
+						VideoCRUD.remove({id: v._id}).$promise
+						.then(
+							function(){
+								$modalInstance.close();
+								//reloadVideos();
+								v.deletionDate = Date.now();
+							},
+							function(){
+								$modalInstance.close();
+								MessageBox("Error", "An error has happened deleting the video.");
+							}
+						);
 					};
 				}
 			});
 		};
+		
+		
+		
+		$scope.restoreVideo = function(v) {
+			var reloadVideos = $scope.reloadVideos;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'confirmRestoreVideo.html',
+				size: '',
+				backdrop: true,
+				controller: function ($scope, $modalInstance) {
+					$scope.cancel = function () {
+						$modalInstance.dismiss();
+					};
+					$scope.accept = function () {
+						VideoCRUD.get({id: v._id}).$promise
+						.then(
+							function(v2) {
+								v2.deletionDate = null;
+								return VideoCRUD.update(v2).$promise;
+							},
+							function(){
+								MessageBox("Error", "An error has happened restoring the channel.");
+							}
+						)
+						.then(
+							function(){										
+								//reloadVideos();
+								v.deletionDate = null;
+							},
+							function(){
+								MessageBox("Error", "An error has happened restoring the channel.");
+							}
+						)
+						.finally(function(){
+							$modalInstance.close();							
+						});
+					};
+				}
+			});
+		};		
+		
+		
 		
 		$scope.doAction = function(action) {
 			
