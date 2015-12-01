@@ -8,7 +8,13 @@
 			scope: {
 				channel: "="
 			},
-			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-basic.html'
+			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-basic.html',
+			controller: ['$scope', function($scope){
+				$scope.restoreChannel = function() {
+					$scope.channel.deletionDate = null;
+					$scope.restored = true;
+				}
+			}]
 		};
 	});
 

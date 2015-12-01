@@ -102,8 +102,8 @@
 	}]);	
 	
 	
-	app.controller("AdminChannelsListController", ["$scope", "$modal", "$base64", "$timeout", "ChannelCRUD", "Filters", "Actions", "AdminState", 
-	function($scope, $modal, $base64, $timeout, ChannelCRUD, Filters, Actions, AdminState) {
+	app.controller("AdminChannelsListController", ["$scope", "$modal", "$base64", "$timeout", "ChannelCRUD", "Filters", "Actions", "AdminState", "MessageBox",
+	function($scope, $modal, $base64, $timeout, ChannelCRUD, Filters, Actions, AdminState, MessageBox) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
@@ -114,7 +114,16 @@
 		$scope.timeoutSearchText = null;	
 	
 	
-	
+		$scope.$watch('selectAll', function(value, old){
+			if (value != old) {
+				try{
+					$scope.channels.list.forEach(function(ch){
+						ch.selected = value;
+					});
+				}
+				catch(e) {}
+			}
+		});
 	
 		$scope.$watch('state.channelFilters', function(){ 
 			if ($scope.state.channelFilters) {
@@ -142,7 +151,9 @@
 		};
 	
 	
-		$scope.deleteChannel = function(id) {
+		$scope.deleteChannel = function(ch) {
+			var reloadChannels = $scope.reloadChannels;
+			
 			var modalInstance = $modal.open({
 				templateUrl: 'confirmDeleteChannel.html',
 				size: '',
@@ -152,12 +163,68 @@
 						$modalInstance.dismiss();
 					};
 					$scope.accept = function () {
-						console.log("TODO")
-						$modalInstance.close();
+						ChannelCRUD.remove({id: ch._id}).$promise
+						.then(
+							function(){
+								$modalInstance.close();
+								reloadChannels();
+							},
+							function(){
+								$modalInstance.close();
+								MessageBox("Error", "An error has happened deleting the channel.");
+							}
+						);
 					};
 				}
 			});
 		};
+		
+		$scope.restoreChannel = function(ch) {
+			var reloadChannels = $scope.reloadChannels;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'confirmRestoreChannel.html',
+				size: '',
+				backdrop: true,
+				controller: function ($scope, $modalInstance) {
+					$scope.cancel = function () {
+						$modalInstance.dismiss();
+					};
+					$scope.accept = function () {
+						ChannelCRUD.remove({id: ch._id}).$promise
+						.then(
+							function(){
+								$modalInstance.close();
+								ChannelCRUD.get({id: ch._id}).$promise
+								.then(
+									function(c) {
+										c.deletionDate = null;
+										return ChannelCRUD.update(c).$promise;
+									},
+									function(){
+										MessageBox("Error", "An error has happened restoring the channel.");
+									}
+								)
+								.then(
+									function(){										
+										reloadChannels();
+									},
+									function(){
+										MessageBox("Error", "An error has happened restoring the channel.");
+									}
+								)								
+							},
+							function(){
+								$modalInstance.close();
+								MessageBox("Error", "An error has happened restoring the channel.");
+							}
+						);
+					};
+				}
+			});
+		};
+				
+		
 	
 		$scope.doAction = function(action) {
 			
