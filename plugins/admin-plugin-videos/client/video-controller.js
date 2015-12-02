@@ -36,14 +36,13 @@
 	}]);
 	
 	
-	app.controller("AdminVideosListController", ["$scope", "$modal", "$base64", "$timeout", "VideoCRUD", "Filters", "Actions", "AdminState", "MessageBox",
-	function($scope, $modal, $base64, $timeout, VideoCRUD, Filters, Actions, AdminState, MessageBox) {
+	app.controller("AdminVideosListController", ["$scope", "$modal", "$base64", "$timeout", "VideoCRUD", "Filters", "AdminState", "MessageBox",
+	function($scope, $modal, $base64, $timeout, VideoCRUD, Filters, AdminState, MessageBox) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
 		$scope.filterQuery = null;
 		$scope.selectableFilters = Filters.$get('video');
-		$scope.videoActions = Actions.$get("video");
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;
 
@@ -152,22 +151,8 @@
 					};
 				}
 			});
-		};		
-		
-		
-		
-		$scope.doAction = function(action) {
-			
-			var selectedVideos= [];			
-			$scope.videos.list.forEach(function(v){
-				if (v.selected) {
-					selectedVideos.push(v);
-				}
-			});						
-				
-			Actions.runAction(action, selectedVideos);
 		};
-	}])
+	}]);
 	
 	
 })();

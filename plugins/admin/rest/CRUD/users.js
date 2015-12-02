@@ -24,9 +24,7 @@ exports.routes = {
 					query = JSON.parse(new Buffer((req.query.filters), 'base64').toString());
 				}
 				catch(e){}
-					
-				console.log(JSON.stringify(query));
-				
+								
 				Model.find(query).count().exec(function(errCount, count) {
 					if(errCount) { return res.sendStatus(500); }
 					

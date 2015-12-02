@@ -6,7 +6,7 @@
 
 		Actions.registerAction(
 			{
-				context: "video",			
+				context: "video",
 				label: "Recodificar videos",
 				runAction: function(v) {
 					var task1 = {
@@ -52,6 +52,7 @@
 			{
 				context: "video",			
 				label: "Subir a Youtube",
+				role: "YOUTUBE_UPLOADER",
 				runAction: function(v) {
 					var task1 = {
 						task: "uploadToYoutube",
@@ -60,7 +61,10 @@
 						error: false
 					};
 					
-					return TaskCRUD.save(task1).$promise;
+					//return TaskCRUD.save(task1).$promise;
+					var deferred = $q.defer();
+					deferred.resolve();
+					return deferred.promise;
 				}
 			}
 		);

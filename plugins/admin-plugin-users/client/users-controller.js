@@ -12,30 +12,42 @@
 		}
 	}]);
 
-	app.controller("AdminUsersEditController", ["$scope","$routeParams", "UserCRUD", function($scope, $routeParams, UserCRUD){	
+	app.controller("AdminUsersEditController", ["$scope","$routeParams", "$window", "UserCRUD", "MessageBox", function($scope, $routeParams, $window, UserCRUD, MessageBox){
 		$scope.user = UserCRUD.get({id: $routeParams.id});
 		
 		$scope.createLocalAuth = function() {
 			$scope.user.auth.polimedia = {};
-			console.log("---");
 		}
 		
 		$scope.updateRole = function() {
-			UserCRUD.update($scope.user).$promise.then(function() {
-				console.log("update");
+			$scope.updating = true;
+			UserCRUD.update($scope.user).$promise
+			.then(
+				function() {
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("Update User", "The user has been updated.");
+					}
+				},
+				function() {
+					return MessageBox("Error", "An error has happened updating the user.");
+				}
+			).finally(function(){
+				$scope.updating = false;
 			});
 		}
 	}]);
 	
 	
-	app.controller("AdminUsersListController", ["$scope", "$modal", "$base64", "$timeout", "UserCRUD", "Filters", "Actions", "AdminState", 
-	function($scope, $modal, $base64, $timeout, UserCRUD, Filters, Actions, AdminState) {
+	app.controller("AdminUsersListController", ["$scope", "$modal", "$base64", "$timeout", "UserCRUD", "Filters", "AdminState", 
+	function($scope, $modal, $base64, $timeout, UserCRUD, Filters, AdminState) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
 		$scope.filterQuery = null;
 		$scope.selectableFilters = Filters.$get('user');
-		$scope.userActions = Actions.$get("user");
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;
 		
@@ -81,18 +93,6 @@
 					};
 				}
 			});
-		};
-		
-		$scope.doAction = function(action) {
-			
-			var selectedVideos= [];			
-			$scope.users.list.forEach(function(v){
-				if (v.selected) {
-					selectedVideos.push(v);
-				}
-			});						
-				
-			Actions.runAction(action, selectedVideos);
 		};		
 	}])
 	
