@@ -39,26 +39,11 @@
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:15px;">		
-					<div class="btn-toolbar" role="toolbar">
-						<div class="btn-group" role="group">
-							<form class="navbar-form">			
-								<button type="button" class="btn btn-default dropdown-toggle input-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Acción <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li ng-repeat="a in channelActions">
-										<a href ng-click="doAction(a)"> {{a.label}} </a>
-									</li>
-									<li ng-show="channelActions && channelActions.length == 0">
-										<a href> No hay acciones disponibles </a>
-									</li>
-								</ul>
-							</form>
-						</div>
+					<div class="btn-toolbar" role="toolbar">					
+						<actions-dropdown elements="channels.list" type="'channel'"></actions-dropdown>												
 						<admin-filter-directive class="btn-group" state-filters="state.channelFilters" available-filters="selectableFilters"></admin-filter-directive>
 					</div>
 				</div>
-		
 		
 				<h2>Canales</h2>
 				<h6>{{channels.total}} canales</h6>

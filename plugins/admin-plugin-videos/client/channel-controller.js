@@ -102,14 +102,13 @@
 	}]);	
 	
 	
-	app.controller("AdminChannelsListController", ["$scope", "$modal", "$base64", "$timeout", "ChannelCRUD", "Filters", "Actions", "AdminState", "MessageBox",
-	function($scope, $modal, $base64, $timeout, ChannelCRUD, Filters, Actions, AdminState, MessageBox) {
+	app.controller("AdminChannelsListController", ["$scope", "$modal", "$base64", "$timeout", "ChannelCRUD", "Filters", "AdminState", "MessageBox",
+	function($scope, $modal, $base64, $timeout, ChannelCRUD, Filters, AdminState, MessageBox) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
 		$scope.filterQuery = null;
-		$scope.selectableFilters = Filters.$get("channel");;
-		$scope.channelActions = Actions.$get("channel");
+		$scope.selectableFilters = Filters.$get("channel");		
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;	
 	
@@ -218,20 +217,6 @@
 				}
 			});
 		};
-				
-		
-	
-		$scope.doAction = function(action) {
-			
-			var selectedChannels= [];			
-			$scope.channels.list.forEach(function(v){
-				if (v.selected) {
-					selectedChannels.push(v);
-				}
-			});						
-				
-			Actions.runAction(action, selectedChannels);
-		};	
 	}]);
 	
 	

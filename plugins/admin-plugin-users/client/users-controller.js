@@ -28,14 +28,13 @@
 	}]);
 	
 	
-	app.controller("AdminUsersListController", ["$scope", "$modal", "$base64", "$timeout", "UserCRUD", "Filters", "Actions", "AdminState", 
-	function($scope, $modal, $base64, $timeout, UserCRUD, Filters, Actions, AdminState) {
+	app.controller("AdminUsersListController", ["$scope", "$modal", "$base64", "$timeout", "UserCRUD", "Filters", "AdminState", 
+	function($scope, $modal, $base64, $timeout, UserCRUD, Filters, AdminState) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
 		$scope.filterQuery = null;
 		$scope.selectableFilters = Filters.$get('user');
-		$scope.userActions = Actions.$get("user");
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;
 		
@@ -81,18 +80,6 @@
 					};
 				}
 			});
-		};
-		
-		$scope.doAction = function(action) {
-			
-			var selectedVideos= [];			
-			$scope.users.list.forEach(function(v){
-				if (v.selected) {
-					selectedVideos.push(v);
-				}
-			});						
-				
-			Actions.runAction(action, selectedVideos);
 		};		
 	}])
 	
