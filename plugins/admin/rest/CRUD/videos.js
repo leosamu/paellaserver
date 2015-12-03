@@ -43,6 +43,25 @@ exports.routes = {
 				});
 			}
 		]
+	},
+	
+	createModel: {
+		post: [
+			AuthController.CheckRole(['ADMIN']),
+			function(req,res) {			
+				var item = new Video(req.body);
+				
+				item.save(function(err) {
+					if(!err) {
+						res.status(201);
+						res.send(item);
+					}
+					else {
+						res.sendStatus(500);
+					}
+				});				
+			}
+		]
 	}
 }
 

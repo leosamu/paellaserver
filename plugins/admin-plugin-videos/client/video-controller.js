@@ -2,6 +2,59 @@
 	var app = angular.module('adminPluginVideos');
 	
 	
+	app.controller("AdminVideosNewController", ["$scope", "$window", "MessageBox", "VideoCRUD", "CatalogCRUD", "User", "UploadQueue", function($scope, $window, MessageBox, VideoCRUD, CatalogCRUD, User, UploadQueue){
+		$scope.updating = false;
+		
+		$scope.video = {
+			unprocessed: true, 
+			creationDate: Date.now(),
+			source: { type: 'polimedia' },
+			published: { status: true },
+			owner: [User.current()],
+			pluginData: {
+				unesco: {}
+			}
+		};
+		
+		$scope.$watch('video.catalog', function(catalog){		
+			if (catalog) {
+				CatalogCRUD.get({id:catalog}).$promise
+				.then(
+					function(c) {						
+						$scope.video.repository = {_id: c.defaultRepository};
+					},
+					function() {
+						$scope.video.repository = null;
+					}
+				);				
+			}
+			else {
+				$scope.video.repository = null;				
+			}			
+		});
+		
+		$scope.createVideo = function() {
+			$scope.updating = true;
+			VideoCRUD.save($scope.video).$promise.then(
+				function(v) {
+					UploadQueue().addVideo({
+						_id: v._id,
+						title: v.title
+					});
+					return MessageBox("Video creado", "El video se ha creado correctamente.");				
+				},
+				function() {
+					return MessageBox("Error", "Ha ocurrido un error al crear el video.");
+				}
+			).finally(function(){
+				$scope.video.creationDate = Date.now();
+				$scope.video.title = "";			
+				$scope.updating = false;
+			});
+		}
+	}]);	
+	
+	
 	
 	app.controller("AdminVideosEditController", ["$scope","$routeParams", "$window", "MessageBox", "VideoCRUD", function($scope, $routeParams, $window, MessageBox, VideoCRUD){	
 		$scope.updating = false;

@@ -11,6 +11,10 @@
 				templateUrl: 'admin-plugin-videos/views/videos-list.html',
 				controller: "AdminVideosListController"
 			})
+			.when('/admin/videos/new', {
+				templateUrl: 'admin-plugin-videos/views/videos-new.html',
+				controller: "AdminVideosNewController"
+			})
 			.when('/admin/videos/edit/:id', {
 				templateUrl: 'admin-plugin-videos/views/videos-edit.html',
 				controller: "AdminVideosEditController"
