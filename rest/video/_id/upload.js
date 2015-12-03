@@ -1,6 +1,7 @@
 
 var mongoose = require('mongoose');
 var fs = require('fs');
+var path = require('path');
 
 var ChannelController = require(__dirname + '/../../../controllers/channels');
 var VideoController = require(__dirname + '/../../../controllers/video');
@@ -37,6 +38,34 @@ function move (oldPath, newPath, callback) {
 	}
 }
 
+function ensureFolderExists(p, mask, cb) {	
+    if (typeof mask == 'function') { // allow the `mask` parameter to be optional
+        cb = mask;
+        mask = 0777;
+    }
+    fs.mkdir(p, mask, function(err) {
+        if (!err) {
+	        return cb(null); // successfully created folder
+        }
+        else {
+	        switch (err.code) {
+	            case 'EEXIST':
+	            	cb(null); // ignore the error if the folder already exists
+	            	break;
+	            case 'ENOENT':
+	                ensureFolderExists(path.dirname(p), mask, function (err) {
+	                    if (err) cb(err);
+	                    else ensureFolderExists(p, mask, cb);
+	                });
+	                break;
+	            default:
+		            cb(err); // something else went wrong
+	            	break;
+	        }
+	    }
+    });
+}
+
 exports.routes = {
 	upload: {
 		upload:'file',
@@ -47,26 +76,43 @@ exports.routes = {
 			AuthController.CheckWrite,
 			VideoController.LoadStorageDataFromRepository,
 			function(req,res,next) {
+				var Video = require(__dirname + "/../../../models/video");
 				var videoData = req.data[0];
+				
+				var destinationFile = videoData.repository.path + videoData._id + '/polimedia/polimedia.mp4';				
 				if (videoData.source.videos.length) {
-					var mainVideo = videoData.source.videos[0];
-					move(req.file.path,mainVideo.path,function() {
-						next();
-					});
+					destinationFile = videoData.source.videos[0].path;
 				}
-				else {
-					res.status(500).json({ error:true, message:"Error uploading file. " });
-				}
+				ensureFolderExists(path.dirname(destinationFile), function(err) {
+					if(err) {
+						return res.status(500).json({ error:true, message:"Error uploading file." });
+					}
+					move(req.file.path, destinationFile, function(err) {
+						if(err) {
+							return res.status(500).json({ error:true, message:"Error uploading file." });
+						}
+						
+						
+						Video.update({ "_id":videoData._id},{
+							$set: {
+								"unprocessed": false,
+								"source.videos": [{
+									src: path.basename(destinationFile),
+									width: 0,
+									height: 0
+//									recordingDate: { type:Date }									
+								}]
+							}
+						}, function(err){
+							if (err) {
+								return res.status(500).json({ error:true, message:"Error uploading file." });
+							}
+							next();
+						});
+					});					
+				});
 			},
 			TaskController.AddVideoTasks,
-			function(req,res,next) {
-				var videoData = req.data[0];
-				var Video = require(__dirname + "/../../../models/video");
-				Video.update({ "_id":videoData._id},{ $set:{ "unprocessed":false }})
-					.then(function() {
-						next();
-					});
-			},
 			CommonController.JsonResponse
 		]
 	}
