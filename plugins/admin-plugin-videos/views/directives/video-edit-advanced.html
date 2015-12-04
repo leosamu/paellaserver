@@ -10,24 +10,22 @@
 	</div>
 </div>
 			
-			<div class="form-group">
-				<label class="col-sm-2 control-label">Operador de grabación</label>
-				<div class="col-sm-10">						
-					<div class="input-group">
-						<input type="text" class="form-control" value="{{video.source.videos[0].operator}}" disabled />
-						<span class="input-group-btn">
-							<button type="button" class="btn btn-default"><i class="glyphicon glyphicon-user"></i></button>
-						</span>
-					</div>			
-				</div>
-			</div>
-
-
+<div class="form-group">
+	<label class="col-sm-2 control-label">Operador de grabación</label>
+	<div class="col-sm-10">						
+		<div class="input-group">
+			<input type="text" class="form-control" value="{{video.source.videos[0].operator}}" disabled />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-default"><i class="glyphicon glyphicon-user"></i></button>
+			</span>
+		</div>			
+	</div>
+</div>
 
 <div class="form-group has-feedback" ng-class="{'has-error': !($parent.form.catalog.$valid)}">
 	<label class="col-sm-2 control-label">Catálogo</label>
 	<div class="col-sm-10">
-		<catalog-select catalog="video.catalog"></catalog-select>
+		<catalog-select catalog="video.catalog" type="videos"></catalog-select>
 		<input name="catalog" ng-model="video.catalog" required style="display:none;">
 	</div>
 </div>

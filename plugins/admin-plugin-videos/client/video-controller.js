@@ -5,7 +5,7 @@
 	app.controller("AdminVideosNewController", ["$scope", "$window", "MessageBox", "VideoCRUD", "CatalogCRUD", "User", "UploadQueue", function($scope, $window, MessageBox, VideoCRUD, CatalogCRUD, User, UploadQueue){
 		$scope.updating = false;
 		
-		CatalogCRUD.query({}).$promise.then(function(catalogs){
+		CatalogCRUD.query({type:"videos"}).$promise.then(function(catalogs){
 			var defaultCatalog;
 			if (catalogs.list.length == 1) {
 				defaultCatalog = catalogs.list[0]._id;

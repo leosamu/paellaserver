@@ -6,7 +6,8 @@
 		return {
 			restrict: 'E',
 			scope: {
-				catalog: "="
+				catalog: "=",
+				type: "@"
 			},
 			link: function(scope, element, attrs) {
 			
@@ -34,7 +35,7 @@
 					},
 					load: function(query, callback) {
 						if (!query.length) return callback();
-						CatalogCRUD.query().$promise.then(
+						CatalogCRUD.query({type:scope.type}).$promise.then(
 							function(data){
 								callback(data.list);
 							},

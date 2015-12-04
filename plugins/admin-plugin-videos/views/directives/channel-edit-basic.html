@@ -51,7 +51,7 @@
 <div class="form-group has-feedback" ng-class="{'has-error': !($parent.form.catalog.$valid)}">
 	<label class="col-sm-2 control-label">Catalogo</label>
 	<div class="col-sm-10">
-		<catalog-select catalog="channel.catalog"></catalog-select>
+		<catalog-select catalog="channel.catalog" type="channels"></catalog-select>
 		<input name="catalog" ng-model="channel.catalog" required style="display:none;"> 
 	</div>
 </div>
