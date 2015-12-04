@@ -4,12 +4,17 @@ var AuthController = require(__dirname + '/../../../../../controllers/auth');
 exports.routes = {
 	getModel: {
 		get: [
-			AuthController.CheckRole(['ADMIN']),
-			function(req,res) {			
-				var query = {};				
+			AuthController.EnsureAuthenticatedOrDigest,
+			function(req,res) {				
+				var roles = req.user.roles.map(function(a) {return a._id;});
+				var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});
+				var query = {_id: req.params.id};
+				if (!isAdmin){
+					query = {_id: req.params.id, permissions: {$elemMatch: { role: {$in: roles}, write: true }}};
+				}					
+								
 				
-				Model.findById(req.params.id)				
-				.exec(function(err, item) {
+				Model.findOne(query, function(err, item) {
 					if(err) { return res.sendStatus(500); }
 					
 					if (item) {
@@ -18,7 +23,7 @@ exports.routes = {
 					else {
 						res.sendStatus(404);
 					}
-				});					
+				});
 			}
 		]
 	},
