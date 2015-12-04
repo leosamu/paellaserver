@@ -1,33 +1,50 @@
 var Video = require(__dirname + '/../../../../../models/video');
 var AuthController = require(__dirname + '/../../../../../controllers/auth');
+var CatalogController = require(__dirname + '/../../../../../controllers/catalog');
 
 exports.routes = {
 	getVideo: {
 		get: [
-			AuthController.CheckRole(['ADMIN']),
-			function(req,res) {			
-				var query = {};				
-				
-				Video.findById(req.params.id)
-				.populate('repository')
-				.populate('owner')					
-				.exec(function(err, item) {
-					if(err) { return res.sendStatus(500); }
-					
-					if (item) {
-						res.status(200).send(item);
+			AuthController.EnsureAuthenticatedOrDigest,
+			function(req,res) {
+							
+				CatalogController.catalogsCanAdminister(req.user)
+				.then(
+					function(catalogs){					
+							
+						Video.findOne({"_id": req.params.id, "catalog": {"$in": catalogs}})
+						.populate('repository')
+						.populate('owner')					
+						.exec(function(err, item) {
+							if(err) { return res.sendStatus(500); }
+							
+							if (item) {
+								res.status(200).send(item);
+							}
+							else {
+								res.sendStatus(404);
+							}
+						});	
+					},
+					function(){
+						return res.sendStatus(500);
 					}
-					else {
-						res.sendStatus(404);
-					}
-				});					
+				);				
 			}
 		]
 	},
 	
 	removeVideo: {
 		delete: [
-			AuthController.CheckRole(['ADMIN']),
+			AuthController.EnsureAuthenticatedOrDigest,
+			function(req,res,next) {
+				Video.findOne({_id: req.params.id}, function(err, item){
+					if(err) { return res.sendStatus(500); }	
+					if (!item) { return res.sendStatus(404); }
+					
+					return (CatalogController.CheckWriteInCatalog(item.catalog))(req,res,next);					
+				})
+			},
 			function(req,res) {			
 				Video.findByIdAndUpdate({"_id": req.params.id }, {$set: {deletionDate: Date.now()}}, function(err, item) {
 					if(err) { return res.sendStatus(500); }			
@@ -44,7 +61,16 @@ exports.routes = {
 
 	updateVideo: {
 		patch: [
-			AuthController.CheckRole(['ADMIN']),
+			AuthController.EnsureAuthenticatedOrDigest,
+			CatalogController.CheckWrite,
+			function(req,res,next) {
+				Video.findOne({_id: req.params.id}, function(err, item){
+					if(err) { return res.sendStatus(500); }	
+					if (!item) { return res.sendStatus(404); }
+					
+					return (CatalogController.CheckWriteInCatalog(item.catalog))(req,res,next);					
+				})
+			},			
 			function(req,res) {			
 				Video.findByIdAndUpdate({"_id": req.params.id }, req.body, function(err, item) {
 					if(err) { return res.sendStatus(500); }

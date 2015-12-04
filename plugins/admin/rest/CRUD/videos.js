@@ -10,44 +10,62 @@
 */
 
 var Video = require(__dirname + '/../../../../models/video');
+var Catalog = require(__dirname + '/../../../../models/catalog');
 var AuthController = require(__dirname + '/../../../../controllers/auth');
+var CatalogController = require(__dirname + '/../../../../controllers/catalog');
+
+
+
+
 
 exports.routes = {
 	videos: { 
 		get: [
-			AuthController.CheckRole(['ADMIN']),
+			AuthController.EnsureAuthenticatedOrDigest,
 			function(req,res) {			
 				var skip = req.query.skip || 0;
 				var limit = req.query.limit || 10;
-				var query = JSON.parse(new Buffer(req.query.filters, 'base64').toString());
+				var filters = JSON.parse(new Buffer(req.query.filters, 'base64').toString());
 				
-				Video.find(query).count().exec(function(errCount, count) {
-					if(errCount) { return res.sendStatus(500); }
-					
-					Video.find(query)
-					.sort("-creationDate")
-					.skip(skip)
-					.limit(limit)
-					.populate('repository')
-					.populate('owner')					
-					.exec(function(err, items) {
-						if(err) { return res.sendStatus(500); }
+				
+				CatalogController.catalogsCanAdminister(req.user)
+				.then(
+					function(catalogs){					
+						var query = {"$and":[{"catalog": {"$in": catalogs}}, filters]};
 						
-						res.status(200).send({
-							total: count,
-							skip: Number(skip),
-							limit: Number(limit),
-							list:items							
+						Video.find(query).count().exec(function(errCount, count) {
+							if(errCount) { return res.sendStatus(500); }
+							
+							Video.find(query)
+							.sort("-creationDate")
+							.skip(skip)
+							.limit(limit)
+							.populate('repository')
+							.populate('owner')					
+							.exec(function(err, items) {
+								if(err) { return res.sendStatus(500); }
+								
+								res.status(200).send({
+									total: count,
+									skip: Number(skip),
+									limit: Number(limit),
+									list:items							
+								});
+							});					
 						});
-					});					
-				});
+					},
+					function(){
+						return res.sendStatus(500);
+					}
+				)				
 			}
 		]
 	},
 	
 	createModel: {
 		post: [
-			AuthController.CheckRole(['ADMIN']),
+			AuthController.EnsureAuthenticatedOrDigest,
+			CatalogController.CheckWrite,			
 			function(req,res) {			
 				var item = new Video(req.body);
 				
