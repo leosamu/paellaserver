@@ -5,17 +5,25 @@
 	app.controller("AdminVideosNewController", ["$scope", "$window", "MessageBox", "VideoCRUD", "CatalogCRUD", "User", "UploadQueue", function($scope, $window, MessageBox, VideoCRUD, CatalogCRUD, User, UploadQueue){
 		$scope.updating = false;
 		
-		$scope.video = {
-			unprocessed: true, 
-			creationDate: Date.now(),
-			source: { type: 'polimedia' },
-			published: { status: true },
-			owner: [User.current()],
-			pluginData: {
-				unesco: {}
+		CatalogCRUD.query({type:"videos"}).$promise.then(function(catalogs){
+			var defaultCatalog;
+			if (catalogs.list.length == 1) {
+				defaultCatalog = catalogs.list[0]._id;
 			}
-		};
 		
+			$scope.video = {
+				unprocessed: true, 
+				creationDate: Date.now(),
+				source: { type: 'polimedia' },
+				published: { status: true },
+				owner: [User.current()],
+				pluginData: {
+					unesco: {}
+				},
+				catalog: defaultCatalog
+			};
+		});
+				
 		$scope.$watch('video.catalog', function(catalog){		
 			if (catalog) {
 				CatalogCRUD.get({id:catalog}).$promise
@@ -29,7 +37,9 @@
 				);				
 			}
 			else {
-				$scope.video.repository = null;				
+				if ($scope.video) {
+					$scope.video.repository = null;
+				}
 			}			
 		});
 		

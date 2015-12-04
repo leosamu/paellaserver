@@ -85,7 +85,7 @@
 				};
 
 				$scope.canViewAdminPage = function() {
-					return Authorization(null,$scope.currentUser).haveRole(['ADMIN','ADMIN_UI']);
+					return Authorization(null,$scope.currentUser).haveRole(['ADMIN','ADMINISTRATION_UI']);
 				};
 
 				$scope.createPolimedia = function() {

@@ -15,12 +15,23 @@ var AuthController = require(__dirname + '/../../../../controllers/auth');
 exports.routes = {
 	list: { 
 		get: [
-			AuthController.CheckRole(['ADMIN']),
+			AuthController.EnsureAuthenticatedOrDigest,
 			function(req,res) {			
 				var skip = req.query.skip || 0;
 				var limit = req.query.limit || 10;
-				var query = {}; //JSON.parse(new Buffer((req.query.filters), 'base64').toString());
-								
+				var type = req.query.type;
+				
+				var filters = {}; //JSON.parse(new Buffer((req.query.filters), 'base64').toString());
+					
+				var roles = req.user.roles.map(function(a) {return a._id;});
+				var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});
+				var query = {};
+				if (!isAdmin){
+					query = {permissions: {$elemMatch: { role: {$in: roles}, write: true }}};
+				}					
+				if (type) {
+					query.type = type;
+				}			
 				Model.find(query).count().exec(function(errCount, count) {
 					if(errCount) { return res.sendStatus(500); }
 					

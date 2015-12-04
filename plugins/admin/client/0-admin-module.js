@@ -5,7 +5,7 @@
 	
 	app.config(['$routeProvider', '$translateProvider', 'AuthorizationRoutesProvider', function($routeProvider, $translateProvider, AuthorizationRoutesProvider) {
 				
-		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin/, "ADMIN_UI");
+		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin/, "ADMINISTRATION_UI");
 		
 		$routeProvider
 			.when('/admin', {
