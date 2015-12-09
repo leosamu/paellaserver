@@ -18,6 +18,10 @@
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
+				
+				$scope.isEmbed = /embed/i.test(window.location.href);
+				$scope.showIfNotEmbed = !$scope.isEmbed;
+				
 				$scope.showParents = $scope.showParents || true;
 
 				$scope.showParentChannels = function() {
