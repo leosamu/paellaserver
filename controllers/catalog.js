@@ -29,21 +29,23 @@ exports.CheckWriteInCatalog = function(catalog){
 		var roles = req.user.roles.map(function(a) {return a._id;});
 		var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});
 		
-		var query = {_id: catalog};
-		if (!isAdmin){
-			query = {_id: catalog, permissions: {$elemMatch: { role: {$in: roles}, write: true }}};
-		}	
-		Catalog.findOne(query, function(err, elem){			
-			if (err) {
-				return req.status(500).json({ status:false, message:err.toString() });
-			}
-			if (!elem){
-				return res.sendStatus(500);
-			}
-			else {
-				next();
-			}
-		});
+		if (isAdmin) {
+			next();
+		}
+		else {
+			var query = {_id: catalog, permissions: {$elemMatch: { role: {$in: roles}, write: true }}};
+			Catalog.findOne(query, function(err, elem){			
+				if (err) {
+					return req.status(500).json({ status:false, message:err.toString() });
+				}
+				if (!elem){
+					return res.sendStatus(500);
+				}
+				else {
+					next();
+				}
+			});
+		}
 	};
 };
 
