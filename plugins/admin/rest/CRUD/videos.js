@@ -26,12 +26,13 @@ exports.routes = {
 				var skip = req.query.skip || 0;
 				var limit = req.query.limit || 10;
 				var filters = JSON.parse(new Buffer(req.query.filters, 'base64').toString());
-				
-				
+								
 				CatalogController.catalogsCanAdminister(req.user)
 				.then(
-					function(catalogs){					
-						var query = {"$and":[{"catalog": {"$in": catalogs}}, filters]};
+					function(catalogs){
+						var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});					
+						var qcatalogs = (isAdmin)? {} : {"catalog": {"$in": catalogs}};
+						var query = {"$and":[qcatalogs, filters]};
 						
 						Video.find(query).count().exec(function(errCount, count) {
 							if(errCount) { return res.sendStatus(500); }

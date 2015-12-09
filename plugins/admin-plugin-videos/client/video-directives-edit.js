@@ -55,15 +55,28 @@
 								return $scope.owners;
 							}
 						},
-						controller: function ($scope, $modalInstance, owners) {
+						controller: ["$scope", "$modalInstance", "owners", "UserCRUD", function ($scope, $modalInstance, owners, UserCRUD) {
 							$scope.cancel = function () {
 								$modalInstance.dismiss();
 							};						
 							$scope.accept = function () {
 								if ($scope.ownerId == null){
-									console.log("TODO: Create a new user");
-									//TODO: Quitar esto cuando este terminado
-									$modalInstance.dismiss();
+									var user = {
+										contactData: {
+											name: $scope.ownerName,
+											lastName: $scope.ownerLastName,
+											email: $scope.ownerEmail
+										}										
+									};
+
+									UserCRUD.save(user).$promise.then(
+										function(user) {
+											$modalInstance.close([user]);
+										},
+										function(){
+											$modalInstance.dismiss();											
+										}
+									);
 								}
 								else {							
 									var ret =[{
@@ -77,7 +90,7 @@
 									$modalInstance.close(ret);
 								}
 							};
-						}
+						}]
 					});
 					
 					modalInstance.result.then(function (owners) {
