@@ -25,6 +25,9 @@
 				$scope.status = {
 					isopen: false
 				};
+				
+				$scope.isEmbed = /embed/i.test(window.location.href);
+				$scope.showIfNotEmbed = !$scope.isEmbed;
 
 				$scope.showMenu = function() {
 					return $scope.currentUser!=null;

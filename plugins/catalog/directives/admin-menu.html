@@ -1,7 +1,7 @@
 <ui class="nav navbar-nav pull-right" ng-show="showMenu()">
     <li>
         <div class="ps-search-bar-container" dropdown is-open="status.isopen">
-            <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+            <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="disabled" ng-show="!isEmbed">
                 {{ "edit" | translate }} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" role="menu">

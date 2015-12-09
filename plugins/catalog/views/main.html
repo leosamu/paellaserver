@@ -20,7 +20,7 @@
         <h1>
             {{channelData.title}}
             <span class="ps-header-link dropdown" dropdown ng-show="channelId">
-              <a href class="dropdown-toggle" dropdown-toggle>
+              <a href class="dropdown-toggle" dropdown-toggle ng-show="!isEmbed">
                   {{ "parent_channels_text" | translate }}
               </a>
               <ul class="dropdown-menu">
