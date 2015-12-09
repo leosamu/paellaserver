@@ -11,8 +11,11 @@ exports.routes = {
 				CatalogController.catalogsCanAdminister(req.user)
 				.then(
 					function(catalogs){					
-							
-						Video.findOne({"_id": req.params.id, "catalog": {"$in": catalogs}})
+						var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});
+						var qcatalogs = (isAdmin)? {} : {"catalog": {"$in": catalogs}};
+						var query = {"$and":[{"_id": req.params.id}, qcatalogs]};
+													
+						Video.findOne(query)
 						.populate('repository')
 						.populate('owner')					
 						.exec(function(err, item) {
