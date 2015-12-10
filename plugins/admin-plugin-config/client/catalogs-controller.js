@@ -4,32 +4,60 @@
 
 	plugin.controller("AdminCatalogsNewController", ["$scope", "$modal", "MessageBox", "CatalogCRUD", 
 	function($scope, $modal, MessageBox, CatalogCRUD) {
-	
+		$scope.updating = false;
 		$scope.catalog = {}
-		
+				
 		
 		$scope.createCatalog = function() {
+			$scope.updating = true
 			CatalogCRUD.save($scope.catalog).$promise
-			.then(function() {
-				window.history.back();
+			.then(
+				function() {
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("Catalogo creado", "El catalogo se ha creado correctamente.");
+					}
+				},
+				function() {
+					return MessageBox("Error", "Ha ocurrido un error al crear el catalogo.");
+				}
+			).finally(function(){
+				$scope.updating = false;
 			});
+
+			
+			
 		}	
-	
 	}]);
 
 
-	plugin.controller("AdminCatalogsEditController", ["$scope", "$routeParams", "$modal", "$base64", "$timeout", "MessageBox", "CatalogCRUD", "AdminState", 
-	function($scope, $routeParams, $modal, $base64, $timeout, MessageBox, CatalogCRUD, AdminState) {
-	
-	
+	plugin.controller("AdminCatalogsEditController", ["$scope", "$routeParams", "$modal", "$base64", "$timeout", "$window", "MessageBox", "CatalogCRUD", "AdminState", 
+	function($scope, $routeParams, $modal, $base64, $timeout, $window, MessageBox, CatalogCRUD, AdminState) {
+		$scope.updating = false;	
 		$scope.catalog = CatalogCRUD.get({id: $routeParams.id});
 		
 		
 		$scope.updateCatalog = function() {
-			CatalogCRUD.update($scope.catalog).$promise.then(function() {
-				console.log("update");
+			$scope.updating = true;
+			CatalogCRUD.update($scope.catalog).$promise
+			.then(
+				function() {
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("Catalogo actualizado", "El catalogo se ha actualizado correctamente.");
+					}
+				},
+				function() {
+					return MessageBox("Error", "Ha ocurrido un error al actualizar el catalogo.");
+				}
+			).finally(function(){
+				$scope.updating = false;
 			});
-		}	
+		};			
 	
 	}]);
 	
