@@ -18,7 +18,7 @@
 				published: { status: true },
 				owner: [User.current()],
 				pluginData: {
-					unesco: {}
+					unesco: { codes:[] }
 				},
 				catalog: defaultCatalog
 			};
