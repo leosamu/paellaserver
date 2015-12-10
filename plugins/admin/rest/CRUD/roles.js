@@ -40,6 +40,27 @@ exports.routes = {
 				});
 			}
 		]
+	},
+	
+	createModel: {
+		post: [
+			AuthController.EnsureAuthenticatedOrDigest,
+			AuthController.CheckRole(['ADMIN']),
+			function(req,res) {			
+				var item = new Model(req.body);
+				
+				item.save(function(err) {
+					if(!err) {
+						res.status(201);
+						res.send(item);
+					}
+					else {
+						res.sendStatus(500);
+					}
+				});				
+			}
+		]
 	}
+	
 }
 

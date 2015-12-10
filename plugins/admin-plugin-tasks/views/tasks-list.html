@@ -64,10 +64,10 @@
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">
-											<a class="btn btn-xs btn-default" href="/player/?id={{t.targetId}}&autoplay=true">
+											<a class="btn btn-xs btn-default" href="/player/?id={{t.targetId}}&autoplay=true" target="_blank">
 												<span class="glyphicon glyphicon-eye-open"></span>
 											</a>
-											<button class="btn btn-xs btn-danger" ng-click="deleteTask(t._id)" ng-disabled="t.processing">
+											<button class="btn btn-xs btn-danger" ng-click="deleteTask(t)" ng-disabled="t.processing">
 												<span class="glyphicon glyphicon-remove"></span>
 											</button>
 										</div>

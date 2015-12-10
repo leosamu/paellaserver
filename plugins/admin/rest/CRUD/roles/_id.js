@@ -26,8 +26,15 @@ exports.routes = {
 	removeModel: {
 		delete: [
 			AuthController.CheckRole(['ADMIN']),
-			function(req,res) {			
-				res.sendStatus(500);
+			function(req,res) {
+				Model.remove({"_id": req.params.id }, function(err, todo) {
+					if (!err) {
+						res.sendStatus(204);
+					}
+					else {
+						res.sendStatus(500);
+					}
+				});		
 			}
 		]
 	},
@@ -36,7 +43,15 @@ exports.routes = {
 		patch: [
 			AuthController.CheckRole(['ADMIN']),
 			function(req,res) {			
-				res.sendStatus(500);
+				Model.findByIdAndUpdate({"_id": req.params.id }, req.body, function(err, item) {
+					if(err) { return res.sendStatus(500); }
+					if (item) {
+						res.status(204).send(item);
+					}
+					else {
+						res.sendStatus(500);
+					}
+				});
 			}
 		]
 	}

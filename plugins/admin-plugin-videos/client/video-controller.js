@@ -18,7 +18,7 @@
 				published: { status: true },
 				owner: [User.current()],
 				pluginData: {
-					unesco: {}
+					unesco: { codes:[] }
 				},
 				catalog: defaultCatalog
 			};
@@ -71,6 +71,9 @@
 
 		VideoCRUD.get({id: $routeParams.id}).$promise.then(function(v){
 			$scope.video = v;
+			
+			if (!$scope.video.pluginData) { $scope.video.pluginData = {} }
+			if (!$scope.video.pluginData.unesco) { $scope.video.pluginData.unesco = {codes:[]} }
 			
 			$scope.video.creationDate = new Date($scope.video.creationDate);
 			if ($scope.video.published && $scope.video.published.publicationDate) {

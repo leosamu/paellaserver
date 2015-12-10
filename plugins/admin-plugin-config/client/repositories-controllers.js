@@ -2,45 +2,59 @@
 	var plugin = angular.module('adminPluginConfig');
 
 	
-	plugin.controller("AdminRepositoriesNewController", ["$scope", "MessageBox", "RepositoryCRUD", 
-	function($scope, MessageBox, RepositoryCRUD) {
-	
+	plugin.controller("AdminRepositoriesNewController", ["$scope", "$window", "MessageBox", "RepositoryCRUD", 
+	function($scope, $window, MessageBox, RepositoryCRUD) {
+		$scope.updating = false;
 		$scope.repository = {}		
 				
 		$scope.createRepository = function() {
+			$scope.updating = true;
 			RepositoryCRUD.save($scope.repository).$promise
 			.then(
 				function() {
-					window.history.back();
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("Repositorio creado", "El repositorio se ha creado correctamente.");
+					}
 				},
 				function() {
 					return MessageBox("Crear un repositorio", "Ha ocurrido un error");
 				}
-			);					
+			).finally(function(){
+				$scope.updating = false;
+			});					
 		}	
 	
 	}]);
 
 	
-	plugin.controller("AdminRepositoriesEditController", ["$scope", "$routeParams", "$base64", "MessageBox", "RepositoryCRUD", 
-	function($scope, $routeParams, $base64, MessageBox, RepositoryCRUD) {
-	
-	
-		$scope.repository = RepositoryCRUD.get({id: $routeParams.id});
-		
+	plugin.controller("AdminRepositoriesEditController", ["$scope", "$routeParams", "$base64", "$window", "MessageBox", "RepositoryCRUD", 
+	function($scope, $routeParams, $base64, $window, MessageBox, RepositoryCRUD) {	
+		$scope.updating = false;
+		$scope.repository = RepositoryCRUD.get({id: $routeParams.id});		
 		
 		$scope.updateRepository = function() {
+			$scope.updating = true;
 			RepositoryCRUD.update($scope.repository).$promise.
 			then(
 				function() {
-					window.history.back();
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("Repositorio modificado", "El repositorio se ha modificado correctamente.");
+					}
+
 				},
 				function() {
 					return MessageBox("Editar un repositorio", "Ha ocurrido un error");
 				}
-			);
-		}	
-	
+			).finally(function(){
+				$scope.updating = false;
+			});
+		}
 	}]);
 	
 	

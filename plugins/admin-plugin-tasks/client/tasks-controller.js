@@ -1,7 +1,5 @@
 (function() {
 	var plugin = angular.module('adminPluginTasks');
-
-	
 	
 	
 	plugin.controller("AdminTasksListController", ["$scope", "$modal", "$base64", "$timeout", "MessageBox", "TaskCRUD", "AdminState", 
@@ -31,7 +29,7 @@
 		};
 
 
-		$scope.deleteTask = function(id) {
+		$scope.deleteTask = function(task) {
 			var modalInstance = $modal.open({
 				templateUrl: 'confirmDeleteTask.html',
 				size: '',
@@ -48,7 +46,7 @@
 			
 			modalInstance.result
 			.then(function() {
-				return TaskCRUD.remove({id:id}).$promise;
+				return TaskCRUD.remove({id:task._id}).$promise;
 			})
 			.then(function() {
 				$scope.reloadTasks();

@@ -2,24 +2,52 @@
 	var app = angular.module('adminPluginUsers');
 
 	
-	app.controller("AdminRolesNewController", ["$scope", "RoleCRUD", function($scope, RoleCRUD){	
+	app.controller("AdminRolesNewController", ["$scope", "$window", "MessageBox", "RoleCRUD", function($scope, $window, MessageBox, RoleCRUD) {
+		$scope.updating = false;	
 		$scope.role = {isAdmin:false}
 				
 		$scope.addRole = function() {
-			RoleCRUD.save($scope.role).$promise.then(function() {
-				console.log("create");
+			RoleCRUD.save($scope.role).$promise
+			.then(
+				function() {
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("Role created", "Role has been created.");
+					}
+				},
+				function() {
+					return MessageBox("Role create error", "ERROR");
+				}
+			).finally(function(){
+				$scope.updating = false;
 			});
 		}
 	}]);
 
-	app.controller("AdminRolesEditController", ["$scope","$routeParams", "RoleCRUD", function($scope, $routeParams, RoleCRUD){	
-		$scope.role = RoleCRUD.get({id: $routeParams.id});
-		
+	app.controller("AdminRolesEditController", ["$scope","$routeParams", "$window", "MessageBox", "RoleCRUD", function($scope, $routeParams, $window, MessageBox, RoleCRUD){	
+		$scope.updating = false;
+		$scope.role = RoleCRUD.get({id: $routeParams.id});		
 		
 		$scope.updateRole = function() {
-			RoleCRUD.update($scope.role).$promise.then(function() {
-				console.log("update");
-			});
+			$scope.updating = true;
+			RoleCRUD.update($scope.role).$promise
+			.then(
+				function() {
+					if ($window.history.length > 1) {
+						$window.history.back();
+					}
+					else {
+						return MessageBox("Role updated", "Role has been updated.");
+					}
+				},
+				function() {
+					return MessageBox("Role update error", "ERROR");
+				}
+			).finally(function(){
+				$scope.updating = false;
+			});		
 		}
 	}]);
 	
@@ -51,7 +79,7 @@
 		};
 
 
-		$scope.deleteRole = function(id) {
+		$scope.deleteRole = function(role) {
 			var modalInstance = $modal.open({
 				templateUrl: 'confirmDeleteRole.html',
 				size: '',
@@ -61,11 +89,23 @@
 						$modalInstance.dismiss();
 					};
 					$scope.accept = function () {
-						console.log("TODO")
 						$modalInstance.close();
 					};
 				}
 			});
+			
+			modalInstance.result
+			.then(function() {
+				return RoleCRUD.remove({id:role._id}).$promise;
+			})
+			.then(
+				function() {
+					$scope.reloadRoles();
+				},
+				function() {
+					return MessageBox("Eliminar role", "Ha ocurrido un error");
+				}
+			);				
 		};
 	}])
 	

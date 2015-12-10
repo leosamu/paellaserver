@@ -40,19 +40,19 @@
 		
 		<div class="panel panel-primary">
 			<div class="panel-heading">			
-				<h2>Añadir un Rol</h2>			
+				<h2>New role</h2>			
 			</div>
 			<div class="panel-body">
-				<form class="form-horizontal" novalidate>			
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Rol</label>
+				<form name="form" class="form-horizontal" novalidate>			
+					<div class="form-group has-feedback" ng-class="{'has-error': !(form.role.$valid)}">
+						<label class="col-sm-2 control-label">Role</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" placeholder="Rol" ng-model="role._id">
+							<input name="role" type="text" class="form-control" placeholder="Rol" ng-model="role._id" required>
 						</div>
 					</div>
 					
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Descripción</label>
+						<label class="col-sm-2 control-label">Description</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" placeholder="Descripción" ng-model="role.description">
 						</div>
@@ -63,12 +63,12 @@
 						<div class="col-sm-10">
 							<div class="checkbox">
 								<label>
-									<input type="checkbox" ng-model="role.isAdmin"> ¿Es Administrador?
+									<input type="checkbox" ng-model="role.isAdmin"> ¿Is administrator?
 								</label>
 							</div>
 							<div class="alert alert-warning" role="alert" ng-show="role.isAdmin">
-								<strong>Cuidado!</strong>
-								<span> Cualquier usuario con este rol, será administrador.</span>
+								<strong>Warning!</strong>
+								<span> Any user with this role will be an administrator.</span>
 							</div>
 						</div>
 					</div>
@@ -79,8 +79,10 @@
 		
 		<div class="row">
 			<div class="col-sm-12">
-				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
-				<button class="btn btn-primary pull-right" ng-click="addRole()">Añadir</button>
+				<button class="btn btn-default" onclick="window.history.back();">Back</button>
+				<button class="btn btn-primary pull-right" ng-click="addRole()" ng-disabled="updating || !form.$valid">
+					<loader-field ng-show="updating"></loader-field> Create
+				</button>
 			</div>
 		</div>
 			
