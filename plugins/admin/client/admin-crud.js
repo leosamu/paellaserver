@@ -40,7 +40,8 @@
 	app.factory('RoleCRUD', ['$resource', function($resource){
 		return $resource('/rest/plugins/admin/CRUD/roles/:id', {'id':'@_id'}, {
 			'query': {method: 'GET', isArray: false },
-			'update': {method: 'PATCH'}
+			'update': {method: 'PATCH'},
+			'save': {method: 'POST', params: {'id': null}}
 		});
 	}]);
 	
