@@ -302,10 +302,10 @@ exports.init = function(app) {
 		passport.authenticate('lti', { session: true }),
 		function(req, res) {		
 			if (req.lti && req.lti.context_id) {
-				var Channel = require('./models/channel');				
-				Channel.findOne({"pluginData.sakai.id": req.lti.context_id}).exec(function(err, channel){
+				var Channel = require('./models/channel');							
+				Channel.findOne({"pluginData.sakai.code": req.lti.context_id}).exec(function(err, channel){
 					if (err) { res.sendStatus(500); }
-					if (channel) { res.redirect("/#/catalog/channel/"+channel._id); }
+					if (channel) { res.redirect("/embed.html#/catalog/channel/"+channel._id); }
 					
 					if (!channel) {
 						// TODO: Crear el canal automaticamente? o devolver un error?
