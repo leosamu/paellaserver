@@ -14,31 +14,48 @@
 		
 		Filters.registerFilter("video",
 			{
+				"label": "Catalogo",
+				"field": "catalog",
+				"type": "enum",
+				"values": [
+					{
+						"value": "polimedia", "label": "Polimedia (Valencia)"
+					},
+					{
+						"value": "polimedia_gandia", "label": "Polimedia (Gandia)"
+					},
+					{
+						"value": "polimedia_alcoi", "label": "Polimedia (Alcoi)"
+					},
+					{
+						"value": "ice", "label": "ICE"
+					},
+					{
+						"value": "arqt", "label": "ARQT"
+					},
+					{
+						"value": "tv", "label": "TV"
+					}
+				]
+			}
+		);
+		
+		Filters.registerFilter("video",
+			{
 				"label": "Tipo",
 				"field": "source.type",
 				"type": "enum",
 				"values": [
 					{
-						"value": "polimedia", "label": "Polimedia"
-					},
-					{
-						"value": "politube", "label": "Politube"
+						"value": "polimedia", "label": "Video del portal"
 					},
 					{
 						"value": "external", "label": "Externo"
-					},
-					{
-						"value": "live", "label": "Live"
-					},
-					{
-						"value": "ice", "label": "ICE"
-					},
-					{ 
-						"value": "tv", "label":"TV"
 					}
 				]
 			}
 		);
+				
 		Filters.registerFilter("video",
 			{
 				"label": "OA",
