@@ -1,6 +1,13 @@
 
 var paellaserver_authCallback = function(redirect) {
-	redirect = redirect ? "?redirect=" + encodeURIComponent(redirect): "";
+	try {
+		redirect = (redirect[0] == '/') ? redirect : "/"+redirect;
+		redirect = "?redirect=" + encodeURIComponent(redirect);
+	}
+	catch(e) {
+		redirect = "";
+	}
+
 	return "/#/auth/login" + redirect;
 };
 
@@ -34,3 +41,13 @@ var paellaserver_loadUserDataCallback = function(onSuccess) {
 		});
 
 };
+
+
+function loadPlayer() {
+	var containerId = "playerContainer";
+	var resourcesPath = "../rest/paella";
+	paella.load(containerId, { url:resourcesPath, auth: {
+		authCallbackName: "paellaserver_authCallback",
+		userDataCallbackName: "paellaserver_loadUserDataCallback"
+	}});
+}

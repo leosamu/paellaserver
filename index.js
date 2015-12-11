@@ -33,6 +33,11 @@ function startServer() {
 	}));
 	app.use(passport.initialize());
 	app.use(passport.session());
+	app.use(function(req, res, next) {
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Headers", "X-Requested-With");
+		next();
+	});
 
 	security.init(app);
 
@@ -91,12 +96,15 @@ function startServer() {
 			}
 			else {
 				var appendHeader = '<script src="/player/plugins.js"></script></head>';
-				var resourcesPath = "url:'../rest/paella'";
+		//		var resourcesPath = "url:'../rest/paella'";
 				var paellaTitle = '<title>Paella Engage Example</title>';
 				var playerTitle = configure.config.player && configure.config.player.title;
 				var serverTitle = '<title>' + playerTitle + '</title>';
+
+				var onLoad = "loadPlayer();";	// see plugins/login/player/load_callback.js
 				data = data.replace('</head>',appendHeader);
-				data = data.replace("url:'../repository/'", resourcesPath);
+		//		data = data.replace("url:'../repository/'", resourcesPath);
+				data = data.replace("paella.load('playerContainer',{ url:'../repository/' });", onLoad);
 				data = data.replace(paellaTitle, serverTitle);
 				res.type('text/html').send(data).end();
 			}
@@ -128,6 +136,21 @@ function startServer() {
 			"tLdb": "pm",
 			"tLEdit": "/rest/plugins/translectures/redirectToEditor/${videoId}?lang=${tl.lang.code}"
 		};
+
+		playerConfig.plugins.list["es.upv.paella.mediaserver.editor.videoExportsPlugin"] = {
+			"enabled": true,
+		};
+
+		playerConfig.data = {
+	        "enabled": true,
+	        "dataDelegates": {
+	            "default": "CookieDataDelegate",
+	            "trimming": "MediaServiceTrimmingDataDelegate",
+	            "breaks": "MediaServiceBreksDataDelegate",
+	            "userInfo": "UserDataDelegate",
+	            "videoExports": "MediaServiceVideoExportsDataDelegate"
+	        }
+	    };
 
 		res.json(playerConfig);
 	});

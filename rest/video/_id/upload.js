@@ -98,8 +98,8 @@ exports.routes = {
 								"unprocessed": false,
 								"source.videos": [{
 									src: path.basename(destinationFile),
-									width: 0,
-									height: 0
+									width: 1280,
+									height: 720
 //									recordingDate: { type:Date }									
 								}]
 							}

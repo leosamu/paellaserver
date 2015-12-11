@@ -13,6 +13,7 @@
 				'Channel',
 				'Video',
 				'ChannelEditPopup',
+				'VideoUploadPopup',
 				'VideoEditPopup',
 				'Authorization',
 				'ChannelListPopup',
@@ -20,10 +21,13 @@
 				'AuthorSearch',
 				'User',
 				'UploadQueue',
-			function ($scope,$translate,Channel,Video,ChannelEditPopup,VideoEditPopup,Authorization,ChannelListPopup,VideoListPopup,AuthorSearch,User,UploadQueue) {
+			function ($scope,$translate,Channel,Video,ChannelEditPopup,VideoUploadPopup,VideoEditPopup,Authorization,ChannelListPopup,VideoListPopup,AuthorSearch,User,UploadQueue) {
 				$scope.status = {
 					isopen: false
 				};
+				
+				$scope.isEmbed = /embed/i.test(window.location.href);
+				$scope.showIfNotEmbed = !$scope.isEmbed;
 
 				$scope.showMenu = function() {
 					return $scope.currentUser!=null;
@@ -33,6 +37,15 @@
 					ChannelEditPopup(null, function(channelData) {
 						Channel.create(channelData).$promise
 							.then(function(data) {
+								location.reload();
+							});
+					});
+				};
+				
+				$scope.uploadVideo = function() {
+					VideoUploadPopup(null, true, 'polimedia', function(videoData) {
+						Video.create(videoData).$promise
+							.then(function(result) {
 								location.reload();
 							});
 					});
