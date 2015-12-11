@@ -67,27 +67,7 @@
 					return deferred.promise;
 				}
 			}
-		);
-		
-		Actions.registerAction(
-			{
-				context: "video",			
-				label: "Enviar correo al profesor",
-				runAction: function(v) {
-					var ms = Math.floor((Math.random() * 10000) + 1);
-				
-					var deferred = $q.defer();
-					
-
-					setTimeout(function() {
-						console.log("TODO: Correo " + v._id);
-						deferred.resolve("");
-					}, ms);
-					
-					return deferred.promise;
-				}
-			}
-		);		
+		);	
 				
 	}]);	
 })();
