@@ -6,8 +6,8 @@
 		return {
 			restrict: 'E',
 			scope: {
-				authData: "=",
-				userId: "="
+				pluginData: "=",
+				id: "="
 			},
 			templateUrl: 'admin-plugin-users/views/directives/userauth-plugin-polimedia.html'
 		};
@@ -18,8 +18,8 @@
 		return {
 			restrict: 'E',
 			scope: {
-				authData: "=",
-				userId: "="
+				pluginData: "=",
+				id: "="
 			},		
 			templateUrl: 'admin-plugin-users/views/directives/userauth-plugin-upv.html'
 		};
