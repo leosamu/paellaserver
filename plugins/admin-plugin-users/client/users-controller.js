@@ -13,6 +13,7 @@
 	}]);
 
 	app.controller("AdminUsersEditController", ["$scope","$routeParams", "$window", "UserCRUD", "MessageBox", function($scope, $routeParams, $window, UserCRUD, MessageBox){
+		$scope.updating = false;
 		$scope.user = UserCRUD.get({id: $routeParams.id});
 		
 		$scope.createLocalAuth = function() {

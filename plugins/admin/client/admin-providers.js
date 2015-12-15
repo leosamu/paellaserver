@@ -59,7 +59,7 @@
 	});
 
 
-	app.factory('Actions', ['$modal', function ($modal) {
+	app.factory('Actions', ['$modal', '$q', function ($modal, $q) {
 		var actions = [];
 		
 		return {
@@ -106,15 +106,24 @@
 							};
 						}
 					});	
+					
+					return modalInstance.result;
 				};					
 				
 				if (action.beforeRun) {	
-					action.beforeRun(items).then(function(actionParams) {
-						doAction(actionParams);
-					});
+					return action.beforeRun(items).then(
+						function(actionParams) {
+							return doAction(actionParams);
+						},
+						function() {
+							var deferred = $q.defer();
+							deferred.resolve();
+							return deferred.promise;
+						}
+					);
 				}
 				else {
-					doAction();
+					return doAction();
 				}
 			},
 			
