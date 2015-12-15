@@ -35,13 +35,17 @@ exports.routes = {
 	updateModel: {
 		patch: [
 			AuthController.CheckRole(['ADMIN']),
-			function(req,res) {			
+			function(req,res) {
+				console.log(req.body);
 				Model.findByIdAndUpdate({"_id": req.params.id }, req.body, function(err, item) {
-					if(err) { return res.sendStatus(500); }
+					if(err) { 
+						console.log(err);
+						return res.sendStatus(500); }
 					if (item) {
 						res.status(204).send(item);
 					}
 					else {
+						console.log("**");
 						res.sendStatus(500);
 					}
 				});

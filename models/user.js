@@ -9,7 +9,9 @@ var UserSchema = new Schema({
 		email: String,
 		name: String,
 		lastName: String,
-		phone: String
+		phone: String,
+		gender: { type:String },
+		comunicationLanguage: { type:String }
 	},
 	roles: [ { type:String, ref:'Role' } ]
 }, {_id:false});
