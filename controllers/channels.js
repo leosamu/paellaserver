@@ -10,7 +10,7 @@ exports.LoadChannels = function(req,res,next) {
 		'-hidden -hiddenInSearches -owned -pluginData ' +
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
-	var query = req.data && req.data.query || {};
+	var query = req.data && req.data.query && req.data.deletionDate || {};
 	Channel.count(query,function(err, count) {
 		Channel.find(query)
 			.skip(req.query.skip)
@@ -42,14 +42,14 @@ exports.LoadChannel = function(req,res,next) {
 			return role.isAdmin;
 		});
 	var select = '-search -processSlides';
-	var query = { "_id":req.params.id };
+	var query = { "_id":req.params.id , "deletionDate":null};
 
 	Channel.find(query)
 		.select(select)
 		.populate('owner','contactData.name contactData.lastName')
 		.populate('repository','server endpoint')
-		.populate('videos')
-		.populate('children')
+		.populate('videos',null,{"deletionDate":null})
+		.populate('children',null,{"deletionDate":null})
 		.exec(function(err,data) {
 			var populationList = [];
 			var videos = [];
