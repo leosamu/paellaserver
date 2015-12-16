@@ -12,7 +12,7 @@ exports.LoadVideos = function(req,res,next) {
 				'-deletionDate -pluginData ' +
 				'-metadata -search -processSlides ';
 				
-	var query = req.data ? req.data.query:null ? req.data.deletionDate:null;
+	var query = req.data ? req.data.query:null;
 
 	Video.find(query).count().exec(function(errCount, count) {
 		Video.find(query)
@@ -22,23 +22,15 @@ exports.LoadVideos = function(req,res,next) {
 			.populate('repository','server endpoint')
 			.populate('owner', 'contactData.name contactData.lastName')
 			.exec(function(err,data) {
-				if (err) {
-					return res.sendStatus(500);
-				}
-				if (data){
-					req.data = data;
-					next();
-				}
-				else {
-					res.sendStatus(404);
-				}
+				req.data = data;
+				next();
 			});
 	});				
 				
 };
 
 
-// Load newest videos (title and identifier) list
+// Load newest vides (title and identifier) list
 //	Input: req.query.skip, req.query.limit, req.data.query
 //	Output: res.data [ { _id:"video_id", title:"video_title" } ]
 exports.Newest = function(req,res,next) {
@@ -47,23 +39,15 @@ exports.Newest = function(req,res,next) {
 		'-hiddenInSearches -canRead -canWrite ' +
 		'-deletionDate -pluginData ' +
 		'-metadata -search -processSlides ';
-	var query = { "$where":"this.published && this.published.status && this.deletionDate"};
+	var query = { "$where":"this.published && this.published.status"};
 	Video.find(query)
 		.skip(req.query.skip)
 		.limit(req.query.limit)
 		.sort({ creationDate:'desc' })
 		.select(select)
 		.exec(function(err,data) {
-			if (err) {
-				return res.sendStatus(500);
-			}
-			if (data){
-				req.data = data;
-				next();
-			}
-			else {
-				res.sendStatus(404);
-			}
+			req.data = data;
+			next();
 		});
 };
 
@@ -71,18 +55,9 @@ exports.Newest = function(req,res,next) {
 // 	Output: res.data > the number of videos
 exports.Count = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	var query = {"deletionDate":null}
-	Video.count(query).exec(function(err,data) {
-		if (err) {
-			return res.sendStatus(500);
-		}
-		if (data){
-			req.data = data;
-			next();
-		}
-		else {
-			res.sendStatus(404);
-		}
+	Video.count().exec(function(err,data) {
+		req.data = data;
+		next();
 	});
 };
 
@@ -96,28 +71,14 @@ exports.LoadVideo = function(req,res,next) {
 		.select(select)
 		.populate("repository")
 		.exec(function(err,data) {
-			if (err) {
-				return res.sendStatus(500);
-			}
-			// data is an array. if the video is deleted, it will return an error 404
-			if (data.length>0) {
-				if (data[0].deletionDate!==null){
-					return res.status(404).json({ status:false, message:"No such video with id " + data._id});
-				}
-				else{
-					if (data.published && !data.published.status) {
-						var user = req.user;
-						
-					}
-					else {
-						req.data = data;
-					}
-					next();
-				}
+			if (data.published && !data.published.status) {
+				var user = req.user;
+
 			}
 			else {
-				res.sendStatus(404);
+				req.data = data;
 			}
+			next();
 		});
 };
 
@@ -132,27 +93,14 @@ exports.LoadVideoPopulate = function(req,res,next) {
 		.populate("repository")
 		.populate("owner","contactData.name contactData.lastName")
 		.exec(function(err,data) {
-			if (err) {
-				return res.sendStatus(500);
-			}
-			if (data.length>0) {
-				if (data[0].deletionDate!==null){
-					return res.status(404).json({ status:false, message:"No such video with id " + data._id});
-				}
-				else{
-					if (data.published && !data.published.status) {
-						var user = req.user;
-						
-					}
-					else {
-						req.data = data;
-					}
-					next();
-				}
+			if (data.published && !data.published.status) {
+				var user = req.user;
+
 			}
 			else {
-				res.sendStatus(404);
+				req.data = data;
 			}
+			next();
 		});
 };
 

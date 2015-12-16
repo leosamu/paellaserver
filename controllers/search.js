@@ -76,7 +76,7 @@ exports.Search = function(req,res,next) {
 	}
 	else {
 		Channel.find(
-			{ $text : { $search : req.query.search }, deletionDate:null },
+			{ $text : { $search : req.query.search } },
 			{ score : { $meta: "textScore" } }
 		)
 			.select(chSelect)
@@ -87,7 +87,7 @@ exports.Search = function(req,res,next) {
 			.then(function(data) {
 				prepareResult(req,data,'channels');
 				return Video.find(
-					{ $text : { $search : req.query.search }, deletionDate:null },
+					{ $text : { $search : req.query.search }},
 					{ score : { $meta: "textScore" } }
 				)
 					.select(vSelect)
