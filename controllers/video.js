@@ -12,8 +12,10 @@ exports.LoadVideos = function(req,res,next) {
 				'-deletionDate -pluginData ' +
 				'-metadata -search -processSlides ';
 				
-	var query = req.data ? req.data.query:null ? req.data.deletionDate:null;
-
+	var query = (req.data && req.data.query) ? req.data.query:{};
+	
+	query.deletionDate = null;
+	
 	Video.find(query).count().exec(function(errCount, count) {
 		Video.find(query)
 			.skip(req.query.skip)
@@ -47,7 +49,7 @@ exports.Newest = function(req,res,next) {
 		'-hiddenInSearches -canRead -canWrite ' +
 		'-deletionDate -pluginData ' +
 		'-metadata -search -processSlides ';
-	var query = { "$where":"this.published && this.published.status && this.deletionDate"};
+	var query = { "$where":"this.published && this.published.status && !this.deletionDate"};
 	Video.find(query)
 		.skip(req.query.skip)
 		.limit(req.query.limit)
@@ -101,8 +103,8 @@ exports.LoadVideo = function(req,res,next) {
 			}
 			// data is an array. if the video is deleted, it will return an error 404
 			if (data.length>0) {
-				if (data[0].deletionDate!==null){
-					return res.status(404).json({ status:false, message:"No such video with id " + data._id});
+				if (data[0].deletionDate != null){
+					return res.status(404).json({ status:false, message:"No such video with id " + data[0]._id});
 				}
 				else{
 					if (data.published && !data.published.status) {
@@ -136,8 +138,8 @@ exports.LoadVideoPopulate = function(req,res,next) {
 				return res.sendStatus(500);
 			}
 			if (data.length>0) {
-				if (data[0].deletionDate!==null){
-					return res.status(404).json({ status:false, message:"No such video with id " + data._id});
+				if (data[0].deletionDate!=null){
+					return res.status(404).json({ status:false, message:"No such video with id " + data[0]._id});
 				}
 				else{
 					if (data.published && !data.published.status) {
@@ -342,7 +344,7 @@ exports.Where = function(query,select) {
 			'-deletionDate ' +
 			'-metadata -search -processSlides ';
 
-		Video.find({ $where:q })
+		Video.find({ $where:q, deletionDate:null })
 			.skip(req.query.skip)
 			.limit(req.query.limit)
 			.select(select)
