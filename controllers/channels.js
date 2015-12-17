@@ -10,7 +10,7 @@ exports.LoadChannels = function(req,res,next) {
 		'-hidden -hiddenInSearches -owned -pluginData ' +
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
-	var query = (req.data && req.data.query) ? req.data.query || {};
+	var query = (req.data && req.data.query) ? req.data.query : {};
 	query.deletionDate=null;
 	
 	Channel.count(query,function(err, count) {
