@@ -10,45 +10,59 @@
 */
 
 var Model = require(__dirname + '/../../../../models/channel');
+var Catalog = require(__dirname + '/../../../../models/catalog');
 var AuthController = require(__dirname + '/../../../../controllers/auth');
+var CatalogController = require(__dirname + '/../../../../controllers/catalog');
 
 exports.routes = {
 	listModel: { 
 		get: [
-			AuthController.CheckRole(['ADMIN']),
-			function(req,res) {
-			
+			AuthController.EnsureAuthenticatedOrDigest,
+			function(req,res) {			
 				var skip = req.query.skip || 0;
 				var limit = req.query.limit || 10;
-				var query = JSON.parse(new Buffer((req.query.filters), 'base64').toString());				
+				var filters = JSON.parse(new Buffer((req.query.filters), 'base64').toString());				
 				
-				Model.find(query).count().exec(function(errCount, count) {
-					if(errCount) { return res.sendStatus(500); }
-					
-					Model.find(query)
-					.sort("-creationDate")					
-					.skip(skip)
-					.limit(limit)
-					.populate('repository')
-					.populate('owner')
-					.exec(function(err, items) {
-						if(err) { return res.sendStatus(500); }
-												
-						res.status(200).send({
-							total: count,
-							skip: Number(skip),
-							limit: Number(limit),
-							list: items
-						})
-					});					
-				});
+				CatalogController.catalogsCanAdminister(req.user)
+				.then(
+					function(catalogs){
+						var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});					
+						var qcatalogs = (isAdmin)? {} : {"catalog": {"$in": catalogs}};
+						var query = {"$and":[qcatalogs, filters]};
+				
+						Model.find(query).count().exec(function(errCount, count) {
+							if(errCount) { return res.sendStatus(500); }
+							
+							Model.find(query)
+							.sort("-creationDate")					
+							.skip(skip)
+							.limit(limit)
+							.populate('repository')
+							.populate('owner')
+							.exec(function(err, items) {
+								if(err) { return res.sendStatus(500); }
+														
+								res.status(200).send({
+									total: count,
+									skip: Number(skip),
+									limit: Number(limit),
+									list: items
+								})
+							});					
+						});
+					},
+					function(){
+						return res.sendStatus(500);
+					}
+				);
 			}
 		]
 	},
 	
 	createChannel: {
 		post: [
-			AuthController.CheckRole(['ADMIN']),
+			AuthController.EnsureAuthenticatedOrDigest,
+			CatalogController.CheckWrite,
 			function(req,res) {			
 				var item = new Model(req.body);
 				

@@ -58,6 +58,7 @@
 								<th>Título</th>
 								<th>Autor</th>
 								<th># V/Ch</th>
+								<th>Catalog</th>
 								<th width="110px">Acciones</th>
 							</tr>
 						</thead>
@@ -68,6 +69,7 @@
 								<td>{{c.title}}</td>
 								<td>{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}</td>
 								<td>{{c.videos.length || 0}} / {{c.children.length || 0}}</td>
+								<td>{{c.catalog}}</td>
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">
