@@ -51,12 +51,12 @@ exports.Search = function(req,res,next) {
 
 	if (req.query.search=="" || !req.query.search) {
 		var defaultChannel = configure.config.channels.default;
-		Channel.find({ "_id":defaultChannel })
+		Channel.find({ "_id":defaultChannel, deletionDate:null })
 			.exec()
 			.then(function(data) {
 				if (data.length) {
 					var subchannels = data[0].children;
-					return Channel.find({"_id":{$in:subchannels}})
+					return Channel.find({"_id":{$in:subchannels}, deletionDate:null})
 						.select(chSelect)
 						.populate('owner','contactData.name contactData.lastName')
 						.populate('repository','server endpoint')
@@ -76,7 +76,7 @@ exports.Search = function(req,res,next) {
 	}
 	else {
 		Channel.find(
-			{ $text : { $search : req.query.search } },
+			{ $text : { $search : req.query.search }, deletionDate:null },
 			{ score : { $meta: "textScore" } }
 		)
 			.select(chSelect)
@@ -87,7 +87,7 @@ exports.Search = function(req,res,next) {
 			.then(function(data) {
 				prepareResult(req,data,'channels');
 				return Video.find(
-					{ $text : { $search : req.query.search }},
+					{ $text : { $search : req.query.search }, deletionDate:null },
 					{ score : { $meta: "textScore" } }
 				)
 					.select(vSelect)
