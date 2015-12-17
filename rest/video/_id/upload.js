@@ -3,6 +3,9 @@ var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
 
+var Video = require(__dirname + '/../../../models/video');
+
+var CatalogController = require(__dirname + '/../../../controllers/catalog');
 var ChannelController = require(__dirname + '/../../../controllers/channels');
 var VideoController = require(__dirname + '/../../../controllers/video');
 var CommonController = require(__dirname + '/../../../controllers/common');
@@ -72,8 +75,16 @@ exports.routes = {
 		post: [
 			AuthController.EnsureAuthenticatedOrDigest,
 			VideoController.LoadVideoPopulate,
-			AuthController.LoadRoles,
-			AuthController.CheckWrite,
+			AuthController.LoadRoles,			
+			function(req,res,next) {
+				Video.findOne({_id: req.params.id}, function(err, item){
+					if(err) { return res.sendStatus(500); }	
+					if (!item) { return res.sendStatus(404); }
+					console.log(item.catalog);
+					return (CatalogController.CheckWriteInCatalog(item.catalog))(req,res,next);					
+				})
+			},
+			//AuthController.CheckWrite,
 			VideoController.LoadStorageDataFromRepository,
 			function(req,res,next) {
 				var Video = require(__dirname + "/../../../models/video");
@@ -91,7 +102,6 @@ exports.routes = {
 						if(err) {
 							return res.status(500).json({ error:true, message:"Error uploading file." });
 						}
-						
 						
 						Video.update({ "_id":videoData._id},{
 							$set: {
