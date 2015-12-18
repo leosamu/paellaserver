@@ -169,4 +169,28 @@
 		}
 	});
 	
+	
+	app.directive("videoEditParentsChannels", function(){
+		return {
+			restrict: 'E',
+			scope: {
+				videoId: "="
+			},
+			templateUrl: 'admin-plugin-videos/views/directives/video-edit-parents-channels.html',
+			controller: ['$scope', 'VideoCRUD', function($scope, VideoCRUD) {
+				$scope.loadingChannels = true;
+				$scope.$watch('videoId', function(){
+					if ($scope.videoId) {				
+						$scope.loadingChannels = true;
+						VideoCRUD.parents({id: $scope.videoId}).$promise
+						.then(function(channels){
+							$scope.channels = channels;
+							$scope.loadingChannels = false;
+						});
+					}
+				});
+			}]
+		}
+	});	
+	
 })();

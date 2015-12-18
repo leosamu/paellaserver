@@ -1,0 +1,33 @@
+<div class="table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Fecha</th>
+				<th>Título</th>
+				<th>Autor</th>
+				<th># V/Ch</th>
+				<th>Catalog</th>
+				<th width="90px">Acciones</th>
+			</tr>
+		</thead>
+		<tbody ng-hide="loadingChannels">
+			<tr ng-repeat="c in channels.list" ng-class="{danger: c.deletionDate}">
+				<td>{{c.creationDate | amDateFormat:'ll'}}</td>
+				<td>{{c.title}}</td>
+				<td>{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}</td>
+				<td>{{c.videos.length || 0}} / {{c.children.length || 0}}</td>
+				<td>{{c.catalog}}</td>
+				<td>
+					<div class="btn-toolbar" role="toolbar">
+						<div class="btn-group" role="group">
+							<a class="btn btn-xs btn-default" target="_blank" href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+							<a class="btn btn-xs btn-default" target="_blank" href="#/statistics/views/channel/{{c._id}}"> <span class="glyphicon glyphicon-stats"></span> </a>
+							<a class="btn btn-xs btn-default" target="_blank" href="#/admin/channels/edit/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<loader ng-show="loadingChannels"></loader>			
+</div>

@@ -4,14 +4,16 @@
 	app.factory('VideoCRUD', ['$resource', function($resource){
 		return $resource('/rest/plugins/admin/CRUD/videos/:id', {'id':'@_id'}, {
 			'query': {method: 'GET', isArray: false },
-			'update': {method: 'PATCH'}
+			'update': {method: 'PATCH'},
+			'parents' : {method: 'GET', isArray: false, url: '/rest/plugins/admin/CRUD/videos/:id/parents' },
 		});
 	}]);
 
 	app.factory('ChannelCRUD', ['$resource', function($resource){
 		return $resource('/rest/plugins/admin/CRUD/channels/:id', {'id':'@_id'}, {
 			'query': {method: 'GET', isArray: false },
-			'update': {method: 'PATCH'}
+			'update': {method: 'PATCH'},
+			'parents' : {method: 'GET', isArray: false, url: '/rest/plugins/admin/CRUD/channels/:id/parents' },			
 		});
 	}]);
 
