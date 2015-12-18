@@ -252,5 +252,28 @@
 		};
 	});	
 
+	app.directive("channelEditParentsChannels", function(){
+		return {
+			restrict: 'E',
+			scope: {
+				channelId: "="
+			},
+			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-parents-channels.html',
+			controller: ['$scope', 'ChannelCRUD', function($scope, ChannelCRUD) {
+				$scope.loadingChannels = true;
+				$scope.$watch('channelId', function(){
+					if ($scope.channelId) {				
+						$scope.loadingChannels = true;
+						ChannelCRUD.parents({id: $scope.channelId}).$promise
+						.then(function(channels){
+							$scope.channels = channels;
+							$scope.loadingChannels = false;
+						});
+					}
+				});
+			}]
+		}
+	});	
+
 				
 })();
