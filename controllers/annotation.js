@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 //		(opt) req.params.type
 //	Output: req.data
 exports.LoadAnnotations = function(req,res,next) {
-	var and = [{video: req.data}];
+	var and = [{video: req.data[0]._id}];
 	if (req.params.type) {
 		and.push({tye: req.params.type})
 	}

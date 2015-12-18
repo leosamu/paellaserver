@@ -39,6 +39,15 @@ function startServer() {
 		next();
 	});
 
+	app.use(function(req,res,next){
+		if (req.headers['x-requested-auth'] == 'Digest') {
+			passport.authenticate('digest', { session: false })(req, res, next);
+		}
+		else {
+			next();
+		}
+	});
+
 	security.init(app);
 
 	var router = express.Router();

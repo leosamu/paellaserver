@@ -10,7 +10,9 @@ exports.LoadChannels = function(req,res,next) {
 		'-hidden -hiddenInSearches -owned -pluginData ' +
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
-	var query = req.data && req.data.query || {};
+	var query = (req.data && req.data.query) ? req.data.query : {};
+	query.deletionDate=null;
+	
 	Channel.count(query,function(err, count) {
 		Channel.find(query)
 			.skip(req.query.skip)
@@ -42,14 +44,14 @@ exports.LoadChannel = function(req,res,next) {
 			return role.isAdmin;
 		});
 	var select = '-search -processSlides';
-	var query = { "_id":req.params.id };
+	var query = { "_id":req.params.id , "deletionDate":null};
 
 	Channel.find(query)
 		.select(select)
 		.populate('owner','contactData.name contactData.lastName')
 		.populate('repository','server endpoint')
-		.populate('videos')
-		.populate('children')
+		.populate('videos',null,{"deletionDate":null})
+		.populate('children',null,{"deletionDate":null})
 		.exec(function(err,data) {
 			var populationList = [];
 			var videos = [];
@@ -240,7 +242,7 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 	var data = req.data;
 	if (data.list && data.list.length>0) {
 		data.list.forEach(function(channelData) {
-			if (channelData.thumbnail) {
+			if (channelData.thumbnail && channelData.repository) {
 				channelData.thumbnail = channelData.repository.server +
 										channelData.repository.endpoint +
 										channelData._id + '/channels/' +
@@ -248,7 +250,7 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 			}
 		});
 	}
-	else if (data.thumbnail) {
+	else if (data.thumbnail && data.repository) {
 		data.thumbnail = data.repository.server +
 			data.repository.endpoint +
 			data._id + '/channels/' +
@@ -267,7 +269,7 @@ exports.ParentsOfChannels = function(req,res,next) {
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
 
-	Channel.find({"children":{$in:[req.params.id]}})
+	Channel.find({"children":{$in:[req.params.id]}, deletionDate:null})
 		.select(select)
 		.populate('owner','contactData.name contactData.lastName')
 		.populate('repository','server endpoint')
@@ -289,7 +291,7 @@ exports.ParentsOfVideo = function(req,res,next) {
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
 
-	Channel.find({"videos":{$in:[req.params.id]}})
+	Channel.find({"videos":{$in:[req.params.id]}, deletionDate:null})
 		.select(select)
 		.populate('owner','contactData.name contactData.lastName')
 		.populate('repository','server endpoint')
@@ -321,7 +323,7 @@ exports.Where = function(query,select) {
 			'-deletionDate ' +
 			'-metadata -search -processSlides ';
 
-		Channel.find({ $where:q })
+		Channel.find({ $where:q, deletionDate:null })
 			.skip(req.query.skip)
 			.limit(req.query.limit)
 			.select(select)
