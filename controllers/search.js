@@ -25,12 +25,12 @@ exports.Search = function(req,res,next) {
 		}
 		else {
 			req.data[collectionName] = [];
-			if (collectionName=='channels') {
+			if (collectionName=='channels' && Array.isArray(data)) {
 				data.forEach(function(item) {
 					req.data[collectionName].push(item);
 				});
 			}
-			else if (collectionName=='videos') {
+			else if (collectionName=='videos' && Array.isArray(data)) {
 				data.forEach(function(item) {
 					if (item.published && item.published.status) {
 						req.data[collectionName].push(item);
