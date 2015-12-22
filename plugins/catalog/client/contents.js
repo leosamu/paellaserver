@@ -14,13 +14,14 @@
 				isAdmin: "=?",
 				currentUser: "=?",
 				showParents: "=?",
-				currentTab: "=?"
+				currentTab: "=?",
+				isSearch: "=?"
 			},
 			controller: ['$scope',function ($scope,Channel) {
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.showParents = $scope.showParents || true;
 				$scope.currentTab = $scope.currentTab || 0;
-				$scope.isSearch = $scope.currentChannel!=null;
+				$scope.isSearch = $scope.isSearch || false;
 				$scope.currentUser = $scope.currentUser || null;
 
 				$scope.channelTabSelected = function() {
