@@ -92,7 +92,15 @@
 			{
 				"label": "Youtube",
 				"field": "pluginData.youtube.id",
-				"type": "exists",
+				"type": "enum",
+				"values": [
+					{
+						"value": {$ne: null}, "label": "Si"
+					},
+					{
+						"value": null, "label": "No"
+					}
+				]
 			}
 		);
 		
