@@ -9,7 +9,7 @@
 				pluginData: "=",
 				videoId: "="
 			},		
-			templateUrl: 'admin-plugin-videos/views/directives/video-plugin-translectures.html'
+			templateUrl: 'admin-plugin-contents/views/directives/video-plugin-translectures.html'
 		};
 	});
 
@@ -21,7 +21,7 @@
 				pluginData: "=",
 				videoId: "="
 			},		
-			templateUrl: 'admin-plugin-videos/views/directives/video-plugin-youtube.html'
+			templateUrl: 'admin-plugin-contents/views/directives/video-plugin-youtube.html'
 		};
 	});
 
@@ -32,7 +32,7 @@
 				pluginData: "=",
 				videoId: "="
 			},		
-			templateUrl: 'admin-plugin-videos/views/directives/video-plugin-unesco.html'
+			templateUrl: 'admin-plugin-contents/views/directives/video-plugin-unesco.html'
 		};
 	});
 	

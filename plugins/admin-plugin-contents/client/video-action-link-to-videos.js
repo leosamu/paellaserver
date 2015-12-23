@@ -17,7 +17,7 @@
 					});
 					
 					var modalInstance = $modal.open({
-						templateUrl:'admin-plugin-videos/views/modal/video-links.html',
+						templateUrl:'admin-plugin-contents/views/modal/video-links.html',
 						controller:['$scope', '$modalInstance', 'videos', function($scope, $modalInstance, videos){
 							$scope.videos = videos;
 
