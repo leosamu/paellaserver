@@ -9,7 +9,7 @@
 
 		$scope.currentPage=1;
 		$scope.filterQuery = null;
-		$scope.selectableFilters = Filters.$get('video');
+		$scope.selectableFilters = Filters.$get('oa');
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;
 
@@ -25,9 +25,9 @@
 			}
 		});
 
-		$scope.$watch('state.videoFilters', function(){ 
-			if ($scope.state.videoFilters) {
-				var qq = Filters.makeQuery($scope.state.videoFilters.filters || [], $scope.state.videoFilters.searchText);
+		$scope.$watch('state.oaFilters', function(){ 
+			if ($scope.state.oaFilters) {
+				var qq = Filters.makeQuery($scope.state.oaFilters.filters || [], $scope.state.oaFilters.searchText);
 				
 				var final_query = {"$and": [
 					qq,
@@ -55,6 +55,23 @@
 			}, 500);
 		};
 		
+		$scope.isWaitingToUpload = function(v) {		
+			if (v && v.pluginData && v.pluginData.youtube) {
+				return (v.pluginData.youtube.id==null) && (v.pluginData.youtube.task!=null);
+			}
+			else {
+				return false;
+			}		
+		};
+		$scope.isNotUploaded = function(v) {
+			if (v && v.pluginData && v.pluginData.youtube) {
+				return (v.pluginData.youtube.id==null) && (v.pluginData.youtube.task==null);
+			}
+			else {
+				return true;
+			}		
+		};
+		
 		$scope.uploadVideo = function(v) {			
 			$http.post('/rest/plugins/admin-plugin-oa/video/' + v._id + '/uploadToYoutube')
 			.then(
@@ -62,9 +79,12 @@
 					return MessageBox("Subir a youtube", "Se ha marcado el video para subirlo a youtube.");
 				},
 				function(){
-					return MessageBox("Error", "Ha ocurrido un error al procesar la solicitud.");
+					return MessageBox("Error", "Ha ocurrido un error al procesar la solicitud.");					
 				}
 			)
+			.finally(function(){
+				$scope.reloadVideos();
+			})
 		}
 	}]);	
 	
