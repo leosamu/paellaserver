@@ -35,7 +35,7 @@
 				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:15px;">				
 					<div class="btn-toolbar" role="toolbar">
 						<actions-dropdown elements="videos.list" type="'oa'"></actions-dropdown>
-						<admin-filter-directive class="btn-group" state-filters="state.videoFilters" available-filters="selectableFilters"></admin-filter-directive>
+						<admin-filter-directive class="btn-group" state-filters="state.oaFilters" available-filters="selectableFilters"></admin-filter-directive>
 					</div>
 				</div>
 		
@@ -57,7 +57,7 @@
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingVideos">
-							<tr ng-repeat="v in videos.list" ng-class="{danger: v.pluginData.youtube.id==null}">
+							<tr ng-repeat="v in videos.list" ng-class="{warning: isWaitingToUpload(v), danger: isNotUploaded(v)}">
 								<td><input type="checkbox" ng-model="v.selected"></td>
 								<td>{{v.pluginData.OA.publicationDate | amDateFormat:'ll'}}</td>
 								<td>{{v.title}}</td>
@@ -68,10 +68,12 @@
 										<div class="btn-group" role="group">
 											<a class="btn btn-xs btn-default" href="#/admin/videos/edit/{{v._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
 											<a class="btn btn-xs btn-default" target="_blank" ng-href="{{v.pluginData.OA.handle}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
-											<button class="btn btn-xs btn-default" ng-click="uploadVideo(v)" ng-show="v.pluginData.youtube.id==null">
+										</div>
+										<div class="btn-group" role="group">									
+											<button class="btn btn-xs btn-default" ng-click="uploadVideo(v)" ng-show="isNotUploaded(v)">
 												<span class="glyphicon glyphicon-cloud-upload"></span>
 											</button>
-											<a class="btn btn-xs btn-default" ng-hide="v.pluginData.youtube.id==null" target="_blank" ng-href="https://www.youtube.com/watch?v={{v.pluginData.youtube.id}}">
+											<a class="btn btn-xs btn-default" ng-hide="isNotUploaded(v) || isWaitingToUpload(v)" target="_blank" ng-href="https://www.youtube.com/watch?v={{v.pluginData.youtube.id}}">
 												<span class="glyphicon glyphicon-cloud"></span>
 											</a>
 										</div>
