@@ -3,8 +3,7 @@
 
 	plugin.config(['$routeProvider', 'AuthorizationRoutesProvider', function($routeProvider, AuthorizationRoutesProvider) {
 		
-		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin\/videos/, "ADMINISTRATION_OA");
-		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin\/channels/, "ADMINISTRATION_OA");
+		AuthorizationRoutesProvider.addAuthorizationRoute(/^\/admin\/oa/, "ADMINISTRATION_OA");
 		
 		$routeProvider
 			.when('/admin/oa', {
