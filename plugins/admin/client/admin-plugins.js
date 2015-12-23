@@ -5,10 +5,11 @@
 	plugins.registerPlugin = function(module, route, label) {
 		plugins.requires.push(module.name);
 		
-		
-		plugins.config(['AdminPluginProvider', function(AdminPluginProvider) {
-			AdminPluginProvider.register(route, label);
-		}]);
+		if (route) {
+			plugins.config(['AdminPluginProvider', function(AdminPluginProvider) {
+				AdminPluginProvider.register(route, label);
+			}]);
+		}
 	}	
 		
 	plugins.provider('AdminPlugin', function() {
