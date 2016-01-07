@@ -48,7 +48,7 @@ exports.routes = {
 		delete: [
 			AuthController.EnsureAuthenticatedOrDigest,
 			function(req,res,next) {
-				Video.findOne({_id: req.params.id}, function(err, item){
+				Model.findOne({_id: req.params.id}, function(err, item){
 					if(err) { return res.sendStatus(500); }	
 					if (!item) { return res.sendStatus(404); }
 					
