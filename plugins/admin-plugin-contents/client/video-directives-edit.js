@@ -31,7 +31,7 @@
 				];
 
 			}],
-			templateUrl: 'admin-plugin-videos/views/directives/language-select.html'
+			templateUrl: 'admin-plugin-contents/views/directives/language-select.html'
 		};
 	});
 
@@ -46,7 +46,7 @@
 				$scope.changeOwner = function() {
 				
 					var modalInstance = $modal.open({
-						templateUrl: 'admin-plugin-videos/views/modal/select-owner.html',
+						templateUrl: 'admin-plugin-contents/views/modal/select-owner.html',
 						size: '',
 						backdrop: 'static',
 						keyboard: false,
@@ -98,7 +98,7 @@
 					});
 				};
 			}],
-			templateUrl: 'admin-plugin-videos/views/directives/owners-select-or-create.html'
+			templateUrl: 'admin-plugin-contents/views/directives/owners-select-or-create.html'
 		};
 	});
 
@@ -132,7 +132,7 @@
 				}, true);
 				
 			}],
-			templateUrl: 'admin-plugin-videos/views/directives/video-edit-basic.html'
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-basic.html'
 		}
 	});
 	
@@ -143,7 +143,7 @@
 			scope: {
 				video: "="	
 			},
-			templateUrl: 'admin-plugin-videos/views/directives/video-edit-advanced.html'
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-advanced.html'
 		}
 	});
 		
@@ -153,7 +153,7 @@
 			scope: {
 				video: "="
 			},
-			templateUrl: 'admin-plugin-videos/views/directives/video-edit-videos.html'
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-videos.html'
 		}
 	});
 
@@ -165,7 +165,7 @@
 				repository: "=",
 				videoId: "=" 
 			},
-			templateUrl: 'admin-plugin-videos/views/directives/video-edit-video-info.html'
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-video-info.html'
 		}
 	});
 	
@@ -176,7 +176,7 @@
 			scope: {
 				videoId: "="
 			},
-			templateUrl: 'admin-plugin-videos/views/directives/video-edit-parents-channels.html',
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-parents-channels.html',
 			controller: ['$scope', 'VideoCRUD', function($scope, VideoCRUD) {
 				$scope.loadingChannels = true;
 				$scope.$watch('videoId', function(){

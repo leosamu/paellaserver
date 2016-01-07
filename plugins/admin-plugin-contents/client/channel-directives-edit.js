@@ -8,7 +8,7 @@
 			scope: {
 				channel: "="
 			},
-			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-basic.html',
+			templateUrl: 'admin-plugin-contents/views/directives/channel-edit-basic.html',
 			controller: ['$scope', function($scope){
 				$scope.restoreChannel = function() {
 					$scope.channel.deletionDate = null;
@@ -76,7 +76,7 @@
 				}
 
 			}],
-			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-advanced.html'
+			templateUrl: 'admin-plugin-contents/views/directives/channel-edit-advanced.html'
 		};
 	});
 
@@ -151,7 +151,7 @@
 				};
 				
 			}],
-			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-videos.html'
+			templateUrl: 'admin-plugin-contents/views/directives/channel-edit-videos.html'
 		};
 	});
 
@@ -228,7 +228,7 @@
 				};
 				
 			}],
-			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-channels.html'
+			templateUrl: 'admin-plugin-contents/views/directives/channel-edit-channels.html'
 		};
 	});
 	
@@ -239,7 +239,7 @@
 			scope: {
 				channel: "="
 			},
-			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-plugins.html',
+			templateUrl: 'admin-plugin-contents/views/directives/channel-edit-plugins.html',
 			controller: ['$scope', function($scope) {
 			
 				$scope.linkToSakai = function() {
@@ -258,7 +258,7 @@
 			scope: {
 				channelId: "="
 			},
-			templateUrl: 'admin-plugin-videos/views/directives/channel-edit-parents-channels.html',
+			templateUrl: 'admin-plugin-contents/views/directives/channel-edit-parents-channels.html',
 			controller: ['$scope', 'ChannelCRUD', function($scope, ChannelCRUD) {
 				$scope.loadingChannels = true;
 				$scope.$watch('channelId', function(){

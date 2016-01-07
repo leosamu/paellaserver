@@ -23,7 +23,7 @@
 					console.log(p);
 				}
 			}],
-			templateUrl: 'admin-plugin-videos/views/directives/permissions-editor.html'
+			templateUrl: 'admin-plugin-contents/views/directives/permissions-editor.html'
 		}
 	});	
 	

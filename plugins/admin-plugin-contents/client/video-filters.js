@@ -88,22 +88,6 @@
 			}
 		);
 		
-		Filters.registerFilter("video",
-			{
-				"label": "Youtube",
-				"field": "pluginData.youtube.id",
-				"type": "enum",
-				"values": [
-					{
-						"value": {$ne: null}, "label": "Si"
-					},
-					{
-						"value": null, "label": "No"
-					}
-				]
-			}
-		);
-		
 		/*
 		Filters.registerFilter("video",
 			{

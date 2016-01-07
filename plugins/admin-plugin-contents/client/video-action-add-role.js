@@ -14,7 +14,7 @@
 										
 					var modalInstance = $modal.open({
 						backdrop: true,
-						templateUrl:'admin-plugin-videos/views/modal/video-action-add-role.html',
+						templateUrl:'admin-plugin-contents/views/modal/video-action-add-role.html',
 						controller:['$scope', '$modalInstance', function($scope, $modalInstance) {
 							$scope.roles = [];
 							
