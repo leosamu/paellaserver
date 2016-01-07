@@ -46,28 +46,6 @@
 				}
 			}
 		);
-
-
-		Actions.registerAction(
-			{
-				context: "video",			
-				label: "Subir a Youtube",
-				role: "YOUTUBE_UPLOADER",
-				runAction: function(v) {
-					var task1 = {
-						task: "uploadToYoutube",
-						targetType: "video",
-						targetId: v._id,
-						error: false
-					};
-					
-					//return TaskCRUD.save(task1).$promise;
-					var deferred = $q.defer();
-					deferred.resolve();
-					return deferred.promise;
-				}
-			}
-		);	
 				
 	}]);	
 })();
