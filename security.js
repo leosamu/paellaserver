@@ -166,8 +166,8 @@ exports.init = function(app) {
 							newUser = new User({
 								contactData: {
 									email:profile.email,
-									name:nameArray[1].trim(),
-									lastName:nameArray[0].trim()
+									name:nameArray[1] ? nameArray[1].trim():"",
+									lastName:nameArray[0] ? nameArray[0].trim():""
 								},
 								auth:{
 									UPV: {
