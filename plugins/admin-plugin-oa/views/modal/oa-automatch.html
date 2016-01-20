@@ -1,0 +1,32 @@
+<div class="modal-header">
+	<h4 class="modal-title text-danger">OA Automatch</h4>
+</div>
+<div class="modal-body">
+
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Automatch</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="c in channels">
+					<td>{{c.title}}</td>
+					<td>
+						<input type="text" class="form-control" ng-model="c.pluginData.OA.automatch" placeholder="ETSID, ADE" ng-list>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="cancel()"> Cancel </button>
+	<button type="button" class="btn btn-primary" ng-click="accept()" ng-disabled="updating">
+		<loader-field ng-show="updating"></loader-field> Ok
+	</button>
+</div>
