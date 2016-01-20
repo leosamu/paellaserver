@@ -8,11 +8,20 @@
 			{
 				label: "Sync with Youtube",
 				context: "channel",
-				
-				runAction: function(item, params) {
-					var deferred = $q.defer();
-					deferred.resolve();
-					return deferred.promise;
+				//role: "YOUTUBE_UPLOADER",
+				runAction: function(v) {
+					var task1 = {
+						task: "syncToYoutube",
+						targetType: "channel",
+						targetId: v._id,
+						error: false
+					};
+					
+					return TaskCRUD.save(task1).$promise;
+					//role: "YOUTUBE_UPLOADER",
+					//var deferred = $q.defer();
+					//deferred.resolve();
+					//return deferred.promise;
 				}
 			}
 		);
