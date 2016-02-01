@@ -8,7 +8,7 @@
 			{
 				context: "video",			
 				label: "Subir a Youtube",
-				//role: "YOUTUBE_UPLOADER",
+				role: "ADMIN",
 
 				runAction: function(v) {
 					var task1 = {
@@ -25,7 +25,6 @@
 					//return deferred.promise;
 				}
 			}
-		);
-						
+		);		
 	}]);	
 })();

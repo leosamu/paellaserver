@@ -1,23 +1,22 @@
 (function() {
-	var app = angular.module('adminPluginYoutube');
-	
-	
-	app.run(['Actions', '$q', 'TaskCRUD', function(Actions, $q, TaskCRUD) {
+	var plugin = angular.module('adminPluginYoutube');
+
+
+	plugin.run(['Actions', '$q', 'TaskCRUD', function(Actions, $q, TaskCRUD) {
 
 		Actions.registerAction(
 			{
+				label: "Upload videos to Youtube",
 				context: "channel",
-				label: "Sync with Youtube",
 				role: "ADMIN",
-				
 				runAction: function(v) {
 					var task1 = {
-						task: "syncToYoutube",
+						task: "uploadChannelToYoutube",
 						targetType: "channel",
 						targetId: v._id,
 						error: false
 					};
-					
+
 					return TaskCRUD.save(task1).$promise;
 					//role: "YOUTUBE_UPLOADER",
 					//var deferred = $q.defer();
@@ -26,5 +25,5 @@
 				}
 			}
 		);
-	}]);	
+	}]);
 })();
