@@ -1,0 +1,38 @@
+<div class="modal-header">
+	<h4 class="modal-title text-danger">Import OA info from Riunet</h4>
+</div>
+<div class="modal-body">
+
+	<form name="form" class="form-horizontal" novalidate>		
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Deste</label>
+			<div class="col-sm-10">				
+				<div class="input-group">
+					<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="fromDate" is-open="datePickerStartOpened" close-text="Close" disabled />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default" ng-click="datePickerStartOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</div>
+			</div>
+		</div>		
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Hasta</label>
+			<div class="col-sm-10">				
+				<div class="input-group">
+					<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="toDate" is-open="datePickerEndOpened" close-text="Close" disabled />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</div>
+			</div>
+		</div>	
+	</form>
+
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="cancel()"> Cancel </button>
+	<button type="button" class="btn btn-primary" ng-click="accept()" ng-disabled="updating">
+		<loader-field ng-show="updating"></loader-field> Ok
+	</button>
+</div>
