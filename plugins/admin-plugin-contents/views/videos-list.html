@@ -39,11 +39,11 @@
 		<div class="panel panel-primary">
 			<div class="panel-heading">			
 
-				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:15px;">				
-					<div class="btn-toolbar" role="toolbar">
-						<actions-dropdown elements="videos.list" type="'video'"></actions-dropdown>	
-						<admin-filter-directive class="btn-group" state-filters="state.videoFilters" available-filters="selectableFilters"></admin-filter-directive>
-					</div>
+				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:15px;">
+					<form class="navbar-form" novalidate>
+						<actions-dropdown elements="videos.list" type="'video'"></actions-dropdown>						
+						<admin-filters state-filters="state.videoFilters" type="'video'"></admin-filters>						
+					</form>				
 				</div>
 		
 				<h2>Videos</h2>
