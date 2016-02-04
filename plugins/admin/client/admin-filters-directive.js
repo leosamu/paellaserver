@@ -45,8 +45,8 @@
 
 						var typeLower = value.type.toLowerCase();
 						var body = '';
-						var pluginDirective = "admin-filter-" + typeLower;
-						var directiveName = "adminFilter" + typeLower[0].toUpperCase() + typeLower.slice(1) + "Directive";
+						var pluginDirective = "admin-filter-type-" + typeLower;
+						var directiveName = "adminFilterType" + typeLower[0].toUpperCase() + typeLower.slice(1) + "Directive";
 
 						if ($injector.has(directiveName)) {					
 							body = '<' + pluginDirective + ' filter="filterSelected" add-filter="addFilter(params)"></' + pluginDirective + '>';

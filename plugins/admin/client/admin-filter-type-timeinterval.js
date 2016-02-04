@@ -1,14 +1,14 @@
 (function() {
 	var plugin = angular.module('adminModule');	
 
-	plugin.directive('adminFilterTimeinterval', [function(){
+	plugin.directive('adminFilterTypeTimeinterval', [function(){
 		return {
 			restrict: 'E',
 			scope: {
 				filter: "=",
 				addFilter: "&"
 			},		
-			templateUrl: 'admin/views/directives/admin-filter-timeinterval.html',
+			templateUrl: 'admin/views/directives/admin-filter-type-timeinterval.html',
 			controller: ["$scope", function($scope) {
 			
 				$scope.addIntervalDateFilter = function() {
