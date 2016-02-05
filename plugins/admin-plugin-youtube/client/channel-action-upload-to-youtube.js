@@ -8,7 +8,7 @@
 			{
 				label: "Upload videos to Youtube",
 				context: "channel",
-				role: "ADMIN",
+				role: "YOUTUBE_UPLOADER",
 				runAction: function(v) {
 					var task1 = {
 						task: "uploadChannelToYoutube",

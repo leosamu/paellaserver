@@ -8,7 +8,7 @@
 			{
 				context: "channel",
 				label: "Sync with Youtube",
-				role: "ADMIN",
+				role: "YOUTUBE_UPLOADER",
 				
 				runAction: function(v) {
 					var task1 = {
