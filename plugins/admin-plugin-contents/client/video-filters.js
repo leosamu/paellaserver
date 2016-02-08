@@ -2,7 +2,7 @@
 	var app = angular.module('adminPluginVideos');
 
 	
-	app.run(['Filters' , function(Filters) {
+	app.run(['$q', 'Filters', 'CatalogCRUD', function($q, Filters, CatalogCRUD) {
 
 		Filters.registerFilter("video",
 			{
@@ -14,29 +14,28 @@
 		
 		Filters.registerFilter("video",
 			{
-				"label": "Catalogo",
-				"field": "catalog",
-				"type": "enum",
-				"values": [
-					{
-						"value": "polimedia", "label": "Polimedia (Valencia)"
-					},
-					{
-						"value": "polimedia_gandia", "label": "Polimedia (Gandia)"
-					},
-					{
-						"value": "polimedia_alcoi", "label": "Polimedia (Alcoi)"
-					},
-					{
-						"value": "ice", "label": "ICE"
-					},
-					{
-						"value": "arqt", "label": "ARQT"
-					},
-					{
-						"value": "tv", "label": "TV"
-					}
-				]
+				label: "Catalogo",
+				type: "enum",
+				values: function() {
+					var deferred = $q.defer();
+					CatalogCRUD.query({type:"videos", limit:100}).$promise.then(
+						function(v) {
+							var ret = [];
+							v.list.forEach(function(e){
+								ret.push({
+									value: e._id,
+									label: e._id + " - " + e.description
+								});
+							})
+							deferred.resolve(ret);
+						},
+						function() {
+							deferred.reject();
+						}
+					);
+					return deferred.promise;
+				},
+				field: "catalog"				
 			}
 		);
 		
