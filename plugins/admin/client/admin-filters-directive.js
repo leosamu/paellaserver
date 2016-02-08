@@ -29,6 +29,7 @@
 						value: params
 					});
 					
+					$scope.customFilterElement[0].innerHTML="";
 					$scope.filterSelected = null;
 					$scope.addingFilter = false;
 				}
