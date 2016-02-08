@@ -6,6 +6,7 @@
 			'query': {method: 'GET', isArray: false },
 			'update': {method: 'PATCH'},
 			'parents' : {method: 'GET', isArray: false, url: '/rest/plugins/admin/CRUD/videos/:id/parents' },
+			'search' : {method: 'GET', isArray: false, url: '/rest/plugins/admin/CRUD/search/videos' }
 		});
 	}]);
 
@@ -14,6 +15,7 @@
 			'query': {method: 'GET', isArray: false },
 			'update': {method: 'PATCH'},
 			'parents' : {method: 'GET', isArray: false, url: '/rest/plugins/admin/CRUD/channels/:id/parents' },			
+			'search' : {method: 'GET', isArray: false, url: '/rest/plugins/admin/CRUD/search/channels' }
 		});
 	}]);
 

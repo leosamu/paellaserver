@@ -110,7 +110,7 @@
 					}		
 					$scope.loadingVideos = true;
 					$scope.timeoutReload = $timeout(function() {			
-						VideoCRUD.query({limit:$scope.state.itemsPerPage, skip:($scope.currentPage-1)*$scope.state.itemsPerPage, filters:$scope.filterQuery})
+						VideoCRUD.search({limit:$scope.state.itemsPerPage, skip:($scope.currentPage-1)*$scope.state.itemsPerPage, filters:$scope.filterQuery})
 						.$promise.then(function(data){
 							$scope.videos = data;
 							$scope.loadingVideos = false
@@ -187,7 +187,7 @@
 					}		
 					$scope.loadingChannels = true;
 					$scope.timeoutReload = $timeout(function() {			
-						ChannelCRUD.query({limit:$scope.state.itemsPerPage, skip:($scope.currentPage-1)*$scope.state.itemsPerPage, filters:$scope.filterQuery})
+						ChannelCRUD.search({limit:$scope.state.itemsPerPage, skip:($scope.currentPage-1)*$scope.state.itemsPerPage, filters:$scope.filterQuery})
 						.$promise.then(function(data){
 							$scope.channels = data;
 							$scope.loadingChannels = false
