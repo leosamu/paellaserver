@@ -75,6 +75,7 @@
 									</div>
 								</div>
 
+<!--
 								<div class="form-group has-feedback" ng-class="{'has-error': !form.type.$valid}">
 									<label class="col-sm-2 control-label">Type</label>
 									<div class="col-sm-10">
@@ -85,12 +86,21 @@
 										</select>
 									</div>
 								</div>
-								
+-->
+
 								<div class="form-group has-feedback" ng-class="{'has-error': !form.repository.$valid}">
-									<label class="col-sm-2 control-label">Default repository</label>
+									<label class="col-sm-2 control-label">Videos default repository</label>
 									<div class="col-sm-10">
 										<repository-select repository="catalog.defaultRepository"></repository-select>
-										<input name="repository" required ng-model="catalog.defaultRepository" style="display:none;"></div>
+										<input name="repository" required ng-model="catalog.defaultRepository" style="display:none;">
+									</div>
+								</div>
+								
+								<div class="form-group has-feedback" ng-class="{'has-error': !form.repositoryChannel.$valid}">
+									<label class="col-sm-2 control-label">Channels default repository</label>
+									<div class="col-sm-10">
+										<repository-select repository="catalog.defaultRepositoryForChannels"></repository-select>
+										<input name="repositoryChannel" required ng-model="catalog.defaultRepositoryForChannels" style="display:none;">
 									</div>
 								</div>
 								
