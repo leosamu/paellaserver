@@ -37,8 +37,8 @@ function getUPVRoles(user,done) {
 						});
 						
 						result.rows.forEach(function(r){
-							var role1 = ["ROLE", r[columns.TIPOASI], r[columns.ASI], r[columns.EDICION], r[columns.PERFIL]].join("_").toUpperCase();
-							var role2 = ["ROLE", r[columns.TIPOASI], r[columns.ASI], r[columns.PERFIL]].join("_").toUpperCase();
+							var role1 = ["SAKAI", r[columns.TIPOASI], r[columns.ASI], r[columns.EDICION], r[columns.PERFIL]].join("_").toUpperCase();
+							var role2 = ["SAKAI", r[columns.TIPOASI], r[columns.ASI], r[columns.PERFIL]].join("_").toUpperCase();
 							user.roles.push(role1);
 							user.roles.push(role2);
 						});
@@ -74,6 +74,7 @@ exports.init = function(app) {
 			.select('-' + passwField)
 			.populate('roles')
 			.exec(function(err,data) {
+				data.roles.push('USER');
 				data.roles.push('ROLE_' + data["_id"]);
 				getUPVRoles(data,done);
 			});
@@ -109,7 +110,11 @@ exports.init = function(app) {
 			var passwField = configure.config.security.passwField;
 			var query = {};
 			query[loginField] = username;
+			
+			
+			var passwField = configure.config.security.passwField;			
 			User.findOne(query)
+				.populate('roles')			
 				.exec(function(err,user) {
 					if (err) {
 						done(err);
