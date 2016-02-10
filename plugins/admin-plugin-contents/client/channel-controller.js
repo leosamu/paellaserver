@@ -10,8 +10,15 @@
 			children:[],
 			pluginData: {},
 			repository: {},
-			creationDate: new Date()
-		};
+			creationDate: new Date(),
+			catalog: null
+		};		
+		CatalogCRUD.query({type:"catalog"}).$promise.then(function(catalogs){
+			var defaultCatalog;
+			if (catalogs.list.length == 1) {
+				$scope.channel.catalog = catalogs.list[0]._id;
+			}				
+		});
 		
 		
 		$scope.$watch('channel.catalog', function(catalog) {
@@ -28,7 +35,9 @@
 				
 			}
 			else {
-				$scope.channel.repository = null;				
+				if ($scope.channel) {
+					$scope.channel.repository = null;
+				}
 			}
 		});
 		
