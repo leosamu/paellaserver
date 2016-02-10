@@ -49,7 +49,7 @@ exports.routes = {
 	createModel: {
 		post: [
 			AuthController.EnsureAuthenticatedOrDigest,
-			AuthController.CheckRole(['ADMINISTRATOR_UI', 'ADMIN']),			
+			AuthController.CheckRole(['ADMINISTRATION_UI', 'ADMIN']),			
 			function(req,res) {			
 				var item = new Model(req.body);
 				
