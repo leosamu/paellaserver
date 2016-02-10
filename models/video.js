@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var uuid = require('mongoose-uuid');
+var uuid = require('./plugins/mongoose-uuid');
 
 
 var SliceSchema = new Schema({
@@ -100,7 +100,7 @@ var VideoSchema = new Schema({
 	slices: [SliceSchema]
 }, {_id:false});
 
-VideoSchema.plugin(uuid.plugin, 'Video');
+VideoSchema.plugin(uuid.plugin);
 
 module.exports = mongoose.model('Video',VideoSchema);
 module.exports.schema = VideoSchema;

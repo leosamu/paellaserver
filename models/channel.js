@@ -1,7 +1,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var uuid = require('mongoose-uuid');
+var uuid = require('./plugins/mongoose-uuid');
 
 
 var ChannelSchema = new Schema({
