@@ -88,11 +88,11 @@
 						$window.history.back();
 					}
 					else {
-						return MessageBox("Video actualizado", "El video se ha actualizado correctamente.");
+						return MessageBox("Video actualizado", "Channel updated correctly.");
 					}
 				},
 				function() {
-					return MessageBox("Error", "Ha ocurrido un error al actualizar el video.");
+					return MessageBox("Error", "An error has happened updating the channel.");
 				}
 			).finally(function(){
 				$scope.updating = false;
