@@ -19,7 +19,7 @@
 				CatalogCRUD.get({id:catalog}).$promise
 				.then(
 					function(c) {						
-						$scope.channel.repository = {_id: c.defaultRepository};
+						$scope.channel.repository = {_id: c.defaultRepositoryForChannels};
 					},
 					function() {
 						$scope.channel.repository = null;

@@ -18,8 +18,8 @@ exports.routes = {
 			AuthController.EnsureAuthenticatedOrDigest,
 			function(req,res) {			
 				var skip = req.query.skip || 0;
-				var limit = req.query.limit || 10;
-				var type = req.query.type;
+				var limit = req.query.limit || 100;
+				//var type = req.query.type;
 				
 				var filters = {}; //JSON.parse(new Buffer((req.query.filters), 'base64').toString());
 					
@@ -28,10 +28,12 @@ exports.routes = {
 				var query = {};
 				if (!isAdmin){
 					query = {permissions: {$elemMatch: { role: {$in: roles}, write: true }}};
-				}					
+				}
+				/*					
 				if (type) {
 					query.type = type;
-				}			
+				}
+				*/			
 				Model.find(query).count().exec(function(errCount, count) {
 					if(errCount) { return res.sendStatus(500); }
 					

@@ -5,8 +5,7 @@
 	plugin.controller("AdminCatalogsNewController", ["$scope", "$modal", "MessageBox", "CatalogCRUD", 
 	function($scope, $modal, MessageBox, CatalogCRUD) {
 		$scope.updating = false;
-		$scope.catalog = {}
-				
+		$scope.catalog = {};
 		
 		$scope.createCatalog = function() {
 			$scope.updating = true
@@ -25,10 +24,7 @@
 				}
 			).finally(function(){
 				$scope.updating = false;
-			});
-
-			
-			
+			});			
 		}	
 	}]);
 

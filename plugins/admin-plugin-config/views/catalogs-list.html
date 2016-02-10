@@ -62,11 +62,7 @@
 						</thead>
 						<tbody ng-hide="loadingVideos">
 							<tr ng-repeat="c in catalogs.list" ng-class="{danger:t.error, success:t.processing}">
-								<td>
-									<span class="glyphicon glyphicon-film" aria-hidden="true" ng-if="c.type=='videos'"></span>
-									<span class="glyphicon glyphicon-list" aria-hidden="true" ng-if="c.type=='channels'"></span>
-									 {{c._id}}
-									</td>
+								<td>{{c._id}}</td>
 								<td>{{c.description}}</td>
 								<td>
 									<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':c.canBeDeletedByOwner, 'glyphicon-remove':(!c.canBeDeletedByOwner)}">
