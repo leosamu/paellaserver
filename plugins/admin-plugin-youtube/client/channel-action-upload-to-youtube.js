@@ -8,20 +8,16 @@
 			{
 				label: "Upload videos to Youtube",
 				context: "channel",
-				role: "ADMIN",
-				runAction: function(v) {
+				role: "YOUTUBE_UPLOADER",
+				runAction: function(ch) {
 					var task1 = {
 						task: "uploadChannelToYoutube",
 						targetType: "channel",
-						targetId: v._id,
+						targetId: ch._id,
 						error: false
 					};
 
 					return TaskCRUD.save(task1).$promise;
-					//role: "YOUTUBE_UPLOADER",
-					//var deferred = $q.defer();
-					//deferred.resolve();
-					//return deferred.promise;
 				}
 			}
 		);

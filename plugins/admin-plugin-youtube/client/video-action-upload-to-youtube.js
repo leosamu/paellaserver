@@ -8,7 +8,7 @@
 			{
 				context: "video",			
 				label: "Subir a Youtube",
-				role: "ADMIN",
+				role: "YOUTUBE_UPLOADER",
 
 				runAction: function(v) {
 					var task1 = {
