@@ -74,18 +74,14 @@ exports.routes = {
 					return (CatalogController.CheckWriteInCatalog(item.catalog))(req,res,next);
 				})
 			},			
-			function(req,res) {			
-				Video.findByIdAndUpdate({"_id": req.params.id }, req.body, function(err, item) {
-					if(err) { return res.sendStatus(500); }
-					if (item) {
-						res.status(204).send(item);
+			function(req,res) {
+				Video.update({"_id": req.params.id }, req.body, {overwrite: true}, function(err) {
+					if(err) { 
+						return res.sendStatus(500);
 					}
-					else {
-						res.sendStatus(500);
-					}
+					res.status(204);
 				});
 			}
 		]
 	}
-	
 }

@@ -36,18 +36,11 @@ exports.routes = {
 		patch: [
 			AuthController.CheckRole(['ADMIN']),
 			function(req,res) {
-				console.log(req.body);
-				Model.findByIdAndUpdate({"_id": req.params.id }, req.body, function(err, item) {
+				Model.update({"_id": req.params.id }, req.body, {overwrite: true}, function(err) {
 					if(err) { 
-						console.log(err);
-						return res.sendStatus(500); }
-					if (item) {
-						res.status(204).send(item);
+						return res.sendStatus(500);
 					}
-					else {
-						console.log("**");
-						res.sendStatus(500);
-					}
+					res.status(204);
 				});
 			}
 		]
