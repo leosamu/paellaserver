@@ -97,10 +97,78 @@ var VideoSchema = new Schema({
 			write: { type: Boolean, default:false }
 		}
 	],
-	slices: [SliceSchema]
+	slices: [SliceSchema],
+	search: {
+		id: { type:String },
+		title: { type:String },
+		owner: { type:String },	
+		transcription: { type:String }
+	}
 }, {_id:false});
 
 VideoSchema.plugin(uuid.plugin);
+
+
+
+
+VideoSchema.methods.updateSearchIndex = function () {
+	function toAccentInsensitiveString(text) {
+		if (text) {
+			text = text.replace(RegExp("[aàáâãäå]","ig"),'a');
+			text = text.replace(RegExp("[eèéêëẽ]","ig"),'e');
+			text = text.replace(RegExp("[iìíîïĩ]","ig"),'i');
+			text = text.replace(RegExp("[oðòóôõöø]","ig"),'o');
+			text = text.replace(RegExp("[uùúûü]","ig"),'u');
+			text = text.replace(RegExp("ñ","ig"),'n');
+			text = text.replace(RegExp("ç","ig"),'c');
+		}
+		else {
+			text = "";
+		}
+		return text;
+	}
+	
+	function removeDuplicate(text) {
+		return text.split(' ').filter(function(item,i,allItems){
+			return i==allItems.indexOf(item);
+		}).join(' ');
+	}
+
+	var self = this;
+	this.model('User').find({_id:{$in:self.owner}}, function(err, users) {
+		if (err) { return; }
+		
+		var ownersNames = [];
+		users.forEach(function(user){
+			var name = "";
+			name = name + ( user.contactData.lastName || "" ) + " ";
+			name = name + ( user.contactData.name || "" ) + " ";
+			name = name + ( user.contactData.email || "" ) + " ";
+			
+			name = removeDuplicate(toAccentInsensitiveString(name.toLowerCase()));
+			console.log (name);
+			ownersNames.push(name);			
+		});
+		
+		var titleText = self.title || "";
+		titleText = removeDuplicate(toAccentInsensitiveString(titleText.toLowerCase()));
+		self.model('Video').update(
+			{_id: self._id},
+			{ $set: { 
+				search: {
+					id:	self._id,
+					title: titleText,
+					owner: ownersNames,
+					transcription: ''
+				}
+			}}			
+		);
+	});
+}
+
+
+
+
 
 module.exports = mongoose.model('Video',VideoSchema);
 module.exports.schema = VideoSchema;

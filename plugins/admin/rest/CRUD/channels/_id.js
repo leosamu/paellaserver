@@ -76,6 +76,10 @@ exports.routes = {
 			function(req,res) {			
 				Model.update({"_id": req.params.id }, req.body, {overwrite: true}, function(err) {
 					if(err) { return res.sendStatus(500); }
+					
+					Model.findOne({"_id": req.params.id }, function(err, ch) {
+						if (ch) {ch.updateSearchIndex()}	
+					});				
 					res.sendStatus(204);
 				});
 			}

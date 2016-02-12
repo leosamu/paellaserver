@@ -79,6 +79,10 @@ exports.routes = {
 					if(err) { 
 						return res.sendStatus(500);
 					}
+					
+					Video.findOne({"_id": req.params.id }, function(err, video) {
+						if (video) {video.updateSearchIndex()}	
+					});						
 					res.sendStatus(204);
 				});
 			}
