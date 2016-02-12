@@ -9,18 +9,26 @@
 			},
 			controller: ['$scope', function($scope){
 				$scope.addPermission = function() {
-					$scope.permissions.push({
-						role: $scope.addRoleText,
-						read: $scope.addRoleRead,
-						write: $scope.addRoleWrite
+					var exist = $scope.permissions.some(function(element, index, array) {
+						return (element.role == $scope.addRoleText);
 					});
-					$scope.addRoleText = null;
-					$scope.addRoleRead = false;
-					$scope.addRoleWrite = false;
+					if (exist == false) {
+						$scope.permissions.push({
+							role: $scope.addRoleText,
+							read: $scope.addRoleRead,
+							write: $scope.addRoleWrite
+						});
+						$scope.addRoleText = null;
+						$scope.addRoleRead = false;
+						$scope.addRoleWrite = false;
+					}
 				};
 				
 				$scope.deletePermission = function(p) {
-					console.log(p);
+					var index = $scope.permissions.indexOf(p);					
+					if (index > -1) {
+						$scope.permissions.splice(index, 1);
+					}
 				}
 			}],
 			templateUrl: 'admin-plugin-contents/views/directives/permissions-editor.html'
