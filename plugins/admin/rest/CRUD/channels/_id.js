@@ -76,7 +76,7 @@ exports.routes = {
 			function(req,res) {			
 				Model.update({"_id": req.params.id }, req.body, {overwrite: true}, function(err) {
 					if(err) { return res.sendStatus(500); }
-					res.status(204);
+					res.sendStatus(204);
 				});
 			}
 		]

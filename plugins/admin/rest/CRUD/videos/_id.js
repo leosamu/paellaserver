@@ -79,7 +79,7 @@ exports.routes = {
 					if(err) { 
 						return res.sendStatus(500);
 					}
-					res.status(204);
+					res.sendStatus(204);
 				});
 			}
 		]
