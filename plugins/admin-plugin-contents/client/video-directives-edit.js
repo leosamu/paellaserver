@@ -174,21 +174,84 @@
 		return {
 			restrict: 'E',
 			scope: {
-				videoId: "="
+				videoId: "=",
+				parentChannels: "=channels"
 			},
 			templateUrl: 'admin-plugin-contents/views/directives/video-edit-parents-channels.html',
-			controller: ['$scope', 'VideoCRUD', function($scope, VideoCRUD) {
-				$scope.loadingChannels = true;
+									
+			
+			controller: ["$scope", "$modal", "$base64", "$timeout", "ChannelCRUD", "Filters", "AdminState", "MessageBox", 'VideoCRUD', 
+			function($scope, $modal, $base64, $timeout, ChannelCRUD, Filters, AdminState, MessageBox, VideoCRUD) {
+				$scope.loadingParentChannels = true;
+				$scope.detailView = false;
+
+				$scope.state=AdminState;		
+				$scope.currentPage=1;
+				$scope.filterQuery = null;
+				$scope.selectableFilters = Filters.$get("channel");		
+				$scope.timeoutReload = null;
+				$scope.timeoutSearchText = null;	
+				
+				$scope.$watch('state.channelFilters', function(){ 
+					if ($scope.state.channelFilters) {
+						var final_query = Filters.makeQuery($scope.state.channelFilters.filters || [], $scope.state.channelFilters.searchText);
+						$scope.filterQuery = $base64.encode(JSON.stringify(final_query));
+						$scope.reloadChannels();
+					}
+				}, true );
+			
+				$scope.$watch('currentPage', function(){ $scope.reloadChannels(); });
+				
+				$scope.reloadChannels = function(){
+					if ($scope.timeoutReload) {
+						$timeout.cancel($scope.timeoutReload);
+					}		
+					$scope.loadingChannels = true;
+					$scope.timeoutReload = $timeout(function() {			
+						ChannelCRUD.query({limit:$scope.state.itemsPerPage, skip:($scope.currentPage-1)*$scope.state.itemsPerPage, filters:$scope.filterQuery})
+						.$promise.then(function(data){
+							$scope.channels = data;
+							$scope.loadingChannels = false
+							$scope.timeoutReload = null;
+						});
+					}, 500);
+				};				
+				
+				
 				$scope.$watch('videoId', function(){
 					if ($scope.videoId) {				
 						$scope.loadingChannels = true;
 						VideoCRUD.parents({id: $scope.videoId}).$promise
 						.then(function(channels){
-							$scope.channels = channels;
-							$scope.loadingChannels = false;
+							$scope.parentChannels = channels.list;
+							$scope.loadingParentChannels = false;
 						});
 					}
+					else {
+						$scope.parentChannels = [];
+						$scope.loadingParentChannels = false;						
+					}
 				});
+				
+				$scope.existsChannelInChannel = function(c) {
+					return $scope.parentChannels.some(function(e,i){ return (e._id == c._id);});
+				}
+				
+				$scope.addChannel = function(c) {
+					$scope.parentChannels.push(c);
+				}
+				$scope.removeChannel = function(c) {
+					var idx = -1;
+					$scope.parentChannels.some(function(e,i){
+						if (e._id == c._id) {
+							idx = i;
+							return true;
+						}
+					});
+					if (idx >= 0) {
+						$scope.parentChannels.splice(idx,1);
+					}
+				}
 			}]
 		}
 	});	

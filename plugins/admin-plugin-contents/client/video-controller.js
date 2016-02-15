@@ -2,7 +2,7 @@
 	var app = angular.module('adminPluginVideos');
 	
 	
-	app.controller("AdminVideosNewController", ["$scope", "$window", "MessageBox", "VideoCRUD", "CatalogCRUD", "User", "UploadQueue", function($scope, $window, MessageBox, VideoCRUD, CatalogCRUD, User, UploadQueue){
+	app.controller("AdminVideosNewController", ["$q", "$scope", "$window", "MessageBox", "VideoCRUD", "ChannelCRUD", "CatalogCRUD", "User", "UploadQueue", function($q, $scope, $window, MessageBox, VideoCRUD, ChannelCRUD, CatalogCRUD, User, UploadQueue){
 		$scope.updating = false;
 		
 		CatalogCRUD.query({type:"videos"}).$promise.then(function(catalogs){
@@ -43,7 +43,7 @@
 			}			
 		});
 		
-		$scope.createVideo = function() {
+		$scope.createVideo = function() {		
 			$scope.updating = true;
 			VideoCRUD.save($scope.video).$promise.then(
 				function(v) {
@@ -51,7 +51,20 @@
 						_id: v._id,
 						title: v.title
 					});
-					return MessageBox("Video creado", "El video se ha creado correctamente.");				
+					
+					var parents = [];
+					$scope.parentChannels.forEach(function(pc){
+						parents.push( ChannelCRUD.addVideo({parent:pc._id, video:v._id}).$promise );
+					});
+					
+					$q.all(parents).then(
+						function() {
+							return MessageBox("Video creado", "El video se ha creado correctamente.");							
+						},
+						function() {
+							return MessageBox("Video creado con problemas", "El video se ha creado correctamente, pero no se ha podido añadir a alguno de los canales.");
+						}
+					);
 				},
 				function() {
 					return MessageBox("Error", "Ha ocurrido un error al crear el video.");
@@ -66,7 +79,8 @@
 	
 	
 	
-	app.controller("AdminVideosEditController", ["$scope","$routeParams", "$window", "MessageBox", "VideoCRUD", function($scope, $routeParams, $window, MessageBox, VideoCRUD){	
+	app.controller("AdminVideosEditController", ["$q", "$scope","$routeParams", "$window", "MessageBox", "VideoCRUD", "ChannelCRUD",
+	function($q, $scope, $routeParams, $window, MessageBox, VideoCRUD, ChannelCRUD){	
 		$scope.updating = false;
 
 		VideoCRUD.get({id: $routeParams.id}).$promise.then(function(v){
@@ -85,12 +99,35 @@
 			$scope.updating = true;
 			VideoCRUD.update($scope.video).$promise.then(
 				function() {
-					if ($window.history.length > 1) {
-						$window.history.back();
-					}
-					else {
-						return MessageBox("Video actualizado", "El video se ha actualizado correctamente.");
-					}
+					var actions = [];								
+					VideoCRUD.parents({id: $scope.video._id, limit: 1000}).$promise
+					.then(function(parentsNow){
+						// Remove videos
+						parentsNow.list.forEach(function(c1){
+							var exist = $scope.parentChannels.some(function(c2){ return (c1._id == c2._id); });
+							if (!exist) {
+								actions.push( ChannelCRUD.removeVideo({parent:c1._id, video:$scope.video._id}).$promise );								
+							}							
+						});
+						// Add videos
+						$scope.parentChannels.forEach(function(pc) {
+							actions.push( ChannelCRUD.addVideo({parent:pc._id, video:$scope.video._id}).$promise );
+						});
+						// Wait for actions to finish
+						$q.all(actions).then(
+							function() {
+								if ($window.history.length > 1) {
+									$window.history.back();
+								}
+								else {
+									return MessageBox("Video actualizado", "El video se ha actualizado correctamente.");
+								}
+							},
+							function() {
+								return MessageBox("Video actualizado con problemas", "El video se ha creado correctamente, pero no se ha podido añadir a alguno de los canales.");
+							}
+						);
+					});					
 				},
 				function() {
 					return MessageBox("Error", "Ha ocurrido un error al actualizar el video.");
