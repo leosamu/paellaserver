@@ -78,8 +78,7 @@ exports.routes = {
 				Video.update({"_id": req.params.id }, req.body, {overwrite: true}, function(err) {
 					if(err) { 
 						return res.sendStatus(500);
-					}
-					
+					}					
 					Video.findOne({"_id": req.params.id }, function(err, video) {
 						if (video) {video.updateSearchIndex()}	
 					});						
