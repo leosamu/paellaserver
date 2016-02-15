@@ -23,6 +23,12 @@
 				
 				$scope.deletePermission = function(p) {
 					console.log(p);
+					
+					var index = $scope.permissions.indexOf(p);					
+					if (index > -1) {
+						$scope.permissions.splice(index, 1);
+					}
+					
 				}
 			}],
 			templateUrl: 'admin-plugin-config/views/directives/catalog-permissions-editor.html'
