@@ -1,0 +1,148 @@
+<main>		
+
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+    
+				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>				
+					<li>
+						<a href="#/admin/users">
+				    		Usuarios
+				    	</a>
+				    </li>
+					<li class="active">
+						<a href="#/admin/roles">
+				    		Roles
+				    	</a>
+				    </li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>	
+		<div style="height: 30px;"></div>
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+			
+				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:15px;">
+					<form class="navbar-form" novalidate>
+						<actions-dropdown elements="users.list" type="'user'"></actions-dropdown>						
+						<admin-filters state-filters="state.userFilters" type="'user'"></admin-filters>						
+					</form>				
+				</div>			
+			
+				<h2>Usuarios con el rol {{role._id}}</h2>
+				<h6>{{users.total}} usuarios</h6>
+			
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></th>
+								<th>Nombre</th>
+								<th>Apellidos</th>
+								<th>E-mail</th>
+								<th>Telefono</th>
+								<th width="80px;">Acciones</th>
+							</tr>
+						</thead>
+						<tbody ng-hide="loadingVideos">
+							<tr ng-repeat="u in users.list">
+								<td><input type="checkbox" ng-model="u.selected"></td>							
+								<td>{{u.contactData.name}}</td>
+								<td>{{u.contactData.lastName}}</td>
+								<td>{{u.contactData.email}}</td>
+								<td>{{u.contactData.phone}}</td>
+								
+								<td>
+									<div class="btn-toolbar" role="toolbar">
+										<div class="btn-group" role="group">
+											<a class="btn btn-xs btn-default" href="#/admin/users/edit/{{u._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+											<button class="btn btn-xs btn-danger" ng-click="removeRoleFromUser(u)"> <span class="glyphicon glyphicon-minus"></span> </button>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<loader ng-show="loadingVideos"></loader>			
+				</div>		
+			</div>
+		</div>
+		
+		
+		<div>
+			<div role="toolbar" class="btn-toolbar">
+				<div class="btn-group" style="margin-top:-20px">
+					<pagination total-items="users.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+				</div>
+
+				<div class="btn-group pull-right">
+					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadRoles()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+			</div>
+			
+		</div>
+				
+	</section>
+</main>
+
+
+
+<script type="text/ng-template" id="runVideoAction.html">
+	<div class="modal-header">
+		<h4 class="modal-title text-danger">Realizando la acción</h4>
+	</div>
+	<div class="modal-body">
+		<p>{{action.label}}</p>
+		
+		<uib-progress class="active" ng-class="{'progress-striped':(successCompleted+successError)<totalActions}">
+			<uib-bar type="success" value="100*(successCompleted/totalActions)">
+				<span ng-show="successCompleted>0">{{successCompleted}}/{{totalActions}}</span>
+			</uib-bar>
+			<uib-bar type="danger" value="100*(successError/totalActions)">
+				<span ng-show="successError>0">{{successError}}/{{totalActions}}</span>
+			</uib-bar>
+		</uib-progress>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-primary" ng-click="accept()" ng-disabled="(successCompleted+successError)<totalActions">Continuar</button>
+	</div>	
+</script>
+
+<script type="text/ng-template" id="confirmRemoveRole.html">
+	<div class="modal-header">
+		<h4 class="modal-title text-danger">¿Estás seguro?</h4>
+	</div>
+	<div class="modal-body">
+		<p>¿Estás seguro de querer el role a este usuario?</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>
+		<button type="button" class="btn btn-danger" ng-click="accept()">Si</button>
+	</div>	
+</script>

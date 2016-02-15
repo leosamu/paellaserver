@@ -33,6 +33,10 @@
 				templateUrl: 'admin-plugin-users/views/roles-new.html',
 				controller: "AdminRolesNewController"
 			})
+			.when('/admin/roles/users/:id', {
+				templateUrl: 'admin-plugin-users/views/roles-users.html',
+				controller: "AdminRolesUsersController"
+			})
 	}]);
 
 
