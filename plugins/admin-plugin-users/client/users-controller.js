@@ -79,7 +79,17 @@
 		};
 
 		$scope.switchUser = function(id) {
-			return MessageBox("TODO", "Feature not implemented yed.");
+			UserCRUD.switchUser({_id:id}).$promise.then(
+				function(){
+					MessageBox("User switch", "User switched correctly")
+					.then(function(){
+						window.location.href = '/';
+					});	
+				},
+				function(){
+					MessageBox("Error", "An error has happened switching to other user.");
+				}
+			)
 		}
 
 		$scope.deleteUser = function(id) {
