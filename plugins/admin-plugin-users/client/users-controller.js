@@ -42,8 +42,8 @@
 	}]);
 	
 	
-	app.controller("AdminUsersListController", ["$scope", "$modal", "$base64", "$timeout", "UserCRUD", "Filters", "AdminState", 
-	function($scope, $modal, $base64, $timeout, UserCRUD, Filters, AdminState) {
+	app.controller("AdminUsersListController", ["$scope", "$modal", "$base64", "$timeout", "UserCRUD", "Filters", "AdminState", "MessageBox",
+	function($scope, $modal, $base64, $timeout, UserCRUD, Filters, AdminState, MessageBox) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
@@ -78,6 +78,9 @@
 			}, 500);
 		};
 
+		$scope.switchUser = function(id) {
+			return MessageBox("TODO", "Feature not implemented yed.");
+		}
 
 		$scope.deleteUser = function(id) {
 			var modalInstance = $modal.open({
@@ -89,7 +92,7 @@
 						$modalInstance.dismiss();
 					};
 					$scope.accept = function () {
-						console.log("TODO")
+						MessageBox("TODO", "Feature not implemented yed.");
 						$modalInstance.close();
 					};
 				}

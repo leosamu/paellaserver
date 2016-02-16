@@ -60,7 +60,7 @@
 								<th>Apellidos</th>
 								<th>E-mail</th>
 								<th>Telefono</th>
-								<th width="80px;">Acciones</th>
+								<th width="100px;">Acciones</th>
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingVideos">
@@ -76,6 +76,9 @@
 										<div class="btn-group" role="group">
 											<a class="btn btn-xs btn-default" href="#/admin/users/edit/{{u._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
 											<button class="btn btn-xs btn-danger" ng-click="deleteUser(u._id)"> <span class="glyphicon glyphicon-remove"></span> </button>
+										</div>
+										<div class="btn-group" role="group">
+											<button class="btn btn-xs btn-warning" ng-click="switchUser(u._id)"> <span class="glyphicon glyphicon-transfer"></span> </button>
 										</div>
 									</div>
 								</td>
