@@ -41,13 +41,14 @@
 				<h2>Nuevo canal</h2>
 			</div>
 			<div class="panel-body">
-				<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
+				<ul class="nav nav-tabs" ng-init="tab=1">
 					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Información básica</a></li>
 					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>Información avanzada</a></li>					
 					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Canales <span class="badge">{{channel.children.length || 0}}</span></a></li>
 					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Videos <span class="badge">{{channel.videos.length || 0}}</span></a></li>
 					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Plugins </a></li>					
-					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Permisos</a></li>					
+					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Permisos</a></li>
+					<li role="presentation" ng-click="tab=7" ng-class="{active:tab==7}"><a href>Canales que incluyen este canal</a></li>					
 				</ul>
 				
 				
@@ -76,7 +77,11 @@
 			
 							<div class="tab-pane" ng-show="tab==6">
 								<permissions-editor permissions="channel.permissions"></permissions-editor>
-							</div>	
+							</div>
+							<div class="tab-pane" ng-show="tab==7">
+								<channel-edit-parents-channels channel-id="channel._id" channels="parentChannels"></channel-edit-parents-channels>
+							</div>									
+							
 						</form>
 					</div>
 				</div>

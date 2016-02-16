@@ -6,7 +6,6 @@
 					<th>Fecha</th>
 					<th>Título</th>
 					<th>Autor</th>
-					<th># V/Ch</th>
 					<th>Catalog</th>
 					<th width="90px">Acciones</th>
 				</tr>
@@ -16,7 +15,6 @@
 					<td>{{c.creationDate | amDateFormat:'ll'}}</td>
 					<td>{{c.title}}</td>
 					<td>{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}</td>
-					<td>{{c.videos.length || 0}} / {{c.children.length || 0}}</td>
 					<td>{{c.catalog}}</td>
 					<td>
 						<div class="btn-toolbar" role="toolbar">
@@ -62,7 +60,6 @@
 								<th>Fecha</th>
 								<th>Título</th>
 								<th>Autor</th>
-								<th># V/Ch</th>
 								<th>Catalog</th>
 								<th width="110px">Acciones</th>
 							</tr>
@@ -72,7 +69,6 @@
 								<td>{{c.creationDate | amDateFormat:'ll'}}</td>
 								<td>{{c.title}}</td>
 								<td>{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}</td>
-								<td>{{c.videos.length || 0}} / {{c.children.length || 0}}</td>
 								<td>{{c.catalog}}</td>
 								<td>
 									<div class="btn-toolbar" role="toolbar">
@@ -86,7 +82,6 @@
 											<button class="btn btn-xs btn-default" ng-click="removeChannel(c)" ng-show="existsChannelInChannel(c)">
 												<span class="glyphicon glyphicon-minus"></span>
 											</button>
-
 										</div>
 									</div>
 								</td>
@@ -114,12 +109,8 @@
 					</div>
 				</div>				
 			</div>
-		</div>
-
-
-
-
-		
+		</div>		
 	</div>
+	
 </div>
 <loader ng-show="loadingParentChannels"></loader>			
