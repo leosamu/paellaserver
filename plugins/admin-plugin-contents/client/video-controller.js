@@ -17,6 +17,7 @@
 				source: { type: 'polimedia' },
 				published: { status: true },
 				owner: [User.current()],
+				operator: [User.current()],
 				pluginData: {
 					unesco: { codes:[] }
 				},

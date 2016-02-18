@@ -10,15 +10,10 @@
 	</div>
 </div>
 			
-<div class="form-group">
+<div class="form-group has-feedback">
 	<label class="col-sm-2 control-label">Operador de grabación</label>
-	<div class="col-sm-10">						
-		<div class="input-group">
-			<input type="text" class="form-control" value="{{video.source.videos[0].operator}}" disabled />
-			<span class="input-group-btn">
-				<button type="button" class="btn btn-default"><i class="glyphicon glyphicon-user"></i></button>
-			</span>
-		</div>			
+	<div class="col-sm-10">
+		<owners-select-or-create owners="video.operator"></owners-select-or-create>
 	</div>
 </div>
 
@@ -49,6 +44,17 @@
 		<div class="checkbox">
 			<label>
 				<input type="checkbox" ng-model="video.hideSocial"> Desabilitar el botón de compartir
+			</label>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Pendiente de procesar</label>
+	<div class="col-sm-10">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="video.unprocessed"> Pendiente de procesar
 			</label>
 		</div>
 	</div>

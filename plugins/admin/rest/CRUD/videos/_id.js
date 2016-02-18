@@ -18,6 +18,7 @@ exports.routes = {
 						Video.findOne(query)
 						.populate('repository')
 						.populate('owner')					
+						.populate('operator')					
 						.exec(function(err, item) {
 							if(err) { return res.sendStatus(500); }
 							

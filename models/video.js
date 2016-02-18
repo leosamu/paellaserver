@@ -45,7 +45,8 @@ var VideoSchema = new Schema({
 		status: { type: Boolean },
 		publicationDate: { type:Date }
 	},
-	owner: [ { type:String, ref:'User' } ],
+	owner:    [ { type:String, ref:'User' } ],
+	operator: [ { type: String, ref:'User'} ],
 	creationDate: { type: Date, default: Date.now },
 	deletionDate: Date,
 	language: String,
