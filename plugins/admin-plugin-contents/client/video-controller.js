@@ -165,7 +165,7 @@
 		$scope.$watch('state.videoFilters', function(){ 
 			if ($scope.state.videoFilters) {
 				var final_query = Filters.makeQuery($scope.state.videoFilters.filters || [], $scope.state.videoFilters.searchText);
-				$scope.filterQuery = $base64.encode(JSON.stringify(final_query));
+				$scope.filterQuery = $base64.encode(unescape(encodeURIComponent(JSON.stringify(final_query))));
 				$scope.reloadVideos();
 			}
 		}, true );

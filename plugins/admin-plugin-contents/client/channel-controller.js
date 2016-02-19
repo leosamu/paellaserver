@@ -174,7 +174,7 @@
 		$scope.$watch('state.channelFilters', function(){ 
 			if ($scope.state.channelFilters) {
 				var final_query = Filters.makeQuery($scope.state.channelFilters.filters || [], $scope.state.channelFilters.searchText);
-				$scope.filterQuery = $base64.encode(JSON.stringify(final_query));
+				$scope.filterQuery = $base64.encode(unescape(encodeURIComponent(JSON.stringify(final_query))));
 				$scope.reloadChannels();
 			}
 		}, true );
