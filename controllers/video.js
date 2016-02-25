@@ -93,7 +93,7 @@ exports.Count = function(req,res,next) {
 //	Output: req.data
 exports.LoadVideo = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	var select = '-search -processSlides';
+	var select = '-search -processSlides -operator';
 	Video.find({ "_id":req.params.id })
 		.select(select)
 		.populate("repository")
