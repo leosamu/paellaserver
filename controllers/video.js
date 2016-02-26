@@ -10,7 +10,7 @@ exports.LoadVideos = function(req,res,next) {
 	var select = '-slides -hidden -roles -duration ' +
 				'-hiddenInSearches -canRead -canWrite ' +
 				'-deletionDate -pluginData ' +
-				'-metadata -search -processSlides ';
+				'-metadata -search -processSlides -operator';
 				
 	var query = (req.data && req.data.query) ? req.data.query:{};
 	
