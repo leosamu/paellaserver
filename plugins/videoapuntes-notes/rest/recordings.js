@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 
 var CommonController = require(__dirname + '/../../../controllers/common');
 var AuthController = require(__dirname + '/../../../controllers/auth');
-var dummyreocording  = [{'_id':'3a0a9920-31cc-11e4-9c5c-db15cd9c177e',
+var dummyreocording  = [{'_id':'98effade-26ef-a346-ac43-d06f43b28564',
+						 'url':'https://media.upv.es/player/?id=98effade-26ef-a346-ac43-d06f43b28564',
 					     'presenter' : {
 						 		'name' : 'José Felipe Villanueva López',
 						 		 'email' : 'jovillo0@upvnet.upv.es'
@@ -25,7 +26,8 @@ var dummyreocording  = [{'_id':'3a0a9920-31cc-11e4-9c5c-db15cd9c177e',
 	    					 'lat':0.123,
 	    					 'lon':0.133
     					 }},
-    					 {'_id':'3933c120-31cc-11e4-9c5c-db15cd9c177e',
+    					 {'_id':'98effade-26ef-a346-ac43-d06f43b28564',
+						  'url':'https://media.upv.es/player/?id=98effade-26ef-a346-ac43-d06f43b28564',
 						    'presenter' : {
 						'name' : 'José Felipe Villanueva López',
 						'email' : 'jovillo0@upvnet.upv.es'
@@ -48,7 +50,8 @@ var dummyreocording  = [{'_id':'3a0a9920-31cc-11e4-9c5c-db15cd9c177e',
 						   	'lat':0.123,
 						   	'lon':0.133
 						    }},
-						    {'_id':'38cb3b50-31cc-11e4-9c5c-db15cd9c177e',
+						    {'_id':'98effade-26ef-a346-ac43-d06f43b28564',
+						     'url':'https://media.upv.es/player/?id=98effade-26ef-a346-ac43-d06f43b28564',
 						    'presenter' : {
 						'name' : 'José Felipe Villanueva López',
 						'email' : 'jovillo0@upvnet.upv.es'
