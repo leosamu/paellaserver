@@ -45,7 +45,7 @@
 				$scope.uploadVideo = function() {
 					VideoUploadPopup(null, true, 'polimedia', function(videoData) {
 						Video.create(videoData).$promise
-							.then(function(result) {
+							.then(function(data) {
 								location.reload();
 							});
 					});

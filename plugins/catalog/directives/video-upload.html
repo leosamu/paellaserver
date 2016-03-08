@@ -32,12 +32,12 @@
 				ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
 				accept="{{acceptSelect}}"
 				ngf-pattern="pattern" ng-change="selectFile(files)"
-				required>Arrastre y suelte su archivo aquí</div>
+				required>{{ "drop_videos_text" | translate }}</div>
 			<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
 			<br>
 			<div class="preview">														
 				<div style="clear:both" ng-repeat="file in files">	
-					<div>Detalles del video:</div>												
+					<div>{{ "politube_video_details_title" | translate }}</div>												
 					<li><strong>{{file.name}}</strong></li>																					
 					<li><strong>{{file.size}} Bytes</strong></li>																	
 					<li><strong>{{file.type}}</strong></li>												
