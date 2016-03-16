@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html ng-app="paellaserver">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+					(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-26470475-7', 'upv.es');
+		ga('send', 'pageview');
+	</script>
+	<title>{{ "site_title" | translate }}</title>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-route/angular-route.min.js"></script>
+	<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="bower_components/angular-translate/angular-translate.min.js"></script>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/jquery-cookie/jquery.cookie.js"></script>
+	<script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/angular-base64/angular-base64.js"></script>
+	<script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+	<script src="me-lazyload.js"></script>
+
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="bower_components/moment/moment.js"></script>
+	<script src="bower_components/angular-moment/angular-moment.js"></script>
+
+	<script src="bower_components/angular-ui-sortable/sortable.js"></script>
+
+	<script src="bower_components/d3/d3.js"></script>
+	<script src="bower_components/nvd3/build/nv.d3.js"></script>
+	<link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css"/>
+
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="resources/upv.css">
+	<script src="client.js"></script>
+	<link rel="stylesheet" href="client.css">
+	<style>
+		header {
+			background: url("http://cefire.edu.gva.es/theme/image.php/educacioice/theme/1456384081/educacio/header_edu_left");
+			height: 105px;
+			border: none;
+			position: relative;
+		}
+
+		.cefire-head {
+			background: transparent url("http://cefire.edu.gva.es/theme/image.php/educacioice/theme/1456384081/educacio/header") no-repeat scroll top right;
+			height: 105px;
+			position: absolute;
+			width: 560px;
+			right: 0px;
+			top: 0px;
+			text-align: right;
+			box-sizing: border-box;
+			padding-right: 16px;
+			padding-top: 16px;
+			color: white;
+		}
+
+		.cefire-head p {
+			margin-top: 10px;
+		}
+
+		.polimedia-logo {
+			background: white;
+			height: 100%;
+		}
+
+		.polimedia-logo img {
+			margin-top: -7px;
+		}
+	</style>
+	<script>
+		(function() {
+			setTimeout(function() {
+				if (/\#\/catalog$/.test(location.href)) {
+					location.href = "cefire.html#/catalog/channel/15511b30-df9b-11e5-9881-1f08586125f4";
+				}
+			},100);
+		})();
+	</script>
+</head>
+<body class="ps-body-embed">
+	<div class="container">
+		<header>
+			<a href="http://media.upv.es" class="navbar-brand polimedia-logo">
+				<img class="ps-logo img-responsive" src="https://media.upv.es/resources/images/logo-polimedia.png" alt="PoliMedia">
+			</a>
+
+			<a href="http://cefire.edu.gva.es/" class="navbar-brand">
+				<img class="ps-cefire-logo img-responsive" src="http://cefire.edu.gva.es/theme/educacioice/pix/educacio/logocefire.gif" alt="CEFIRE">
+			</a>
+
+
+
+			<div class="cefire-head">
+				<img class="generalitat-logo" src="http://cefire.edu.gva.es/theme/image.php/educacioice/theme/1456384081/educacio/logo_cas" alt="">
+				<p class="cefire-text">CEFIRE - Consellería de Educación, investigación y cultura</p>
+			</div>
+		</header>
+		<div class="basic-toolbar">
+			<ng-view></ng-view>
+		</div>
+
+	</div>
+</body>
+</html>

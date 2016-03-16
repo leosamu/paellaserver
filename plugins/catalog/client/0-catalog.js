@@ -16,7 +16,7 @@
 		$scope.channelId = $scope.searchText=="" ? $routeParams.id:null;
 		$scope.totalVideos = 0;
 
-		$scope.isEmbed = /embed/i.test(window.location.href);
+		$scope.isEmbed = /embed/i.test(window.location.href) || $('.basic-toolbar').length;
 		$scope.showIfNotEmbed = !$scope.isEmbed;
 
 		function addSortingIndexes(collection) {
