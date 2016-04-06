@@ -56,6 +56,16 @@ var VideoSchema = new Schema({
 		type: { type: String },  //internos, externos
 		live: { type: Boolean, default: false},
 		link:  { type: String },
+		masters:{
+			repository: { type:String, ref:'Repository' },
+			files: [
+				{
+					name: { type:String },
+					transcode: { type:String },	// videos, slaveVideos
+					processed: { type:Boolean }
+				}
+			]
+		},
 		videos: [
 			{
 				mimetype: { type: String },
