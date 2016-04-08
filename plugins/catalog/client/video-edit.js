@@ -222,7 +222,7 @@
 		setVideoData(videoData);
 	}]);
 
-	catalogModule.factory('VideoEditPopup', ['$modal',function($modal) {
+	catalogModule.factory('VideoEditPopup2', ['$modal',function($modal) {
 		return function(videoData,advancedEdit,type,onDone) {
 			var modalInstance = $modal.open({
 				templateUrl:'catalog/directives/video-edit.html',

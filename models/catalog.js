@@ -23,8 +23,8 @@ var Catalog = new Schema({
 	],
 	defaultRepository: { type:String, ref:'Repository' },
 	defaultRepositoryForChannels: { type:String, ref:'Repository' },
+	defaultRepositoryForMasters: { type:String, ref:'Repository' },
 	canBeDeletedByOwner: {type: Boolean, default: false }
-
 });
 
 

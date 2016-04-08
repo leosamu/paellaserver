@@ -66,18 +66,33 @@
 				};
 
 				$scope.editVideo = function() {
-					var videoData = $scope.video;
+					Video.get({ id:$scope.video._id }).$promise
+					.then(function(data) {
 
-					Video.get({ id:videoData._id }).$promise
-						.then(function(data) {
-							VideoEditPopup(data, true, null, function(newVideoData) {
-								newVideoData.id = newVideoData._id;
-								Video.update(newVideoData).$promise
-									.then(function(result) {
-										location.reload();
-									});
-							});
+						delete(data.slides);
+						delete(data.blackboard);
+						delete(data.source);
+						delete(data.thumbnail);					
+						delete(data.search);
+					
+						VideoEditPopup(data)
+						.then(function(newVideoData) {								
+							newVideoData.id = newVideoData._id;
+							return Video.update(newVideoData).$promise;
+						})
+						.then(function(result) {
+							location.reload();
 						});
+						/*
+						VideoEditPopup(data, true, null, function(newVideoData) {
+							newVideoData.id = newVideoData._id;
+							Video.update(newVideoData).$promise
+								.then(function(result) {
+									location.reload();
+								});
+						});
+						*/
+					});
 				};
 
 				$scope.addToChannel = function() {
@@ -110,7 +125,7 @@
 				};
 
 				$scope.thumbnail = function() {
-					return $scope.video.thumbnail || 'resources/images/video-placeholder.jpg';
+					return $scope.video.thumbnail || 'resources/images/video-placeholder.png';
 				};
 			}]
 		};

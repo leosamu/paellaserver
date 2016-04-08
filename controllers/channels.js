@@ -347,8 +347,12 @@ exports.CreateChannel = function(req,res,next) {
 		return;
 	}
 
-	if (typeof(channelData)!="object" || !channelData.title) {
-		res.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
+	if (typeof(channelData)!='object' ||
+		!channelData.title ||
+		!channelData.catalog ||
+		!channelData.repository
+	) {
+		res.status(500).json({ status:false, message:"Could not create a new channel. Invalid channel data. Title, catalog and repository fields are required."});
 		return;
 	}
 

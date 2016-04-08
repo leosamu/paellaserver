@@ -21,7 +21,8 @@
 				'AuthorSearch',
 				'User',
 				'UploadQueue',
-			function ($scope,$translate,Channel,Video,ChannelEditPopup,VideoUploadPopup,VideoEditPopup,Authorization,ChannelListPopup,VideoListPopup,AuthorSearch,User,UploadQueue) {
+				'Upload',
+			function ($scope,$translate,Channel,Video,ChannelEditPopup,VideoUploadPopup,VideoEditPopup,Authorization,ChannelListPopup,VideoListPopup,AuthorSearch,User,UploadQueue, Upload) {
 				$scope.status = {
 					isopen: false
 				};
@@ -34,20 +35,31 @@
 				};
 
 				$scope.createChannel = function() {
-					ChannelEditPopup(null, function(channelData) {
-						Channel.create(channelData).$promise
-							.then(function(data) {
-								location.reload();
-							});
-					});
+					ChannelEditPopup(null)
+					.then(function(channelData) {
+						return Channel.create(channelData).$promise;
+					})					
+					.then(function(channel) {
+						location.href = "/#/catalog/channel/" + channel._id; 
+					});										
 				};
 				
 				$scope.uploadVideo = function() {
-					VideoUploadPopup(null, true, 'polimedia', function(videoData) {
-						Video.create(videoData).$promise
-							.then(function(data) {
+					VideoUploadPopup().then(function(data) {					
+						Upload.upload({
+							url: '/rest/video/new',
+							data: {videoData: data.videoData, file: data.file},
+						})
+						.then(
+							function (response) {
 								location.reload();
-							});
+							},
+							function (response) {
+								//TODO
+								console.log("Error creando el video");
+								location.reload();
+							}			
+						);
 					});
 				};
 
@@ -63,7 +75,8 @@
 
 				$scope.editChannel = function() {
 					if (Authorization($scope.currentChannel, $scope.currentUser).canWrite() && $scope.currentChannel) {
-						ChannelEditPopup($scope.currentChannel, function (channelData) {
+						ChannelEditPopup($scope.currentChannel)
+						.then(function (channelData) {
 							if (channelData.owner && channelData.owner.forEach) {
 								channelData.owner.forEach(function(item, index, array) {
 									array[index] = item._id;
