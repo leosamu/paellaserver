@@ -52,6 +52,17 @@
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;
 		
+		
+		$scope.$watch('selectAll', function(value, old){
+			if (value != old) {
+				try{
+					$scope.users.list.forEach(function(v){
+						v.selected = value;
+					});
+				}
+				catch(e) {}
+			}
+		});		
 
 		$scope.$watch('state.userFilters', function(){ 
 			if ($scope.state.userFilters) {
