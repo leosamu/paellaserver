@@ -3,8 +3,15 @@
         <!--Listado de canales que incluyen este recurso-->
     </button>
     <ul class="dropdown-menu ps-item-menu-dropdown">
+    	<!-- TODO: Eliminar 
         <li><a ng-click="showParentChannels(parents)">{{ "parent_channels_text" | translate }}</a></li>
         <li class="divider"></li>
+        -->
+        <!--
+        TODO: Activar cuando esten terminadas las estadisticas
+        <li><a ng-href="/#/statistics/views/channel/{{channel._id}}">{{ "statistics_channel_text_title" | translate }}</a></li>
+        <li class="divider"></li>
+        -->        
         <li><a ng-click="addToChannel()" ng-show="userChannels.length">{{ "add_to_channel" | translate }}</a></li>
         <li><a ng-click="removeFromCurrentChannel()" ng-show="allowRemove()">{{ "remove_from_channel" | translate }} "{{ getCurrentChannelTitle() }}"</a></li>
         <li><a ng-click="editChannel()" ng-show="allowEdit()">{{ "edit_channel_text_title" | translate }}</a></li>

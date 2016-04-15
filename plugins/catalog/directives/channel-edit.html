@@ -7,27 +7,18 @@
     <form name="channelForm" class="form-horizontal">
         <fieldset>
             <!-- Text input-->
-            <div class="form-group" ng-show="channelData._id">
-                <label class="col-md-4 control-label" for="identifier">{{ "identifier_field_text" | translate }}</label>
-                <div class="col-md-5">
-                    <input id="identifier" type="text" class="form-control input-md" disabled ng-model="channelData._id">
-
-                </div>
-            </div>
-
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="title">{{ "title_field_text" | translate }}</label>
-                <div class="col-md-5">
-                    <input id="title" type="text" placeholder="{{ 'channel_title_field_placeholder_text' | translate }}" class="form-control input-md" required ng-model="channelData.title">
+            <div class="form-group has-feedback" ng-class="{'has-error': !(channelForm.title.$valid)}">
+                <label class="col-sm-2 control-label" for="title">{{ "title_field_text" | translate }}</label>
+                <div class="col-sm-10">
+                    <input name="title" type="text" placeholder="{{ 'channel_title_field_placeholder_text' | translate }}" class="form-control input-md" required ng-model="channelData.title">
 
                 </div>
             </div>
 
             <!-- Multiple Checkboxes -->
             <div class="form-group">
-                <label class="col-md-4 control-label">{{ "visibility_field_text" | translate }}</label>
-                <div class="col-md-4">
+                <label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
+                <div class="col-sm-10">
                     <div class="checkbox">
                         <label for="isHidden">
                             <input id="isHidden" type="checkbox" ng-model="channelData.hidden">
@@ -42,20 +33,14 @@
                     </div>
                 </div>
             </div>
-
-
-			<accordion ng-show="advancedEdit">
-				<accordion-group heading="{{ 'author' | translate }}" is-open="true">
-					<author-field id="owner._id" name="owner.contactData.name" last-name="owner.contactData.lastName" email="owner.contactData.email"></author-field>
-					<div class="alert alert-warning" role="alert" ng-show="!owner._id && owner.email">{{ "create_author_warning" | translate }}</div>
-				</accordion-group>
-			</accordion>
-
         </fieldset>
+
 
         <p class="modal-footer">
             <button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
-            <button class="btn btn-primary" ng-click="channelForm.$valid && accept()" ng-disabled="!channelForm.$valid">{{ acceptText | translate }}</button>
+            <button class="btn btn-primary" ng-click="channelForm.$valid && accept()" ng-disabled="!channelForm.$valid">
+            	<loader-field ng-show="updating"></loader-field>  {{ acceptText | translate }}
+            </button>
         </p>
     </form>
 </section>

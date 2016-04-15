@@ -370,6 +370,65 @@ exports.CreateVideo = function(req,res,next) {
 
 	if (typeof(videoData)!='object' ||
 		!videoData.title ||
+		!videoData.catalog ||
+		!videoData.repository ||
+		!videoData.source ||
+		!videoData.source.type
+	) {
+		res.status(500).json({ status:false, message:"Could not create video. Invalid video data. Title, catalog, repository and type fields are required."});
+		return;
+	}
+
+	if (!videoData.published) {
+		videoData.published = {
+			status:true
+		}
+	}
+
+	if (!videoData.owner) {
+		videoData.owner = [ user._id ];
+	}
+
+	if (!videoData.unprocessed) {
+		videoData.unprocessed = true;
+	}
+
+	if (!videoData.source) {
+		videoData.source = {
+			type:videoData.type,
+			videos:[]
+		}
+	}
+
+	if (!videoData.pluginData) {
+		videoData.pluginData = {}
+	}
+
+	// TODO: Autocompletar los respositorios a partir del catalogo
+	var newVideo = new Video(videoData);
+	newVideo.save(function(err, newVideoData) {
+		if (!err) {
+			req.data = JSON.parse(JSON.stringify(newVideoData));
+			delete req.data.__v;
+			next();
+		}
+		else {
+			res.status(500).json({ status:false, message:"Unexpected server error creating new video: " + err.toString()});
+		}
+	});
+}
+
+exports.CreateVideoOld = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	var videoData = req.data;
+	var user = req.user;
+	if (!user) {
+		res.status(401).json({ status:false, message:"Could not create video. No user logged in" });
+		return;
+	}
+
+	if (typeof(videoData)!='object' ||
+		!videoData.title ||
 		!videoData.source ||
 		!videoData.source.type
 	) {

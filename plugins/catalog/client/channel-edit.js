@@ -9,14 +9,14 @@
 		"$modalInstance",
 		"channelData",
 	function($scope, $translate, User, Authorization, $modalInstance, channelData) {
+		$scope.updating = false;
 		$scope.channelData = channelData || {};
 		$scope.previousChannelTitle = $scope.channelData.title;
 		$scope.acceptText = channelData!=null ? "edit_text":"create_text";
 		$scope.titleText =  channelData!=null ? "edit_channel_text_title":"create_channel_text_title";
 
+/*
 		$scope.owner = {};
-
-		$scope.advancedEdit = false;
 
 		function loadUser(id) {
 			return User.find({ id:id }).$promise;
@@ -30,6 +30,7 @@
 					$scope.owner = userData;
 				});
 		}
+*/
 
 		$scope.close = function() {
 			$scope.channelData.title = $scope.previousChannelTitle;
@@ -37,7 +38,7 @@
 		};
 
 		$scope.accept = function() {
-			$scope.channelData.owner = [ $scope.owner._id ];
+			// $scope.channelData.owner = [ $scope.owner._id ];
 			// Remove the repository data from the thumbnail
 			if ($scope.channelData.thumbnail) {
 				var repo = $scope.channelData.repository;
@@ -52,14 +53,10 @@
 			$modalInstance.close($scope.channelData);
 		};
 
-		User.current().$promise
-			.then(function(data) {
-				$scope.advancedEdit = Authorization(null,data).isAdmin();
-			});
 	}]);
 
 	catalogModule.factory('ChannelEditPopup', ['$modal',function($modal) {
-		return function(channelData,onDone) {
+		return function(channelData) {
 			var modalInstance = $modal.open({
 				templateUrl:'catalog/directives/channel-edit.html',
 				controller:'ChannelEditModalController',
@@ -70,9 +67,7 @@
 				}
 			});
 
-			modalInstance.result.then(function(result) {
-				if (typeof(onDone)=='function') onDone(result);
-			});
+			return modalInstance.result;
 		};
 	}]);
 })();

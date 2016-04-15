@@ -38,22 +38,23 @@
 				};
 
 				$scope.allowEdit = function() {
-					return Authorization($scope.channel,$scope.currentUser).canWrite();
+					return Authorization($scope.channel, $scope.currentUser).canWrite();
 				};
 
 				$scope.editChannel = function() {
 					var channelData = $scope.channel;
 
 					Channel.get({ id:channelData._id }).$promise
-						.then(function(channelData) {
-							ChannelEditPopup(channelData, function (channelData) {
-								channelData.id = channelData._id;
-								Channel.update(channelData).$promise
-									.then(function(result) {
-										location.reload();
-									});
-							});
-						});
+					.then(function(channelData) {
+						return ChannelEditPopup(channelData);
+					})
+					.then(function (channelData) {
+						channelData.id = channelData._id;
+						return Channel.update(channelData).$promise;
+					})
+					.then(function(result) {
+						location.reload();
+					});					
 				};
 
 				$scope.getCurrentChannelTitle = function() {
@@ -114,7 +115,7 @@
 				};
 
 				$scope.thumbnail = function() {
-					return $scope.channel.thumbnail || 'resources/images/channel-placeholder.gif';
+					return $scope.channel.thumbnail || 'resources/images/channel-placeholder.png';
 				};
 			}]
 		};

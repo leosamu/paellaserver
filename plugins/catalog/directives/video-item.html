@@ -3,17 +3,24 @@
         <!--Listado de canales que incluyen este recurso-->
     </button>
     <ul class="dropdown-menu ps-item-menu-dropdown">
+    	<!-- TODO: Eliminar
         <li><a ng-click="showParentChannels(parents)">{{ "parent_channels_text" | translate }}</a></li>
         <li class="divider"></li>
+        -->
+        <!--
+        TODO: Activar cuando esten terminadas las estadisticas
+        <li><a ng-href="/#/statistics/views/video/{{video._id}}">{{ "statistics_video_text_title" | translate }}</a></li>
+        <li class="divider"></li>
+        -->
         <li><a ng-click="addToChannel()" ng-show="userChannels.length">{{ "add_to_channel" | translate }}</a></li>
         <li><a ng-click="removeFromCurrentChannel()" ng-show="allowRemove()">{{ "remove_from_channel" | translate }} "{{ getCurrentChannelTitle() }}"</a></li>
-        <li><a ng-click="editVideo()" ng-show="allowEdit()">{{ "edit_video_text_title" | translate }}</a></li>
+        <li><a ng-click="editVideo()" ng-show="allowEdit()">{{ "edit_video_text_title" | translate }}</a></li>        
     </ul>
 </span>
 
 <article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(!isVisible()), 'ps-admin':isAdmin, 'ps-unprocessed':video.unprocessed }">
 
-    <img class="ps-image img-responsive" lazy-src="{{thumbnail()}}" alt="{{video.title + ' image'}}"/>
+    <img class="ps-image img-responsive" lazy-src="{{thumbnail()}}" alt="{{video.title + ' image'}}" />
     <!--Padlock in hidden videos-->
     <div class="ps-lock" ng-show="!isVisible()"><i class="glyphicon glyphicon-lock"></i></div>
     <h2 class="ps-title text-center">

@@ -1,12 +1,15 @@
-/**
- * Created by fernando on 15/4/15.
- */
+var fs = require('fs');
+var path = require('path');
 
-var mongoose = require('mongoose');
+var Channel = require(__dirname + '/../models/channel');
+var Catalog = require(__dirname + '/../models/catalog');
+var Repository = require(__dirname + '/../models/repository');
 
 var ChannelController = require(__dirname + '/../controllers/channels');
 var CommonController = require(__dirname + '/../controllers/common');
 var AuthController = require(__dirname + '/../controllers/auth');
+
+var catalogId = "politube";
 
 exports.routes = {
 	getChannelData: { param:'id', get:[
@@ -18,9 +21,20 @@ exports.routes = {
 	createChannel: { post:[
 		AuthController.EnsureAuthenticatedOrDigest,
 		//AuthController.CheckAccess(['ADMIN']),
-		function(req,res,next) {
-			req.data = req.body;
-			next();
+		function(req,res,next) {					
+			Catalog.findOne({ "_id": catalogId })
+			.populate('defaultRepositoryForChannels')
+			.exec(function(err, catalog) {
+				if (err) return res.sendStatus(500);
+								
+				req.data = req.body;									
+				req.data.catalog =  catalogId;
+				req.data.repository = catalog.defaultRepositoryForChannels;
+				req.data.owner = [req.user._id];
+				req.data.creationDate = new Date();					
+				
+				next();										
+			});			
 		},
 		ChannelController.CreateChannel,
 		CommonController.JsonResponse

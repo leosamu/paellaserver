@@ -22,6 +22,9 @@
             <li ng-class="{ active:myChannelsTabSelected() }" ng-show="showMyChannelsTab"><a href ng-click="showMyChannels()">{{ "mychannels_text" | translate }} <span class="badge ps-badge" ng-show="numMyChannels()>0">{{numMyChannels()}}</span></a></li>
         </ui>
 
+
+        <admin-menu current-channel="currentChannel" current-user="currentUser"></admin-menu>
+
         <ui class="nav navbar-nav pull-right" ng-show="showSort">
             <li>
                 <div class="ps-search-bar-container" dropdown is-open="status.isopen">
@@ -39,8 +42,7 @@
             </li>
         </ui>
 
-        <admin-menu current-channel="currentChannel" current-user="currentUser"></admin-menu>
-
+<!--
 		<ui class="nav navbar-nav pull-right" ng-show="showSort && links.length">
 			<li>
 				<div class="ps-search-bar-container">
@@ -48,7 +50,7 @@
 				</div>
 			</li>
 		</ui>
-
+-->
 
     </div>
 </section>
