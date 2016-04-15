@@ -1,15 +1,13 @@
 (function() {
 	var catalogModule = angular.module('catalogModule');
 
-	catalogModule.controller('VideoUploadModalController', [
-		"$scope",
-		"$translate",
-		"$modalInstance",
-		"$timeout",
-		"videoData",
-	function($scope, $translate, $modalInstance, $timeout, videoData) {			
+
+	catalogModule.controller('VideoUploadModalController', [ "$scope", "$modalInstance", "Upload", "videoData",
+	function($scope, $modalInstance, Upload, videoData) {
 		$scope.updating = false;
 		$scope.editing = (videoData!= null);
+		$scope.uploadPercentage = 0;
+		$scope.upload = null;
 		
 		$scope.video = videoData || {
 			published: {
@@ -17,15 +15,38 @@
 			}
 		};		
 			
+		$scope.abort_upload = function()
+		{
+			if (upload) {
+				$scope.upload.abort();
+				$scope.upload = null;
+			}
+			$scope.updating = false;
+		}
+			
 		$scope.close = function() {
 			$modalInstance.dismiss('cancel');
 		};
 		
-		$scope.accept = function() {			
-			$modalInstance.close({
-				videoData: $scope.video,
-				file: $scope.videoFile
-			});							
+		$scope.accept = function() {
+			$scope.updating = true;
+			$scope.upload = Upload.upload({
+				url: '/rest/video/new',
+				data: {videoData: $scope.video, file: $scope.videoFile},
+			});
+			
+			$scope.upload.then(
+				function(){
+					$modalInstance.close();
+				},
+				function(){
+					$scope.upload = null;
+					$scope.updating = false;
+				},
+				function (evt) {
+					$scope.uploadPercentage = parseInt(100.0 * evt.loaded / evt.total);					
+				}
+			)		
 		};
 	}]);
 
@@ -42,25 +63,8 @@
 				}							
 			});
 
-			return modalInstance.result
+			return modalInstance.result;
 		};
 	}]);
-	
-	catalogModule.factory('VideoEditPopup', ['$modal',function($modal) {
-		return function(videoData) {
-			var modalInstance = $modal.open({
-				size: 'lg',
-				templateUrl:'catalog/directives/video-upload.html',
-				controller:'VideoUploadModalController',	
-				resolve:{
-					videoData: function() {
-						return videoData;
-					}
-				}							
-			});
-
-			return modalInstance.result.then(function(result) {return result.videoData;});
-		};
-	}]);
-	
+		
 })();

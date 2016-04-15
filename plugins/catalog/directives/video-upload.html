@@ -143,12 +143,24 @@
 		</fieldset>
 
 		<p class="modal-footer">
-			<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
-			<button class="btn btn-primary" ng-click="videoForm.$valid && accept()" ng-disabled="!videoForm.$valid || updating">
-				<loader-field ng-show="updating"></loader-field>
-				<span ng-show="!editing"> {{ "create_text" | translate }} </span>
-				<span ng-hide="!editing"> {{ "edit_text"   | translate }} </span>				
-			</button>
+		
+			<div ng-show="updating">
+				<div class="progress col-sm-10">
+					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{uploadPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{uploadPercentage}}%">
+					</div>
+				</div>		
+				<div class="col-sm-2">
+					<button class="btn btn-danger btn-xs btn-block" ng-click="abort_upload()">{{ "cancel_text" | translate }}</button>
+				</div>
+			</div>
+			<div ng-hide="updating">
+				<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
+				<button class="btn btn-primary pull-right" ng-click="videoForm.$valid && accept()" ng-disabled="!videoForm.$valid || updating">
+					<loader-field ng-show="updating"></loader-field>
+					<span ng-show="!editing"> {{ "create_text" | translate }} </span>
+					<span ng-hide="!editing"> {{ "edit_text"   | translate }} </span>				
+				</button>
+			</div>
 		</p>
 	</form>
 </section>

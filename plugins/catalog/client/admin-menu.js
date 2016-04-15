@@ -45,22 +45,16 @@
 				};
 				
 				$scope.uploadVideo = function() {
-					VideoUploadPopup().then(function(data) {					
-						Upload.upload({
-							url: '/rest/video/new',
-							data: {videoData: data.videoData, file: data.file},
-						})
-						.then(
-							function (response) {
-								location.reload();
-							},
-							function (response) {
-								//TODO
-								console.log("Error creando el video");
-								location.reload();
-							}			
-						);
-					});
+					VideoUploadPopup().then(
+						function (response) {
+							//location.reload();
+							console.log("ok");
+						},
+						function (response) {
+							console.log("Error creando el video");
+							//location.reload();
+						}
+					);
 				};
 
 				$scope.removeChannel = function() {
