@@ -90,7 +90,7 @@ exports.routes = {
 					video.source = {
 						type: "polimedia",
 						masters:{
-							repository: catalog.defaultRepository,							
+							repository: catalog.defaultRepositoryForMasters,							
 						}
 					}
 					
