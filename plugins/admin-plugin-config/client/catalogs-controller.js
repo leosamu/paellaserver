@@ -5,8 +5,17 @@
 	plugin.controller("AdminCatalogsNewController", ["$scope", "$modal", "MessageBox", "CatalogCRUD", 
 	function($scope, $modal, MessageBox, CatalogCRUD) {
 		$scope.updating = false;
-		$scope.catalog = {};
-		
+		$scope.catalog = {
+			pluginData: {
+				translectures: {}
+			},
+			notify: [
+				{ lang:'es', content:'' },
+				{ lang:'en', content:'' },
+				{ lang:'ca', content:'' }
+			]
+		};
+						
 		$scope.createCatalog = function() {
 			$scope.updating = true
 			CatalogCRUD.save($scope.catalog).$promise
@@ -34,6 +43,15 @@
 		$scope.updating = false;	
 		$scope.catalog = CatalogCRUD.get({id: $routeParams.id});
 		
+		$scope.catalog.$promise.then(function(catalog){
+			if (catalog.notify.length == 0) {
+				catalog.notify = [
+					{ lang:'es', content:'' },
+					{ lang:'en', content:'' },
+					{ lang:'ca', content:'' }
+				];
+			}
+		});
 		
 		$scope.updateCatalog = function() {
 			$scope.updating = true;
