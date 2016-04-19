@@ -80,6 +80,7 @@ exports.routes = {
 			
 				Catalog.findOne({ "_id": catalogId })
 				.populate('defaultRepository')
+				.populate('defaultRepositoryForMasters');
 				.exec(function(err, catalog) {
 					if (err) return res.sendStatus(500);
 										
