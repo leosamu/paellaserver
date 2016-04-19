@@ -28,6 +28,7 @@ var Catalog = new Schema({
 	
 	notify: [{
 		lang: { type:String },
+		subject: { type:String },
 		content: { type:String }
 	}],
 	playerConfig: { type:Object },

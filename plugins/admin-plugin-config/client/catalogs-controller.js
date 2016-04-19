@@ -10,9 +10,9 @@
 				translectures: {}
 			},
 			notify: [
-				{ lang:'es', content:'' },
-				{ lang:'en', content:'' },
-				{ lang:'ca', content:'' }
+				{ lang:'es', content:'', subject:'' },
+				{ lang:'en', content:'', subject:'' },
+				{ lang:'ca', content:'', subject:'' }
 			]
 		};
 						
@@ -46,9 +46,9 @@
 		$scope.catalog.$promise.then(function(catalog){
 			if (catalog.notify.length == 0) {
 				catalog.notify = [
-					{ lang:'es', content:'' },
-					{ lang:'en', content:'' },
-					{ lang:'ca', content:'' }
+					{ lang:'es', content:'', subject:'' },
+					{ lang:'en', content:'', subject:'' },
+					{ lang:'ca', content:'', subject:'' }
 				];
 			}
 		});
