@@ -47,13 +47,14 @@
 			</div>
 			<div class="panel-body">
 			
-			
 				<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
 					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Basic information</a></li>
 					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Catalog roles</span></a></li>
 					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Inherited roles</span></a></li>
-				</ul>				
-			
+					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Plugins</span></a></li>
+					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Player config</span></a></li>
+					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Notify</span></a></li>					
+				</ul>			
 			
 				<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
 					<div class="panel-body">		
@@ -130,6 +131,36 @@
 								</div>
 								<permissions-editor permissions="catalog.inheritedPermissions"></permissions-editor>
 							</div>
+							
+							<div class="tab-pane" ng-show="tab==4">
+								<plugins-list plugins="catalog.pluginData" id="{{catalog._id}}" type="catalog"></plugins-list>								
+							</div>							
+
+							<div class="tab-pane" ng-show="tab==5">
+								<div class="alert alert-info" role="alert">
+									<p>TODO: Show here the player config</p>
+								</div>
+							</div>							
+
+							<div class="tab-pane" ng-show="tab==6">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Language</label>
+									<div class="col-sm-10">
+										<select class="form-control" ng-model="notifySelected"
+											ng-options="option as option.lang | translate for option in catalog.notify">
+											<option value="">-</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Message</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="20" ng-model="notifySelected.content"></textarea>
+									</div>
+								</div>						
+							</div>
+							
+							
 						</form>
 					</div>
 				</div>
