@@ -91,6 +91,8 @@
 	"add_category_text":"Afegir una categoria",
 	"select_subcategory_text":"Sel·leccionar una subcategoria",
 
-	"open_admin_page":"Obrir pàgina d'administració"
+	"open_admin_page":"Obrir pàgina d'administració",
+
+	"options":"opcions"
 	
 }

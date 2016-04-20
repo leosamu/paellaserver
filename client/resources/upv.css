@@ -32,7 +32,8 @@ header .ps-logo {
 }
 
 header .ps-logo.ps-right {
-	margin-top: 5px;
+	margin-top: 27px;
+	margin-right: 11px;
 }
 
 .ps-footer-separator {
@@ -45,11 +46,8 @@ main {
 }
 
 .ps-list-item {
-	background-color: #ededed;
-	border: 1px solid lightgray;
-	border-radius: 5px;
 	margin: 12px 0px 0px 0px;
-	padding: 0px 15px 0px 15px;
+	padding: 2px 17px 2px 17px;
 	overflow: hidden;
 	cursor: pointer;
 }
@@ -67,7 +65,6 @@ main {
 	margin-top: 10px;
 	font-size: 1em;
 	line-height: 1em;
-	max-width: 70%;
 }
 
 .ps-video .ps-title {
@@ -78,6 +75,24 @@ main {
 .ps-video .ps-image {
 	width: 100%;
 	margin-top: 3px;
+}
+
+channel-item .ps-image {
+	float: none !important;
+}
+
+channel-item .ps-image-container {
+	width: 129px;
+	display: inline-block;
+	height: 100%;
+	float: left;
+	text-align: center;
+	vertical-align: middle;
+	padding: 10px;
+}
+
+.ps-title-text {
+	color: #CC0000;
 }
 
 .ps-date {
@@ -102,11 +117,19 @@ footer {
 .ps-search-bar {
 	padding: 0;
 	margin: 0px -15px 0px -15px;
-	background-color: rgb(244, 244, 244);
+	background-color: #333333;
 	border: none;
 	border-bottom: 1px solid rgb(189, 189, 189);
 	border-radius: 0px;
+}
 
+.ps-search-bar.navbar-default .navbar-nav > li > a {
+	color: white;
+}
+
+.ps-search-bar.navbar-default .navbar-nav > .active > a, .ps-search-bar.navbar-default .navbar-nav > .active > a:hover, .ps-search-bar.navbar-default .navbar-nav > .active > a:focus {
+	background-color: transparent;
+	font-weight: bold;
 }
 
 @media (min-width: 0px) {
@@ -160,9 +183,10 @@ footer {
 }
 
 .ps-item-menu {
-	float: right;
-	margin-left: -26px;
-	margin-top: 6px;
+	margin-left: 146px;
+	margin-top: -23px;
+	color: #939393;
+	cursor: pointer;
 }
 
 .ps-item-menu li p {
@@ -175,7 +199,6 @@ footer {
 
 .ps-item-menu-dropdown {
 	left: auto;
-	right: 0;
 }
 
 .ps-list-item.ps-channel {
@@ -190,7 +213,7 @@ footer {
 
 .ps-login-area {
 	margin-top: 10px;
-	margin-right: -177px;
+	margin-right: -196px;
 }
 
 .ps-lang-link {
