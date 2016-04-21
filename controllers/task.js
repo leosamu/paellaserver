@@ -50,6 +50,17 @@ var Utils = {
 			targetId:videoData._id,
 			priority:10
 		}).save();
+	},
+
+	workflow:function(videoData,tasks) {
+		return new Task({
+			task:'workflow',
+			targetType:'video',
+			error:false,
+			targetId:videoData._id,
+			priority:10,
+			parameters:JSON.stringify(tasks)
+		}).save();
 	}
 };
 
@@ -62,13 +73,11 @@ exports.AddVideoTasks = function(req,res,next) {
 	var tasks = [];
 
 	function addTasks(video) {
-		tasks.push(Utils.genLowRes(video));
-		tasks.push(Utils.extractSlides(video));
-		tasks.push(Utils.processTranslectures(video));
-		tasks.push(Utils.generateMD5(video));
+		var taskList = [ { task:"encode" }, { task:"extractSlides" }, { task:"translectures" }, { task:"md5" } ];
 		if (video.unprocessed) {
-			tasks.push(Utils.notify(video));
+			taskList.push({ task:"notify" });
 		}
+		tasks.push(Utils.workflow(video,taskList));
 	}
 
 	if (Array.isArray(req.data)) {
