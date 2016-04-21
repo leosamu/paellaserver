@@ -27,6 +27,7 @@
 					};
 					
 					return TaskCRUD.save(workflow).$promise;
+				}
 			}
 		);
 
