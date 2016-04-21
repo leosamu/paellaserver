@@ -9,23 +9,24 @@
 				context: "video",
 				label: "Recodificar videos",
 				runAction: function(v) {
-					var task1 = {
-						task: "encode",
+				
+					var tasks = [
+						{ task: "encode" },
+						{ task: "md5" },
+						{ task: "extractSlides" }
+					];
+				
+					var workflowParams = JSON.stringify(tasks);
+					var workflow = {
+						task: "workflow",
 						targetType: "video",
 						targetId: v._id,
-						error: false
-					};
-					var task2 = {
-						task: "extractSlides",
-						targetType: "video",
-						targetId: v._id,
-						error: false
+						processing : false,
+						error: false,
+						parameters: taskParams
 					};
 					
-					return TaskCRUD.save(task1).$promise.then(function(){
-						return TaskCRUD.save(task2).$promise;
-					});
-				}
+					return TaskCRUD.save(workflow).$promise;
 			}
 		);
 
