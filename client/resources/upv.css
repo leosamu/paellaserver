@@ -125,12 +125,13 @@ footer {
 }
 
 .ps-search-bar.navbar-default .navbar-nav > li > a {
-	color: white;
+	color: #B1B1B1;
 }
 
 .ps-search-bar.navbar-default .navbar-nav > .active > a, .ps-search-bar.navbar-default .navbar-nav > .active > a:hover, .ps-search-bar.navbar-default .navbar-nav > .active > a:focus {
 	background-color: transparent;
 	font-weight: bold;
+	color: white;
 }
 
 @media (min-width: 0px) {
