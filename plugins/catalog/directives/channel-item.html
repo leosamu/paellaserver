@@ -1,6 +1,3 @@
-
-
-
 <div class="ps-list-item ps-channel" ng-class="{ 'ps-hidden':(channel.hidden || channel.hiddenInSearches), 'ps-admin':isAdmin }">
 	<div class="ps-view">
 		<div class="ps-image-container">
@@ -18,14 +15,15 @@
 
 	</div>
 </div>
-<div class="dropdown ps-item-menu" dropdown on-toggle="loadChannelParents()" ng-show="!isEmbed">
-	<div class="dropdown-toggle ps-item-menu-button" dropdown-toggle>
-		[[ {{ "options" | translate }} ]]
-	</div>
+
+<span class="dropdown ps-item-menu" dropdown on-toggle="loadChannelParents()" ng-show="!isEmbed && userChannels.length">
+	<button class="glyphicon glyphicon-option-horizontal dropdown-toggle ps-item-menu-button" dropdown-toggle>
+		<!--Listado de canales que incluyen este recurso-->
+	</button>
 
 	<ul class="dropdown-menu ps-item-menu-dropdown">
 		<li><a ng-click="addToChannel()" ng-show="userChannels.length">{{ "add_to_channel" | translate }}</a></li>
 		<li><a ng-click="removeFromCurrentChannel()" ng-show="allowRemove()">{{ "remove_from_channel" | translate }} "{{ getCurrentChannelTitle() }}"</a></li>
 		<li><a ng-click="editChannel()" ng-show="allowEdit()">{{ "edit_channel_text_title" | translate }}</a></li>
 	</ul>
-</div>
+</span>

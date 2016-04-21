@@ -75,6 +75,7 @@ main {
 .ps-video .ps-image {
 	width: 100%;
 	margin-top: 3px;
+	border: 1px solid #DED9D9;
 }
 
 channel-item .ps-image {
@@ -152,6 +153,11 @@ footer {
 	.ps-search input.btn[type=submit] {
 		float: right;
 	}
+
+
+	.ps-item-menu-button {
+		display: none;
+	}
 }
 
 @media (min-width: 768px) {
@@ -162,7 +168,7 @@ footer {
 	.ps-list-item.ps-video {
 		background: none;
 		border-radius: 0px;
-		height: 200px;
+		height: 160px;
 		overflow: hidden;
 		font-size: 0.9em;
 	}
@@ -174,6 +180,42 @@ footer {
 
 	.ps-search input.btn[type=submit] {
 		float: none;
+	}
+
+	.ps-item-menu-button {
+		display: block;
+		z-index: 1;
+		position: absolute;
+		top: 36px;
+		right: -45px;
+	}
+
+	channel-item .ps-item-menu-button {
+		right: auto;
+		top: auto;
+		left: -3px;
+		bottom: 24px;
+	}
+}
+
+@media (min-width: 922px) {
+	.ps-list-item.ps-video {
+		background: none;
+		border-radius: 0px;
+		height: 190px;
+		overflow: hidden;
+		font-size: 0.9em;
+	}
+
+	.ps-item-menu-button {
+		z-index: 1;
+		position: absolute;
+		top: 36px;
+		right: -93px;
+	}
+
+	channel-item .ps-item-menu-button {
+
 	}
 }
 
@@ -193,9 +235,6 @@ footer {
 	padding: 3px 10px 3px 10px;
 }
 
-.ps-item-menu-button {
-	z-index: 1;
-}
 
 .ps-item-menu-dropdown {
 	left: auto;
