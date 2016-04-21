@@ -31,9 +31,10 @@ var Catalog = new Schema({
 		subject: { type:String },
 		content: { type:String }
 	}],
-	playerConfig: { type:Object },
+	playerConfig: { type:Schema.Types.Mixed },
 	
-	pluginData: { type:Object }
+	pluginData: { type: Schema.Types.Mixed }
+	
 });
 
 
