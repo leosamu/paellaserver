@@ -44,8 +44,9 @@
 					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Medios </a></li>			
 					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Plugins </a></li>
 					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Permisos</a></li>
-					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Adjuntos</a></li>
+					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Archivos</a></li>
 					<li role="presentation" ng-click="tab=7" ng-class="{active:tab==7}"><a href>Canales</a></li>
+					<li role="presentation" ng-click="tab=8" ng-class="{active:tab==8}"><a href>Tasks</a></li>
 <!--					
 					<li role="presentation" ng-click="tab=7" ng-class="{active:tab==7}"><a href>JSON Object</a></li>
 -->					
@@ -82,6 +83,12 @@
 								<accordion close-others='false'>
 									<accordion-group>
 										<accordion-heading>
+											Video files <span class='badge'>{{video.source.videos.length || 0}}</span>
+										</accordion-heading>						
+									</accordion-group>
+
+									<accordion-group>
+										<accordion-heading>
 											Detector de diapositivas <span class='badge'>{{video.slides.length || 0}}</span>
 										</accordion-heading>
 										<div class="table-responsive">
@@ -113,12 +120,22 @@
 											Ficheros adjuntos <span class='badge'>{{video.attachments.length || 0}}</span>
 										</accordion-heading>						
 									</accordion-group>
+									<accordion-group>
+										<accordion-heading>
+											Masters <span class='badge'>{{video.source.masters.files.length || 0}}</span>
+										</accordion-heading>						
+									</accordion-group>
+
 								</accordion>
 							</div>
 							
 							<div class="tab-pane" ng-show="tab==7">
 								<video-edit-parents-channels video-id="video._id" channels="parentChannels"></video-edit-parents-channels>
 							</div>	
+
+							<div class="tab-pane" ng-show="tab==8">
+							</div>	
+
 							
 						</form>
 					</div>					  
