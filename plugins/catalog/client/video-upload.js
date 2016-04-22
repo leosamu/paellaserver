@@ -2,8 +2,8 @@
 	var catalogModule = angular.module('catalogModule');
 
 
-	catalogModule.controller('VideoUploadModalController', [ "$scope", "$modalInstance", "Upload", "videoData",
-	function($scope, $modalInstance, Upload, videoData) {
+	catalogModule.controller('VideoUploadModalController', [ "$scope", '$modal', "$modalInstance", "Upload", "videoData",
+	function($scope, $modal, $modalInstance, Upload, videoData) {
 		$scope.updating = false;
 		$scope.editing = (videoData!= null);
 		$scope.uploadPercentage = 0;
@@ -14,39 +14,72 @@
 				status: true
 			}
 		};		
-			
-		$scope.abort_upload = function()
-		{
-			if (upload) {
-				$scope.upload.abort();
-				$scope.upload = null;
-			}
-			$scope.updating = false;
-		}
-			
+					
 		$scope.close = function() {
 			$modalInstance.dismiss('cancel');
 		};
 		
 		$scope.accept = function() {
 			$scope.updating = true;
-			$scope.upload = Upload.upload({
-				url: '/rest/video/new',
-				data: {videoData: $scope.video, file: $scope.videoFile},
+					
+		
+			var modalInstance = $modal.open({
+				templateUrl: 'uploadingVideoMessageBox.html',
+				size: '',
+				backdrop: true,
+				resolve:{
+					videoData: function() {
+						return {videoData: $scope.video, file: $scope.videoFile};
+					}
+				},				
+				
+				controller: function ($scope, $modalInstance, videoData) {
+					$scope.updating = true;
+					$scope.uploadPercentage = 20;
+					
+					$scope.upload = Upload.upload({
+						url: '/rest/video/new',
+						data: videoData,
+					});
+					
+					$scope.upload.then(
+						function(){
+							$scope.updating = false;
+							//$modalInstance.close();
+						},
+						function(){
+							$scope.upload = null;
+							$scope.updating = false;
+							$modalInstance.dismiss();
+						},
+						function (evt) {
+							$scope.uploadPercentage = parseInt(100.0 * evt.loaded / evt.total);					
+						}
+					);
+					
+					$scope.cancel = function () {						
+						if ($scope.upload) {
+							$scope.upload.abort();
+							$scope.upload = null;
+						}
+						$scope.updating = false;
+						$modalInstance.dismiss();
+					};
+					
+					$scope.accept = function () {
+						$modalInstance.close();
+					};
+				}
 			});
 			
-			$scope.upload.then(
-				function(){
+			modalInstance.result.then(
+				function(){ 
 					$modalInstance.close();
 				},
-				function(){
-					$scope.upload = null;
+				function() {
 					$scope.updating = false;
-				},
-				function (evt) {
-					$scope.uploadPercentage = parseInt(100.0 * evt.loaded / evt.total);					
 				}
-			)		
+			);
 		};
 	}]);
 

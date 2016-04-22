@@ -143,17 +143,7 @@
 		</fieldset>
 
 		<p class="modal-footer">
-		
-			<div ng-show="updating">
-				<div class="progress col-sm-10">
-					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{uploadPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{uploadPercentage}}%">
-					</div>
-				</div>		
-				<div class="col-sm-2">
-					<button class="btn btn-danger btn-xs btn-block" ng-click="abort_upload()">{{ "cancel_text" | translate }}</button>
-				</div>
-			</div>
-			<div ng-hide="updating">
+			<div>
 				<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
 				<button class="btn btn-primary pull-right" ng-click="videoForm.$valid && accept()" ng-disabled="!videoForm.$valid || updating">
 					<loader-field ng-show="updating"></loader-field>
@@ -164,3 +154,23 @@
 		</p>
 	</form>
 </section>
+
+
+
+<script type="text/ng-template" id="uploadingVideoMessageBox.html">
+	<div class="modal-header">
+		<h4 class="modal-title">Subiendo video</h4>
+	</div>
+	<div class="modal-body">
+		
+		<div class="progress">
+			<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{uploadPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{uploadPercentage}}%">
+			</div>
+		</div>		
+	</div>		
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" ng-click="cancel()" ng-show="updating"> Cancelar </button>
+		<button type="button" class="btn btn-default" ng-click="accept()" ng-hide="updating"> Aceptar </button>
+	</div>	
+</script>

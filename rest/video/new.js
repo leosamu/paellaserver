@@ -83,7 +83,7 @@ exports.routes = {
 				.populate('defaultRepositoryForMasters')
 				.exec(function(err, catalog) {
 					if (err) return res.sendStatus(500);
-										
+														
 					video.catalog =  catalogId;
 					video.repository = catalog.defaultRepository;
 					video.owner = [req.user._id];
@@ -101,7 +101,10 @@ exports.routes = {
 			},
 			VideoController.CreateVideo,
 			function(req,res,next) {
-				var video = req.data;					
+				var video = req.data;
+				
+				console.log(JSON.stringify(video.source));
+				
 				var repoFolder = video.source.masters.repository.path + video._id;
 				ensureFolderExists(repoFolder, function(err) {
 					if (err) {
