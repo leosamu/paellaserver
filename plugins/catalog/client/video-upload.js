@@ -8,13 +8,42 @@
 		$scope.editing = (videoData!= null);
 		$scope.uploadPercentage = 0;
 		$scope.upload = null;
+		$scope.visibility="public";
 		
 		$scope.video = videoData || {
 			published: {
 				status: true
 			}
 		};		
-					
+				
+		$scope.$watch('visibility', function() {
+			if ($scope.visibility == 'public') {
+				$scope.video.hidden = false;
+				$scope.video.hiddenInSearches = false;
+				$scope.video.published = {
+					status: true,
+					publicationDate: null
+				}
+			}			
+			else if ($scope.visibility == 'private') {
+				$scope.video.hidden = true;
+				$scope.video.hiddenInSearches = true;
+				$scope.video.published = {
+					status: false,
+					publicationDate: null
+				}
+				
+			}			
+			else if ($scope.visibility == 'hidden') {
+				$scope.video.hidden = true;
+				$scope.video.hiddenInSearches = true;
+				$scope.video.published = {
+					status: true,
+					publicationDate: null
+				}
+			}			
+		});
+		
 		$scope.close = function() {
 			$modalInstance.dismiss('cancel');
 		};
@@ -35,7 +64,7 @@
 				
 				controller: function ($scope, $modalInstance, videoData) {
 					$scope.updating = true;
-					$scope.uploadPercentage = 20;
+					$scope.uploadPercentage = 0;
 					
 					$scope.upload = Upload.upload({
 						url: '/rest/video/new',

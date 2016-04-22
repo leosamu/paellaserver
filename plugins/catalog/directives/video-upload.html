@@ -52,6 +52,26 @@
 						</div>
 					</div>
 
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
+						<div class="col-sm-10">
+							<select class="form-control" ng-model="visibility">
+								<option value="public"> Público </option>
+								<option value="private"> Privado </option>
+								<option value="hidden"> Oculto </option>
+							</select>
+							
+							<div class="alert alert-success" ng-show="visibility=='public'">
+								El video será publico y aparecerá publicitado en el portal.
+							</div>							
+							<div class="alert alert-danger" ng-show="visibility=='private'">
+								El video solo lo podrá ver al autor del video.
+							</div>							
+							<div class="alert alert-warning" ng-show="visibility=='hidden'">
+								El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.
+							</div>
+						</div>
+					</div>
 
 					<!-- Drag and drop files area -->					
 					<div ngf-drop ngf-select name="file" ng-model="videoFile" class="drop-box" 
@@ -81,65 +101,7 @@
 				<div class="panel-body">
 					<unesco-code-list ng-model="video.pluginData.unesco.codes"></unesco-code-list>
 				</div>
-			</div>	
-
-
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">{{ "visibility_field_text" | translate }}</h3>
-				</div>
-				<div class="panel-body">				
-					<div class="form-group">
-						<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
-						<div class="col-sm-10">
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" ng-model="video.hidden"> {{ "hidden_in_list_text" | translate }}
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" ng-model="video.hiddenInSearches"> {{ "hidden_in_searches_text" | translate }}
-								</label>
-							</div>
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Publicar</label>
-						<div class="col-sm-10">							
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" ng-model="video.published.status"> Marcado como publicado
-								</label>
-							</div>
-						</div>
-					</div>	
-					
-					<div class="form-group" ng-show="(!video.published.status)">
-						<label class="col-sm-2 control-label">Publicar el video automaticamente</label>
-						<div class="col-sm-10">
-							<div class="input-group">
-								<input name="publicationDate" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.published.publicationDate" is-open="datePickerPublicationDateOpened" close-text="Close" disabled />
-								<span class="input-group-btn">
-									<button type="button" class="btn btn-default" ng-click="datePickerPublicationDateOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
-								</span>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-sm-offset-2 col-sm-10 alert alert-success" ng-show="video.published.status==true">
-						El video está publicado y disponible para ser visualizado.
-					</div>
-					<div class="col-sm-offset-2 col-sm-10 alert alert-danger" ng-show="video.published.status==false && (!video.published.publicationDate)">
-						El video no está publicado. Solo podrán visualizar el video los usuarios que tengan permiso de edición sobre el video.
-					</div>
-					<div class="col-sm-offset-2 col-sm-10 alert alert-warning" ng-show="video.published.status==false && video.published.publicationDate">
-						El video no está publicado. Se publicará automaticamente el {{video.published.publicationDate | amDateFormat: 'll'}}
-					</div>
-					
-				</div>
-			</div>
+			</div>			
 		</fieldset>
 
 		<p class="modal-footer">
@@ -164,9 +126,16 @@
 	<div class="modal-body">
 		
 		<div class="progress">
-			<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{uploadPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{uploadPercentage}}%">
+			<div class="progress-bar progress-bar-success" ng-class="{progress-bar-striped:updating, active:updating}"
+				role="progressbar" aria-valuenow="{{uploadPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{uploadPercentage}}%">
+				{{uploadPercentage}}%
 			</div>
+		</div>
+		
+		<div class="alert alert-success" ng-hide="updating">
+			El video se ha subido correctamente.
 		</div>		
+		
 	</div>		
 
 	<div class="modal-footer">
