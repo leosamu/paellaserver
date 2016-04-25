@@ -194,6 +194,34 @@
 	});
 	
 
+	app.directive("videoEditTasks", function(){
+		return {
+			restrict: 'E',
+			scope: {
+				videoId: "="
+			},
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-tasks.html',
+			controller: ["$scope", "$base64", "TaskCRUD",
+			function($scope, $base64, TaskCRUD) {
+			
+				$scope.$watch('videoId', function(){
+					$scope.loadingTasks = true;
+					if ($scope.videoId != null) {				
+						var final_query = {targetId: $scope.videoId};
+						$scope.filterQuery = $base64.encode(JSON.stringify(final_query));
+			
+						TaskCRUD.query({limit:100, skip:0, filters:$scope.filterQuery})
+						.$promise.then(function(data){
+							$scope.tasks = data;
+							$scope.loadingTasks = false
+		//					$scope.timeoutReload = null;
+						});
+					}
+				});
+			}]
+		}
+	});
+
 	
 	app.directive("videoEditParentsChannels", function(){
 		return {

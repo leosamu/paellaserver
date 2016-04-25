@@ -1,0 +1,27 @@
+<div ng-hide="loadingTasks">
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<!-- <th>Fecha</th> -->
+					<th>Tarea</th>
+					<th>Procesando</th>
+					<th>Error</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="t in tasks.list" ng-class="{danger: t.error}">
+					<!-- <td>{{t.creationDate | amDateFormat:'ll'}}</td> -->
+					<td>{{t.task}}</td>
+					<td>
+						<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.processing, 'glyphicon-remove':(!t.processing)}">
+					</td>
+					<td>
+						<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.error, 'glyphicon-remove':(!t.error)}"> </span>
+					</td>
+				</tr>			
+			</tbody>
+		</table>
+	</div>	
+</div>
+<loader ng-show="loadingTasks"></loader>			
