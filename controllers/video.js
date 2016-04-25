@@ -235,8 +235,9 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 };
 
 exports.LoadThumbnails = function(req,res,next) {
-	if (req.data && req.data.list) {
-		req.data.list.forEach(function(videoData) {
+	if ((req.data && req.data.list) || req.data.length) {
+		var list = req.data.list || req.data;
+		list.forEach(function(videoData) {
 			var repo = videoData.repository;
 			if (repo) {
 				if (videoData.thumbnail) videoData.thumbnail = repo.server + repo.endpoint + videoData._id + '/' + videoData.thumbnail;
