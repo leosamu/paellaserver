@@ -29,6 +29,13 @@
 				$scope.linkType = "";
 				historyUrls.push(location.href);
 
+				function dispatchScroll(target,newScrollTop) {
+					target.scrollTop = newScrollTop;
+					var e = document.createEvent("UIEvents");
+					e.initUIEvent("scroll", true, true, window, 1);
+					target.dispatchEvent(e);
+				}
+
 				function updateLinks() {
 					switch ($scope.currentTab) {
 						case 0:
@@ -52,6 +59,11 @@
 
 				function onShowTab() {
 					$(window).trigger("ps:loadDone");
+					// Send scroll event to force load the images
+					setTimeout(function() {
+						dispatchScroll(document.body,document.body.scrollTop);
+					},1000);
+
 					updateLinks();
 				}
 
