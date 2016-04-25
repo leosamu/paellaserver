@@ -44,8 +44,8 @@
 					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Medios </a></li>			
 					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Plugins </a></li>
 					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Permisos</a></li>
-					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Adjuntos</a></li>
-					<li role="presentation" ng-click="tab=7" ng-class="{active:tab==7}"><a href>Canales</a></li>
+					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Canales</a></li>
+					<li role="presentation" ng-click="tab=7" ng-class="{active:tab==7}"><a href>Tasks</a></li>
 <!--					
 					<li role="presentation" ng-click="tab=7" ng-class="{active:tab==7}"><a href>JSON Object</a></li>
 -->					
@@ -75,51 +75,14 @@
 							<div class="tab-pane" ng-show="tab==5">
 								<permissions-editor permissions="video.permissions"></permissions-editor>							
 							</div>	
-			
-			
+										
 							<div class="tab-pane" ng-show="tab==6">
-							
-								<accordion close-others='false'>
-									<accordion-group>
-										<accordion-heading>
-											Detector de diapositivas <span class='badge'>{{video.slides.length || 0}}</span>
-										</accordion-heading>
-										<div class="table-responsive">
-											<table class="table table-hover">
-												<thead>
-													<tr>
-														<th>Instante de tiempo</th>
-														<th>Imagen</th>
-														<th>Formato</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr ng-repeat="s in video.slides">
-														<td>{{s.time}}</td>
-														<td>{{s.url}}</td>
-														<td>{{s.mimetype}}</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</accordion-group>
-									<accordion-group>
-										<accordion-heading>
-											Fotos de la pizarra <span class='badge'>{{video.blackboard.length || 0}}</span>
-										</accordion-heading>						
-									</accordion-group>
-									<accordion-group>
-										<accordion-heading>
-											Ficheros adjuntos <span class='badge'>{{video.attachments.length || 0}}</span>
-										</accordion-heading>						
-									</accordion-group>
-								</accordion>
-							</div>
-							
-							<div class="tab-pane" ng-show="tab==7">
 								<video-edit-parents-channels video-id="video._id" channels="parentChannels"></video-edit-parents-channels>
 							</div>	
-							
+
+							<div class="tab-pane" ng-show="tab==7">
+							</div>
+														
 						</form>
 					</div>					  
 				</div>
