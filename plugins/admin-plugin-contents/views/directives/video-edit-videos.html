@@ -1,84 +1,58 @@
-
-<div class="form-group">
+<div class="form-group has-feedback">
 	<label class="col-sm-2 control-label">Tipo de video</label>
 	<div class="col-sm-10">
-		<div class="input-group">
-			<input type="text" class="form-control" ng-model="video.source.type" ng-disabled="!editSourceType">
-			<span class="input-group-btn">
-				<button type="button" class="btn btn-danger" ng-click="editSourceType=!editSourceType"><i class="glyphicon glyphicon-pencil"></i></button>
-			</span>
-		</div>
-	</div>
-</div>
-
-<div class="form-group">
-	<label class="col-sm-2 control-label">Streming</label>
-	<div class="col-sm-10">
-		<div class="checkbox">
-			<label>
-				<input type="checkbox" ng-model="video.source.live"> It is a streaming video
-			</label>
-		</div>
+		<select class="form-control" ng-model="video.source.type">
+			<option value="polimedia">Video gestionado por el portal</option>
+			<option value="external">Video externo</option>
+		</select>
 	</div>
 </div>
 
 
-<div ng-show="video.source.live!=false">
+
+<div ng-show="video.source.type == 'polimedia'">
 	<div class="form-group">
-		<label class="col-sm-2 control-label">Server</label>
+		<label class="col-sm-2 control-label">Streming</label>
 		<div class="col-sm-10">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="video.source.videos[0].server" ng-disabled="!editSRC" />
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-danger" ng-click="editSRC=!editSRC"><i class="glyphicon glyphicon-pencil"></i></button>
-				</span>
-			</div>			
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="video.source.live"> It is a Live streaming video.
+				</label>
+			</div>
 		</div>
 	</div>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">Stream</label>
-		<div class="col-sm-10">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="video.source.videos[0].stream" ng-disabled="!editSRC" />
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-danger" ng-click="editSRC=!editSRC"><i class="glyphicon glyphicon-pencil"></i></button>
-				</span>
-			</div>			
-		</div>
+	
+	
+	<div ng-show="video.source.live == true">	
+		<div class="alert alert-info" ng-show="video.source.type=='polimedia'">
+			El video es una retransmisión en directo.
+		</div>	
+		<video-edit-media-live video="video"></video-edit-media-live>
 	</div>
-	<div class="form-group">
-		<label class="col-sm-2 col-xs-12 control-label">Resolución</label>
-		<div class="col-sm-5 col-xs-6">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="video.source.videos[0].width" ng-disabled="!editWidth">
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-danger" ng-click="editWidth=!editWidth"><i class="glyphicon glyphicon-pencil"></i></button>
-				</span>
-			</div>			
-		</div>
-		<div class="col-sm-5 col-xs-6">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="video.source.videos[0].height" ng-disabled="!editHeight">
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-danger" ng-click="editHeight=!editHeight"><i class="glyphicon glyphicon-pencil"></i></button>
-				</span>
-			</div>			
-		</div>
-	</div>
-	<div class="form-group">
-		<label class="col-sm-2 control-label">mimetype</label>
-		<div class="col-sm-10">
-			<div class="input-group">
-				<input type="text" class="form-control" ng-model="video.source.videos[0].mimetype" ng-disabled="!editMimetype">
-				<span class="input-group-btn">
-					<button type="button" class="btn btn-danger" ng-click="editMimetype=!editMimetype"><i class="glyphicon glyphicon-pencil"></i></button>
-				</span>
-			</div>			
-		</div>
-	</div>
+
+	<div ng-hide="video.source.live == true">
+		<video-edit-media-files video="video"></video-edit-media-files>
+	</div>		
 </div>
 
 
+
+
+<div class="alert alert-info" ng-show="video.source.type=='external'">
+	<div>El video no será gestionado por el portal, sino que está en una página externa (youtube, vimeo,...).</div>
+	
+	<div class="form-group has-feedback" ng-class="{'has-error': !(form.url.$valid)}">
+		<label class="col-sm-1 control-label">URL</label>
+		<div class="col-sm-11">
+			<input name="url" type="text" class="form-control" ng-model="video.source.link" placeholder="http://wwww.youtube.com/?v=xx" ng-required="video.source.type=='external'">
+		</div>
+	</div>	
+</div>
+
+
+
+
+<!--
 <div ng-hide="video.source.live!=false">
 	<div class="alert alert-warning" ng-show="video.unprocessed">
 		<p>
@@ -118,3 +92,4 @@
 	</div>
 </div>
 
+-->

@@ -157,6 +157,30 @@
 		}
 	});
 
+
+	app.directive("videoEditMediaLive", function(){
+		return {
+			restrict: 'E',
+			scope: {
+				video: "="
+			},
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-media-live.html'
+		}
+	});
+	
+	app.directive("videoEditMediaFiles", function(){
+		return {
+			restrict: 'E',
+			scope: {
+				video: "="
+			},
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-media-files.html'
+		}
+	});
+
+
+
+
 	app.directive("videoEditVideoInfo", function(){
 		return {
 			restrict: 'E',
@@ -169,6 +193,7 @@
 		}
 	});
 	
+
 	
 	app.directive("videoEditParentsChannels", function(){
 		return {
