@@ -7,8 +7,8 @@ var RepositoryController = require('./repository');
 //	Output: res.data [ { _id:"video_id", title:"video_title" } ]
 exports.LoadVideos = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	var select = '-slides -hidden -roles -duration ' +
-				'-hiddenInSearches -canRead -canWrite ' +
+	var select = '-slides -roles -duration ' +
+				'-canRead -canWrite ' +
 				'-deletionDate -pluginData ' +
 				'-metadata -search -processSlides -operator';
 				
@@ -45,8 +45,8 @@ exports.LoadVideos = function(req,res,next) {
 //	Output: res.data [ { _id:"video_id", title:"video_title" } ]
 exports.Newest = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	var select = '-slides -hidden -roles -duration -source -blackboard ' +
-		'-hiddenInSearches -canRead -canWrite ' +
+	var select = '-slides -roles -duration -source -blackboard ' +
+		'-canRead -canWrite ' +
 		'-deletionDate -pluginData ' +
 		'-metadata -search -processSlides ';
 	var query = { "$where":"this.published && this.published.status && !this.deletionDate"};
@@ -339,8 +339,8 @@ exports.Where = function(query,select) {
 			q = q.replace(new RegExp(varName),req.params[paramName]);
 		}
 		var Video = require(__dirname + '/../models/video');
-		select = select || '-slides -hidden -roles -duration ' +
-			'-hiddenInSearches -canRead -canWrite ' +
+		select = select || '-slides -roles -duration ' +
+			'-canRead -canWrite ' +
 			'-deletionDate ' +
 			'-metadata -search -processSlides ';
 
