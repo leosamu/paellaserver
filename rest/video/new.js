@@ -147,6 +147,7 @@ exports.routes = {
 				var workflowParams = JSON.stringify(tasks);				
 				var workflow = new Task({
 					task: 'workflow',
+					error: false,
 					targetType: 'video',
 					targetId: req.data._id,
 					parameters: workflowParams
