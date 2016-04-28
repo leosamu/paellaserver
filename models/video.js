@@ -61,8 +61,7 @@ var VideoSchema = new Schema({
 			files: [
 				{
 					name: { type:String },
-					transcode: { type:String },	// videos, slaveVideos
-					processed: { type:Boolean }
+					tag: { type:String }
 				}
 			]
 		},

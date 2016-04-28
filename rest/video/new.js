@@ -102,9 +102,7 @@ exports.routes = {
 			VideoController.CreateVideo,
 			function(req,res,next) {
 				var video = req.data;
-				
-				console.log(JSON.stringify(video.source));
-				
+								
 				var repoFolder = video.source.masters.repository.path + video._id;
 				ensureFolderExists(repoFolder, function(err) {
 					if (err) {
@@ -115,10 +113,10 @@ exports.routes = {
 					else {			
 						var destinationFile = repoFolder + '/master' + path.extname(req.file.originalname);					
 						move(req.file.path, destinationFile, function(err) {
+							var name = 'master' + path.extname(req.file.originalname);
 							video.source.masters.files = [{
-								name: 'master' + path.extname(req.file.originalname),
-								transcode: 'videos',
-								processed: false
+								name: name,
+								tag: 'presenter/transcode',
 							}];
 	
 							Video.update({"_id": video._id}, {
@@ -133,6 +131,7 @@ exports.routes = {
 				});
 
 			},
+			// TODO: Create the Task (encodeFromMasters)
 			CommonController.JsonResponse
 		]
 	}
