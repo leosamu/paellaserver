@@ -23,7 +23,7 @@
 						targetId: v._id,
 						processing : false,
 						error: false,
-						parameters: taskParams
+						parameters: workflowParams
 					};
 					
 					return TaskCRUD.save(workflow).$promise;
