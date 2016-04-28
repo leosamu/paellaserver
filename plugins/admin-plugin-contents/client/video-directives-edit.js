@@ -153,7 +153,7 @@
 			scope: {
 				video: "="
 			},
-			templateUrl: 'admin-plugin-contents/views/directives/video-edit-videos.html'
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-videos.html'			
 		}
 	});
 
@@ -174,7 +174,13 @@
 			scope: {
 				video: "="
 			},
-			templateUrl: 'admin-plugin-contents/views/directives/video-edit-media-files.html'
+			templateUrl: 'admin-plugin-contents/views/directives/video-edit-media-files.html',
+			controller: ["$scope",
+				function($scope) {
+					$scope.uploadMasters = function() {
+					}
+				}
+			]			
 		}
 	});
 
