@@ -175,9 +175,52 @@
 				video: "="
 			},
 			templateUrl: 'admin-plugin-contents/views/directives/video-edit-media-files.html',
-			controller: ["$scope",
-				function($scope) {
+			controller: ["$scope", '$modal', 
+				function($scope, $modal) {
 					$scope.uploadMasters = function() {
+					
+						var modalInstance = $modal.open({
+							templateUrl: 'admin-plugin-contents/views/modal/video-edit-media-files-upload-masters.html',
+							size: 'lg',
+							backdrop: true,
+							resolve: {
+								video: function() {return $scope.video;}
+							},
+							controller: function ($scope, $modalInstance, video) {
+								$scope.video = video;
+								
+								$scope.type = undefined;
+								$scope.video.source.masters.files.some(function(f){
+									if (f.tag){
+										var s = f.tag.split('/')
+										if ($scope.type == undefined) {
+											$scope.type = s[1]
+										}
+										else {
+											if (s[1] != type){
+												$scope.type = undefined
+												return true;
+											}
+										}
+									}
+								});						
+					
+								$scope.changeType = function() {
+									console.log("change");
+								}				
+					
+								console.log($scope.type);								
+								
+								
+								$scope.cancel = function () {
+									$modalInstance.dismiss();
+								};
+								$scope.accept = function () {
+									$modalInstance.dismiss();
+								};
+							}
+						});					
+					
 					}
 				}
 			]			
