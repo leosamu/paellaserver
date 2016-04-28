@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 
+var Task = require(__dirname + '/../../models/task');
 var Video = require(__dirname + '/../../models/video');
 var Catalog = require(__dirname + '/../../models/catalog');
 var Repository = require(__dirname + '/../../models/repository');
@@ -131,7 +132,31 @@ exports.routes = {
 				});
 
 			},
-			// TODO: Create the Task (encodeFromMasters)
+			function(req,res, next) {
+				var workflowParams= [
+				];
+				
+				var tasks = [
+					{ task: "encodeFromMasters", cancelOnError: true },
+					{ task: "extractSlides", cancelOnError: false  },
+					{ task: "encode", cancelOnError: false },
+					{ task: "md5", cancelOnError: false  },
+					{ task: "notify", cancelOnError: false  }
+				];
+				
+				var workflowParams = JSON.stringify(tasks);				
+				var workflow = new Task({
+					task: 'workflow',
+					targetType: 'video',
+					targetId: req.data._id,
+					parameters: workflowParams
+				});
+				
+				workflow.save(workflow, function(err){
+					if (err) return res.sendStatus(500);
+					next();					
+				})
+			},
 			CommonController.JsonResponse
 		]
 	}
