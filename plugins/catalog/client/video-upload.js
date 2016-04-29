@@ -21,16 +21,14 @@
 				$scope.video.hidden = false;
 				$scope.video.hiddenInSearches = false;
 				$scope.video.published = {
-					status: true,
-					publicationDate: null
+					status: true
 				}
 			}			
 			else if ($scope.visibility == 'private') {
 				$scope.video.hidden = true;
 				$scope.video.hiddenInSearches = true;
 				$scope.video.published = {
-					status: false,
-					publicationDate: null
+					status: false
 				}
 				
 			}			
@@ -38,8 +36,7 @@
 				$scope.video.hidden = true;
 				$scope.video.hiddenInSearches = true;
 				$scope.video.published = {
-					status: true,
-					publicationDate: null
+					status: true
 				}
 			}			
 		});
