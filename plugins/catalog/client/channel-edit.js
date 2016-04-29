@@ -15,6 +15,13 @@
 		$scope.acceptText = channelData!=null ? "edit_text":"create_text";
 		$scope.titleText =  channelData!=null ? "edit_channel_text_title":"create_channel_text_title";
 
+		$scope.visibility = 'public';
+
+
+		$scope.$watch('visibility', function(){
+			$scope.channelData.hidden = ($scope.visibility == 'public');
+			$scope.channelData.hiddenInSearches = ($scope.visibility == 'public');
+		})
 /*
 		$scope.owner = {};
 

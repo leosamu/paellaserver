@@ -15,24 +15,25 @@
                 </div>
             </div>
 
-            <!-- Multiple Checkboxes -->
-            <div class="form-group">
-                <label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
-                <div class="col-sm-10">
-                    <div class="checkbox">
-                        <label for="isHidden">
-                            <input id="isHidden" type="checkbox" ng-model="channelData.hidden">
-                            {{ "hidden_in_list_text" | translate }}
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label for="isHiddenInSearches">
-                            <input id="isHiddenInSearches" type="checkbox" ng-model="channelData.hiddenInSearches">
-                            {{ "hidden_in_searches_text" | translate }}
-                        </label>
-                    </div>
-                </div>
-            </div>
+            
+			<div class="form-group">
+				<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
+				<div class="col-sm-10">
+					<select class="form-control" ng-model="visibility">
+						<option value="public"> Público </option>
+						<option value="hidden"> Oculto </option>
+					</select>
+					
+				</div>
+			</div>
+
+			<div class="alert alert-success" ng-show="visibility=='public'">
+				El canal será publico y aparecerá publicitado en el portal.
+			</div>							
+			<div class="alert alert-warning" ng-show="visibility=='hidden'">
+				El canal no aparecerá publicitado en el portal, pero se podrá acceder a él si se conoce el enlace.
+			</div>
+            
         </fieldset>
 
 
