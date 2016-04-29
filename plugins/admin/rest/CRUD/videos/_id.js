@@ -17,6 +17,7 @@ exports.routes = {
 													
 						Video.findOne(query)
 						.populate('repository')
+						.populate('source.masters.repository')
 						.populate('owner')					
 						.populate('operator')					
 						.exec(function(err, item) {

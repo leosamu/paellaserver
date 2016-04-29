@@ -1,5 +1,5 @@
 <accordion close-others='false'>
-	<accordion-group>
+	<accordion-group ng-show="video.source.videos.length > 0">
 		<accordion-heading>
 			Videos del ponente <span class='badge'>{{video.source.videos.length || 0}}</span>
 		</accordion-heading>
@@ -28,7 +28,7 @@
 	</accordion-group>
 
 
-	<accordion-group>
+	<accordion-group ng-show="video.source.slaveVideos.length > 0">
 		<accordion-heading>
 			Videos de la presentación <span class='badge'>{{video.source.slaveVideos.length || 0}}</span>
 		</accordion-heading>
@@ -58,7 +58,7 @@
 
 
 
-	<accordion-group>
+	<accordion-group ng-show="video.slides.length > 0">
 		<accordion-heading>
 			Detector de diapositivas <span class='badge'>{{video.slides.length || 0}}</span>
 		</accordion-heading>
@@ -102,7 +102,39 @@
 	<accordion-group>
 		<accordion-heading>
 			Masters <span class='badge'>{{video.source.masters.files.length || 0}}</span>
-		</accordion-heading>						
+		</accordion-heading>
+		<div class="alert alert-warning" ng-hide="video.source.masters.files.length > 0">
+			This video has no masters files.
+		</div>			
+		
+		<div class="table-responsive" ng-show="video.source.masters.files.length > 0">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>File</th>
+						<th>Tag</th>
+						<th>Server Path</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="s in video.source.masters.files">
+						<td> {{s.name}} </td>
+						<td> {{s.tag}} </td>
+						<td> {{video.source.masters.repository.path}}/{{video._id}}/{{s.name}} </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>	
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-warning btn-xs" ng-click="uploadMasters()">
+					Upload master files
+				</button>
+			</div>
+		</div>			
+		
+					
 	</accordion-group>
 
 </accordion>
