@@ -40,13 +40,13 @@
 					<div class="form-group has-feedback" ng-class="{'has-error': !(videoForm.language.$valid)}">
 						<label class="col-sm-2 control-label">{{ "language" | translate }}</label>
 						<div class="col-sm-10">
-							<language-select language="video.language"></language-select>
+							<language-select language="video.language" allow-other="true"></language-select>
 							<input name="language" type="text" ng-model="video.language" style="display: none;" required>					
 						</div>
 					</div>
 		
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Palabras clave</label>
+						<label class="col-sm-2 control-label">{{ "keyworkds_text" | translate }}</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" ng-model="video.metadata.keywords" ng-list>
 						</div>
@@ -56,41 +56,56 @@
 						<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
 						<div class="col-sm-10">
 							<select class="form-control" ng-model="visibility">
-								<option value="public"> Público </option>
-								<option value="private"> Privado </option>
-								<option value="hidden"> Oculto </option>
+								<option value="public"> {{ "public_text" | translate }} </option>
+								<option value="private"> {{ "private_text" | translate }} </option>
+								<option value="hidden"> {{ "hidden_text" | translate }} </option>
 							</select>
 							
 							<div class="alert alert-success" ng-show="visibility=='public'">
-								El video será publico y aparecerá publicitado en el portal.
+								{{ "public_explanation_text" | translate }}
 							</div>							
 							<div class="alert alert-danger" ng-show="visibility=='private'">
-								El video solo lo podrá ver al autor del video.
+								{{ "private_explanation_text" | translate }}
 							</div>							
 							<div class="alert alert-warning" ng-show="visibility=='hidden'">
-								El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.
+								{{ "hidden_explanation_text" | translate }} 
 							</div>
 						</div>
 					</div>
 
-					<!-- Drag and drop files area -->					
-					<div ngf-drop ngf-select name="file" ng-model="videoFile" class="drop-box" 
-						ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
-						ngf-accept="'video/*'" ngf-max-size="'10GB'"
-						accept="{{acceptSelect}}"
-						ngf-pattern="pattern" ng-change="selectFile(files)"
-						ng-required="!editing"
-						ng-show="!editing">
-							<span ng-hide="videoFile">
-								{{ "drop_videos_text" | translate }}
-							</span>
-							<span ng-show="videoFile">
-								{{ videoFile.name }} <br/> ({{videoFile.size}} Bytes)
-							</span>
-					</div>
-					<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>		
-					<!-- form.file.$error.maxSize=true -->
 
+					<div class="form-group">
+						<!-- Drag and drop files area -->					
+						<div ngf-drop ngf-select name="file" ng-model="videoFile" class="drop-box" 
+							ngf-drag-over-class="{pattern: 'video/*', accept:'dragover', reject:'dragover-err', delay:100}"
+							ngf-multiple="false"
+							ngf-allow-dir="false"
+							ngf-max-size="'5GB'"
+							ngf-accept="'video/*'"
+							ngf-pattern="'video/*'"
+							ngf-model-invalid="invalidFile"
+							accept="'video/*'"
+							
+							ng-change="selectFile"
+							ng-required="!editing"
+							ng-show="!editing">
+								<span ng-hide="videoFile">
+									{{ "drop_videos_text" | translate }}
+								</span>
+								<span ng-show="videoFile">
+									{{ videoFile.name }} <br/> ({{videoFile.size}} Bytes)
+								</span>
+						</div>
+						<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>		
+						<!-- form.file.$error.maxSize=true -->
+					</div>
+
+					<div class="form-group" ng-show="invalidFile.length > 0">
+						<div class="alert alert-danger">
+							{{ "file_not_valid_text" | translate }}
+						</div>	
+					</div>
+					
 				</div>
 			</div>
 					
@@ -121,7 +136,7 @@
 
 <script type="text/ng-template" id="uploadingVideoMessageBox.html">
 	<div class="modal-header">
-		<h4 class="modal-title">Subiendo video</h4>
+		<h4 class="modal-title">{{ 'uploading_video_text' | translate }}</h4>
 	</div>
 	<div class="modal-body">
 		
@@ -133,7 +148,7 @@
 		</div>
 		
 		<div class="alert alert-success" ng-hide="updating">
-			El video se ha subido correctamente.
+			{{ 'file_upload_ok_text' | translate }}
 		</div>		
 		
 	</div>		

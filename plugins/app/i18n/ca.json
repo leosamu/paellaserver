@@ -56,7 +56,7 @@
 	"upload_video_text_title": "Pujar video",
 	"video_title_field_placeholder_text": "Títol descriptiu del video",
 	"politube_video_details_title":"detalls del video",
-	"drop_videos_text":"arrossegar el video açí",   
+	"drop_videos_text":"arrossegar el video açí o fer click",   
 
 	"create_author_warning":"No se ha encontrado el autor, se creará uno nuevo con los datos especificados",
 	"video_edit_path":"Ruta en el servidor",
@@ -85,6 +85,8 @@
 	"fi":"Finés",
 	"kk":"Kazajo",
 	"ar":"Árabe",
+	"other":"Un altre",
+	
 
 	"categories":"Categories",
 	"no_categories_selected_text":"No hi ha cap categoria sel·leccionada",
@@ -93,6 +95,17 @@
 
 	"open_admin_page":"Obrir pàgina d'administració",
 
-	"options":"opcions"
+	"options":"opcions",	
+	
+	"keyworkds_text": "Palabras clave",
+	"public_text": "Público",
+	"private_text": "Privado",
+	"hidden_text": "Oculto",
+	"public_explanation_text": "El video será publico y aparecerá publicitado en el portal.",
+	"private_explanation_text": "El video solo lo podrá ver al autor del video.",
+	"hidden_explanation_text": "El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.",
+	"file_not_valid_text": "El fichero seleccionado no es válido. Seleccione otro fichero.",
+	"uploading_video_text": "Subiendo fichero",
+	"file_upload_ok_text": "El video se ha subido correctamente."	
 	
 }

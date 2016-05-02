@@ -84,6 +84,8 @@
 	"fi":"Finnish",
 	"kk":"Kazakh",
 	"ar":"Arabic",
+	"other":"Other",
+	
 
 	"categories":"Categories",
 	"no_categories_selected_text":"There isn't any category selected",
@@ -91,9 +93,23 @@
 	"select_subcategory_text":"Select category",
 
 	"upload_queue_title":"Upload videos",
-	"drop_videos_text":"Drop video here",
+	"drop_videos_text":"Drop video here or make click",
 
 	"add_to_upload_queue":"Add to upload queue",
 
-	"open_admin_page":"Open admin page"
+	"open_admin_page":"Open admin page",
+	
+	"options":"options",
+	
+	
+	"keyworkds_text": "Palabras clave",
+	"public_text": "Público",
+	"private_text": "Privado",
+	"hidden_text": "Oculto",
+	"public_explanation_text": "El video será publico y aparecerá publicitado en el portal.",
+	"private_explanation_text": "El video solo lo podrá ver al autor del video.",
+	"hidden_explanation_text": "El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.",
+	"file_not_valid_text": "El fichero seleccionado no es válido. Seleccione otro fichero.",
+	"uploading_video_text": "Subiendo fichero",
+	"file_upload_ok_text": "El video se ha subido correctamente."	
 }

@@ -9,6 +9,7 @@
 		$scope.uploadPercentage = 0;
 		$scope.upload = null;
 		$scope.visibility="public";
+		$scope.invalidFile = [];		
 		
 		$scope.video = videoData || {
 			published: {
@@ -41,6 +42,7 @@
 			}			
 		});
 		
+				
 		$scope.close = function() {
 			$modalInstance.dismiss('cancel');
 		};
