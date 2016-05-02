@@ -300,6 +300,34 @@ footer {
 	color: #0a7d91;
 }
 
+.ps-unprocessed-icon {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 5em;
+	color: rgb(186, 43, 36);
+	background-color: rgba(255,255,255,0.83);
+}
+
+.ps-unprocessed-text {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1em;
+	color: rgb(186, 43, 36);
+	padding-top: 32%;
+}
+
 .ps-popup-content {
 	padding: 20px;
 }
@@ -330,7 +358,7 @@ footer {
 }
 
 .ps-unprocessed {
-	opacity: 0.5;
+
 }
 
 .ps-remove-icon {

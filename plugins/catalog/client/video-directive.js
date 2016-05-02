@@ -46,11 +46,27 @@
 					if ($scope.video.unprocessed) {
 						return false;
 					}
+					else if ($scope.currentUser && $scope.currentUser._id && $scope.video.owner.some(function(owner) {
+							var ownerId = owner._id || owner;
+							return ownerId==$scope.currentUser._id;
+						})
+					) {
+						return true;
+					}
 					else if ($scope.isSearch) {
 						return !$scope.video.hiddenInSearches;
 					}
 					else {
 						return !$scope.video.hidden;
+					}
+				};
+
+				$scope.isUnprocessed = function() {
+					if ($scope.video.unprocessed) {
+						return true;
+					}
+					else {
+						return false;
 					}
 				};
 

@@ -21,7 +21,9 @@
 
     <img class="ps-image img-responsive" ng-click="openVideo(video)" lazy-src="{{thumbnail()}}" alt="{{video.title + ' image'}}" />
     <!--Padlock in hidden videos-->
-    <div class="ps-lock" ng-show="!isVisible()"><i class="glyphicon glyphicon-lock"></i></div>
+    <div class="ps-lock" ng-show="!isVisible() && !isUnprocessed()"><i class="glyphicon glyphicon-lock"></i></div>
+    <div class="ps-unprocessed-icon" ng-show="isUnprocessed()"><i class="glyphicon glyphicon-refresh"></i></div>
+    <div class="ps-unprocessed-text" ng-show="isUnprocessed()">{{ 'unprocessed_video_text' | translate }}</div>
     <h2 class="ps-title text-center">
         <div class="ps-title-text" ng-click="openVideo(video)">{{video.title}}</div>
         <em class="ps-date" ng-click="openVideo(video)">{{video.creationDate | date:"dd/MM/yyyy" }}</em>
