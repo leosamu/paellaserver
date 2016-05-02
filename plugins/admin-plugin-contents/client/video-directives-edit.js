@@ -5,10 +5,11 @@
 		return {
 			restrict: 'E',
 			scope: {
-				language: "="	
+				language: "=",
+				allowOther: "@"	
 			},
-			controller: ['$scope', function($scope){
-				$scope.langs= [
+			controller: ['$scope', function($scope){				
+				$scope.langs = [
 					{ "id":"es", "name":"es" },
 					{ "id":"en", "name":"en" },
 					{ "id":"it", "name":"it" },
@@ -29,6 +30,10 @@
 					{ "id":"kk", "name":"kk" },
 					{ "id":"ar", "name":"ar" }
 				];
+				
+				if ($scope.allowOther) {
+					$scope.langs.push({ "id":"other", "name":"other" })
+				}
 
 			}],
 			templateUrl: 'admin-plugin-contents/views/directives/language-select.html'
