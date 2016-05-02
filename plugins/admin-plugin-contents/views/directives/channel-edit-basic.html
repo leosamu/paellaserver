@@ -1,7 +1,7 @@
 <div class="form-group" ng-show="channel._id">
 	<label class="col-sm-2 control-label">Imagen</label>
 	<div class="col-sm-10">
-		<img ng-if="channel.thumbnail" ng-src="{{channel.thumbnail}}">			
+		<img ng-if="channel.thumbnail" ng-src="{{channel.repository.server}}{{channel.repository.endpoint}}{{channel._id}}/channels/{{channel.thumbnail}}">			
 		<img ng-if="!channel.thumbnail" src="/resources/images/channel-placeholder.gif">
 		<!--
 		<button type="button" class="btn btn-default btn-xs">
