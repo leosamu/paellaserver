@@ -2,7 +2,7 @@
 	<label class="col-sm-2 control-label">Imagen</label>
 	<div class="col-sm-10">
 		<img ng-if="channel.thumbnail" ng-src="{{channel.repository.server}}{{channel.repository.endpoint}}{{channel._id}}/channels/{{channel.thumbnail}}">			
-		<img ng-if="!channel.thumbnail" src="/resources/images/channel-placeholder.gif">
+		<img ng-if="!channel.thumbnail" src="/resources/images/channel-placeholder.png">
 		<!--
 		<button type="button" class="btn btn-default btn-xs">
 			<span class="glyphicon glyphicon-picture"></span> Cambiar imagen del canal
