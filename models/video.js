@@ -156,7 +156,6 @@ VideoSchema.methods.updateSearchIndex = function () {
 			name = name + ( user.contactData.email || "" ) + " ";
 			
 			name = removeDuplicate(toAccentInsensitiveString(name.toLowerCase()));
-			console.log (name);
 			ownersNames.push(name);			
 		});
 		
@@ -171,7 +170,8 @@ VideoSchema.methods.updateSearchIndex = function () {
 					owner: ownersNames,
 					transcription: ''
 				}
-			}}			
+			}},
+			function(err) {}			
 		);
 	});
 }

@@ -71,8 +71,10 @@ exports.routes = {
 				var item = new Video(req.body);
 				
 				item.save(function(err) {
-					if(!err) {
-						res.status(201);
+					if(!err) {	
+						item.updateSearchIndex();
+						
+						res.status(201);						
 						res.send(item);
 					}
 					else {
