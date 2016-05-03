@@ -73,7 +73,7 @@ exports.AddVideoTasks = function(req,res,next) {
 	var tasks = [];
 
 	function addTasks(video) {
-		var taskList = [ { task:"encode" }, { task:"extractSlides" }, { task:"translectures" }, { task:"md5" } ];
+		var taskList = [ { task:"calculateDuration" }, { task:"encode" }, { task:"extractSlides" }, { task:"translectures" }, { task:"md5" } ];
 		if (video.unprocessed) {
 			taskList.push({ task:"notify" });
 		}
