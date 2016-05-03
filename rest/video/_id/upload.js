@@ -108,9 +108,10 @@ exports.routes = {
 								"unprocessed": false,
 								"source.videos": [{
 									src: path.basename(destinationFile),
-									width: 1280,
-									height: 720
-//									recordingDate: { type:Date }									
+									width: 1920,
+									height: 1080,
+									mimetype: 'video/mp4'
+//									recordingDate: { type:Date }
 								}]
 							}
 						}, function(err){
