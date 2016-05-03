@@ -11,5 +11,6 @@ exports.routes = {
 		CommonController.Paginate,
 		SearchController.Search,
 		SearchController.LoadUrlFromRepository,
+		AuthController.LoadRoles,
 		CommonController.JsonResponse] }
 };

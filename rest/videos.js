@@ -15,5 +15,6 @@ exports.routes = {
 			next();
 		},				
 		VideoController.LoadVideos,
+		AuthController.LoadRoles,
 		CommonController.JsonResponse] }
 };

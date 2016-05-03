@@ -130,6 +130,12 @@ exports.LoadRoles = function(req,res,next) {
 		});
 		next();
 	}
+	else if (req.data && req.data.list) {
+		req.data.list.forEach(function(itemData) {
+			loadItemRoles(itemData);
+		});
+		next();
+	}
 	else if (req.data && req.data._id) {
 		loadItemRoles(req.data);
 		next();
