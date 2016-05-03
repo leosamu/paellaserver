@@ -40,37 +40,72 @@
 					<div class="form-group has-feedback" ng-class="{'has-error': !(videoForm.language.$valid)}">
 						<label class="col-sm-2 control-label">{{ "language" | translate }}</label>
 						<div class="col-sm-10">
-							<language-select language="video.language"></language-select>
+							<language-select language="video.language" allow-other="true"></language-select>
 							<input name="language" type="text" ng-model="video.language" style="display: none;" required>					
 						</div>
 					</div>
 		
 					<div class="form-group">
-						<label class="col-sm-2 control-label">Palabras clave</label>
+						<label class="col-sm-2 control-label">{{ "keyworkds_text" | translate }}</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" ng-model="video.metadata.keywords" ng-list>
 						</div>
 					</div>
 
-
-					<!-- Drag and drop files area -->					
-					<div ngf-drop ngf-select name="file" ng-model="videoFile" class="drop-box" 
-						ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false"
-						ngf-accept="'video/*'" ngf-max-size="'10GB'"
-						accept="{{acceptSelect}}"
-						ngf-pattern="pattern" ng-change="selectFile(files)"
-						ng-required="!editing"
-						ng-show="!editing">
-							<span ng-hide="videoFile">
-								{{ "drop_videos_text" | translate }}
-							</span>
-							<span ng-show="videoFile">
-								{{ videoFile.name }} <br/> ({{videoFile.size}} Bytes)
-							</span>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
+						<div class="col-sm-10">
+							<select class="form-control" ng-model="visibility">
+								<option value="public"> {{ "public_text" | translate }} </option>
+								<option value="private"> {{ "private_text" | translate }} </option>
+								<option value="hidden"> {{ "hidden_text" | translate }} </option>
+							</select>
+							
+							<div class="alert alert-success" ng-show="visibility=='public'">
+								{{ "public_explanation_text" | translate }}
+							</div>							
+							<div class="alert alert-danger" ng-show="visibility=='private'">
+								{{ "private_explanation_text" | translate }}
+							</div>							
+							<div class="alert alert-warning" ng-show="visibility=='hidden'">
+								{{ "hidden_explanation_text" | translate }} 
+							</div>
+						</div>
 					</div>
-					<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>		
-					<!-- form.file.$error.maxSize=true -->
 
+
+					<div class="form-group">
+						<!-- Drag and drop files area -->					
+						<div ngf-drop ngf-select name="file" ng-model="videoFile" class="drop-box" 
+							ngf-drag-over-class="{pattern: 'video/*', accept:'dragover', reject:'dragover-err', delay:100}"
+							ngf-multiple="false"
+							ngf-allow-dir="false"
+							ngf-max-size="'5GB'"
+							ngf-accept="'video/*'"
+							ngf-pattern="'video/*'"
+							ngf-model-invalid="invalidFile"
+							accept="'video/*'"
+							
+							ng-change="selectFile"
+							ng-required="!editing"
+							ng-show="!editing">
+								<span ng-hide="videoFile">
+									{{ "drop_videos_text" | translate }}
+								</span>
+								<span ng-show="videoFile">
+									{{ videoFile.name }} <br/> ({{videoFile.size}} Bytes)
+								</span>
+						</div>
+						<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>		
+						<!-- form.file.$error.maxSize=true -->
+					</div>
+
+					<div class="form-group" ng-show="invalidFile.length > 0">
+						<div class="alert alert-danger">
+							{{ "file_not_valid_text" | translate }}
+						</div>	
+					</div>
+					
 				</div>
 			</div>
 					
@@ -81,74 +116,45 @@
 				<div class="panel-body">
 					<unesco-code-list ng-model="video.pluginData.unesco.codes"></unesco-code-list>
 				</div>
-			</div>	
-
-
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">{{ "visibility_field_text" | translate }}</h3>
-				</div>
-				<div class="panel-body">				
-					<div class="form-group">
-						<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
-						<div class="col-sm-10">
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" ng-model="video.hidden"> {{ "hidden_in_list_text" | translate }}
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" ng-model="video.hiddenInSearches"> {{ "hidden_in_searches_text" | translate }}
-								</label>
-							</div>
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Publicar</label>
-						<div class="col-sm-10">							
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" ng-model="video.published.status"> Marcado como publicado
-								</label>
-							</div>
-						</div>
-					</div>	
-					
-					<div class="form-group" ng-show="(!video.published.status)">
-						<label class="col-sm-2 control-label">Publicar el video automaticamente</label>
-						<div class="col-sm-10">
-							<div class="input-group">
-								<input name="publicationDate" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.published.publicationDate" is-open="datePickerPublicationDateOpened" close-text="Close" disabled />
-								<span class="input-group-btn">
-									<button type="button" class="btn btn-default" ng-click="datePickerPublicationDateOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
-								</span>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-sm-offset-2 col-sm-10 alert alert-success" ng-show="video.published.status==true">
-						El video está publicado y disponible para ser visualizado.
-					</div>
-					<div class="col-sm-offset-2 col-sm-10 alert alert-danger" ng-show="video.published.status==false && (!video.published.publicationDate)">
-						El video no está publicado. Solo podrán visualizar el video los usuarios que tengan permiso de edición sobre el video.
-					</div>
-					<div class="col-sm-offset-2 col-sm-10 alert alert-warning" ng-show="video.published.status==false && video.published.publicationDate">
-						El video no está publicado. Se publicará automaticamente el {{video.published.publicationDate | amDateFormat: 'll'}}
-					</div>
-					
-				</div>
-			</div>
+			</div>			
 		</fieldset>
 
-		<p class="modal-footer">		
-			<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
-			<button class="btn btn-primary" ng-click="videoForm.$valid && accept()" ng-disabled="!videoForm.$valid || updating">
-				<loader-field ng-show="updating"></loader-field>
-				<span ng-show="!editing"> {{ "create_text" | translate }} </span>
-				<span ng-hide="!editing"> {{ "edit_text"   | translate }} </span>				
-			</button>
+		<p class="modal-footer">
+			<div>
+				<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
+				<button class="btn btn-primary pull-right" ng-click="videoForm.$valid && accept()" ng-disabled="!videoForm.$valid || updating">
+					<loader-field ng-show="updating"></loader-field>
+					<span ng-show="!editing"> {{ "create_text" | translate }} </span>
+					<span ng-hide="!editing"> {{ "edit_text"   | translate }} </span>				
+				</button>
+			</div>
 		</p>
 	</form>
 </section>
+
+
+
+<script type="text/ng-template" id="uploadingVideoMessageBox.html">
+	<div class="modal-header">
+		<h4 class="modal-title">{{ 'uploading_video_text' | translate }}</h4>
+	</div>
+	<div class="modal-body">
+		
+		<div class="progress">
+			<div class="progress-bar progress-bar-success" ng-class="{'progress-bar-striped':updating, active:updating}"
+				role="progressbar" aria-valuenow="{{uploadPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{uploadPercentage}}%">
+				{{uploadPercentage}}%
+			</div>
+		</div>
+		
+		<div class="alert alert-success" ng-hide="updating">
+			{{ 'file_upload_ok_text' | translate }}
+		</div>		
+		
+	</div>		
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" ng-click="cancel()" ng-show="updating"> Cancelar </button>
+		<button type="button" class="btn btn-default" ng-click="accept()" ng-hide="updating"> Aceptar </button>
+	</div>	
+</script>

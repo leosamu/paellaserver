@@ -12,7 +12,7 @@ var TaskSchema = new Schema({
 	targetId: String,
 	parameters: String,
 	processing: {type: Boolean, default: false},
-	priority: {type: Number},
+	priority: {type: Number, default: 10},
 	creationDate: { type: Date, default: Date.now }
 });
 
