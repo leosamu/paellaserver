@@ -38,7 +38,7 @@ exports.routes = {
 							if(errCount) { return res.sendStatus(500); }
 							
 							Video.find(query)
-							.sort("-creationDate")
+							.sort({creationDate:-1})
 							.skip(skip)
 							.limit(limit)
 							.populate('repository')
