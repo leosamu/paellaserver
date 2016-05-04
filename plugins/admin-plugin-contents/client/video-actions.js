@@ -8,6 +8,10 @@
 			{
 				context: "video",
 				label: "Recodificar videos",
+				isDisabled: function(items) {
+					return (items.length == 0);
+				},
+				
 				runAction: function(v) {
 				
 					var tasks = [
@@ -36,6 +40,10 @@
 			{
 				context: "video",			
 				label: "Enviar a transLectures",
+				isDisabled: function(items) {
+					return (items.length == 0);
+				},
+				
 				runAction: function(v) {
 					var task1 = {
 						task: "translectures",

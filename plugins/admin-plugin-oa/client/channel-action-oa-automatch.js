@@ -8,6 +8,9 @@
 			{
 				label: "Add OA automatch",
 				context: "channel",
+				isDisabled: function(items) {
+					return (items.length == 0);
+				},				
 				beforeRun: function(items) {
 					var deferred = $q.defer();
 					

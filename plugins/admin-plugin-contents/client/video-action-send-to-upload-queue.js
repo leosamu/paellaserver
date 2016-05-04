@@ -8,6 +8,10 @@
 			{
 				context: "video",			
 				label: "Send to upload queue",
+				isDisabled: function(items) {
+					return (items.length == 0);
+				},
+				
 				beforeRun: function(items) {
 					items.forEach(function(v){
 						UploadQueue().addVideo({

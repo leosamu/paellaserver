@@ -8,6 +8,10 @@
 			{
 				label: "Get link to videos",
 				context: "video",
+				isDisabled: function(items) {
+					return (items.length == 0);
+				},
+				
 				beforeRun: function(items) {
 					var deferred = $q.defer();
 					

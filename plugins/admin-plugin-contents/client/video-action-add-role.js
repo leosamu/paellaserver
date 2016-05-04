@@ -8,7 +8,10 @@
 			{
 				context: "video",			
 				label: "Add roles to videos",							
-				
+				isDisabled: function(items) {
+					return (items.length == 0);
+				},
+								
 				beforeRun: function(items) {
 					var deferred = $q.defer();
 										

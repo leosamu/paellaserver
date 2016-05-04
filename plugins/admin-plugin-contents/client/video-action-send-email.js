@@ -9,6 +9,10 @@
 				context: "video",			
 				label: "Send email to owners",							
 				
+				isDisabled: function(items) {
+					return (items.length == 0);
+				},
+				
 				runAction: function(v) {
 					var task1 = {
 						task: "notify",
