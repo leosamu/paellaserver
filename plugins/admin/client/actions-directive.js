@@ -35,13 +35,29 @@
 					});
 				});
 			
-				$scope.doAction = function(action) {			
-					var selectedElements= [];			
-					$scope.elements.forEach(function(e){
-						if (e.selected) {
-							selectedElements.push(e);
-						}
-					});												
+				function getSelectedItems(){
+					var selectedElements= [];
+					if ($scope.elements) {
+						$scope.elements.forEach(function(e){
+							if (e.selected) {
+								selectedElements.push(e);
+							}
+						});
+					}
+					return selectedElements;
+				}
+			
+				$scope.isDisabled = function(action) {
+					var disabled = false;
+					if (action.isDisabled){
+						var selectedElements = getSelectedItems();	
+						disabled = action.isDisabled(selectedElements);					
+					}
+					return disabled;
+				}
+			
+				$scope.doAction = function(action) {
+					var selectedElements = getSelectedItems();
 					Actions.runAction(action, selectedElements);
 				};	
 			}]
