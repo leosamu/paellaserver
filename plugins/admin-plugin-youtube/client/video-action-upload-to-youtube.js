@@ -10,7 +10,7 @@
 				label: "Subir a Youtube",
 				role: "YOUTUBE_UPLOADER",
 
-				runAction: function(v) {
+				runAction: function(v) {				
 					var task1 = {
 						task: "uploadToYoutube",
 						targetType: "video",
@@ -19,10 +19,6 @@
 					};
 					
 					return TaskCRUD.save(task1).$promise;
-					//role: "YOUTUBE_UPLOADER",
-					//var deferred = $q.defer();
-					//deferred.resolve();
-					//return deferred.promise;
 				}
 			}
 		);		
