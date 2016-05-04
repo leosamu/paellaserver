@@ -1,9 +1,8 @@
 {
     "player": {
-        "accessControlClass": "paella.AccessControl",
         "profileFrameStrategy": "paella.ProfileFrameStrategy",
         "videoQualityStrategy": "paella.BestFitVideoQualityStrategy",
-        "deprecated-methods": [
+        "methods": [
             {
                 "name": "streaming",
                 "enabled": true
@@ -21,28 +20,6 @@
                 "enabled": true
             }
         ],
-        "methods": [
-            {
-                "factory": "RTMPVideoFactory",
-                "enabled": true
-            },
-            {
-                "factory": "Html5VideoFactory",
-                "enabled": true
-            },
-            {
-                "factory": "MpegDashVideoFactory",
-                "enabled": true
-            },
-            {
-                "factory": "ImageVideoFactory",
-                "enabled": true
-            },
-            {
-                "factory": "YoutubeVideoFactory",
-                "enabled": true
-            }
-        ],
         "audio": {
             "master": 1,
             "slave": 0
@@ -50,10 +27,6 @@
         "rtmpSettings": {
             "bufferTime": 5,
             "requiresSubscription": false
-        },
-        "slidesMarks": {
-            "enabled": true,
-            "color": "gray"
         }
     },
     "editor": {
@@ -65,17 +38,13 @@
         "dataDelegates": {
             "default": "CookieDataDelegate",
             "trimming": "CookieDataDelegate",
-            "userInfo": "UserDataDelegate",
-            "visualAnnotations": "VisualAnnotationsDataDelegate"
+            "userInfo": "UserDataDelegate"
         }
     },
     "folders": {
         "profiles": "config/profiles",
         "resources": "resources",
         "skins": "resources/style"
-    },
-    "experimental": {
-        "autoplay": true
     },
     "plugins": {
         "enablePluginsByDefault": false,
@@ -156,10 +125,6 @@
                 "enabled": true,
                 "showMasterVolume": true,
                 "showSlaveVolume": false
-            },
-            "es.upv.paella.visualAnnotationPlugin": {
-                "enabled": true,
-                "url": "https://media.upv.es/rest/video/"
             },
             "es.upv.paella.liveStramingIndicator": {
                 "enabled": true
