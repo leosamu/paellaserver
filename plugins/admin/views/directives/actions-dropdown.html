@@ -3,7 +3,7 @@
 		Acción <span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu">
-			<li ng-repeat="a in actions">
+			<li ng-repeat="a in actions" ng-class="{disabled:isDisabled(a)}">
 				<a href ng-click="doAction(a)"> {{a.label}} </a>
 			</li>
 			<li ng-show="!actions || actions.length == 0">
