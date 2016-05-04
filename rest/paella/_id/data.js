@@ -6,23 +6,30 @@ var CommonController = require(__dirname + '/../../../controllers/common');
 var AuthController = require(__dirname + '/../../../controllers/auth');
 
 function loadPolimedia(streamsArray, videos, slaveVideos, preview, slavePreview) {
-	var masterStreamData = {
-		mp4: []
-	};
-
-	var slaveStreamData = {
-		mp4: []
-	};
+	var masterStreamData = {};
+	var slaveStreamData = {};
 
 	function addStream(streamData,data) {
-		streamData.mp4.push({
-			src: data.src || data.href,
-			mimetype: data.mimetype || "video/mp4",
-			res:{
-				w: data.width || 1280,
-				h: data.height || 720
-			}
-		});
+		var file = data.src  || data.href;
+		var fileExt = file.split('.').pop().toLowerCase();
+		if (fileExt=="mp4") {
+			streamData.mp4 = streamData.mp4 || [];
+			streamData.mp4.push({
+				src: file,
+				mimetype: data.mimetype || "video/mp4",
+				res:{
+					w: data.width || 1280,
+					h: data.height || 720
+				}
+			});
+		}
+		else if (fileExt=='mpd') {
+			streamData.mpd = streamData.mpd || [];
+			streamData.mpd.push({
+				src:file,
+				mimetype: data.mimetype || 'video/mp4'
+			});
+		}
 	}
 
 	videos.forEach(function(video) {
