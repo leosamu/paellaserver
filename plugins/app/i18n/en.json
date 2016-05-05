@@ -113,5 +113,7 @@
 	"uploading_video_text": "Subiendo fichero",
 	"file_upload_ok_text": "El video se ha subido correctamente.",
 
-  	"unprocessed_video_text": "Unprocessed video"
+  	"unprocessed_video_text": "Unprocessed video",
+   	"cant_edit_is_OA_explanation_text": "You can not edit the properties of the video as it is a Learning Object."
+
 }

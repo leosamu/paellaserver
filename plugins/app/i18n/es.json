@@ -136,6 +136,8 @@
 	"uploading_video_text": "Subiendo fichero",
 	"file_upload_ok_text": "El video se ha subido correctamente.",
 
-  	"unprocessed_video_text": "Pendiente de procesar"
+  	"unprocessed_video_text": "Pendiente de procesar",
+  	
+  	"cant_edit_is_OA_explanation_text": "No se pueden editar las propiedades del video ya que es un Objeto de Aprendizaje."
 
 }
