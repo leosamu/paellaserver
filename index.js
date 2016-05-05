@@ -73,6 +73,11 @@ function startServer() {
 		res.send(playerCode);
 	});
 
+	router.get('/playerDev/plugins.js', function(req,res) {
+		res.setHeader("content-type","text/javascript");
+		res.send(playerCode);
+	});
+
 	ClientResources.buffer = "";
 	var clientCSS = ClientResources.getClientStylesheet('plugins');
 	router.get('/client.css', function(req,res) {
@@ -97,72 +102,80 @@ function startServer() {
 	app.use(express.static(__dirname + '/client'));
 	app.use(express.static(__dirname + '/plugins',{extensions: ['htm','html']}));
 
-	function getPlayerIndex(req,res) {
-		fs.readFile('./client/player/index.html', 'utf8', function (err,data) {
-			if (err) {
-				console.log(err);
-				res.status(500).send('Internal error: missing player files').end();
-			}
-			else {
-				var appendHeader = '<script src="/player/plugins.js"></script></head>';
-		//		var resourcesPath = "url:'../rest/paella'";
-				var paellaTitle = '<title>Paella Engage Example</title>';
-				var playerTitle = configure.config.player && configure.config.player.title;
-				var serverTitle = '<title>' + playerTitle + '</title>';
+	function getPlayerIndex(playerIndexPath) {
+		return function(req,res) {
+			fs.readFile('./client/' + playerIndexPath + 'index.html', 'utf8', function (err, data) {
+				if (err) {
+					console.log(err);
+					res.status(500).send('Internal error: missing player files').end();
+				}
+				else {
+					var appendHeader = '<script src="/' + playerIndexPath + 'plugins.js"></script></head>';
+					//		var resourcesPath = "url:'../rest/paella'";
+					var paellaTitle = '<title>Paella Engage Example</title>';
+					var playerTitle = configure.config.player && configure.config.player.title;
+					var serverTitle = '<title>' + playerTitle + '</title>';
 
-				var onLoad = "loadPlayer();";	// see plugins/login/player/load_callback.js
-				data = data.replace('</head>',appendHeader);
-		//		data = data.replace("url:'../repository/'", resourcesPath);
-				data = data.replace("paella.load('playerContainer',{ url:'../repository/' });", onLoad);
-				data = data.replace(paellaTitle, serverTitle);
-				res.type('text/html').send(data).end();
-			}
-		});
+					var onLoad = "loadPlayer();";	// see plugins/login/player/load_callback.js
+					data = data.replace('</head>', appendHeader);
+					//		data = data.replace("url:'../repository/'", resourcesPath);
+					data = data.replace("paella.load('playerContainer',{ url:'../repository/' });", onLoad);
+					data = data.replace(paellaTitle, serverTitle);
+					res.type('text/html').send(data).end();
+				}
+			});
+		}
 	}
 
-	router.get(['/player/index.html','/player/','/player/embed.html'], getPlayerIndex);
+	function getPlayerConfig(playerIndexPath) {
+		return function(req,res) {
+			var playerConfig = require('./client/' + playerIndexPath + 'config/config.json');
+			playerConfig.experimental = playerConfig.experimental || {};
+			playerConfig.experimental.autoplay = true;
 
-	router.get(['/player/config/config.json'],function(req,res) {
-		var playerConfig = require('./client/player/config/config.json');
-		playerConfig.experimental = playerConfig.experimental || {};
-		playerConfig.experimental.autoplay = true;
+			playerConfig.auth = playerConfig.auth || {};
+			playerConfig.auth.authCallbackName = "paellaserver_authCallback";
+			playerConfig.auth.userDataCallbackName = "paellaserver_loadUserDataCallback";
+			playerConfig.plugins.enablePluginsByDefault = true;
+			playerConfig.plugins.list["es.upv.paella.extendedTabAdapterPlugin"] = { enabled:false };
+			playerConfig.plugins.list["es.upv.paella.multipleQualitiesPlugin"] = { enabled:true, showWidthRes: true };
 
-		playerConfig.auth = playerConfig.auth || {};
-		playerConfig.auth.authCallbackName = "paellaserver_authCallback";
-		playerConfig.auth.userDataCallbackName = "paellaserver_loadUserDataCallback";
-		playerConfig.plugins.enablePluginsByDefault = true;
-		playerConfig.plugins.list["es.upv.paella.extendedTabAdapterPlugin"] = { enabled:false };
-		playerConfig.plugins.list["es.upv.paella.multipleQualitiesPlugin"] = { enabled:true, showWidthRes: true };
+			playerConfig.plugins.list["es.upv.paella.usertracking.GoogleAnalyticsSaverPlugIn"] = {
+				"enabled": true,
+				"trackingID": "UA-26470475-7"
+			};
 
-		playerConfig.plugins.list["es.upv.paella.usertracking.GoogleAnalyticsSaverPlugIn"] = {
-			"enabled": true,
-			"trackingID": "UA-26470475-7"
-		};
+			playerConfig.plugins.list["es.upv.paella.translecture.captionsPlugin"] = {
+				"enabled": true,
+				"tLServer": "https://fuster.cc.upv.es/tl-pm",
+				"tLdb": "pm",
+				"tLEdit": "/rest/plugins/translectures/redirectToEditor/${videoId}?lang=${tl.lang.code}"
+			};
 
-		playerConfig.plugins.list["es.upv.paella.translecture.captionsPlugin"] = {
-			"enabled": true,
-			"tLServer": "https://fuster.cc.upv.es/tl-pm",
-			"tLdb": "pm",
-			"tLEdit": "/rest/plugins/translectures/redirectToEditor/${videoId}?lang=${tl.lang.code}"
-		};
+			playerConfig.plugins.list["es.upv.paella.mediaserver.editor.videoExportsPlugin"] = {
+				"enabled": true,
+			};
 
-		playerConfig.plugins.list["es.upv.paella.mediaserver.editor.videoExportsPlugin"] = {
-			"enabled": true,
-		};
+			playerConfig.data = {
+				"enabled": true,
+				"dataDelegates": {
+					"default": "CookieDataDelegate",
+					"trimming": "MediaServiceTrimmingDataDelegate",
+					"breaks": "MediaServiceBreksDataDelegate",
+					"userInfo": "UserDataDelegate",
+					"videoExports": "MediaServiceVideoExportsDataDelegate"
+				}
+			};
 
-		playerConfig.data = {
-	        "enabled": true,
-	        "dataDelegates": {
-	            "default": "CookieDataDelegate",
-	            "trimming": "MediaServiceTrimmingDataDelegate",
-	            "breaks": "MediaServiceBreksDataDelegate",
-	            "userInfo": "UserDataDelegate",
-	            "videoExports": "MediaServiceVideoExportsDataDelegate"
-	        }
-	    };
+			res.json(playerConfig);
+		}
+	}
 
-		res.json(playerConfig);
-	});
+	router.get(['/player/index.html','/player/','/player/embed.html'], getPlayerIndex('player/'));
+	router.get(['/playerDev/index.html','/playerDev/','/playerDev/embed.html'], getPlayerIndex('playerDev/'));
+
+	router.get(['/player/config/config.json'],getPlayerConfig('player/'));
+	router.get(['/playerDev/config/config.json'],getPlayerConfig('playerDev/'));
 
 	app.listen(configure.config.connection.port, function() {
 		console.log("Node server running on http://localhost:" + configure.config.connection.port);
