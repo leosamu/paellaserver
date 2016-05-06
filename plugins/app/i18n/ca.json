@@ -106,6 +106,12 @@
 	"hidden_explanation_text": "El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.",
 	"file_not_valid_text": "El fichero seleccionado no es válido. Seleccione otro fichero.",
 	"uploading_video_text": "Subiendo fichero",
-	"file_upload_ok_text": "El video se ha subido correctamente."	
+	"file_upload_ok_text": "El video se ha subido correctamente.",
+	
+	
+  	"unprocessed_video_text": "Pendent de processar",
+  	
+  	"cant_edit_is_OA_explanation_text": "No es poden editar les propietats del vídeo ja que és un Objecte d'Aprenentatge."
+		
 	
 }
