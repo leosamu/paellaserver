@@ -6,7 +6,7 @@
 
 		Actions.registerAction(
 			{
-				label: "Upload videos to Youtube",
+				label: "Upload channel to Youtube",
 				context: "channel",
 				role: "YOUTUBE_UPLOADER",
 				isDisabled: function(selectedChannels) {

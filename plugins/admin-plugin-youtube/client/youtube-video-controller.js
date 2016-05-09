@@ -8,7 +8,7 @@
 
 		$scope.currentPage=1;
 		$scope.filterQuery = null;
-		$scope.selectableFilters = Filters.$get('youtube');
+		$scope.selectableFilters = Filters.$get('youtube-videos');
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;
 
