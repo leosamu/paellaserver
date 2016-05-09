@@ -133,6 +133,9 @@ function startServer() {
 			playerConfig.experimental = playerConfig.experimental || {};
 			playerConfig.experimental.autoplay = true;
 
+			playerConfig.player = playerConfig.player || {};
+			playerConfig.player.accessControlClass = "PaellaServerAccessControl";
+
 			playerConfig.auth = playerConfig.auth || {};
 			playerConfig.auth.authCallbackName = "paellaserver_authCallback";
 			playerConfig.auth.userDataCallbackName = "paellaserver_loadUserDataCallback";
