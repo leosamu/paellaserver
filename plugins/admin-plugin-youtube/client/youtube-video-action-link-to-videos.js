@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginVideos');
+	var app = angular.module('adminPluginYoutube');
 	
 	
 	app.run(['Actions', '$q', '$modal', function(Actions, $q, $modal) {
