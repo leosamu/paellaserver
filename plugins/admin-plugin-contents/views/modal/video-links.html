@@ -1,0 +1,18 @@
+<div class="modal-header">
+	<h4 class="modal-title text-danger">Listado de videos</h4>
+</div>
+<div class="modal-body">
+
+	<ul class="list-unstyled">
+		<li ng-repeat="v in videos">
+			<a ng-href="https://media.upv.es/player/?id={{v}}">
+				https://media.upv.es/player/?id={{v}}
+			</a>
+		</li>
+	</ul>
+
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" ng-click="accept()">Ok</button>
+</div>
