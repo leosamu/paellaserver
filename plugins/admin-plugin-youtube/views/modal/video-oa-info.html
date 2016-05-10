@@ -1,0 +1,96 @@
+<div class="modal-header">
+	<h4 class="modal-title text-primary">Youtube Info</h4>
+</div>
+<div class="modal-body">
+	<div class="form-horizontal">
+	
+	
+		<div class="panel panel-default" ng-show="video.pluginData.youtube.id != null">
+			<div class="panel-heading">Youtube</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-sm-4 control-label">ID de Youtube</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">{{video.pluginData.youtube.id}}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Fecha de actualización</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">{{video.pluginData.youtube.date | amDateFormat:'llll'}}</p>					
+					</div>
+				</div>
+		
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Estdísticas</label>
+					<div class="col-sm-8">
+		
+						<div class="row control-label">
+							<div class="col-sm-2">
+								<span class="glyphicon glyphicon-eye-open"></span>
+								<span class="form-control-static">{{video.pluginData.youtube.viewCount}}</span>
+							</div>
+							<div class="col-sm-2">
+								<span class="glyphicon glyphicon-thumbs-up"></span>
+								<span class="form-control-static">{{video.pluginData.youtube.likeCount}}</span>
+							</div>
+							<div class="col-sm-2">
+								<span class="glyphicon glyphicon-thumbs-down"></span>
+								<span class="form-control-static">{{video.pluginData.youtube.dislikeCount}}</span>
+							</div>
+							<div class="col-sm-2">
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="form-control-static">{{video.pluginData.youtube.favoriteCount}}</span>
+							</div>
+							<div class="col-sm-2">
+								<span class="glyphicon glyphicon-edit"></span>
+								<span class="form-control-static">{{video.pluginData.youtube.commentCount}}</span>
+							</div>
+						</div>
+		
+					</div>
+				</div>	
+			</div>
+		</div>
+		
+		<div class="panel panel-default" ng-show="video.pluginData.OA.isOA == true">
+			<div class="panel-heading">Learning Object</div>		
+			<div class="panel-body">
+		
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Handle</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">{{video.pluginData.OA.handle}}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Fecha publicación</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">{{video.pluginData.OA.publicationDate | amDateFormat:'llll' }}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Colección</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">{{video.pluginData.OA.collection}}</p>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-4 control-label">Privado</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">
+							<span class="glyphicon glyphicon-ok" ng-show="video.pluginData.OA.private"></span>
+							<span class="glyphicon glyphicon-remove" ng-show="video.pluginData.OA.private"></span>
+						</p>
+					</div>
+				</div>
+		
+			</div>
+		</div>
+		
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" ng-click="accept()">Ok</button>
+</div>	

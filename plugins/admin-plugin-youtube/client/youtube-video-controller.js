@@ -8,7 +8,7 @@
 
 		$scope.currentPage=1;
 		$scope.filterQuery = null;
-		$scope.selectableFilters = Filters.$get('youtube');
+		$scope.selectableFilters = Filters.$get('youtube-videos');
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;
 
@@ -30,7 +30,10 @@
 				
 				var final_query = {"$and": [
 					qq,
-					{"pluginData.youtube.id": {"$ne": null}}
+					{"$or":[
+						{"pluginData.youtube.id": {"$ne": null}},
+						{"pluginData.youtube.task": {"$ne": null}}
+					]}
 				]};
 				$scope.filterQuery = $base64.encode(unescape(encodeURIComponent(JSON.stringify(final_query))));
 				$scope.reloadVideos();
@@ -70,6 +73,16 @@
 				}
 			});
 		};
+		
+		
+		$scope.isWaitingToUpload = function(v) {		
+			if (v && v.pluginData && v.pluginData.youtube) {
+				return (v.pluginData.youtube.id==null) && (v.pluginData.youtube.task!=null);
+			}
+			else {
+				return false;
+			}		
+		};		
 		
 	}]);
 	

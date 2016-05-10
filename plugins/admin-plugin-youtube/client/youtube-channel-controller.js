@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginVideos');
+	var app = angular.module('adminPluginYoutube');
 
 
 	
@@ -9,7 +9,7 @@
 
 		$scope.currentPage=1;
 		$scope.filterQuery = null;
-		$scope.selectableFilters = Filters.$get("youtube");		
+		$scope.selectableFilters = Filters.$get("youtube-channels");		
 		$scope.timeoutReload = null;
 		$scope.timeoutSearchText = null;	
 	
@@ -54,6 +54,15 @@
 				});
 			}, 500);
 		};
+			
+		$scope.isWaitingToUpload = function(ch) {		
+			if (ch && ch.pluginData && ch.pluginData.youtube) {
+				return (ch.pluginData.youtube.id==null) && (ch.pluginData.youtube.task!=null);
+			}
+			else {
+				return false;
+			}		
+		};			
 			
 	}]);
 	
