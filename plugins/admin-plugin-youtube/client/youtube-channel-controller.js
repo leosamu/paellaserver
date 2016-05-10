@@ -55,6 +55,15 @@
 			}, 500);
 		};
 			
+		$scope.isWaitingToUpload = function(ch) {		
+			if (ch && ch.pluginData && ch.pluginData.youtube) {
+				return (ch.pluginData.youtube.id==null) && (ch.pluginData.youtube.task!=null);
+			}
+			else {
+				return false;
+			}		
+		};			
+			
 	}]);
 	
 	

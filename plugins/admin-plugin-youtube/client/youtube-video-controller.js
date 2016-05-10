@@ -30,7 +30,10 @@
 				
 				var final_query = {"$and": [
 					qq,
-					{"pluginData.youtube.id": {"$ne": null}}
+					{"$or":[
+						{"pluginData.youtube.id": {"$ne": null}},
+						{"pluginData.youtube.task": {"$ne": null}}
+					]}
 				]};
 				$scope.filterQuery = $base64.encode(unescape(encodeURIComponent(JSON.stringify(final_query))));
 				$scope.reloadVideos();
@@ -70,6 +73,16 @@
 				}
 			});
 		};
+		
+		
+		$scope.isWaitingToUpload = function(v) {		
+			if (v && v.pluginData && v.pluginData.youtube) {
+				return (v.pluginData.youtube.id==null) && (v.pluginData.youtube.task!=null);
+			}
+			else {
+				return false;
+			}		
+		};		
 		
 	}]);
 	

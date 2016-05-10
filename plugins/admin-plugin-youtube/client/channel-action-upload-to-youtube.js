@@ -2,7 +2,7 @@
 	var plugin = angular.module('adminPluginYoutube');
 
 
-	plugin.run(['Actions', '$q', 'TaskCRUD', function(Actions, $q, TaskCRUD) {
+	plugin.run(['Actions', '$q', '$http', function(Actions, $q, $http) {
 
 		Actions.registerAction(
 			{
@@ -22,22 +22,7 @@
 					return disabled;
 				},
 				runAction: function(ch) {
-					if (ch.catalog != 'youtube') {
-						console.log("Error! Channel is not in youtube catalog");
-						var deferred = $q.defer();
-						deferred.reject();
-						return deferred.promise;
-					}
-					else {
-						var task1 = {
-							task: "uploadToYoutube",
-							targetType: "channel",
-							targetId: ch._id,
-							error: false
-						};
-	
-						return TaskCRUD.save(task1).$promise;
-					}
+					return $http.put('/rest/plugins/admin-plugin-youtube/channel/'+ch._id+'/uploadToYoutube');				
 				}
 			}
 		);
