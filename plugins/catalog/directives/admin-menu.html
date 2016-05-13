@@ -5,7 +5,7 @@
                 <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                <li><a href="" ng-click="uploadVideo()" ng-show="canViewAdminPage()">{{ "upload_video_menu_option" | translate }}</a></li>
+                <li><a href="" ng-click="uploadVideo()">{{ "upload_video_menu_option" | translate }}</a></li>
                 <li><a href="" ng-click="createChannel()">{{ "create_channel_menu_option" | translate }}</a></li>
                 <li class="divider" ng-show="canWriteChannel()"></li>
                 <li><a href="" ng-click="editChannel()" ng-show="canWriteChannel()">{{ "edit_channel_menu_option" | translate }}</a></li>
