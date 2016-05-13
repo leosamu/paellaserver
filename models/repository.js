@@ -11,6 +11,12 @@ var Repository = new Schema({
 	diskusage: {
 		value: Number,
 		updatedDate: Date
+	},
+	backup: {
+		enable: {type: Boolean, default: false},
+		mountPoint: {type: String},
+		relativePath: {type: String},
+		lastBackupDate: { type: Date }
 	}
 });
 

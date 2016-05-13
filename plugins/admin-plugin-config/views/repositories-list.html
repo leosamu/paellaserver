@@ -57,7 +57,7 @@
 								<th>Repository</th>
 								<th>Usage</th>
 								<th>Description</th>
-								<th>URL</th>
+								<th>Last Backup</th>
 								<th width="80px;">Actions</th>
 							</tr>
 						</thead>
@@ -66,7 +66,11 @@
 								<td>{{c._id}}</td>
 								<td>{{c.diskusage.value || '-'}}</td>
 								<td>{{c.description}}</td>
-								<td>{{c.server}}{{c.endpoint}}</td>
+								<td>
+									<span ng-show="c.backup.enable && c.backup.lastBackupDate"> {{c.backup.lastBackupDate | amDateFormat:'ll'}} </span>
+									<span class="text-danger" ng-show="c.backup.enable && !c.backup.lastBackupDate"> - </span>
+									<span class="text-warning" ng-hide="c.backup.enable"> No backup </span>
+								</td>
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">

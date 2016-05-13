@@ -94,6 +94,39 @@
 						</div>
 					</div>
 
+
+					<div class="panel panel-primary">
+						<div class="panel-heading">Backups</div>
+						<div class="panel-body">
+						
+						
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="repository.backup.enable"> Make backups of this repository
+										</label>
+									</div>
+								</div>
+							</div>
+						
+						
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Mount Point</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" ng-model="repository.backup.mountPoint" ng-disabled="!repository.backup.enable">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Relative Path</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" ng-model="repository.backup.relativePath" ng-disabled="!repository.backup.enable">
+								</div>
+							</div>
+						</div>
+					</div>
+
+
 				</form>				
 			</div>
 		</div>
