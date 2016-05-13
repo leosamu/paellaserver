@@ -55,6 +55,7 @@
 						<thead>
 							<tr>
 								<th>Repository</th>
+								<th>Usage</th>
 								<th>Description</th>
 								<th>URL</th>
 								<th width="80px;">Actions</th>
@@ -63,6 +64,7 @@
 						<tbody ng-hide="loadingVideos">
 							<tr ng-repeat="c in repositories.list" ng-class="{danger:t.error, success:t.processing}">
 								<td>{{c._id}}</td>
+								<td>{{c.diskusage.value || '-'}}</td>
 								<td>{{c.description}}</td>
 								<td>{{c.server}}{{c.endpoint}}</td>
 								<td>
