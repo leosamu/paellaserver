@@ -93,7 +93,7 @@
 									{{ "drop_videos_text" | translate }}
 								</span>
 								<span ng-show="videoFile">
-									{{ videoFile.name }} <br/> ({{videoFile.size}} Bytes)
+									{{ videoFile.name }} <br/> ({{videoFile.size | bytesToHuman}} )
 								</span>
 						</div>
 						<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>		
