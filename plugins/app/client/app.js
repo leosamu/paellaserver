@@ -7,6 +7,7 @@
 		'unescoModule',
 		"catalogModule",
 		"statisticsModule",
+		"userAdminModule",
 		"adminModule",
 		"loginModule",
 		"legalModule"
