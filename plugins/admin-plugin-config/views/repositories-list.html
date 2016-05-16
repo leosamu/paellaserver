@@ -64,7 +64,7 @@
 						<tbody ng-hide="loadingVideos">
 							<tr ng-repeat="c in repositories.list" ng-class="{danger:t.error, success:t.processing}">
 								<td>{{c._id}}</td>
-								<td>{{c.diskusage.value || '-'}}</td>
+								<td>{{c.diskusage.value | bytesToHuman }}</td>
 								<td>{{c.description}}</td>
 								<td>
 									<span ng-show="c.backup.enable && c.backup.lastBackupDate"> {{c.backup.lastBackupDate | amDateFormat:'ll'}} </span>
