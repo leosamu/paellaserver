@@ -24,41 +24,39 @@ exports.routes = {
 			AuthController.EnsureAuthenticatedOrDigest,
 			function(req,res) {			
 				var skip = req.query.skip || 0;
-				var limit = req.query.limit || 10;
+				var limit = req.query.limit || 100;
 				var filters = {}; //JSON.parse(new Buffer(req.query.filters, 'base64').toString());
 								
-				CatalogController.catalogsCanAdminister(req.user)
-				.then(
-					function(catalogs){
-						var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});					
-						var qcatalogs = (isAdmin)? {} : {"catalog": {"$in": catalogs}};
-						var query = {"$and":[qcatalogs, filters]};
+				//var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});					
+				//var qcatalogs = (isAdmin)? {} : {"catalog": {"$in": catalogs}};
+				var query = {"$and":[
+					{deletionDate: {$eq: null}}, 
+					{owner:req.user._id}, 
+					filters
+				]};
+				
+				Video.find(query).count().exec(function(errCount, count) {
+					if(errCount) { return res.sendStatus(500); }
+					
+					Video.find(query)
+					.select("-blackboard -catalog -operator -pluginData -repository -search -source")
+					.sort({creationDate:-1})
+					.skip(skip)
+					.limit(limit)
+//					.populate('repository')
+					.populate('owner', '_id contactData')					
+					.exec(function(err, items) {
+						if(err) { return res.sendStatus(500); }
 						
-						Video.find(query).count().exec(function(errCount, count) {
-							if(errCount) { return res.sendStatus(500); }
-							
-							Video.find(query)
-							.sort({creationDate:-1})
-							.skip(skip)
-							.limit(limit)
-							.populate('repository')
-							.populate('owner')					
-							.exec(function(err, items) {
-								if(err) { return res.sendStatus(500); }
-								
-								res.status(200).send({
-									total: count,
-									skip: Number(skip),
-									limit: Number(limit),
-									list:items							
-								});
-							});					
+						res.status(200).send({
+							total: count,
+							skip: Number(skip),
+							limit: Number(limit),
+							list:items							
 						});
-					},
-					function(){
-						return res.sendStatus(500);
-					}
-				)				
+					});					
+				});
+							
 			}
 		]
 	}

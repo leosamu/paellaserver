@@ -45,15 +45,16 @@
 						<th>Fecha</th>
 						<th>Título</th>
 						<th>Autor</th>
+						<th>Estado</th>
 						<th width="110px">Acciones</th>
 					</tr>
 				</thead>
 				<tbody ng-hide="loadingVideos">
 					<tr ng-repeat="v in videos.list" ng-class="{danger: v.deletionDate}">
-						<td><input type="checkbox" ng-model="v.selected"></td>
 						<td>{{v.creationDate | amDateFormat:'ll'}}</td>
 						<td>{{v.title}}</td>
 						<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>
+						<td>¿¿publicado??</td>
 						<td>
 							<div class="btn-toolbar" role="toolbar">
 								<div class="btn-group" role="group">
