@@ -56,7 +56,7 @@
 					<tr ng-repeat="v in videos.list" ng-class="{danger: v.deletionDate}">
 						<td>{{v.creationDate | amDateFormat:'ll'}}</td>
 						<td>{{v.title}}</td>
-						<td>{{video.duration | secondsToHuman}} </td>
+						<td>{{v.duration | secondsToHuman}} </td>
 <!--						<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>  -->
 						<td>
 							<span ng-show="(v.published.status==true) && (v.hidden==true)">Oculto</span>
