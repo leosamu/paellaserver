@@ -39,7 +39,7 @@ exports.routes = {
 					if(errCount) { return res.sendStatus(500); }
 					
 					Video.find(query)
-					.select("-blackboard -catalog -operator -pluginData -repository -search -source")
+					.select("-blackboard -operator -repository -search -source")
 					.sort({creationDate:-1})
 					.skip(skip)
 					.limit(limit)

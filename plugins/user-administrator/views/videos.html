@@ -16,21 +16,27 @@
 				<ul class="nav navbar-nav">
 					<li class="active">
 						<a href="#/useradmin/videos">
-				    		Mis Videos
+				    		{{'myvideos_text' | translate}}
 				    	</a>
 				    </li>
 					<li >
 						<a href="#/useradmin/channels">
-				    		Mis Canales
+				    		{{'mychannels_text' | translate}}
 				    	</a>
 				    </li>
 					<li>
 						<a href="#/useradmin/profile">
-				    		Mi Perfil
+				    		{{'myprofile_text' | translate}}
 				    	</a>
 				    </li>
-					
 				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<a href ng-click="uploadVideo()">
+				    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'upload_video_text_title' | translate}}
+				    	</a>
+				    </li>
+				</ul>				
 			</div>
 		</div>
 	</section>
@@ -49,7 +55,7 @@
 						<th width="100px"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Duración </th>
 <!--						<th><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Autor</th>  -->
 						<th width="90px"> Visibilidad </th>
-						<th width="60px">Acciones</th>
+						<th width="100px">Acciones</th>
 					</tr>
 				</thead>
 				<tbody ng-hide="loadingVideos">
@@ -68,14 +74,11 @@
 								<div class="btn-group" role="group">
 									<a class="btn btn-xs btn-default" target="_blank" href="/player/?id={{v._id}}&autoplay=true"> <span class="glyphicon glyphicon-eye-open"></span> </a>
 									<button class="btn btn-xs btn-default" ng-click="editVideo(v._id)"> <span class="glyphicon glyphicon-pencil"></span> </button>
-									<!--
-									<button class="btn btn-xs btn-danger" ng-click="deleteVideo(v)" ng-hide="v.deletionDate">
+								</div>
+								<div class="btn-group" role="group">
+									<button class="btn btn-xs btn-danger" ng-click="deleteVideo(v)" ng-show="canDeleteVideo(v)">
 										<span class="glyphicon glyphicon-trash"></span>
-									</button>											
-									<button class="btn btn-xs btn-warning" ng-click="restoreVideo(v)" ng-show="v.deletionDate">
-										<span class="glyphicon glyphicon-repeat"></span>
-									</button>											
-									-->
+									</button>
 								</div>
 							</div>
 						</td>

@@ -14,6 +14,14 @@
 			controller: "UserAdminListVideosController"
 		})
 
+
+
+
+		.when('/useradmin/profile', {
+			templateUrl: 'user-administrator/views/userprofile.html',
+			controller: "UserAdminUserProfileController"
+		})
+
 	}]);		
 	
 })();

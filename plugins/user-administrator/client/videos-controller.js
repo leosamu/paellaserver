@@ -2,8 +2,8 @@
 	var app = angular.module('userAdminModule');
 
 
-	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', 'Video', 'VideoEditPopup',
-	function($scope, $http, $timeout, $cookies, Video, VideoEditPopup) {
+	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup',
+	function($scope, $http, $timeout, $cookies, User, Video, VideoEditPopup, VideoUploadPopup) {
 	
 		$scope.currentPage=1;
 //		$scope.filterQuery = null;
@@ -12,11 +12,20 @@
 //		$scope.timeoutSearchText = null;			
 		$scope.itemsPerPage = $cookies.get('itemsPerPage') || '10';
 		
+
+		User.current().$promise
+		.then(function(data) {
+			if (data._id=="0") {
+				location.href = "#/auth/login";
+			}
+		});
+		
+		
 		
 		$scope.$watch('itemsPerPage', function(value){
 			$cookies.put('itemsPerPage', value);
 		});
-		
+				
 		$scope.reloadVideos = function(){
 			if ($scope.timeoutReload) {
 				$timeout.cancel($scope.timeoutReload);
@@ -24,17 +33,33 @@
 			$scope.loadingVideos = true;
 			$scope.timeoutReload = $timeout(function() {			
 				$http.get('/rest/plugins/user-administrator/videos?limit='+$scope.itemsPerPage+'&skip='+($scope.currentPage-1)*$scope.itemsPerPage)
-				.then(function successCallback(response) {
-					$scope.videos = response.data;
-					console.log($scope.videos);
-					$scope.loadingVideos = false
-					$scope.timeoutReload = null;
-				}, function errorCallback(response) {
-					$scope.loadingVideos = false
-					$scope.timeoutReload = null;
-				});				
+				.then(
+					function successCallback(response) {
+						$scope.videos = response.data;
+						console.log($scope.videos);
+						$scope.loadingVideos = false
+						$scope.timeoutReload = null;
+					},
+					function errorCallback(response) {
+						$scope.loadingVideos = false
+						$scope.timeoutReload = null;
+					}
+				);				
 			});	
 		}
+		
+		$scope.uploadVideo = function() {
+			VideoUploadPopup().then(
+				function (response) {
+					//location.reload();
+					console.log("ok");
+				},
+				function (response) {
+					console.log("Error creando el video");
+					//location.reload();
+				}
+			);
+		};
 		
 		$scope.editVideo = function(videoId) {
 			Video.get({ id:videoId }).$promise
@@ -56,13 +81,13 @@
 			});
 		};		
 		
+		$scope.canDeleteVideo = function(v) {
+			return v && v.pluginData && v.pluginData.OA && v.pluginData.OA.isOA || false;
+		}
 		
 		$scope.$watch('currentPage', function(){ $scope.reloadVideos(); });
 		
-		
-		
-		
-		
+				
 		
 	}]);		
 	
