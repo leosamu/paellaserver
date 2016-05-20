@@ -138,6 +138,15 @@
 
   	"unprocessed_video_text": "Pendiente de procesar",
   	
-  	"cant_edit_is_OA_explanation_text": "No se pueden editar las propiedades del video ya que es un Objeto de Aprendizaje."
+  	"cant_edit_is_OA_explanation_text": "No se pueden editar las propiedades del video ya que es un Objeto de Aprendizaje.",
+
+  	"myprofile_text": "Mi perfil",
+  	"gender_text": "Género",
+  	"gender_select_text": "Selecciona el genero",
+  	"gender_male_text": "Masculino",
+  	"gender_female_text": "Femenino",  	
+  	"telephone_text": "Teléfono",
+  	"language_communication_text": "Idioma de las comunicaciones",
+  	"selectlanguage_text": "Selecciona el idioma"
 
 }
