@@ -51,12 +51,10 @@
 		$scope.uploadVideo = function() {
 			VideoUploadPopup().then(
 				function (response) {
-					//location.reload();
-					console.log("ok");
+					location.reload();
 				},
 				function (response) {
-					console.log("Error creando el video");
-					//location.reload();
+					location.reload();
 				}
 			);
 		};
@@ -82,7 +80,7 @@
 		};		
 		
 		$scope.canDeleteVideo = function(v) {
-			return v && v.pluginData && v.pluginData.OA && v.pluginData.OA.isOA || false;
+			return !(v && v.pluginData && v.pluginData.OA && (v.pluginData.OA.isOA == true) || false);
 		}
 		
 		$scope.$watch('currentPage', function(){ $scope.reloadVideos(); });
