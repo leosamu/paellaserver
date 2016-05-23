@@ -68,7 +68,6 @@ main {
 }
 
 .ps-video .ps-title {
-	max-width: 100%;
 	font-size: 1em;
 }
 
@@ -166,7 +165,18 @@ footer {
 		height: auto;
 	}
 
+	.ps-video .ps-title {
+		position: absolute;
+		top: 104px;
+		background-color: white;
+		right: 17px;
+		left: 17px;
+		bottom:-10px;
+		font-size: 1em;
+	}
+	
 	.ps-list-item.ps-video {
+		position: relative;
 		background: none;
 		border-radius: 0px;
 		height: 160px;
@@ -201,11 +211,22 @@ footer {
 
 @media (min-width: 922px) {
 	.ps-list-item.ps-video {
+		position: relative;
 		background: none;
 		border-radius: 0px;
 		height: 190px;
 		overflow: hidden;
 		font-size: 0.9em;
+	}
+	
+	.ps-video .ps-title {
+		position: absolute;
+		top: 125px;
+		background-color: white;
+		right: 17px;
+		left: 17px;
+		bottom:-10px;
+		font-size: 1em;
 	}
 
 	.ps-item-menu-button {
