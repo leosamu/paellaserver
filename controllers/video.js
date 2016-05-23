@@ -39,6 +39,42 @@ exports.LoadVideos = function(req,res,next) {
 				
 };
 
+exports.Related = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	var select = '-slides -slices -roles -duration -source -blackboard ' +
+				'-canRead -canWrite -hideSocial -unprocessed ' +
+				'-deletionDate -pluginData ' +
+				'-metadata -search -processSlides -operator';
+
+	Video.find({ _id:req.params.id })
+		.select('title')
+		.exec(function(err,data) {
+			if (data && data.length>0) {
+				Video.find(
+					{	$text: {$search: data[0].title},
+						deletionDate: null,
+						$or:[ {hiddenInSearches:false},{hiddenInSearches:undefined}], 
+						$or:[ {hidden:false},{hidden:undefined}],
+						_id: { $not:{ $eq:req.params.id } }
+					},
+					{score: {$meta: "textScore"}}
+					)
+					.select(select)
+					.populate('repository', 'server endpoint')
+					.sort({score: {$meta: "textScore"}})
+					.limit(30)
+					.exec(function (err, data) {
+						req.data = data || [];
+						next();
+					});
+			}
+			else {
+				req.data = [];
+				next();
+			}
+		});
+};
+
 
 // Load newest videos (title and identifier) list
 //	Input: req.query.skip, req.query.limit, req.data.query
