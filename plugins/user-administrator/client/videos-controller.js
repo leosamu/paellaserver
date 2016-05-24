@@ -2,8 +2,8 @@
 	var app = angular.module('userAdminModule');
 
 
-	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup',
-	function($scope, $http, $timeout, $cookies, User, Video, VideoEditPopup, VideoUploadPopup) {
+	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', '$modal', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup', 'MessageBox',
+	function($scope, $http, $timeout, $cookies, $modal, User, Video, VideoEditPopup, VideoUploadPopup, MessageBox) {
 	
 		$scope.currentPage=1;
 //		$scope.filterQuery = null;
@@ -82,6 +82,36 @@
 		$scope.canDeleteVideo = function(v) {
 			return !(v && v.pluginData && v.pluginData.OA && (v.pluginData.OA.isOA == true) || false);
 		}
+		
+		$scope.deleteVideo = function(v) {
+			var reloadVideos = $scope.reloadVideos;
+			var modalInstance = $modal.open({
+				templateUrl: 'confirmDeleteVideo.html',
+				size: '',
+				backdrop: true,
+				controller: function ($scope, $modalInstance) {
+					$scope.video = v;
+					$scope.cancel = function () {
+						$modalInstance.dismiss();
+					};
+					$scope.accept = function () {
+					
+						$http.delete('/rest/plugins/user-administrator/videos/' + v._id)
+						.then(
+							function successCallback(response) {
+								$modalInstance.close();
+								location.reload();
+							},
+							function errorCallback(response) {
+								$modalInstance.close();
+								MessageBox("Error", "An error has happened deleting the video.");					
+							}
+						);					
+					};
+				}
+			});
+		};		
+		
 		
 		$scope.$watch('currentPage', function(){ $scope.reloadVideos(); });
 		

@@ -147,6 +147,7 @@
   	"gender_female_text": "Femenino",  	
   	"telephone_text": "Teléfono",
   	"language_communication_text": "Idioma de las comunicaciones",
-  	"selectlanguage_text": "Selecciona el idioma"
+  	"selectlanguage_text": "Selecciona el idioma",
+  	"go_to_catalog_text": "Ir al catálogo"
 
 }
