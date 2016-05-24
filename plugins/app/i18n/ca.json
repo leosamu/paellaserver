@@ -124,6 +124,7 @@
   	"gender_female_text": "Femení",
   	"telephone_text": "Telèfon",
   	"language_communication_text": "Llenguatge de les comunicacions",
-  	"selectlanguage_text": "Seleccione un idioma"  
-	
+  	"selectlanguage_text": "Seleccione un idioma",
+  	"go_to_catalog_text": "Anar al catàleg"
+
 }

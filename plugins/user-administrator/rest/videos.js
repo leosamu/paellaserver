@@ -59,6 +59,26 @@ exports.routes = {
 							
 			}
 		]
+	},
+	deleteVideo: {
+		param:'id',
+		delete: [
+			AuthController.EnsureAuthenticatedOrDigest,
+			function(req, res) {
+				Video.findOne({_id: req.params.id, owner: req.user._id}, function(err, item){
+					if(err) { console.log("---"); console.log(err); return res.sendStatus(500); }
+					if (item == null) {
+						return res.sendStatus(404);
+					}
+					else {
+						Video.update({_id: req.params.id},{'$set':{deletionDate: new Date()}}, function(err){
+							if(err) { return res.sendStatus(500); }
+							return res.sendStatus(200);
+						})
+					}				
+				})
+			}
+		]
 	}
 }
 

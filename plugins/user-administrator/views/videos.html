@@ -14,6 +14,12 @@
 
 			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
 				<ul class="nav navbar-nav">
+					<li >
+						<a href="#/catalog">
+				    		{{'go_to_catalog_text' | translate}}
+				    	</a>
+				    </li>
+
 					<li class="active">
 						<a href="#/useradmin/videos">
 				    		{{'myvideos_text' | translate}}
@@ -22,11 +28,6 @@
 					<li >
 						<a href="#/useradmin/channels">
 				    		{{'mychannels_text' | translate}}
-				    	</a>
-				    </li>
-					<li>
-						<a href="#/useradmin/profile">
-				    		{{'myprofile_text' | translate}}
 				    	</a>
 				    </li>
 				</ul>
@@ -41,18 +42,23 @@
 		</div>
 	</section>
 
-	<section>		
-
-
+	<section>
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>
 					<tr>
 						<th width="100px">
-							<span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Fecha
+							<!--<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>-->
+							Fecha
 						</th>
-						<th><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Título </th>
-						<th width="100px"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Duración </th>
+						<th>
+							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
+							Título
+						</th>
+						<th width="100px">
+							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
+							Duración
+						</th>
 <!--						<th><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Autor</th>  -->
 						<th width="90px"> Visibilidad </th>
 						<th width="100px">Acciones</th>
@@ -110,3 +116,30 @@
 
 	</section>
 </div>
+
+<script type="text/ng-template" id="confirmDeleteVideo.html">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title text-danger">¿Estás seguro de querer borrar este video?</h4>
+	</div>
+	<div class="modal-body">
+		<div class="alert alert-danger" role="alert">
+			<strong>Cuidado!</strong> Lee atentamente antes de continuar!
+			<p><strong>Esta acción no se puede deshacer.</strong></p>
+		</div>
+		<p>Estás a punto de borrar el video '{{video.title}}' con identificador '{{video._id}}'.</p>
+		
+		<div class="form-group">
+			<label>Por favor, escribe el título del video o el identificador para confirmar la operación.</label>
+			<input ng-model="confirm" class="form-control">
+		</div>		
+		
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" ng-click="accept()" ng-disabled="(confirm!=video._id) && (confirm!=video.title)">
+			Entiendo las consecuencias, borrar el video
+		</button>
+	</div>	
+</script>
+
+
