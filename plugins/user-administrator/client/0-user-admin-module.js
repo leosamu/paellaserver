@@ -13,6 +13,10 @@
 			templateUrl: 'user-administrator/views/videos.html',
 			controller: "UserAdminListVideosController"
 		})
+		.when('/useradmin/channels', {
+			templateUrl: 'user-administrator/views/channels.html',
+			controller: "UserAdminListChannelsController"
+		})
 
 
 
