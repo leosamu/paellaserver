@@ -2,8 +2,8 @@
 	var app = angular.module('userAdminModule');
 
 
-	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', '$modal', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup', 'MessageBox',
-	function($scope, $http, $timeout, $cookies, $modal, User, Video, VideoEditPopup, VideoUploadPopup, MessageBox) {
+	app.controller("UserAdminListChannelsController", ['$scope', '$http', '$timeout', '$cookies', '$modal', 'User', 'Channel', 'ChannelEditPopup', 'MessageBox',
+	function($scope, $http, $timeout, $cookies, $modal, User, Channel, ChannelEditPopup, MessageBox) {
 	
 		$scope.currentPage=1;
 //		$scope.filterQuery = null;
@@ -19,22 +19,23 @@
 				location.href = "#/auth/login";
 			}
 		});
-				
+		
+		
 		
 		$scope.$watch('itemsPerPage', function(value){
 			$cookies.put('itemsPerPage', value);
 		});
 				
-		$scope.reloadVideos = function(){
+		$scope.reloadChannels = function(){
 			if ($scope.timeoutReload) {
 				$timeout.cancel($scope.timeoutReload);
 			}		
 			$scope.loadingVideos = true;
 			$scope.timeoutReload = $timeout(function() {			
-				$http.get('/rest/plugins/user-administrator/videos?limit='+$scope.itemsPerPage+'&skip='+($scope.currentPage-1)*$scope.itemsPerPage)
+				$http.get('/rest/plugins/user-administrator/channels?limit='+$scope.itemsPerPage+'&skip='+($scope.currentPage-1)*$scope.itemsPerPage)
 				.then(
 					function successCallback(response) {
-						$scope.videos = response.data;
+						$scope.channels = response.data;
 						$scope.loadingVideos = false
 						$scope.timeoutReload = null;
 					},
@@ -46,19 +47,21 @@
 			});	
 		}
 		
-		$scope.uploadVideo = function() {
-			VideoUploadPopup().then(
-				function (response) {
-					location.reload();
-				},
-				function (response) {
-					location.reload();
-				}
-			);
+
+		$scope.newChannel = function() {
+			ChannelEditPopup(null)
+			.then(function(channelData) {
+				return Channel.create(channelData).$promise;
+			})					
+			.then(function(channel) {
+				location.reload();
+			});
 		};
 		
-		$scope.editVideo = function(videoId) {
-			Video.get({ id:videoId }).$promise
+	
+		
+		$scope.editChannel = function(channelId) {
+			Channel.get({ id:channelId }).$promise
 			.then(function(data) {
 				delete(data.slides);
 				delete(data.blackboard);
@@ -66,10 +69,10 @@
 				delete(data.thumbnail);					
 				delete(data.search);
 			
-				VideoEditPopup(data)
-				.then(function(newVideoData) {								
-					newVideoData.id = newVideoData._id;
-					return Video.update(newVideoData).$promise;
+				ChannelEditPopup(data)
+				.then(function(newChannelData) {								
+					newChannelData.id = newChannelData._id;
+					return Channel.update(newChannelData).$promise;
 				})
 				.then(function(result) {
 					location.reload();
@@ -77,24 +80,24 @@
 			});
 		};		
 		
-		$scope.canDeleteVideo = function(v) {
-			return !(v && v.pluginData && v.pluginData.OA && (v.pluginData.OA.isOA == true) || false);
+		$scope.canDeleteChannel = function(v) {
+			return true;
 		}
 		
-		$scope.deleteVideo = function(v) {
+		$scope.deleteChannel = function(ch) {
 			var reloadVideos = $scope.reloadVideos;
 			var modalInstance = $modal.open({
-				templateUrl: 'confirmDeleteVideo.html',
+				templateUrl: 'confirmDeleteChannel.html',
 				size: '',
 				backdrop: true,
 				controller: function ($scope, $modalInstance) {
-					$scope.video = v;
+					$scope.channel = ch;
 					$scope.cancel = function () {
 						$modalInstance.dismiss();
 					};
 					$scope.accept = function () {
 					
-						$http.delete('/rest/plugins/user-administrator/videos/' + v._id)
+						$http.delete('/rest/plugins/user-administrator/channels/' + ch._id)
 						.then(
 							function successCallback(response) {
 								$modalInstance.close();
@@ -102,7 +105,7 @@
 							},
 							function errorCallback(response) {
 								$modalInstance.close();
-								MessageBox("Error", "An error has happened deleting the video.");					
+								MessageBox("Error", "An error has happened deleting the channel.");					
 							}
 						);					
 					};
@@ -111,7 +114,7 @@
 		};		
 		
 		
-		$scope.$watch('currentPage', function(){ $scope.reloadVideos(); });
+		$scope.$watch('currentPage', function(){ $scope.reloadChannels(); });
 		
 				
 		
