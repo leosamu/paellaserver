@@ -60,13 +60,51 @@ exports.routes = {
 			}
 		]
 	},
+		
+	getChannel: {
+		param:'id',
+		get: [
+			AuthController.EnsureAuthenticatedOrDigest,
+			function(req, res) {
+				Channel.findOne({_id: req.params.id, owner: req.user._id})
+				.populate('videos')
+				.exec(function(err, item){
+					if(err) { return res.sendStatus(500); }
+					if (item == null) {
+						return res.sendStatus(404);
+					}
+					else {
+						Channel.populate(item,{
+							path: 'videos.repository',
+							model: 'Repository'
+						},
+						function(err, item) {
+							if(err) { return res.sendStatus(500); }
+
+							Channel.populate(item,{
+								path: 'videos.owner',
+								model: 'User',
+								select: 'contactData',
+							},
+							function(err, item) {
+								if(err) { return res.sendStatus(500); }
+								res.send(item);
+							});
+
+						});
+					}
+				})
+			}
+		]
+	},
+	
 	deleteChannel: {
 		param:'id',
 		delete: [
 			AuthController.EnsureAuthenticatedOrDigest,
 			function(req, res) {
 				Channel.findOne({_id: req.params.id, owner: req.user._id}, function(err, item){
-					if(err) { console.log("---"); console.log(err); return res.sendStatus(500); }
+					if(err) { return res.sendStatus(500); }
 					if (item == null) {
 						return res.sendStatus(404);
 					}
