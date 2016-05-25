@@ -14,8 +14,12 @@
 			controller: "UserAdminListVideosController"
 		})
 		.when('/useradmin/channels', {
-			templateUrl: 'user-administrator/views/channels.html',
+			templateUrl: 'user-administrator/views/channels-list.html',
 			controller: "UserAdminListChannelsController"
+		})
+		.when('/useradmin/channels/:id', {
+			templateUrl: 'user-administrator/views/channels-edit.html',
+			controller: "UserAdminEditChannelController"
 		})
 
 
