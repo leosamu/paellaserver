@@ -47,7 +47,7 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th width="100px">
+						<th width="120px">
 							<!--<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>-->
 							Fecha
 						</th>
@@ -56,15 +56,17 @@
 							Título
 						</th>
 <!--						<th><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Autor</th>  -->
+						<th width="90px"># V/Ch</th>
 						<th width="90px"> Visibilidad </th>
 						<th width="100px">Acciones</th>
 					</tr>
 				</thead>
 				<tbody ng-hide="loadingVideos">
 					<tr ng-repeat="c in channels.list" ng-class="{danger: c.deletionDate}">
-						<td>{{c.creationDate | amDateFormat:'ll'}}</td>
+						<td> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> {{c.creationDate | amDateFormat:'ll'}}</td>
 						<td>{{c.title}}</td>
 <!--						<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>  -->
+						<td>{{c.videos.length || 0}} / {{c.children.length || 0}}</td>
 						<td>
 							<span ng-show="(c.hidden==true)">Oculto</span>
 							<span ng-show="(c.hidden!=true)">Público</span>
@@ -72,8 +74,8 @@
 						<td>
 							<div class="btn-toolbar" role="toolbar">
 								<div class="btn-group" role="group">
-									<a class="btn btn-xs btn-default" target="_blank" href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
-									<a class="btn btn-xs btn-default" href="#/useradmin/channels/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+									<a class="btn btn-xs btn-default" target="_blank" ng-href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+									<a class="btn btn-xs btn-default" ng-href="#/useradmin/channels/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
 								</div>
 								<div class="btn-group" role="group">
 									<button class="btn btn-xs btn-danger" ng-click="deleteChannel(c)" ng-show="canDeleteChannel(c)">

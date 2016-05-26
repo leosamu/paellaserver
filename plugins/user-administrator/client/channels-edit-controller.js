@@ -21,6 +21,7 @@
 				location.reload();
 			});
 		};
+				
 		
 		$scope.loading = true;
 		$scope.errorLoading = false;
@@ -36,6 +37,40 @@
 			}
 		);					
 		
+		
+		
+	
+		
+		
+		$scope.removeVideoFromChannel = function(v) {
+			var index = -1;
+			$scope.channel.videos.some(function(vv, ii){
+				if (v._id == vv._id) {
+					index = ii;
+					return true;
+				}
+				return false;
+			});
+
+			if (index > -1) {
+				$scope.channel.videos.splice(index, 1);
+			}
+		};	
+			
+		$scope.removeChannelFromChannel = function(v) {
+			var index = -1;
+			$scope.channel.children.some(function(vv, ii){
+				if (v._id == vv._id) {
+					index = ii;
+					return true;
+				}
+				return false;
+			});
+
+			if (index > -1) {
+				$scope.channel.children.splice(index, 1);
+			}
+		};
 	}]);		
 	
 })();
