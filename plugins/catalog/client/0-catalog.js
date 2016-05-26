@@ -1,5 +1,5 @@
 (function() {
-	var catalogModule = angular.module('catalogModule',["ngRoute","ngResource","ui.bootstrap","ngFileUpload"]);
+	var catalogModule = angular.module('catalogModule',["ngRoute","ngSanitize","ngResource","ui.bootstrap","ngFileUpload"]);
 
 	catalogModule.controller('CatalogController', ["$scope","$routeParams","Channel","Video","User","ChannelListPopup",function($scope,$routeParams,Channel,Video,User,ChannelListPopup) {
 		$scope.channels = [];
@@ -337,6 +337,30 @@
 			});
 	}]);
 
+
+	catalogModule.controller('CatalogCompactController', ["$scope","$routeParams","Channel","Video","User","ChannelListPopup", "$sce",
+	function($scope,$routeParams,Channel,Video,User,ChannelListPopup, $sce) {
+	
+		$scope.loading = true;
+	
+		Video.get({id:$routeParams.id}).$promise
+		.then(function(video){ 
+			$scope.video =  video;
+			$scope.embedUrl = $sce.trustAsResourceUrl("https://media.upv.es/player/?id=" + $scope.video._id);
+
+			return Video.related({id:$routeParams.id}).$promise
+		})
+		.then(function(related){ 
+			$scope.related = related;
+			$scope.loading = false; 
+		});
+
+		
+		
+	}]);
+
+
+
 	catalogModule.config(['$routeProvider', function($routeProvider) {
 		$routeProvider.
 			when('/catalog',{
@@ -357,7 +381,14 @@
 			when('/catalog/author/:author', {
 				templateUrl: 'catalog/views/main.html',
 				controller: 'CatalogController'
+			}).
+			
+			when('/catalog/compact/:id',{
+				templateUrl: 'catalog/views/compact.html',
+				controller: "CatalogCompactController"
 			});
+			
+			
 	}]);
 })();
 
