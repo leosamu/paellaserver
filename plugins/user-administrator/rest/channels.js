@@ -114,6 +114,23 @@ exports.routes = {
 		]
 	},
 	
+	updateChannel: {
+		param:'id',
+		put: [
+			AuthController.EnsureAuthenticatedOrDigest,
+			function(req, res) {			
+				Channel.update({_id: req.params.id, owner: req.user._id}, req.body)
+				.exec(function(err, item){
+					if(err) { return res.sendStatus(500); }
+					if (item == null) {
+						return res.sendStatus(404);
+					}
+					res.sendStatus(204);
+				})
+			}
+		]
+	},	
+	
 	deleteChannel: {
 		param:'id',
 		delete: [
