@@ -59,66 +59,41 @@
 			<div class="panel panel-default">
 				<!-- Default panel contents -->  
 				<div class="panel-body">
-					<h3>{{channel.title}}</h3>
-					<p>{{channel.videos.length || 0}} videos</p>
-				</div>
 				
-				<!-- Channel List group -->
-				<ul class="list-group media-list">
-					<li class="list-group-item active">
-						<h5>
-							Canales <span class="badge">{{channel.children.length || 0}}</span>
-							<button type="button" class="btn btn-default pull-right" style="margin-top:-10px;" ng-click="addChannel()">
-								<span class="glyphicon glyphicon-plus"></span>
-							</button>
-						</h5>
-					</li>
-				</ul>
-				<ul class="list-group" ng-hide="channel.children && channel.children.length>0">
-					<li class="list-group-item list-group-item-warning">
-						<h5>La lista de canales está vacía</h5>
-						<p class="list-group-item-text"> Añade algún canal</p>
-					</li>
-				</ul>					
-				<ul class="list-group media-list" ui-sortable ng-model="channel.children">
-					<li class="list-group-item" ng-repeat="c in channel.children">
-						<div class="media-left">
-							<a href="#">
-								<img class="media-object" style="width:100px;" src="resources/images/channel-placeholder.png" ng-src="{{c.repository.server}}{{c.repository.endpoint}}{{c._id}}/{{c.thumbnail}}">
-							</a>
-						</div>
-						<div class="media-body">
-								
-							<div class="btn-toolbar pull-right" role="toolbar">
-								<div class="btn-group" role="group">
-									<a class="btn btn-xs btn-default" target="_blank" ng-href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
-									<a class="btn btn-xs btn-default" ng-href="#/useradmin/channels/{{c._id}}""> <span class="glyphicon glyphicon-pencil"></span> </a>
-								</div>
-								<div class="btn-group" role="group">
-									<button class="btn btn-xs btn-danger" ng-click="removeChannelFromChannel(c)">
-										<span class="glyphicon glyphicon-remove"></span>
-									</button>
+					<form name="form" class="form-horizontal">
+				        <fieldset>
+				            <!-- Text input-->
+				            <div class="form-group has-feedback" ng-class="{'has-error': !(form.title.$valid)}">
+				                <label class="col-sm-2 control-label" for="title">{{ "title_field_text" | translate }}</label>
+				                <div class="col-sm-10">
+				                    <input name="title" type="text" placeholder="{{ 'channel_title_field_placeholder_text' | translate }}" class="form-control input-md" required ng-model="channel.title">
+				
+				                </div>
+				            </div>
+				
+				            
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
+								<div class="col-sm-10">
+									<select class="form-control" ng-model="visibility">
+										<option value="public"> Público </option>
+										<option value="hidden"> Oculto </option>
+									</select>
+									
 								</div>
 							</div>
-							
-							<h5 class="media-heading">
-								<div class="btn-group" dropdown is-open="status.isopen">
-							      <button type="button" class="btn btn-primary btn-xs" >
-							        {{$index+1}} 
-							      </button>
-							    </div>	
-															
-								<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{c.title}} </div>
-							</h5>
-							<p class="list-group-item-text text-danger">
-								{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}
-							</p>
-							<p class="list-group-item-text">
-								<span class="label label-default">{{c.creationDate | amDateFormat:'ll'}}</span>								
-							</p>
-						</div>
-					</li>
-				</ul>
+				
+							<div class="alert alert-success" ng-show="visibility=='public'">
+								El canal será publico y aparecerá publicitado en el portal.
+							</div>							
+							<div class="alert alert-warning" ng-show="visibility=='hidden'">
+								El canal no aparecerá publicitado en el portal, pero se podrá acceder a él si se conoce el enlace.
+							</div>
+				            
+				        </fieldset>			
+				    </form>				
+				
+				</div>
 
 
 				<!-- Video List group -->
@@ -126,7 +101,7 @@
 					<li class="list-group-item active">
 						<h5>
 							Videos <span class="badge">{{channel.videos.length || 0}}</span>
-							<button class="btn btn-default pull-right" style="margin-top:-10px;" ng-click="addVideo()">
+							<button class="btn btn-default pull-right" style="margin-top:-10px;" ng-click="addVideos()">
 								<span class="glyphicon glyphicon-plus"></span>
 							</button>
 						</h5>						
@@ -142,7 +117,7 @@
 					<li class="list-group-item" ng-repeat="v in channel.videos">
 						<div class="media-left">
 							<a href="#">
-								<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{v.repository.server}}{{v.repository.endpoint}}{{v._id}}/{{v.thumbnail}}">
+								<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{getVideoThumbnail(v)}}">
 							</a>
 						</div>
 						<div class="media-body">
@@ -184,50 +159,68 @@
 						</div>
 					</li>
 				</ul>				
-				
-				
-			  	<ul class="list-group" ui-sortable ng-model="channel.videos">
-					<!--
-			  	
-					<li class="list-group-item" ng-repeat="v in channel.videos">
-						<div class="row">
-
-							<div class="col-sm-2">
-							</div>
-							<div class="col-sm-10">
-								<h5 class="list-group-item-heading">
-									<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>
-								</h5>
-							</div>
-
-						
-						</div>
-					
-						<h5 class="list-group-item-heading">							
-						    <div class="btn-group" dropdown is-open="status.isopen">
-						      <button type="button" class="btn btn-primary btn-xs" dropdown-toggle>
-						        {{$index+1}} <span class="caret"></span>
-						      </button>
-						      <ul class="dropdown-menu" role="menu">
-						        <li role="menuitem"><a href="/player/?id={{v._id}}&autoplay=true" target="_blank"> <span class="glyphicon glyphicon-eye-open"></span> Visualizar </a></li>
-						        <li role="menuitem"><a href="#/statistics/views/video/{{v._id}}" target="_blank"> <span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
-						        <li role="menuitem"><a href="#/admin/videos/edit/{{v._id}}" target="_blank"> <span class="glyphicon glyphicon-pencil"></span> Editar</a></li>
-						        <li class="divider"></li>
-						        <li role="menuitem"><a class="text-danger" href ng-click="removeVideoFromChannel(v)"> <span class="glyphicon glyphicon-remove"></span> Eliminar de este canal</a></li>
-						      </ul>
-						    </div>															
-							<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>
+				 
+				 
+				 
+				<!-- Channel List group -->
+				<!--
+				<ul class="list-group media-list">
+					<li class="list-group-item active">
+						<h5>
+							Canales <span class="badge">{{channel.children.length || 0}}</span>
+							<button type="button" class="btn btn-default pull-right" style="margin-top:-10px;" ng-click="addChannel()">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
 						</h5>
-						<p class="list-group-item-text text-danger">
-							{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}
-						</p>
-						<p class="list-group-item-text">
-							<span class="label label-default">{{v.creationDate | amDateFormat:'ll'}}</span>								
-							<small>{{v._id}}</small>
-						</p>
-						-->
 					</li>
-				</ul>  
+				</ul>
+				<ul class="list-group" ng-hide="channel.children && channel.children.length>0">
+					<li class="list-group-item list-group-item-warning">
+						<h5>La lista de canales está vacía</h5>
+						<p class="list-group-item-text"> Añade algún canal</p>
+					</li>
+				</ul>					
+				<ul class="list-group media-list" ui-sortable ng-model="channel.children">
+					<li class="list-group-item" ng-repeat="c in channel.children">
+						<div class="media-left">
+							<a href="#">
+								<img class="media-object" style="width:100px;" src="resources/images/channel-placeholder.png" ng-src="{{c.repository.server}}{{c.repository.endpoint}}{{c._id}}/channels/{{c.thumbnail}}">
+							</a>
+						</div>
+						<div class="media-body">
+								
+							<div class="btn-toolbar pull-right" role="toolbar">
+								<div class="btn-group" role="group">
+									<a class="btn btn-xs btn-default" target="_blank" ng-href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+									<a class="btn btn-xs btn-default" ng-href="#/useradmin/channels/{{c._id}}""> <span class="glyphicon glyphicon-pencil"></span> </a>
+								</div>
+								<div class="btn-group" role="group">
+									<button class="btn btn-xs btn-danger" ng-click="removeChannelFromChannel(c)">
+										<span class="glyphicon glyphicon-remove"></span>
+									</button>
+								</div>
+							</div>
+							
+							<h5 class="media-heading">
+								<div class="btn-group" dropdown is-open="status.isopen">
+							      <button type="button" class="btn btn-primary btn-xs" >
+							        {{$index+1}} 
+							      </button>
+							    </div>	
+															
+								<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{c.title}} </div>
+							</h5>
+							<p class="list-group-item-text text-danger">
+								{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}
+							</p>
+							<p class="list-group-item-text">
+								<span class="label label-default">{{c.creationDate | amDateFormat:'ll'}}</span>								
+							</p>
+						</div>
+					</li>
+				</ul>
+				-->				 
+				 
 			</div>
 		</div>
 

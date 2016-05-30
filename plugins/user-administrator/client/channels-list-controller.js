@@ -105,7 +105,7 @@
 							},
 							function errorCallback(response) {
 								$modalInstance.close();
-								MessageBox("Error", "An error has happened deleting the channel.");					
+								MessageBox("Error", "An error has happened deleting the channel.");
 							}
 						);					
 					};

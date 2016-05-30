@@ -1,6 +1,6 @@
 (function() {
 
-	var app = angular.module('userAdminModule', ['ngCookies']);
+	var app = angular.module('userAdminModule', ['ngCookies', 'ngSanitize']);
 	
 	
 	app.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
