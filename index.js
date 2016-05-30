@@ -133,6 +133,7 @@ function startServer() {
 			playerConfig.experimental = playerConfig.experimental || {};
 			playerConfig.experimental.autoplay = true;
 
+			playerConfig.editor = {enabled: false};
 			playerConfig.player = playerConfig.player || {};
 			playerConfig.player.accessControlClass = "PaellaServerAccessControl";
 
