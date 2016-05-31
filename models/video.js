@@ -63,7 +63,8 @@ var VideoSchema = new Schema({
 					name: { type:String },
 					tag: { type:String }
 				}
-			]
+			],
+			task: { type:String, ref:'Task' }			
 		},
 		videos: [
 			{

@@ -51,29 +51,38 @@
 							<!--<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>-->
 							Fecha
 						</th>
-						<th>
-							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
-							Título
-						</th>
 						<th width="100px">
 							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
 							Duración
 						</th>
+						<th>
+							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
+							Título
+						</th>
 <!--						<th><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Autor</th>  -->
+						<th width="150px"> Tipo video </th>
 						<th width="90px"> Visibilidad </th>
+						<th width="90px"> Estado </th>
 						<th width="100px">Acciones</th>
 					</tr>
 				</thead>
 				<tbody ng-hide="loadingVideos">
 					<tr ng-repeat="v in videos.list" ng-class="{danger: v.deletionDate}">
 						<td> <span class="glyphicon glyphicon-film" aria-hidden="true"></span>  {{v.creationDate | amDateFormat:'ll'}}</td>
-						<td>{{v.title}}</td>
 						<td>{{v.duration | secondsToHuman}} </td>
+						<td>{{v.title}}</td>
+						<td>{{v.catalog.description}}</td>
 <!--						<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>  -->
 						<td>
 							<span ng-show="(v.published.status==true) && (v.hidden==true)">Oculto</span>
 							<span ng-show="(v.published.status==true) && (v.hidden!=true)">Público</span>
 							<span ng-show="(v.published.status!=true)">Privado</span>
+						</td>
+						<td>
+							<span ng-show="getVideoState(v) == 'queue'">En cola</span>
+							<span ng-show="getVideoState(v) == 'processing'">Procesandose</span>
+							<span ng-show="getVideoState(v) == 'ready'">Listo</span>
+							<span ng-show="getVideoState(v) == 'error'">Error</span>
 						</td>
 						<td>
 							<div class="btn-toolbar" role="toolbar">

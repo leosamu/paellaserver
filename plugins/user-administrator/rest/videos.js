@@ -39,12 +39,14 @@ exports.routes = {
 					if(errCount) { return res.sendStatus(500); }
 					
 					Video.find(query)
-					.select("-blackboard -operator -repository -search -source")
+					.select("-blackboard -operator -repository -search")
 					.sort({creationDate:-1})
 					.skip(skip)
 					.limit(limit)
 //					.populate('repository')
 					.populate('owner', '_id contactData')					
+					.populate('catalog', '_id description')	
+					.populate('source.masters.task', '_id error processing')										
 					.exec(function(err, items) {
 						if(err) { return res.sendStatus(500); }
 						
