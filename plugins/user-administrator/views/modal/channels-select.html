@@ -6,19 +6,17 @@
 <div class="modal-body">
 
 	<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
-		<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}"><a href>Tus vídeos </a></li>			
-		<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>Buscar vídeos</a></li>
+		<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}"><a href>Tus canales </a></li>			
+		<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>Buscar canales</a></li>
 		<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ><a href>URL de media</a></li> 
 	</ul>		
 				
 	<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
 		<div class="panel-body">
-
 			
-			<div class="tab-pane" ng-show="tab==1">	
-			
+			<div class="tab-pane" ng-show="tab==1">				
 				<ul class="list-group media-list">
-					<li class="list-group-item" ng-class="{'list-group-item-info': v.selected}" ng-repeat="v in yourVideos.list">
+					<li class="list-group-item" ng-class="{'list-group-item-info': v.selected}" ng-repeat="v in yourChannels.list">
 						<div class="media-left">
 							<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{v.thumbnail}}">
 						</div>
@@ -27,7 +25,7 @@
 
 						<div class="btn-toolbar pull-right" role="toolbar">
 							<div class="btn-group" role="group">
-								<button class="btn btn-xs btn-default" ng-click="switchSelectVideo(v)">
+								<button class="btn btn-xs btn-default" ng-click="switchSelectChannel(v)">
 									<span class="glyphicon glyphicon-plus" ng-show="!v.selected"></span>
 									<span class="glyphicon glyphicon-minus" ng-show="v.selected"></span>
 								</button>
@@ -89,9 +87,9 @@
 						<label class="col-sm-2 control-label">{{ "search_text" | translate }}</label>
 						<div class="col-sm-10">						
 							<div class="input-group">
-								<input type="text" class="form-control" ng-model="searchVideoText">
+								<input type="text" class="form-control" ng-model="searchChannelText">
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="button" ng-click="searchVideos()">{{ "search_text" | translate }}</button>
+									<button class="btn btn-default" type="button" ng-click="searchChannels()">{{ "search_text" | translate }}</button>
 								</span>
 							</div>										
 						</div>
@@ -102,7 +100,7 @@
 
 
 				<ul class="list-group media-list">
-					<li class="list-group-item" ng-class="{'list-group-item-info': v.selected}" ng-repeat="v in resultVideos">
+					<li class="list-group-item" ng-class="{'list-group-item-info': v.selected}" ng-repeat="v in resultChannels">
 						<div class="media-left">
 							<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{v.thumbnail}}">
 						</div>
@@ -111,7 +109,7 @@
 
 						<div class="btn-toolbar pull-right" role="toolbar">
 							<div class="btn-group" role="group">
-								<button class="btn btn-xs btn-default" ng-click="switchSelectVideo(v)">
+								<button class="btn btn-xs btn-default" ng-click="switchSelectChannel(v)">
 									<span class="glyphicon glyphicon-plus" ng-show="!v.selected"></span>
 									<span class="glyphicon glyphicon-minus" ng-show="v.selected"></span>
 								</button>
@@ -152,25 +150,44 @@
 			<div class="tab-pane" ng-show="tab==3">						
 				<form class="form-horizontal">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">URL del video</label>
+						<label class="col-sm-2 control-label">URL del canal</label>
 						<div class="col-sm-10">
-							<input name="url" type="text" class="form-control" placeholder="URL" ng-model="videoURL">
+							<input name="url" type="text" class="form-control" placeholder="URL" ng-model="channelURL">
 						</div>
 					</div>	
 				</form>
 
-				<div class="alert alert-info" role="alert" ng-show="videoURL == null">
-					<p> Si la URL es correcta, verás una vista previa del vídeo aquí. Los vídeos grandes pueden tardar varios minutos en aparecer. </p>
+				<div class="alert alert-info" role="alert" ng-show="channelURL == null">
+					<p> Si la URL es correcta, verás una vista previa del canal aquí. Puede tardar varios minutos en aparecer. </p>
 					<small> Recuerda: El uso de vídeos de otras personas en Internet sin su permiso se puede considerar una rudeza o, aún peor, una infracción de los derechos de autor. </small>					
 				</div>
-				<div class="alert alert-danger" role="alert" ng-show="(videoURL != null) && (embedUrl == null)">
-					<p> La URL del vídeo introducida no se puede cargar. Comprueba que sea correcta y que proceda de un sitio compatible. </p>
+				<div class="alert alert-danger" role="alert" ng-show="(channelURL != null) && (embedChannel == null)">
+					<p> La URL del canal introducido no se puede cargar. Comprueba que sea correcta. </p>
 				</div>
 
-				<div class="embed-responsive embed-responsive-16by9" ng-show="embedUrl != null">
-					<iframe allowfullscreen="" class="embed-responsive-item" ng-src="{{embedUrl}}" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" ></iframe>		
-				</div>
-									
+				<div  ng-show="embedChannel != null">								
+					<ul class="list-group media-list">
+						<li class="list-group-item">
+							<div class="media-left">
+								<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{embedChannel.thumbnail}}">
+							</div>
+							<div class="media-body">	
+								<h5 class="media-heading">
+									<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{embedChannel.title}} </div>
+								</h5>
+								<p class="list-group-item-text text-danger">
+									{{embedChannel.owner[0].contactData.name}} {{embedChannel.owner[0].contactData.lastName}}
+								</p>
+								<p class="list-group-item-text">
+									<span class="label label-default">{{embedChannel.creationDate | amDateFormat:'ll'}}</span>								
+								</p>
+								
+							</div>
+						</li>
+					</ul>					
+				
+				
+				</div>									
 			</div>
 			
 		</div>					  
