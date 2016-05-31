@@ -2,9 +2,16 @@
 	var app = angular.module('userAdminModule');
 
 
-	app.controller("UserAdminEditChannelController", ['$scope', "$routeParams", '$http', '$timeout', '$cookies', '$modal', '$window', 'User', 'Channel', 'ChannelEditPopup', 'MessageBox', 'VideosSelect', 'ChannelsSelect',
-	function($scope, $routeParams, $http, $timeout, $cookies, $modal, $window, User, Channel, ChannelEditPopup, MessageBox, VideosSelect, ChannelsSelect) {
+	app.controller("UserAdminEditChannelController", ['$scope', "$routeParams", '$http', '$timeout', '$cookies', '$modal', '$window', 'User', 'Channel', 'Video', 'ChannelEditPopup', 'VideoEditPopup', 'MessageBox', 'VideosSelect', 'ChannelsSelect',
+	function($scope, $routeParams, $http, $timeout, $cookies, $modal, $window, User, Channel, Video, ChannelEditPopup, VideoEditPopup, MessageBox, VideosSelect, ChannelsSelect) {
 	
+		$scope.needSave = false;
+		$scope.$watch('channel', function(a, b){
+			if (b != undefined) {
+				$scope.needSave = true;
+				console.log($scope.needSave);
+			}
+		}, true);
 
 
 		$scope.loading = true;
@@ -52,10 +59,13 @@
 			$http.put('/rest/plugins/user-administrator/channels/' + $routeParams.id, $scope.channel)
 			.then(
 				function successCallback(response) {
+					$scope.needSave = false;
 					MessageBox("Chanel updated", "Channel updated correctly").then(function(){
+						/*
 						if ($window.history.length > 1) {
 							$window.history.back();
 						}
+						*/
 					})					
 				},
 				function errorCallback(response) {
@@ -124,6 +134,40 @@
 			return "resources/images/channel-placeholder.png";
 		};
 		
+		$scope.editVideo = function(v) {		
+			if ($scope.needSave) {
+				MessageBox("Channel not saved", "You need to save the channel before making this action.");
+			}
+			else {
+				var videoId = v._id;
+				Video.get({ id:videoId }).$promise
+				.then(function(data) {
+					delete(data.slides);
+					delete(data.blackboard);
+					delete(data.source);
+					delete(data.thumbnail);					
+					delete(data.search);
+				
+					VideoEditPopup(data)
+					.then(function(newVideoData) {								
+						newVideoData.id = newVideoData._id;
+						return Video.update(newVideoData).$promise;
+					})
+					.then(function(result) {
+						location.reload();
+					});
+				});
+			}
+		};		
+		
+		$scope.editChannel = function(c) {
+			if ($scope.needSave) {
+				MessageBox("Channel not saved", "You need to save the channel before making this action.");
+			}
+			else {
+				location.href = "#/useradmin/channels/" + c._id;
+			}
+		}
 		
 		
 		$scope.addVideos = function() {
