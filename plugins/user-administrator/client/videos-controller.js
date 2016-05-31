@@ -113,8 +113,30 @@
 		
 		$scope.$watch('currentPage', function(){ $scope.reloadVideos(); });
 		
+		$scope.getVideoState = function(v) {
+			var state = "error";
+
+			if ( (v) && (v.source) && (v.source.videos) ) {
+				if (v.source.videos.length > 0) {
+					state = 'ready';
+				}
+				else if (v.source.masters) {
+					if (v.source.masters.task) {
+						if (v.source.masters.task.error) {
+							state = "error";
+						}
+						else if (v.source.masters.task.processing) {
+							state = "processing";
+						}
+						else {
+							state = "queue";
+						}
+					}
+				}
+			}
+			return state;	
+		}
 				
-		
 	}]);		
 	
 })();
