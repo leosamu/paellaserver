@@ -30,7 +30,6 @@ exports.routes = {
 				//var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});					
 				//var qcatalogs = (isAdmin)? {} : {"catalog": {"$in": catalogs}};
 				
-				
 				Channel.aggregate([
 					{
 					    $match: {owner: req.user._id}
@@ -45,39 +44,52 @@ exports.routes = {
 					    }
 					}
 				]).exec()
-				.then(function(items){
-					var items = items[0].items;
-					
-					var query = {"$and":[
-						{deletionDate: {$eq: null}}, 
-						{owner:req.user._id},
-						{_id: {"$nin": items}},
-						filters
-					]};
-					Channel.find(query).count().exec(function(errCount, count) {
-						if(errCount) { console.log("1"); console.log(errCount); return res.sendStatus(500); }
-						
-						Channel.find(query)
-						.select("-blackboard -operator -repository -search -source")
-						.sort({creationDate:-1})
-						.skip(skip)
-						.limit(limit)
-	//					.populate('repository')
-						.populate('owner', '_id contactData')					
-						.exec(function(err, items) {
-							if(err) { console.log("2"); return res.sendStatus(500); }
-							
+				.then(
+					function(items){
+						if (items.length == 0) {
 							res.status(200).send({
-								total: count,
+								total: 0,
 								skip: Number(skip),
 								limit: Number(limit),
-								list:items							
+								list:[]
 							});
-						});					
-					});
-					
-					
-				});		
+						}
+						else {
+							var items = items[0].items;
+	
+							var query = {"$and":[
+								{deletionDate: {$eq: null}}, 
+								{owner:req.user._id},
+								{_id: {"$nin": items}},
+								filters
+							]};
+							Channel.find(query).count().exec(function(errCount, count) {
+								if(errCount) { return res.sendStatus(500); }
+								
+								Channel.find(query)
+								.select("-blackboard -operator -repository -search -source")
+								.sort({creationDate:-1})
+								.skip(skip)
+								.limit(limit)
+			//					.populate('repository')
+								.populate('owner', '_id contactData')					
+								.exec(function(err, items) {
+									if(err) { return res.sendStatus(500); }
+									
+									res.status(200).send({
+										total: count,
+										skip: Number(skip),
+										limit: Number(limit),
+										list:items							
+									});
+								});					
+							});
+						}
+					},
+					function(err) {
+						return res.sendStatus(500);
+					}
+				);		
 			}
 		]
 	},
