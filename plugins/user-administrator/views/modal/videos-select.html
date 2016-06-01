@@ -1,14 +1,14 @@
 <div class="modal-header">
 	<button type="button" class="close" aria-label="Close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
-	<h1 class="modal-title">Selecciona videos</h1>	
+	<h1 class="modal-title">{{'Videos select' | translate}}</h1>	
 </div>
 
 <div class="modal-body">
 
 	<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
-		<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}"><a href>Tus vídeos </a></li>			
-		<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>Buscar vídeos</a></li>
-		<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ><a href>URL de media</a></li> 
+		<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}"><a href>{{'Your videos' | translate}} </a></li>			
+		<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>{{'Videos search' | translate}}</a></li>
+		<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ><a href>{{'URL' | translate}}</a></li> 
 	</ul>		
 				
 	<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
@@ -152,19 +152,19 @@
 			<div class="tab-pane" ng-show="tab==3">						
 				<form class="form-horizontal">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">URL del video</label>
+						<label class="col-sm-2 control-label">{{'Video URL' | translate}}</label>
 						<div class="col-sm-10">
-							<input name="url" type="text" class="form-control" placeholder="URL" ng-model="videoURL">
+							<input name="url" type="text" class="form-control" placeholder="{{'URL' | translate}}" ng-model="videoURL">
 						</div>
 					</div>	
 				</form>
 
 				<div class="alert alert-info" role="alert" ng-show="videoURL == null">
-					<p> Si la URL es correcta, verás una vista previa del vídeo aquí. Los vídeos grandes pueden tardar varios minutos en aparecer. </p>
-					<small> Recuerda: El uso de vídeos de otras personas en Internet sin su permiso se puede considerar una rudeza o, aún peor, una infracción de los derechos de autor. </small>					
+					<p> {{"If the URL is valid, you will see a video preview. This can take several minutes." | translate }} </p>
+					<small> {{"Remember: Using other people's videos on the Internet without their permission may be bad manners or worse, an infringement of copyright." | translate }}</small>
 				</div>
 				<div class="alert alert-danger" role="alert" ng-show="(videoURL != null) && (embedUrl == null)">
-					<p> La URL del vídeo introducida no se puede cargar. Comprueba que sea correcta y que proceda de un sitio compatible. </p>
+					<p> {{"The video URL is not valid. Check it is correct." | translate}} </p>
 				</div>
 
 				<div class="embed-responsive embed-responsive-16by9" ng-show="embedUrl != null">
@@ -179,6 +179,6 @@
 
 
 <div class="modal-footer">
-	<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
-	<button class="btn btn-default" ng-click="accept()">{{ "ok" | translate }}</button>	
+	<button class="btn btn-default" ng-click="close()">{{ "Close" | translate }}</button>
+	<button class="btn btn-default" ng-click="accept()">{{ "Accept" | translate }}</button>	
 </div>

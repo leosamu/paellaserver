@@ -5,7 +5,7 @@
 
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
+					<span class="sr-only">{{'Toggle navigation' | translate}}</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -16,25 +16,25 @@
 				<ul class="nav navbar-nav">
 					<li >
 						<a href="#/catalog">
-				    		{{'go_to_catalog_text' | translate}}
+				    		{{'Go to catalog' | translate}}
 				    	</a>
 				    </li>
 
 					<li class="active">
 						<a href="#/useradmin/videos">
-				    		{{'myvideos_text' | translate}}
+				    		{{'My videos' | translate}}
 				    	</a>
 				    </li>
 					<li >
 						<a href="#/useradmin/channels">
-				    		{{'mychannels_text' | translate}}
+				    		{{'My channels' | translate}}
 				    	</a>
 				    </li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
 						<a href ng-click="uploadVideo()">
-				    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'upload_video_text_title' | translate}}
+				    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'Upload video' | translate}}
 				    	</a>
 				    </li>
 				</ul>				
@@ -49,21 +49,21 @@
 					<tr>
 						<th width="120px">
 							<!--<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>-->
-							Fecha
+							{{'Date' | translate}}
 						</th>
 						<th width="100px">
 							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
-							Duración
+							{{'Duration' | translate}}
 						</th>
 						<th>
 							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
-							Título
+							{{'Title' | translate}}
 						</th>
 <!--						<th><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Autor</th>  -->
-						<th width="150px"> Tipo video </th>
-						<th width="90px"> Visibilidad </th>
-						<th width="90px"> Estado </th>
-						<th width="100px">Acciones</th>
+						<th width="150px"> {{'Video type' | translate}} </th>
+						<th width="90px"> {{'Visibility' | translate}} </th>
+						<th width="90px"> {{'State' | translate}} </th>
+						<th width="100px">{{'Actions' | translate}}</th>
 					</tr>
 				</thead>
 				<tbody ng-hide="loadingVideos">
@@ -74,15 +74,15 @@
 						<td>{{v.catalog.description}}</td>
 <!--						<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>  -->
 						<td>
-							<span ng-show="(v.published.status==true) && (v.hidden==true)">Oculto</span>
-							<span ng-show="(v.published.status==true) && (v.hidden!=true)">Público</span>
-							<span ng-show="(v.published.status!=true)">Privado</span>
+							<span ng-show="(v.published.status==true) && (v.hidden==true)">{{'hidden' | translate}}</span>
+							<span ng-show="(v.published.status==true) && (v.hidden!=true)">{{'public' | translate}}</span>
+							<span ng-show="(v.published.status!=true)">{{'private' | translate}}</span>
 						</td>
 						<td>
-							<span ng-show="getVideoState(v) == 'queue'">En cola</span>
-							<span ng-show="getVideoState(v) == 'processing'">Procesandose</span>
-							<span ng-show="getVideoState(v) == 'ready'">Listo</span>
-							<span ng-show="getVideoState(v) == 'error'">Error</span>
+							<span ng-show="getVideoState(v) == 'queue'">{{'Queued' | translate}}</span>
+							<span ng-show="getVideoState(v) == 'processing'">{{'Processing' | translate}}</span>
+							<span ng-show="getVideoState(v) == 'ready'">{{'Ready' | translate}}</span>
+							<span ng-show="getVideoState(v) == 'error'">{{'Error' | translate}}</span>
 						</td>
 						<td>
 							<div class="btn-toolbar" role="toolbar">
@@ -125,6 +125,7 @@
 
 	</section>
 </div>
+
 
 <script type="text/ng-template" id="confirmDeleteVideo.html">
 	<div class="modal-header">

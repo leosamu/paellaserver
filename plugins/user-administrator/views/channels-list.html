@@ -16,25 +16,25 @@
 				<ul class="nav navbar-nav">
 					<li >
 						<a href="#/catalog">
-				    		{{'go_to_catalog_text' | translate}}
+				    		{{'Go to catalog' | translate}}
 				    	</a>
 				    </li>
 
 					<li>
 						<a href="#/useradmin/videos">
-				    		{{'myvideos_text' | translate}}
+				    		{{'My videos' | translate}}
 				    	</a>
 				    </li>
 					<li class="active">
 						<a href="#/useradmin/channels">
-				    		{{'mychannels_text' | translate}}
+				    		{{'My channels' | translate}}
 				    	</a>
 				    </li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
 						<a href ng-click="newChannel()">
-				    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'new_channel_text_title' | translate}}
+				    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'New Channel' | translate}}
 				    	</a>
 				    </li>
 				</ul>				
@@ -49,16 +49,16 @@
 					<tr>
 						<th width="120px">
 							<!--<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>-->
-							Fecha
+							{{'Date' | translate}}
 						</th>
 						<th>
 							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
-							Título
+							{{'Title' | translate}}
 						</th>
 <!--						<th><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Autor</th>  -->
 						<th width="90px"># V/Ch</th>
-						<th width="90px"> Visibilidad </th>
-						<th width="100px">Acciones</th>
+						<th width="90px"> {{'Visibility' | translate}} </th>
+						<th width="100px">{{'Actions' | translate}}</th>
 					</tr>
 				</thead>
 				<tbody ng-hide="loadingVideos">
@@ -68,8 +68,8 @@
 <!--						<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>  -->
 						<td>{{c.videos.length || 0}} / {{c.children.length || 0}}</td>
 						<td>
-							<span ng-show="(c.hidden==true)">Oculto</span>
-							<span ng-show="(c.hidden!=true)">Público</span>
+							<span ng-show="(c.hidden==true)">{{'hidden' | translate}}</span>
+							<span ng-show="(c.hidden!=true)">{{'public' | translate}}</span>
 						</td>
 						<td>
 							<div class="btn-toolbar" role="toolbar">
