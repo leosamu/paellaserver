@@ -1,14 +1,14 @@
 <div class="modal-header">
 	<button type="button" class="close" aria-label="Close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
-	<h1 class="modal-title">Selecciona videos</h1>	
+	<h1 class="modal-title">{{'Channels select' | translate}}</h1>	
 </div>
 
 <div class="modal-body">
 
 	<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
-		<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}"><a href>Tus canales </a></li>			
-		<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>Buscar canales</a></li>
-		<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ><a href>URL de media</a></li> 
+		<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}"><a href>{{'Your channels' | translate}} </a></li>			
+		<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>{{'Channel search' | translate}}</a></li>
+		<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ><a href>{{'URL' | translate}}</a></li> 
 	</ul>		
 				
 	<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
@@ -84,7 +84,7 @@
 			<div class="tab-pane" ng-show="tab==2">
 				<form class="form-horizontal">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">{{ "search_text" | translate }}</label>
+						<label class="col-sm-2 control-label">{{ "Channel search" | translate }}</label>
 						<div class="col-sm-10">						
 							<div class="input-group">
 								<input type="text" class="form-control" ng-model="searchChannelText">
@@ -150,19 +150,19 @@
 			<div class="tab-pane" ng-show="tab==3">						
 				<form class="form-horizontal">
 					<div class="form-group">
-						<label class="col-sm-2 control-label">URL del canal</label>
+						<label class="col-sm-2 control-label">{{'Channel URL' | translate}}</label>
 						<div class="col-sm-10">
-							<input name="url" type="text" class="form-control" placeholder="URL" ng-model="channelURL">
+							<input name="url" type="text" class="form-control" placeholder="{{'URL' | translate}}" ng-model="channelURL">
 						</div>
 					</div>	
 				</form>
 
 				<div class="alert alert-info" role="alert" ng-show="channelURL == null">
-					<p> Si la URL es correcta, verás una vista previa del canal aquí. Puede tardar varios minutos en aparecer. </p>
-					<small> Recuerda: El uso de vídeos de otras personas en Internet sin su permiso se puede considerar una rudeza o, aún peor, una infracción de los derechos de autor. </small>					
+					<p> {{"If the URL is valid, you will see a channel preview. This can take several minutes." | translate }} </p>
+					<small> {{"Remember: Using other people's videos on the Internet without their permission may be bad manners or worse, an infringement of copyright." | translate }}</small>
 				</div>
 				<div class="alert alert-danger" role="alert" ng-show="(channelURL != null) && (embedChannel == null)">
-					<p> La URL del canal introducido no se puede cargar. Comprueba que sea correcta. </p>
+					<p> {{"The channel URL can't be loaded. Check it is correct." | translate}} </p>
 				</div>
 
 				<div  ng-show="embedChannel != null">								
@@ -196,6 +196,6 @@
 
 
 <div class="modal-footer">
-	<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
-	<button class="btn btn-default" ng-click="accept()">{{ "ok" | translate }}</button>	
+	<button class="btn btn-default" ng-click="close()">{{ "Close" | translate }}</button>
+	<button class="btn btn-default" ng-click="accept()">{{ "Accept" | translate }}</button>	
 </div>

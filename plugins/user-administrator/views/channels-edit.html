@@ -16,25 +16,25 @@
 				<ul class="nav navbar-nav">
 					<li >
 						<a href="#/catalog">
-				    		{{'go_to_catalog_text' | translate}}
+				    		{{'Go to catalog' | translate}}
 				    	</a>
 				    </li>
 
 					<li>
 						<a href="#/useradmin/videos">
-				    		{{'myvideos_text' | translate}}
+				    		{{'My videos' | translate}}
 				    	</a>
 				    </li>
 					<li class="active">
 						<a href="#/useradmin/channels">
-				    		{{'mychannels_text' | translate}}
+				    		{{'My channels' | translate}}
 				    	</a>
 				    </li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
 						<a href ng-click="newChannel()">
-				    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'new_channel_text_title' | translate}}
+				    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'New Channel' | translate}}
 				    	</a>
 				    </li>
 				</ul>				
@@ -47,7 +47,7 @@
 		<div style="height: 30px;"></div>
 		<div ng-show="errorLoading">
 			<div class="alert alert-danger" role="alert">
-				<strong>Error!</strong> Ha ocurrido un error. 
+				<strong>{{'Error' | translate}}</strong> {{'Error loading the channel data' | translate}} 
 			</div>
 		</div>			
 
@@ -64,7 +64,7 @@
 				        <fieldset>
 				            <!-- Text input-->
 				            <div class="form-group has-feedback" ng-class="{'has-error': !(form.title.$valid)}">
-				                <label class="col-sm-2 control-label" for="title">{{ "title_field_text" | translate }}</label>
+				                <label class="col-sm-2 control-label" for="title">{{ "Title" | translate }}</label>
 				                <div class="col-sm-10">
 				                    <input name="title" type="text" placeholder="{{ 'channel_title_field_placeholder_text' | translate }}" class="form-control input-md" required ng-model="channel.title">
 				
@@ -73,21 +73,21 @@
 				
 				            
 							<div class="form-group">
-								<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
+								<label class="col-sm-2 control-label">{{ "Visibility" | translate }}</label>
 								<div class="col-sm-10">
 									<select class="form-control" ng-model="visibility">
-										<option value="public"> Público </option>
-										<option value="hidden"> Oculto </option>
+										<option value="public"> {{'public' | translate}} </option>
+										<option value="hidden"> {{'hidden' | translate}} </option>
 									</select>
 									
 								</div>
 							</div>
 				
 							<div class="alert alert-success" ng-show="visibility=='public'">
-								El canal será publico y aparecerá publicitado en el portal.
+								{{'The channel is public and it will be published in the portal' | translate}}								
 							</div>							
 							<div class="alert alert-warning" ng-show="visibility=='hidden'">
-								El canal no aparecerá publicitado en el portal, pero se podrá acceder a él si se conoce el enlace.
+								{{'The channel will not be published in the portal, but people that knows the URL can view it' | translate}}
 							</div>
 				            
 				        </fieldset>			
@@ -100,7 +100,7 @@
 				<ul class="list-group media-list">
 					<li class="list-group-item active">
 						<h5>
-							Videos <span class="badge">{{channel.videos.length || 0}}</span>
+							{{'Videos' | translate}} <span class="badge">{{channel.videos.length || 0}}</span>
 							<button class="btn btn-default pull-right" style="margin-top:-10px;" ng-click="addVideos()">
 								<span class="glyphicon glyphicon-plus"></span>
 							</button>
@@ -109,8 +109,8 @@
 				</ul>			
 				<ul class="list-group" ng-hide="channel.videos && channel.videos.length>0">
 					<li class="list-group-item list-group-item-warning">
-						<h5>La lista de videos está vacía</h5>
-						<p class="list-group-item-text"> Añade algún video</p>
+						<h5>{{'The videos list is empty' | translate}}</h5>
+						<p class="list-group-item-text"> {{'Add some videos' | translate}} </p>
 					</li>
 				</ul>					
 				<ul class="list-group media-list" ui-sortable ng-model="channel.videos">
@@ -134,8 +134,6 @@
 								</button>
 							</div>
 						</div>
-
-
 		
 						
 						<h5 class="media-heading">
@@ -165,7 +163,7 @@
 				<ul class="list-group media-list">
 					<li class="list-group-item active">
 						<h5>
-							Canales <span class="badge">{{channel.children.length || 0}}</span>
+							{{'Channels' | translate}} <span class="badge">{{channel.children.length || 0}}</span>
 							<button type="button" class="btn btn-default pull-right" style="margin-top:-10px;" ng-click="addChannels()">
 								<span class="glyphicon glyphicon-plus"></span>
 							</button>
@@ -174,8 +172,8 @@
 				</ul>
 				<ul class="list-group" ng-hide="channel.children && channel.children.length>0">
 					<li class="list-group-item list-group-item-warning">
-						<h5>La lista de canales está vacía</h5>
-						<p class="list-group-item-text"> Añade algún canal</p>
+						<h5>{{'The channels list is empty' | translate}}</h5>
+						<p class="list-group-item-text"> {{'Add some channels' | translate}} </p>
 					</li>
 				</ul>					
 				<ul class="list-group media-list" ui-sortable ng-model="channel.children">
@@ -222,14 +220,14 @@
 		</div>
 
 			<div class="alert alert-info" role="alert" ng-show="needSave">
-				<strong>Cuidado!</strong> Se ha modificado el canal y no se han guardado los cambios.
+				<strong>{{'Warning!' | translate}}</strong> {{'The channel is not saved' | translate}}
 			</div>
 
 		<div class="row">
 			<div class="col-sm-12">
-				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
+				<button class="btn btn-default" onclick="window.history.back();">{{'Back' | translate}}</button>
 				<button class="btn btn-primary pull-right" ng-click="updateChannel()" ng-disabled="updating || !form.$valid">
-					<loader-field ng-show="updating"></loader-field>  Guardar
+					<loader-field ng-show="updating"></loader-field>  {{'Save' | translate}}
 				</button>
 			</div>
 		</div>	
