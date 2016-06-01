@@ -125,12 +125,18 @@ exports.routes = {
 			AuthController.EnsureAuthenticatedOrDigest,
 			function(req, res) {			
 				Channel.update({_id: req.params.id, owner: req.user._id}, req.body)
-				.exec(function(err, item){
+				.exec(function(err, status){
 					if(err) { return res.sendStatus(500); }
-					if (item == null) {
+					if (status.ok == true) {
+						Channel.findOne({_id: req.params.id}, function(err, item){
+							console.log(item);
+							item.updateSearchIndex();
+						});
+						return res.sendStatus(204);
+					}
+					else {
 						return res.sendStatus(404);
 					}
-					res.sendStatus(204);
 				})
 			}
 		]
