@@ -129,7 +129,6 @@ exports.routes = {
 					if(err) { return res.sendStatus(500); }
 					if (status.ok == true) {
 						Channel.findOne({_id: req.params.id}, function(err, item){
-							console.log(item);
 							item.updateSearchIndex();
 						});
 						return res.sendStatus(204);

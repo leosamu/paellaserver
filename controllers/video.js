@@ -549,7 +549,9 @@ exports.UpdateVideo = function(req,res,next) {
 		if (!err) {
 			req.data = videoData;
 			req.data._id = req.params.id;
-			next();
+			
+			Video.findOne({_id: req.params.id}, function(err, item){ item.updateSearchIndex(); });
+			next();			
 		}
 		else {
 			res.status(500).json({ status:false, message:"Unexpected server error creating new video: " + err.message });
