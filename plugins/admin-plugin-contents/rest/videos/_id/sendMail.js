@@ -18,7 +18,6 @@ exports.routes = {
 	sendMail: {
 		get: [
 			AuthController.EnsureAuthenticatedOrDigest,
-			AuthController.CheckRole(['ADMIN']),			
 			function(req, res, next) {						
 				CatalogController.catalogsCanAdminister(req.user)
 				.then(
