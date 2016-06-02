@@ -24,7 +24,7 @@
 				$scope.video.published = {
 					status: true
 				}
-			}			
+			}/*	
 			else if ($scope.visibility == 'private') {
 				$scope.video.hidden = true;
 				$scope.video.hiddenInSearches = true;
@@ -32,7 +32,7 @@
 					status: false
 				}
 				
-			}			
+			}*/		
 			else if ($scope.visibility == 'hidden') {
 				$scope.video.hidden = true;
 				$scope.video.hiddenInSearches = true;

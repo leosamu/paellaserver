@@ -76,6 +76,7 @@
 						<td>
 							<span ng-show="(v.published.status==true) && (v.hidden==true)">{{'hidden' | translate}}</span>
 							<span ng-show="(v.published.status==true) && (v.hidden!=true)">{{'public' | translate}}</span>
+							<span ng-show="(v.published.status!=true)">{{'hidden' | translate}}</span>
 							<span ng-show="(v.published.status!=true)">{{'private' | translate}}</span>
 						</td>
 						<td>
