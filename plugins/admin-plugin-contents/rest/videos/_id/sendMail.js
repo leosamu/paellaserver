@@ -16,7 +16,7 @@ var CatalogController = require(__dirname + '/../../../../../controllers/catalog
 
 exports.routes = {	
 	sendMail: {
-		get: [
+		post: [
 			AuthController.EnsureAuthenticatedOrDigest,
 			function(req, res, next) {						
 				CatalogController.catalogsCanAdminister(req.user)

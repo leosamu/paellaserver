@@ -14,7 +14,7 @@
 				},
 				
 				runAction: function(v) {
-					return $http.get('/rest/plugins/admin-plugin-contents/videos/' + v._id + '/sendMail');
+					return $http.post('/rest/plugins/admin-plugin-contents/videos/' + v._id + '/sendMail');
 				}				
 			}
 		);
