@@ -2,8 +2,8 @@
 	var app = angular.module('adminPluginYoutube');
 	
 	
-	app.controller("AdminYoutubeVideosListController", ["$scope", "$modal", "$base64", "$timeout", "VideoCRUD", "Filters", "AdminState", "MessageBox",
-	function($scope, $modal, $base64, $timeout, VideoCRUD, Filters, AdminState, MessageBox) {
+	app.controller("AdminYoutubeVideosListController", ["$scope", "$modal", "$base64", "$timeout", "VideoCRUD", "Filters", "AdminState", "MessageBox", "VideosSelect", "Actions",
+	function($scope, $modal, $base64, $timeout, VideoCRUD, Filters, AdminState, MessageBox, VideosSelect, Actions) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
@@ -84,6 +84,12 @@
 			}		
 		};		
 		
+		
+		$scope.uploadVideoToYoutube = function() {
+			VideosSelect().then(function(selectedVideos) {
+				Actions.runActionById('upload-to-youtube', selectedVideos);
+			});			
+		}
 	}]);
 	
 	

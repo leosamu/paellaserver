@@ -66,6 +66,24 @@
 			registerAction: function (action) {
 				actions.push(action);
 			},
+
+			runActionById: function(actionId, items) {
+				var action = null;
+				actions.forEach(function(a){
+					if (a.id == actionId) {
+						action = a;
+					}
+				});
+				
+				if (action){
+					return this.runAction(action, items);
+				}
+				else {
+					var deferred = $q.defer();
+					deferred.resolve();
+					return deferred.promise;
+				}
+			},
 			
 			runAction: function(action, items) {
 			
