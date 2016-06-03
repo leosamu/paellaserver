@@ -86,6 +86,7 @@
 	"pt":"Portugués",
 	"de":"Alemán",
 	"ca":"Valenciano",
+	"cn":"Chino",	
 	"af":"Afrikaans",
 	"lt":"Lituano",
 	"nl":"Neerlandés",
@@ -138,6 +139,18 @@
 
   	"unprocessed_video_text": "Pendiente de procesar",
   	
-  	"cant_edit_is_OA_explanation_text": "No se pueden editar las propiedades del video ya que es un Objeto de Aprendizaje."
+  	"cant_edit_is_OA_explanation_text": "No se pueden editar las propiedades del video ya que es un Objeto de Aprendizaje.",
 
+  	"myprofile_text": "Mi perfil",
+  	"gender_text": "Género",
+  	"gender_select_text": "Selecciona el genero",
+  	"gender_male_text": "Masculino",
+  	"gender_female_text": "Femenino",  	
+  	"telephone_text": "Teléfono",
+  	"language_communication_text": "Idioma de las comunicaciones",
+  	"selectlanguage_text": "Selecciona el idioma",
+  	"go_to_catalog_text": "Ir al catálogo",
+  	"new_channel_text_title": "Crear un canal",
+
+  	"manage_my_videos_menu_option": "Administrar mis videos"
 }

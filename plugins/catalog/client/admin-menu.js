@@ -44,6 +44,10 @@
 					});										
 				};
 				
+				$scope.goToManageVideos = function() {
+					location.href = "/#/useradmin/videos/";
+				}
+				
 				$scope.uploadVideo = function() {
 					VideoUploadPopup().then(
 						function (response) {

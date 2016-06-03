@@ -7,7 +7,17 @@ var Repository = new Schema({
 	description: String,
 	endpoint: String,
 	server: String,
-	path: String
+	path: String,
+	diskusage: {
+		value: Number,
+		updatedDate: Date
+	},
+	backup: {
+		enable: {type: Boolean, default: false},
+		mountPoint: {type: String},
+		relativePath: {type: String},
+		lastBackupDate: { type: Date }
+	}
 });
 
 module.exports = mongoose.model('Repository', Repository);

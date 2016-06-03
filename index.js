@@ -85,6 +85,11 @@ function startServer() {
 		res.send(clientCSS);
 	});
 
+	router.get('/i18n/:lang.json', function(req,res) {
+		res.send(ClientResources.getClientI18n('plugins', req.params.lang));
+	});
+
+
 	var clientIndex = ClientResources.getClientHtml(__dirname + '/client/index.html');
 	router.get(['/index.html','/'], function(req,res) {
 		res.setHeader("content-type","text/html");
@@ -132,6 +137,10 @@ function startServer() {
 			var playerConfig = require('./client/' + playerIndexPath + 'config/config.json');
 			playerConfig.experimental = playerConfig.experimental || {};
 			playerConfig.experimental.autoplay = true;
+
+			playerConfig.editor = {enabled: false};
+			playerConfig.player = playerConfig.player || {};
+			playerConfig.player.accessControlClass = "PaellaServerAccessControl";
 
 			playerConfig.auth = playerConfig.auth || {};
 			playerConfig.auth.authCallbackName = "paellaserver_authCallback";

@@ -72,6 +72,7 @@
 	"pt":"Portuguese",
 	"de":"German",
 	"ca":"Valencian",
+	"cn":"Chinese",	
 	"af":"Afrikaans",
 	"lt":"Lithuanian",
 	"nl":"Dutch",
@@ -114,6 +115,23 @@
 	"file_upload_ok_text": "El video se ha subido correctamente.",
 
   	"unprocessed_video_text": "Unprocessed video",
-   	"cant_edit_is_OA_explanation_text": "You can not edit the properties of the video as it is a Learning Object."
+   	"cant_edit_is_OA_explanation_text": "You can not edit the properties of the video as it is a Learning Object.",
+
+
+   	"name_text": "Name",
+   	"lastname_text": "Last name",
+   	"email_text": "E-Mail",
+  	"myprofile_text": "My profile",
+  	"gender_text": "Gender",
+  	"gender_select_text": "Select your gender",
+  	"gender_male_text": "Male",
+  	"gender_female_text": "Female",
+  	"telephone_text": "Telephone",
+  	"language_communication_text": "communicacion language",
+  	"selectlanguage_text": "Select a language",
+  	"go_to_catalog_text": "Go to catalog",
+  	"new_channel_text_title": "Create new channel",
+
+  	"manage_my_videos_menu_option": "Manage my videos"
 
 }

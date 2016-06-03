@@ -17,7 +17,8 @@
 			$scope.visibility="public";
 		}
 		else if ( ($scope.video.hidden == true) && ($scope.video.hiddenInSearches == true) && ($scope.video.published.status == false) ){
-			$scope.visibility="private";
+			//$scope.visibility="private";
+			$scope.visibility="hidden";
 		}
 		else if ( ($scope.video.hidden == true) && ($scope.video.hiddenInSearches == true) && ($scope.video.published.status == true) ){
 			$scope.visibility="hidden";
@@ -34,7 +35,7 @@
 				$scope.video.published = {
 					status: true
 				}
-			}			
+			}	/*		
 			else if ($scope.visibility == 'private') {
 				$scope.video.hidden = true;
 				$scope.video.hiddenInSearches = true;
@@ -42,7 +43,7 @@
 					status: false
 				}
 				
-			}			
+			}	*/		
 			else if ($scope.visibility == 'hidden') {
 				$scope.video.hidden = true;
 				$scope.video.hiddenInSearches = true;

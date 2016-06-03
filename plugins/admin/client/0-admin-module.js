@@ -16,16 +16,6 @@
 				templateUrl: 'admin/views/unauthorized.html',
 				controller: "AdminUnauthorizedController"
 			})
-
-		function loadDictionary(lang) {
-			$.ajax('admin/i18n/' + lang + '.json')
-			.success(function(data) {
-				$translateProvider.translations(lang, data);
-			});
-		}
-
-		loadDictionary('es');
-		loadDictionary('ca');		
 	}]);		
 		
 		

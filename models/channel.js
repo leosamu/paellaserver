@@ -68,7 +68,7 @@ ChannelSchema.methods.updateSearchIndex = function () {
 
 	var self = this;
 	this.model('User').find({_id:{$in:self.owner}}, function(err, users) {
-		if (err) { return; }
+		if (err) { console.log(err); return; }
 		
 		var ownersNames = [];
 		users.forEach(function(user){
@@ -77,8 +77,7 @@ ChannelSchema.methods.updateSearchIndex = function () {
 			name = name + ( user.contactData.name || "" ) + " ";
 			name = name + ( user.contactData.email || "" ) + " ";
 			
-			name = removeDuplicate(toAccentInsensitiveString(name.toLowerCase()));
-			console.log (name);
+			name = removeDuplicate(toAccentInsensitiveString(name.toLowerCase()));			
 			ownersNames.push(name);			
 		});
 		
@@ -92,7 +91,8 @@ ChannelSchema.methods.updateSearchIndex = function () {
 					title: titleText,
 					owner: ownersNames
 				}
-			}}
+			}},
+			function(){}
 		);
 	});
 }

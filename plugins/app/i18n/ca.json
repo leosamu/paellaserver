@@ -41,7 +41,7 @@
 
 	"edit_channel_text_title":"Editar datos del canal",
 	"create_channel_text_title":"Crear un canal",
-	"edit_text":"Guardar",
+	"edit_text":"Desar",
 	"create_text":"Crear",
 	"identifier_field_text":"Identificador",
 	"title_field_text":"Títol",
@@ -66,25 +66,27 @@
 	"show_videos_by_author":"Mostrar vídeos por autor",
 	"search_author":"Buscar autor",
 
-	"es":"Español",
-	"en":"Inglés",
-	"it":"Italiano",
-	"fr":"Francés",
-	"pt":"Portugués",
-	"de":"Alemán",
-	"ca":"Valenciano",
-	"af":"Afrikaans",
-	"lt":"Lituano",
-	"nl":"Neerlandés",
-	"da":"Danés",
-	"hu":"Húngaro",
-	"ja":"Japonés",
-	"ru":"Ruso",
-	"cs":"Checo",
-	"no":"Noruego",
+
+	"es":"Espanyol",
+	"en":"Anglès",
+	"it":"Italià",
+	"fr":"Francès",
+	"pt":"Portuguès",
+	"de":"Alemà",
+	"ca":"Valencià",
+	"cn":"Xinés",
+	"af":"Africà",
+	"lt":"Lituà",
+	"nl":"Neerlandès",
+	"da":"Danès",
+	"hu":"Hongarès",
+	"ja":"Japonès",
+	"ru":"Rus",
+	"cs":"Txec",
+	"no":"Noruec",
 	"fi":"Finés",
-	"kk":"Kazajo",
-	"ar":"Árabe",
+	"kk":"kazakh",
+	"ar":"Àrab",
 	"other":"Un altre",
 	
 
@@ -111,7 +113,21 @@
 	
   	"unprocessed_video_text": "Pendent de processar",
   	
-  	"cant_edit_is_OA_explanation_text": "No es poden editar les propietats del vídeo ja que és un Objecte d'Aprenentatge."
-		
-	
+  	"cant_edit_is_OA_explanation_text": "No es poden editar les propietats del vídeo ja que és un Objecte d'Aprenentatge.",
+  	
+   	"name_text": "Nom",
+   	"lastname_text": "Cognoms",
+   	"email_text": "E-Mail",
+  	"myprofile_text": "El meu perfil",
+  	"gender_text": "Gènere",
+  	"gender_select_text": "Seleccione el seu gènere",
+  	"gender_male_text": "Masculí",
+  	"gender_female_text": "Femení",
+  	"telephone_text": "Telèfon",
+  	"language_communication_text": "Llenguatge de les comunicacions",
+  	"selectlanguage_text": "Seleccione un idioma",
+  	"go_to_catalog_text": "Anar al catàleg",
+  	"new_channel_text_title": "Crear un canal",
+
+  	"manage_my_videos_menu_option": "Administrar els meus videos"
 }

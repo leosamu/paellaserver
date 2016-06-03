@@ -1,26 +1,34 @@
-<ui class="nav navbar-nav pull-right" ng-show="showMenu()">
+<ui class="nav navbar-nav pull-right" style="margin-left:5px;">
     <li>
         <div class="ps-search-bar-container" dropdown is-open="status.isopen">
-            <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="disabled" ng-show="!isEmbed">
-                <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                <li><a href="" ng-click="uploadVideo()" ng-show="canViewAdminPage()">{{ "upload_video_menu_option" | translate }}</a></li>
-                <li><a href="" ng-click="createChannel()">{{ "create_channel_menu_option" | translate }}</a></li>
-                <li class="divider" ng-show="canWriteChannel()"></li>
-                <li><a href="" ng-click="editChannel()" ng-show="canWriteChannel()">{{ "edit_channel_menu_option" | translate }}</a></li>
-                <li><a href="" ng-click="removeChannel()" ng-show="canWriteChannel()">{{ "remove_channel_menu_option" | translate }}</a></li>
-                <!--
-                TODO: Esto hay que cargarselo
-                <li class="divider" ng-show="canUploadPolimedia()"></li>
-                <li><a href="" ng-show="canUploadPolimedia()" ng-click="createPolimedia()">{{ "create_polimedia_menu_option" | translate }}</a></li>
-                <li><a href="" ng-show="canUploadPolimedia()" ng-click="showUnprocessedVideos()">{{ "show_unprocessed_videos" | translate }}</a></li>
-                <li><a href="" ng-show="canUploadPolimedia()" ng-click="showVideosByAuthor()">{{ "show_videos_by_author" | translate }}</a></li>
-                <li><a href="" ng-show="canUploadPolimedia()" ng-click="newestVideos()">{{ "show_newest_videos" | translate }}</a></li>
-                -->
-                <li class="divider" ng-show="canViewAdminPage()"></li>
-                <li><a href="#/admin" ng-show="canViewAdminPage()" target="_blank">{{ "open_admin_page" | translate }}</a></li>
-            </ul>
+			<div class="btn-group dropdown">
+				<button type="button" class="btn btn-default" ng-click="goToManageVideos()">
+					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+				</button>
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="disabled" ng-show="showMenu() && (!isEmbed)">
+					<span class="caret"></span>
+					<span class="sr-only">Toggle Dropdown</span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right" role="menu">
+	                <li><a href="" ng-click="uploadVideo()">{{ "upload_video_menu_option" | translate }}</a></li>
+	                <li><a href="" ng-click="createChannel()">{{ "create_channel_menu_option" | translate }}</a></li>
+	                <li class="divider" ng-show="canWriteChannel()"></li>
+	                <li><a href="" ng-click="editChannel()" ng-show="canWriteChannel()">{{ "edit_channel_menu_option" | translate }}</a></li>
+	                <li><a href="" ng-click="removeChannel()" ng-show="canWriteChannel()">{{ "remove_channel_menu_option" | translate }}</a></li>
+	                <!--
+	                TODO: Esto hay que cargarselo
+	                <li class="divider" ng-show="canUploadPolimedia()"></li>
+	                <li><a href="" ng-show="canUploadPolimedia()" ng-click="createPolimedia()">{{ "create_polimedia_menu_option" | translate }}</a></li>
+	                <li><a href="" ng-show="canUploadPolimedia()" ng-click="showUnprocessedVideos()">{{ "show_unprocessed_videos" | translate }}</a></li>
+	                <li><a href="" ng-show="canUploadPolimedia()" ng-click="showVideosByAuthor()">{{ "show_videos_by_author" | translate }}</a></li>
+	                <li><a href="" ng-show="canUploadPolimedia()" ng-click="newestVideos()">{{ "show_newest_videos" | translate }}</a></li>
+	                -->
+	                <li class="divider" ng-show="canViewAdminPage()"></li>
+	                <li><a href="" ng-click="goToManageVideos()">{{ "manage_my_videos_menu_option" | translate }}</a></li>	                
+	                <li class="divider" ng-show="canViewAdminPage()"></li>
+	                <li><a href="#/admin" ng-show="canViewAdminPage()" target="_blank">{{ "open_admin_page" | translate }}</a></li>
+	            </ul>
+	        </div>
         </div>
     </li>
 </ui>

@@ -28,7 +28,8 @@
 					{ "id":"no", "name":"no" },
 					{ "id":"fi", "name":"fi" },
 					{ "id":"kk", "name":"kk" },
-					{ "id":"ar", "name":"ar" }
+					{ "id":"ar", "name":"ar" },
+					{ "id":"cn", "name":"cn" }
 				];
 				
 				if ($scope.allowOther) {

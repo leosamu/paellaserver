@@ -389,6 +389,7 @@ exports.UpdateChannel = function(req,res,next) {
 		if (!err) {
 			req.data = channelData;
 			req.data._id = req.params.id;
+			Channel.findOne({_id: req.params.id}, function(err, item){ item.updateSearchIndex(); });
 			next();
 		}
 		else {

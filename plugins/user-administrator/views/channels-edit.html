@@ -1,0 +1,240 @@
+<div>
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li >
+						<a href="#/catalog">
+				    		{{'Go to catalog' | translate}}
+				    	</a>
+				    </li>
+
+					<li>
+						<a href="#/useradmin/videos">
+				    		{{'My videos' | translate}}
+				    	</a>
+				    </li>
+					<li class="active">
+						<a href="#/useradmin/channels">
+				    		{{'My channels' | translate}}
+				    	</a>
+				    </li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<a href ng-click="newChannel()">
+				    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'New Channel' | translate}}
+				    	</a>
+				    </li>
+				</ul>				
+			</div>
+		</div>
+	</section>
+
+
+	<section style="min-height:250px;">
+		<div style="height: 30px;"></div>
+		<div ng-show="errorLoading">
+			<div class="alert alert-danger" role="alert">
+				<strong>{{'Error' | translate}}</strong> {{'Error loading the channel data' | translate}} 
+			</div>
+		</div>			
+
+		<div ng-show="!errorLoading && loading">
+			<loader></loader>	
+		</div>
+
+		<div ng-show="!errorLoading">
+			<div class="panel panel-default">
+				<!-- Default panel contents -->  
+				<div class="panel-body">
+				
+					<form name="form" class="form-horizontal">
+				        <fieldset>
+				            <!-- Text input-->
+				            <div class="form-group has-feedback" ng-class="{'has-error': !(form.title.$valid)}">
+				                <label class="col-sm-2 control-label" for="title">{{ "Title" | translate }}</label>
+				                <div class="col-sm-10">
+				                    <input name="title" type="text" placeholder="{{ 'channel_title_field_placeholder_text' | translate }}" class="form-control input-md" required ng-model="channel.title">
+				
+				                </div>
+				            </div>
+				
+				            
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{ "Visibility" | translate }}</label>
+								<div class="col-sm-10">
+									<select class="form-control" ng-model="visibility">
+										<option value="public"> {{'public' | translate}} </option>
+										<option value="hidden"> {{'hidden' | translate}} </option>
+									</select>
+									
+								</div>
+							</div>
+				
+							<div class="alert alert-success" ng-show="visibility=='public'">
+								{{'The channel is public and it will be published in the portal' | translate}}								
+							</div>							
+							<div class="alert alert-warning" ng-show="visibility=='hidden'">
+								{{'The channel will not be published in the portal, but people that knows the URL can view it' | translate}}
+							</div>
+				            
+				        </fieldset>			
+				    </form>				
+				
+				</div>
+
+
+				<!-- Video List group -->
+				<ul class="list-group media-list">
+					<li class="list-group-item active">
+						<h5>
+							{{'Videos' | translate}} <span class="badge">{{channel.videos.length || 0}}</span>
+							<button class="btn btn-default pull-right" style="margin-top:-10px;" ng-click="addVideos()">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</h5>						
+					</li>
+				</ul>			
+				<ul class="list-group" ng-hide="channel.videos && channel.videos.length>0">
+					<li class="list-group-item list-group-item-warning">
+						<h5>{{'The videos list is empty' | translate}}</h5>
+						<p class="list-group-item-text"> {{'Add some videos' | translate}} </p>
+					</li>
+				</ul>					
+				<ul class="list-group media-list" ui-sortable ng-model="channel.videos">
+					<li class="list-group-item" ng-repeat="v in channel.videos">
+						<div class="media-left">
+							<a href="#">
+								<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{getVideoThumbnail(v)}}">
+							</a>
+						</div>
+						<div class="media-body">
+								
+
+						<div class="btn-toolbar pull-right" role="toolbar">
+							<div class="btn-group" role="group">
+								<a class="btn btn-xs btn-default" target="_blank" ng-disabled="!canViewVideo(v)" ng-href="/player/?id={{v._id}}&autoplay=true"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+								<button class="btn btn-xs btn-default" ng-disabled="!canEditVideo(v)" ng-click="editVideo(v)"> <span class="glyphicon glyphicon-pencil"></span> </button>
+							</div>
+							<div class="btn-group" role="group">
+								<button class="btn btn-xs btn-danger" ng-click="removeVideoFromChannel(v)">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+							</div>
+						</div>
+		
+						
+						<h5 class="media-heading">
+							<div class="btn-group" dropdown is-open="status.isopen">
+						      <button type="button" class="btn btn-primary btn-xs" >
+						        {{$index+1}} 
+						      </button>
+						    </div>	
+														
+							<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>							
+							
+						</h5>
+						<p class="list-group-item-text text-danger">
+							{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}
+						</p>
+						<p class="list-group-item-text">
+							<span class="label label-default">{{v.creationDate | amDateFormat:'ll'}}</span>								
+							<small>{{v.duration | secondsToHuman }}</small>
+						</p>
+						</div>
+					</li>
+				</ul>				
+				 
+				 
+				 
+				<!-- Channel List group -->
+				<ul class="list-group media-list">
+					<li class="list-group-item active">
+						<h5>
+							{{'Channels' | translate}} <span class="badge">{{channel.children.length || 0}}</span>
+							<button type="button" class="btn btn-default pull-right" style="margin-top:-10px;" ng-click="addChannels()">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</h5>
+					</li>
+				</ul>
+				<ul class="list-group" ng-hide="channel.children && channel.children.length>0">
+					<li class="list-group-item list-group-item-warning">
+						<h5>{{'The channels list is empty' | translate}}</h5>
+						<p class="list-group-item-text"> {{'Add some channels' | translate}} </p>
+					</li>
+				</ul>					
+				<ul class="list-group media-list" ui-sortable ng-model="channel.children">
+					<li class="list-group-item" ng-repeat="c in channel.children">
+						<div class="media-left">
+							<a href="#">
+								<img class="media-object" style="width:100px;" src="resources/images/channel-placeholder.png" ng-src="{{getChannelThumbnail(c)}}">
+							</a>
+						</div>
+						<div class="media-body">
+								
+							<div class="btn-toolbar pull-right" role="toolbar">
+								<div class="btn-group" role="group">
+									<a class="btn btn-xs btn-default" target="_blank" ng-disabled="!canViewChannel(c)" ng-href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+									<a class="btn btn-xs btn-default" ng-disabled="!canEditChannel(c)" ng-click="editChannel(c)"> <span class="glyphicon glyphicon-pencil"></span> </a>
+								</div>
+								<div class="btn-group" role="group">
+									<button class="btn btn-xs btn-danger" ng-click="removeChannelFromChannel(c)">
+										<span class="glyphicon glyphicon-remove"></span>
+									</button>
+								</div>
+							</div>
+							
+							<h5 class="media-heading">
+								<div class="btn-group" dropdown is-open="status.isopen">
+							      <button type="button" class="btn btn-primary btn-xs" >
+							        {{$index+1}} 
+							      </button>
+							    </div>	
+															
+								<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{c.title}} </div>
+							</h5>
+							<p class="list-group-item-text text-danger">
+								{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}
+							</p>
+							<p class="list-group-item-text">
+								<span class="label label-default">{{c.creationDate | amDateFormat:'ll'}}</span>								
+							</p>
+						</div>
+					</li>
+				</ul>
+				 
+			</div>
+		</div>
+
+			<div class="alert alert-info" role="alert" ng-show="needSave">
+				<strong>{{'Warning!' | translate}}</strong> {{'The channel is not saved' | translate}}
+			</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-default" onclick="window.history.back();">{{'Back' | translate}}</button>
+				<button class="btn btn-primary pull-right" ng-click="updateChannel()" ng-disabled="updating || !form.$valid">
+					<loader-field ng-show="updating"></loader-field>  {{'Save' | translate}}
+				</button>
+			</div>
+		</div>	
+		<div style="height: 30px;"></div>
+		
+	</section>
+</div>
+
+
+

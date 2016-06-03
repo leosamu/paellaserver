@@ -7,6 +7,7 @@
 		'unescoModule',
 		"catalogModule",
 		"statisticsModule",
+		"userAdminModule",
 		"adminModule",
 		"loginModule",
 		"legalModule"
@@ -20,7 +21,7 @@
 				});
 
 			function loadDictionary(localization) {
-				$.ajax('app/i18n/' + localization + '.json')
+				$.ajax('i18n/' + localization + '.json')
 					.success(function(data) {
 						$translateProvider.translations(localization,data);
 					});

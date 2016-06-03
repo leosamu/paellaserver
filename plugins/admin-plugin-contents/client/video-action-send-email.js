@@ -2,7 +2,7 @@
 	var app = angular.module('adminPluginVideos');
 	
 	
-	app.run(['Actions', '$q', '$modal', 'TaskCRUD', function(Actions, $q, $modal, TaskCRUD) {
+	app.run(['Actions', '$q', '$modal', '$http', function(Actions, $q, $modal, $http) {
 	
 		Actions.registerAction(
 			{
@@ -14,14 +14,7 @@
 				},
 				
 				runAction: function(v) {
-					var task1 = {
-						task: "notify",
-						targetType: "video",
-						targetId: v._id,
-						error: false
-					};
-					
-					return TaskCRUD.save(task1).$promise;
+					return $http.post('/rest/plugins/admin-plugin-contents/videos/' + v._id + '/sendMail');
 				}				
 			}
 		);
