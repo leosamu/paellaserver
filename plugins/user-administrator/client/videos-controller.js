@@ -57,7 +57,8 @@
 			);
 		};
 		
-		$scope.editVideo = function(videoId) {
+		$scope.editVideo = function(video) {
+			var videoId = video._id;
 			Video.get({ id:videoId }).$promise
 			.then(function(data) {
 				delete(data.slides);
@@ -74,6 +75,44 @@
 				.then(function(result) {
 					location.reload();
 				});
+			});
+		};		
+		
+		$scope.showLinks = function(video) {
+			var modalInstance = $modal.open({
+				templateUrl: 'showLinksVideo.html',
+				size: 'lg',
+				backdrop: true,
+				controller: function ($scope, $modalInstance) {
+					$scope.video = video;
+					$scope.vsize = "640x360";
+						
+					try {
+						var v = $scope.video.source.videos[0];
+						if ((v) && (v.src)) {							
+							$scope.downloadURL = $scope.video.repository.server + $scope.video.repository.path + video._id + '/polimedia/' + v.src;
+						}
+						else if ((v) && (v.href)) {
+							$scope.downloadURL = v.href;
+						}
+					}
+					catch(e) {}
+					
+					$scope.$watch('vsize', function(){
+						var arr = $scope.vsize.split('x');
+						if (arr.length == 2) {
+							$scope.vwidth = parseInt(arr[0]);
+							$scope.vheight = parseInt(arr[1]);
+						}
+					});
+					
+					$scope.cancel = function () {
+						$modalInstance.dismiss();
+					};
+					$scope.accept = function () {					
+						$modalInstance.close();
+					};
+				}
 			});
 		};		
 		

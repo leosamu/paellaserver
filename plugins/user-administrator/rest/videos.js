@@ -39,11 +39,11 @@ exports.routes = {
 					if(errCount) { return res.sendStatus(500); }
 					
 					Video.find(query)
-					.select("-blackboard -operator -repository -search")
+					.select("-blackboard -operator -search")
 					.sort({creationDate:-1})
 					.skip(skip)
 					.limit(limit)
-//					.populate('repository')
+					.populate('repository')
 					.populate('owner', '_id contactData')					
 					.populate('catalog', '_id description')	
 					.populate('source.masters.task', '_id error processing')										
