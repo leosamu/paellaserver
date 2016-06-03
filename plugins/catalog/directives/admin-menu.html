@@ -1,11 +1,11 @@
-<ui class="nav navbar-nav pull-right" ng-show="showMenu()" style="margin-left:5px;">
+<ui class="nav navbar-nav pull-right" style="margin-left:5px;">
     <li>
         <div class="ps-search-bar-container" dropdown is-open="status.isopen">
 			<div class="btn-group dropdown">
 				<button type="button" class="btn btn-default" ng-click="goToManageVideos()">
 					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 				</button>
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="disabled" ng-show="!isEmbed">
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="disabled" ng-show="showMenu() && (!isEmbed)">
 					<span class="caret"></span>
 					<span class="sr-only">Toggle Dropdown</span>
 				</button>
@@ -23,6 +23,8 @@
 	                <li><a href="" ng-show="canUploadPolimedia()" ng-click="showVideosByAuthor()">{{ "show_videos_by_author" | translate }}</a></li>
 	                <li><a href="" ng-show="canUploadPolimedia()" ng-click="newestVideos()">{{ "show_newest_videos" | translate }}</a></li>
 	                -->
+	                <li class="divider" ng-show="canViewAdminPage()"></li>
+	                <li><a href="" ng-click="goToManageVideos()">{{ "manage_my_videos_menu_option" | translate }}</a></li>	                
 	                <li class="divider" ng-show="canViewAdminPage()"></li>
 	                <li><a href="#/admin" ng-show="canViewAdminPage()" target="_blank">{{ "open_admin_page" | translate }}</a></li>
 	            </ul>

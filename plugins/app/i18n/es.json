@@ -150,6 +150,7 @@
   	"language_communication_text": "Idioma de las comunicaciones",
   	"selectlanguage_text": "Selecciona el idioma",
   	"go_to_catalog_text": "Ir al catálogo",
-  	"new_channel_text_title": "Crear un canal"
+  	"new_channel_text_title": "Crear un canal",
 
+  	"manage_my_videos_menu_option": "Administrar mis videos"
 }
