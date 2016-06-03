@@ -87,10 +87,11 @@
 					$scope.video = video;
 					$scope.vsize = "640x360";
 						
+						console.log($scope.video.repository);
 					try {
 						var v = $scope.video.source.videos[0];
 						if ((v) && (v.src)) {							
-							$scope.downloadURL = $scope.video.repository.server + $scope.video.repository.path + video._id + '/polimedia/' + v.src;
+							$scope.downloadURL = $scope.video.repository.server + $scope.video.repository.endpoint + video._id + '/polimedia/' + v.src;
 						}
 						else if ((v) && (v.href)) {
 							$scope.downloadURL = v.href;
