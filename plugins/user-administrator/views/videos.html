@@ -144,7 +144,7 @@
 		<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
 			<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>{{'Video link' | translate}} </a></li>			
 			<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>{{'Embed code' | translate}}</a></li>
-			<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ng-show="downloadURL!=null"><a href>{{'Video download' | translate}}</a></li> 
+			<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ng-show="downloadURL!=null"><a href>{{'Download' | translate}}</a></li> 
 		</ul>
 		
 		
@@ -155,7 +155,7 @@
 				<div class="tab-pane" ng-show="tab==1">
 					<form class="form-horizontal">
 						<div class="form-group">
-							<label class="col-sm-2 control-label">{{'Video Link' | translate}}</label>
+							<label class="col-sm-2 control-label">{{'Link' | translate}}</label>
 							<div class="col-sm-10">
 								<p class="form-control-static">
 									<a target="_blank" ng-href="https://media.upv.es/player/?id={{video._id}}"> https://media.upv.es/player/?id={{video._id}} </a>
@@ -200,7 +200,7 @@
 				<div class="tab-pane" ng-show="tab==3">
 					<form class="form-horizontal">
 						<div class="form-group">
-							<label class="col-sm-2 control-label">{{'Video download' | translate}}</label>
+							<label class="col-sm-2 control-label">{{'Link' | translate}}</label>
 							<div class="col-sm-10">
 								<p class="form-control-static">
 									<a target="_blank" ng-href="{{downloadURL}}" download="{{video._id}} - {{video.title}}"> {{downloadURL}} </a>
