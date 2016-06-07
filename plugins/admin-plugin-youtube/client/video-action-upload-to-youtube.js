@@ -6,6 +6,7 @@
 
 		Actions.registerAction(
 			{
+				id: "upload-to-youtube",
 				context: "video",			
 				label: "Subir a Youtube",
 				role: "YOUTUBE_UPLOADER",

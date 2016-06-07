@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('adminPluginOA');
+	var app = angular.module('adminPluginYoutube');
 	
 	
 	app.run(['Actions', '$q', 'ChannelCRUD', '$modal', 'MessageBox', function(Actions, $q, ChannelCRUD, $modal, MessageBox) {
@@ -7,7 +7,7 @@
 		Actions.registerAction(
 			{
 				label: "Add OA automatch",
-				context: "channel",
+				context: "youtube-channel",
 				isDisabled: function(items) {
 					return (items.length == 0);
 				},				
@@ -30,7 +30,7 @@
 						.then(function(channels){
 							
 							var modalInstance = $modal.open({
-								templateUrl:'admin-plugin-oa/views/modal/oa-automatch.html',
+								templateUrl:'admin-plugin-youtube/views/modal/oa-automatch.html',
 								controller:['$scope', '$modalInstance', 'channels', function($scope, $modalInstance, channels){
 									$scope.channels = channels;
 	

@@ -1,12 +1,12 @@
 (function() {
-	var plugin = angular.module('adminPluginOA');
+	var plugin = angular.module('adminPluginYoutube');
 	
 	
 	plugin.run(['Actions', '$q', '$modal', 'TaskCRUD', function(Actions, $q, $modal, TaskCRUD) {
 
 		Actions.registerAction(
 			{
-				context: "oa",			
+				context: "youtube-oa",
 				label: "Import OA info from riunet",
 				
 				
@@ -15,7 +15,7 @@
 					
 						
 					var modalInstance = $modal.open({
-						templateUrl:'admin-plugin-oa/views/modal/oa-import-from-riunet.html',
+						templateUrl:'admin-plugin-youtube/views/modal/oa-import-from-riunet.html',
 						controller:['$scope', '$modalInstance', function($scope, $modalInstance){
 							$scope.fromDate = new Date();
 							$scope.toDate = new Date();
