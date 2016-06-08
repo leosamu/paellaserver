@@ -67,7 +67,8 @@ exports.routes = {
 				var item = new Model(req.body);
 				
 				item.save(function(err) {
-					if(!err) {
+					if(!err) {						
+						item.updateSearchIndex();						
 						res.status(201);
 						res.send(item);
 					}
