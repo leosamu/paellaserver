@@ -50,7 +50,7 @@ function startServer() {
 		}
 	});
 
-	security.init(app);
+	app.use(security.router);
 
 	var router = express.Router();
 	repository.setup(router,app);
