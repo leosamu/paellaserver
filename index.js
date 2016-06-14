@@ -181,7 +181,7 @@ function startServer() {
 	}
 
 	router.get(['/player/index.html','/player/','/player/embed.html'], getPlayerIndex('player/'));
-	router.get(['/playerDev/index.html','/playerDev/','/playerDev/embed.html'], getPlayerIndex('playerDev/'));
+	router.get(['/playerDev/index.html','/playerDev/','/playerDev/embed.html','playerDev/editor.html'], getPlayerIndex('playerDev/'));
 
 	router.get(['/player/config/config.json'],getPlayerConfig('player/'));
 	router.get(['/playerDev/config/config.json'],getPlayerConfig('playerDev/'));

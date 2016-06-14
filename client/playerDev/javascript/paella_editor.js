@@ -980,46 +980,6 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
 
 "use strict";
 (function() {
-  var app = angular.module(paella.editor.APP_NAME);
-  app.directive("trackInfo", function() {
-    return {
-      restrict: "E",
-      templateUrl: "templates/es.upv.paella-editor.trackInfo/track-info.html",
-      controller: ["$scope", "PaellaEditor", function($scope, PaellaEditor) {
-        $scope.trackName = "";
-        PaellaEditor.subscribe($scope, function() {
-          $scope.currentTrack = PaellaEditor.currentTrack;
-          if ($scope.currentTrack) {
-            $scope.trackName = $scope.currentTrack.name;
-          }
-        });
-      }]
-    };
-  });
-  var TrackInfoPlugin = function($__super) {
-    function TrackInfoPlugin() {
-      $traceurRuntime.superConstructor(TrackInfoPlugin).apply(this, arguments);
-    }
-    return ($traceurRuntime.createClass)(TrackInfoPlugin, {
-      checkEnabled: function() {
-        return Promise.resolve(true);
-      },
-      getName: function() {
-        return "trackInfoSidebar";
-      },
-      getTabName: function() {
-        return "Track info";
-      },
-      getDirectiveName: function() {
-        return "track-info";
-      }
-    }, {}, $__super);
-  }(paella.editor.SideBarPlugin);
-  new TrackInfoPlugin();
-})();
-
-"use strict";
-(function() {
   var TestPlugin = function($__super) {
     function TestPlugin() {
       $traceurRuntime.superConstructor(TestPlugin).apply(this, arguments);
@@ -1232,6 +1192,46 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
     }, {}, $__super);
   }(paella.editor.SideBarPlugin);
   new SidebarPlugin2();
+})();
+
+"use strict";
+(function() {
+  var app = angular.module(paella.editor.APP_NAME);
+  app.directive("trackInfo", function() {
+    return {
+      restrict: "E",
+      templateUrl: "templates/es.upv.paella-editor.trackInfo/track-info.html",
+      controller: ["$scope", "PaellaEditor", function($scope, PaellaEditor) {
+        $scope.trackName = "";
+        PaellaEditor.subscribe($scope, function() {
+          $scope.currentTrack = PaellaEditor.currentTrack;
+          if ($scope.currentTrack) {
+            $scope.trackName = $scope.currentTrack.name;
+          }
+        });
+      }]
+    };
+  });
+  var TrackInfoPlugin = function($__super) {
+    function TrackInfoPlugin() {
+      $traceurRuntime.superConstructor(TrackInfoPlugin).apply(this, arguments);
+    }
+    return ($traceurRuntime.createClass)(TrackInfoPlugin, {
+      checkEnabled: function() {
+        return Promise.resolve(true);
+      },
+      getName: function() {
+        return "trackInfoSidebar";
+      },
+      getTabName: function() {
+        return "Track info";
+      },
+      getDirectiveName: function() {
+        return "track-info";
+      }
+    }, {}, $__super);
+  }(paella.editor.SideBarPlugin);
+  new TrackInfoPlugin();
 })();
 
 "use strict";
