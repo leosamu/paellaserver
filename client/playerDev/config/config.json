@@ -23,15 +23,19 @@
         ],
         "methods": [
             {
-                "factory": "RTMPVideoFactory",
-                "enabled": true
-            },
-            {
                 "factory": "Html5VideoFactory",
                 "enabled": true
             },
             {
                 "factory": "MpegDashVideoFactory",
+                "enabled": true
+            },
+            {
+                "factory": "RTMPVideoFactory",
+                "enabled": true
+            },
+            {
+                "factory": "HLSVideoFactory",
                 "enabled": true
             },
             {
@@ -161,7 +165,7 @@
                 "enabled": true,
                 "url": "https://media.upv.es/rest/video/"
             },
-            "es.upv.paella.liveStramingIndicator": {
+            "es.upv.paella.liveStreamingIndicatorPlugin": {
                 "enabled": true
             },
             "es.upv.paella.showEditorPlugin": {

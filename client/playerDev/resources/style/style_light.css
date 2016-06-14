@@ -489,7 +489,7 @@ textarea {
 .buttonPlugin.helpButton {
   background-position: -1300% 0%;
 }
-/*** File: plugins/es.upv.paella.liveStramingIndicatorPlugin/live_stream_indicator.less ***/
+/*** File: plugins/es.upv.paella.liveStreamingIndicatorPlugin/live_stream_indicator.less ***/
 .buttonPlugin.right.liveIndicator {
   width: 100px;
   height: 40px;
