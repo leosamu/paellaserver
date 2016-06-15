@@ -145,6 +145,7 @@
 			<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>{{'Video link' | translate}} </a></li>			
 			<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>{{'Embed code' | translate}}</a></li>
 			<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ng-show="downloadURL!=null"><a href>{{'Download' | translate}}</a></li> 
+			<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>{{'PoliBlogs' | translate}}</a></li> 
 		</ul>
 		
 		
@@ -188,8 +189,8 @@
 						<div class="form-group">
 							<label class="col-sm-2 control-label">{{'Embed code' | translate}}</label>
 							<div class="col-sm-10">
-								<textarea class="form-control" rows="5">
-<iframe allowfullscreen src="https://media.upv.es/player/embed.html?id=98effade-26ef-a346-ac43-d06f43b28564" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="{{vwidth}}" height="{{vheight}}"></iframe>
+								<textarea class="form-control" rows="5" disabled>
+<iframe allowfullscreen src="https://media.upv.es/player/embed.html?id={{video._id}}" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width="{{vwidth}}" height="{{vheight}}"></iframe>
 								</textarea>
 							</div>
 						</div>
@@ -209,6 +210,17 @@
 						</div>
 					</form>				
 				</div>
+				
+				<div class="tab-pane" ng-show="tab==4">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{'Link' | translate}}</label>
+							<div class="col-sm-10">
+								<pre>[media]{{video._id}}:640:360[/media]</pre>
+							</div>
+						</div>
+					</form>				
+				</div>				
 				
 			</div>
 		</div>

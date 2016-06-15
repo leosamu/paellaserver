@@ -45,8 +45,9 @@
 	"Videos search": "Buscar vídeos",
 	"The video URL is not valid. Check it is correct.": "La URL del vídeo introducida no se puede cargar. Comprueba que sea correcta y que proceda de un sitio compatible.",
 	"If the URL is valid, you will see a video preview. This can take several minutes.": "Si la URL es correcta, verás una vista previa del video aquí. Puede tardar varios minutos en aparecer.",
-	"your videos": "Tus vídeos",
+	"Your videos": "Tus vídeos",
 	
+	"Video link": "Enlaces al video",
 	"Video links": "Enlaces a los videos",
 	"Download": "Descarga",
 	"Link": "Enlace",
