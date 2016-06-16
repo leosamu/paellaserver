@@ -132,6 +132,31 @@ function startServer() {
 		}
 	}
 
+	function getEditorIndex(playerIndexPath) {
+		return function(req,res) {
+			fs.readFile('./client/' + playerIndexPath + 'editor.html', 'utf8', function (err, data) {
+				if (err) {
+					console.log(err);
+					res.status(500).send('Internal error: missing player files').end();
+				}
+				else {
+					var appendHeader = '<script src="/' + playerIndexPath + 'plugins.js"></script></head>';
+					//		var resourcesPath = "url:'../rest/paella'";
+					var paellaTitle = '<title>Paella Engage Example</title>';
+					var playerTitle = configure.config.player && configure.config.player.title;
+					var serverTitle = '<title>' + playerTitle + '</title>';
+
+					var onLoad = "loadPlayer();";	// see plugins/login/player/load_callback.js
+					data = data.replace('</head>', appendHeader);
+					//		data = data.replace("url:'../repository/'", resourcesPath);
+					data = data.replace("paella.load('playerContainer',{ url:'../repository/' });", onLoad);
+					data = data.replace(paellaTitle, serverTitle);
+					res.type('text/html').send(data).end();
+				}
+			});
+		}
+	}
+
 	function getPlayerConfig(playerIndexPath) {
 		return function(req,res) {
 			var playerConfig = require('./client/' + playerIndexPath + 'config/config.json');
@@ -181,7 +206,8 @@ function startServer() {
 	}
 
 	router.get(['/player/index.html','/player/','/player/embed.html'], getPlayerIndex('player/'));
-	router.get(['/playerDev/index.html','/playerDev/','/playerDev/embed.html'], getPlayerIndex('playerDev/'));
+	router.get(['/playerDev/index.html','/playerDev/','/playerDev/embed.html','playerDev/editor.html'], getPlayerIndex('playerDev/'));
+	router.get(['/playerDev/editor.html'], getEditorIndex('playerDev/'));
 
 	router.get(['/player/config/config.json'],getPlayerConfig('player/'));
 	router.get(['/playerDev/config/config.json'],getPlayerConfig('playerDev/'));
