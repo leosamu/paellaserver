@@ -114,6 +114,9 @@ exports.routes = {
 					else {			
 						var destinationFile = repoFolder + '/master' + path.extname(req.file.originalname);					
 						move(req.file.path, destinationFile, function(err) {
+							if (err) {
+								return res.sendStatus(500);	
+							}
 							var name = 'master' + path.extname(req.file.originalname);
 							video.source.masters.files = [{
 								name: name,
@@ -123,7 +126,9 @@ exports.routes = {
 							Video.update({"_id": video._id}, {
 								"$set": { "source.masters.files":	video.source.masters.files }
 							}, function(err) {
-								if (err) return res.sendStatus(500);								
+								if (err) {
+									return res.sendStatus(500);
+								}								
 								req.data = video;
 								next();
 							});
@@ -132,12 +137,10 @@ exports.routes = {
 				});
 
 			},
-			function(req,res, next) {
-				var workflowParams= [
-				];
-				
+			function(req,res, next) {				
 				var tasks = [
 					{ task: "encodeFromMasters", cancelOnError: true },
+					{ task: "calculateDuration", cancelOnError: false  },
 					{ task: "extractSlides", cancelOnError: false  },
 					{ task: "encode", cancelOnError: false },
 					{ task: "md5", cancelOnError: false  },

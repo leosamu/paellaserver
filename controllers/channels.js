@@ -362,6 +362,7 @@ exports.CreateChannel = function(req,res,next) {
 		if (!err) {
 			req.data = JSON.parse(JSON.stringify(newChannel));
 			delete req.data.__v;
+			newChannel.updateSearchIndex();
 			next();
 		}
 		else {

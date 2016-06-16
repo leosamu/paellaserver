@@ -447,6 +447,7 @@ exports.CreateVideo = function(req,res,next) {
 		if (!err) {
 			req.data = JSON.parse(JSON.stringify(newVideoData));
 			delete req.data.__v;
+			newVideo.updateSearchIndex();
 			next();
 		}
 		else {
