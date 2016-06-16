@@ -2671,14 +2671,14 @@ Class ("paella.VideoContainer", paella.VideoContainerBase,{
 				slaveVolume = 0;
 			}
 			masterVideo.setVolume(masterVolume);
-			slaveVideo.setVolume(slaveVolume);
+			if (slaveVideo) slaveVideo.setVolume(slaveVolume);
 			paella.events.trigger(paella.events.setVolume,{ master:masterVolume, slave:slaveVolume });
 		}
 
 		masterVideo.volume()
 			.then(function(v) {
 				masterVolume = v;
-				return slaveVideo.volume();
+				return slaveVideo ? slaveVideo.volume():0;
 			})
 
 			.then(function (v) {
@@ -6621,7 +6621,7 @@ Class("paella.plugins.FlexSkipForwardPlugin", paella.plugins.FlexSkipPlugin, {
 paella.plugins.flexSkipForwardPlugin = new paella.plugins.FlexSkipForwardPlugin();
 
 /*** File: plugins/es.upv.paella.TrimmingPlugins/trimming_editor.js ***/
-paella.plugins.TrimmingTrackPlugin = Class.create(paella.editor.MainTrackPlugin,{
+/*paella.plugins.TrimmingTrackPlugin = Class.create(paella.editor.MainTrackPlugin,{
 	trimmingTrack:null,
 	trimmingData:{s:0,e:0},
 
@@ -6718,7 +6718,7 @@ paella.plugins.TrimmingTrackPlugin = Class.create(paella.editor.MainTrackPlugin,
 
 paella.plugins.trimmingTrackPlugin = new paella.plugins.TrimmingTrackPlugin();
 
-
+*/
 /*** File: plugins/es.upv.paella.TrimmingPlugins/trimming_player.js ***/
 Class ("paella.plugins.TrimmingLoaderPlugin",paella.EventDrivenPlugin,{
 	
@@ -11294,15 +11294,21 @@ Class ("paella.plugins.VolumeRangePlugin", paella.ButtonPlugin,{
 			rangeInputMaster.value = this.getMasterVolume();
 
 			var updateMasterVolume = function() {
+				var masterVolume = $(rangeInputMaster).val();
 				var slaveVideo = paella.player.videoContainer.slaveVideo();
 				var slaveVolume = 0;
 				if (slaveVideo) {
-					slaveVolume = slaveVideo.volume();
+					slaveVideo.volume()
+						.then(function(volume) {
+							slaveVolume = volume;
+							thisClass._control_NotMyselfEvent = false;
+							paella.player.videoContainer.setVolume({ master:masterVolume, slave:slaveVolume });
+						});
 				}
-
-				var masterVolume = $(rangeInputMaster).val();
-				thisClass._control_NotMyselfEvent = false;
-				paella.player.videoContainer.setVolume({ master:masterVolume, slave:slaveVolume });
+				else {
+					thisClass._control_NotMyselfEvent = false;
+					paella.player.videoContainer.setVolume({ master:masterVolume, slave:slaveVolume });
+				}
 			};
 			$(rangeInputMaster).bind('input', function (e) { updateMasterVolume(); });
 			$(rangeInputMaster).change(function() { updateMasterVolume(); });
@@ -11329,12 +11335,19 @@ Class ("paella.plugins.VolumeRangePlugin", paella.ButtonPlugin,{
 
 			var updateSlaveVolume = function() {
 				var masterVideo = paella.player.videoContainer.masterVideo();
-				var masterVolume = 0;
-				if (masterVideo) { masterVolume = masterVideo.volume(); }
-
 				var slaveVolume = $(rangeInputSlave).val();
-				thisClass._control_NotMyselfEvent = false;
-				paella.player.videoContainer.setVolume({ master:masterVolume, slave:slaveVolume });
+				var masterVolume = 0;
+				if (masterVideo) { 
+					masterVideo.volume()
+						.then(function(volume) {
+							thisClass._control_NotMyselfEvent = false;
+							paella.player.videoContainer.setVolume({ master:volume, slave:slaveVolume });
+						});
+				}
+				else {
+					thisClass._control_NotMyselfEvent = false;
+					paella.player.videoContainer.setVolume({ master:masterVolume, slave:slaveVolume });
+				}
 			};
 			$(rangeInputSlave).bind('input', function (e) { updateSlaveVolume(); });
 			$(rangeInputSlave).change(function() { updateSlaveVolume(); });
@@ -12304,4 +12317,4 @@ Class ("paella.ZoomPlugin", paella.EventDrivenPlugin,{
 });
 
 paella.plugins.zoomPlugin = new paella.ZoomPlugin();
-paella.version = "5.0.9 - build: 50e304b";
+paella.version = "5.0.10 - build: 37c4a70";
