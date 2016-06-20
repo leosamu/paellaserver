@@ -86,7 +86,7 @@ exports.routes = {
 			//AuthController.CheckWrite,
 			VideoController.LoadStorageDataFromRepository,
 			function(req,res,next) {
-				if ( (req.file) && (req.file.path) {
+				if ( (req.file) && (req.file.path) ) {
 					var Video = require(__dirname + "/../../../models/video");
 					var videoData = req.data[0];
 					
