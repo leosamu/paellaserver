@@ -87,41 +87,46 @@ exports.routes = {
 			//AuthController.CheckWrite,
 			VideoController.LoadStorageDataFromRepository,
 			function(req,res,next) {
-				var Video = require(__dirname + "/../../../models/video");
-				var videoData = req.data[0];
-				
-				var destinationFile = videoData.repository.path + videoData._id + '/polimedia/polimedia.mp4';				
-				if (videoData.source.videos.length) {
-					destinationFile = videoData.source.videos[0].path;
-				}
-				ensureFolderExists(path.dirname(destinationFile), function(err) {
-					if(err) {
-						return res.status(500).json({ error:true, message:"Error uploading file." });
+				if ( (req.file) && (req.file.path) {
+					var Video = require(__dirname + "/../../../models/video");
+					var videoData = req.data[0];
+					
+					var destinationFile = videoData.repository.path + videoData._id + '/polimedia/polimedia.mp4';				
+					if (videoData.source.videos.length) {
+						destinationFile = videoData.source.videos[0].path;
 					}
-					move(req.file.path, destinationFile, function(err) {
+					ensureFolderExists(path.dirname(destinationFile), function(err) {
 						if(err) {
 							return res.status(500).json({ error:true, message:"Error uploading file." });
 						}
-						
-						Video.update({ "_id":videoData._id},{
-							$set: {
-								"unprocessed": false,
-								"source.videos": [{
-									src: path.basename(destinationFile),
-									width: 1920,
-									height: 1080,
-									mimetype: 'video/mp4'
-//									recordingDate: { type:Date }
-								}]
-							}
-						}, function(err){
-							if (err) {
+						move(req.file.path, destinationFile, function(err) {
+							if(err) {
 								return res.status(500).json({ error:true, message:"Error uploading file." });
 							}
-							next();
-						});
-					});					
-				});
+							
+							Video.update({ "_id":videoData._id},{
+								$set: {
+									"unprocessed": false,
+									"source.videos": [{
+										src: path.basename(destinationFile),
+										width: 1920,
+										height: 1080,
+										mimetype: 'video/mp4'
+	//									recordingDate: { type:Date }
+									}]
+								}
+							}, function(err){
+								if (err) {
+									return res.status(500).json({ error:true, message:"Error uploading file." });
+								}
+								next();
+							});
+						});					
+					});
+				}
+				else {
+					return res.status(500).json({ error:true, message:"Error uploading file." });
+				}
 			},
 			TaskController.AddVideoTasks,
 			CommonController.JsonResponse
