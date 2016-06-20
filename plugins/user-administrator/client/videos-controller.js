@@ -172,6 +172,9 @@
 							state = "queue";
 						}
 					}
+					else {
+						state = "processing"; // Temporal Fix
+					}
 				}
 			}
 			return state;	
