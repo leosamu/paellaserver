@@ -80,7 +80,6 @@ exports.routes = {
 				Video.findOne({_id: req.params.id}, function(err, item){
 					if(err) { return res.sendStatus(500); }	
 					if (!item) { return res.sendStatus(404); }
-					console.log(item.catalog);
 					return (CatalogController.CheckWriteInCatalog(item.catalog))(req,res,next);					
 				})
 			},
