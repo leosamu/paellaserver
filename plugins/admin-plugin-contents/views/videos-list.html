@@ -58,6 +58,7 @@
 								<th><input type="checkbox" ng-model="selectAll"></th>
 								<th>Fecha</th>
 								<th>Título</th>
+								<th>Duración</th>
 								<th>Autor</th>
 								<th>Tipo</th>
 								<th>Catalogo</th>
@@ -69,6 +70,7 @@
 								<td><input type="checkbox" ng-model="v.selected"></td>
 								<td>{{v.creationDate | amDateFormat:'ll'}}</td>
 								<td>{{v.title}}</td>
+								<td>{{v.duration | secondsToHuman}}</td>
 								<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>
 								<td>{{v.source.type}}</td>
 								<td>{{v.catalog}}</td>
