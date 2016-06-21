@@ -234,6 +234,9 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 				else {
 					repo = { server:'', endpoint:'' };
 				}
+				if (videoData.source && videoData.source.poster) {
+					videoData.source.poster = repo.server + repo.endpoint + videoData._id + '/' + videoData.source.poster;
+				}
 				videoData.source.videos.forEach(function(video) {
 					if (video.src) {
 						var videoSrc = video.src;
