@@ -60,7 +60,6 @@
 								<th>Título</th>
 								<th>Duración</th>
 								<th>Autor</th>
-								<th>Tipo</th>
 								<th>Catalogo</th>
 								<th width="110px">Acciones</th>
 							</tr>
@@ -72,7 +71,6 @@
 								<td>{{v.title}}</td>
 								<td>{{v.duration | secondsToHuman}}</td>
 								<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>
-								<td>{{v.source.type}}</td>
 								<td>{{v.catalog}}</td>
 								<td>
 									<div class="btn-toolbar" role="toolbar">
