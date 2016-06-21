@@ -109,11 +109,16 @@ exports.routes = {
 				};
 				var streams = [];
 
+				var poster, slavePoster;
+				if (req.data.source){
+					poster = req.data.source.poster;
+					posterFrame = req.data.source.posterFrame;
+				}
 				if (req.data.source.type=="polimedia" || req.data.source.type=="external") {
-					loadPolimedia(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
+					loadPolimedia(streams, req.data.source.videos, req.data.source.slaveVideos, poster, slavePoster);
 				}
 				else if (req.data.source.type=="live") {
-					loadLiveStream(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
+					loadLiveStream(streams, req.data.source.videos, req.data.source.slaveVideos, poster, slavePoster);
 				}
 
 				res.json({

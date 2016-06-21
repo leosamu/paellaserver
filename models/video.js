@@ -66,6 +66,8 @@ var VideoSchema = new Schema({
 			],
 			task: { type:String, ref:'Task' }			
 		},
+		poster: String,
+		salavePoster: String,
 		videos: [
 			{
 				mimetype: { type: String },
@@ -77,7 +79,8 @@ var VideoSchema = new Schema({
 				width: { type: Number },
 				height: { type: Number },
 				operator: { type: String, ref:'User'},
-				recordingDate: { type:Date }
+				recordingDate: { type:Date },
+				
 			}
 		],
 		slaveVideos: [
@@ -91,7 +94,8 @@ var VideoSchema = new Schema({
 				width: { type: Number },
 				height: { type: Number },
 				operator: { type: String, ref:'User'},
-				recordingDate: { type:Date }
+				recordingDate: { type:Date },
+				posterFrame: String
 			}
 		]
 	},
