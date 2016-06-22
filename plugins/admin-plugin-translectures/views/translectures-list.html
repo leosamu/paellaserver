@@ -18,8 +18,8 @@
 				<ul class="nav navbar-nav">
 				    <admin-plugins-menu></admin-plugins-menu>
 					<li class="active">
-						<a href="#/admin/roles">
-				    		Tareas
+						<a href="#/admin/translectures">
+				    		Translectures
 				    	</a>
 				    </li>
 				</ul>
@@ -33,8 +33,8 @@
 		
 		<div class="panel panel-primary">
 			<div class="panel-heading">			
-				<h2>Tareas</h2>
-				<h6>{{tasks.total}} tareas</h6>
+				<h2>Translectures</h2>
+				<h6>{{tasks.total}} servers</h6>
 			
 			</div>
 			<div class="panel-body">
@@ -42,36 +42,28 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>Fecha</th>
-								<th>Prioridad</th>
-								<th>Tarea</th>
-								<th>Tipo</th>
-								<th>Id</th>
-								<th>Procesando</th>
-								<th width="80px;">Error</th>
-								<th width="80px;">Acciones</th>
+								<th>ID</th>
+								<th>Description</th>
+								<th>Server</th>
+								<th>User</th>
+								<th>API</th>
+								<th width="80px;">Actions</th>
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingVideos">
 							<tr ng-repeat="t in tasks.list" ng-class="{danger:t.error, success:t.processing}">
-								<td>{{t.creationDate | amDateFormat:'ll'}}</td>
-								<td>{{t.priority || '-'}}</td>
-								<td>{{t.task}}</td>
-								<td>{{t.targetType}}</td>
-								<td>
-									<a href="#/admin/videos/edit/{{t.targetId}}" ng-show="t.targetType=='video'">{{t.targetId}}</a>
-								</td>
-								<td>
-									<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.processing, 'glyphicon-remove':(!t.processing)}">
-								</td>
-								<td><span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.error, 'glyphicon-remove':(!t.error)}"> </span></td>
+								<td>{{t._id}}</td>
+								<td>{{t.description}}</td>
+								<td>{{t.server}}</td>
+								<td>{{t.user}}</td>
+								<td>{{t.apiVersion}}</td>
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">
-											<a class="btn btn-xs btn-default" href="/player/?id={{t.targetId}}&autoplay=true" target="_blank">
-												<span class="glyphicon glyphicon-eye-open"></span>
+											<a class="btn btn-xs btn-default" ng-href="#/admin/translectures/edit/{{t._id}}">
+												<span class="glyphicon glyphicon-pencil"></span>
 											</a>
-											<button class="btn btn-xs btn-danger" ng-click="deleteTask(t)" ng-disabled="t.processing">
+											<button class="btn btn-xs btn-danger" ng-click="deleteServer(t)">
 												<span class="glyphicon glyphicon-remove"></span>
 											</button>
 										</div>
@@ -82,6 +74,15 @@
 					</table>
 					<loader ng-show="loadingVideos"></loader>			
 				</div>
+				
+				<div role="toolbar" class="btn-toolbar pull-right">
+					<div class="btn-group">
+						<a type="button" class="btn btn-sm btn-primary" href="#/admin/translectures/new">
+							<span class="glyphicon glyphicon-plus"></span> {{ 'Add a Translectures Server' | translate }}
+						</a>
+					</div>
+				</div>		
+								
 			</div>
 		</div>	
 		
@@ -113,12 +114,12 @@
 
 
 
-<script type="text/ng-template" id="confirmDeleteTask.html">
+<script type="text/ng-template" id="confirmDeleteServer.html">
 	<div class="modal-header">
 		<h4 class="modal-title text-danger">¿Estás seguro?</h4>
 	</div>
 	<div class="modal-body">
-		<p>¿Estás seguro de querer borrar este tarea?</p>
+		<p>¿Estás seguro de querer borrar este servidor?</p>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>
