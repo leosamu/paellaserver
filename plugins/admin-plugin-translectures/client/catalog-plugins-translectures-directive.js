@@ -9,7 +9,10 @@
 				pluginData: "=",
 				videoId: "="
 			},		
-			templateUrl: 'admin-plugin-translectures/views/directives/catalog-plugin-translectures.html'
+			templateUrl: 'admin-plugin-translectures/views/directives/catalog-plugin-translectures.html',
+			controller: ['$scope', 'TranslecturesCRUD',  function($scope, TranslecturesCRUD){
+				$scope.serversList =  TranslecturesCRUD.query({limit:100});
+			}]
 		};
 	});
 	
