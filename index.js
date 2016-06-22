@@ -180,7 +180,7 @@ function startServer() {
 			};
 
 			playerConfig.plugins.list["es.upv.paella.translecture.captionsPlugin"] = {
-				"enabled": false,
+				"enabled": true,
 				"tLServer": "https://fuster.cc.upv.es/tl-pm",
 				"tLdb": "pm",
 				"tLEdit": "/rest/plugins/translectures/redirectToEditor/${videoId}?lang=${tl.lang.code}"
