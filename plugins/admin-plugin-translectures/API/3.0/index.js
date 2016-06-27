@@ -8,19 +8,15 @@ var Q = require('q');
 /**
  * `TranslecturesAPI30` constructor.
  */
-function TranslecturesAPI30(server, user, passwd) {
+function TranslecturesAPI30(server) {
 	this._server = server;
-	this._user = user;
-	this._passwd = passwd;
 } 
 
 
 TranslecturesAPI30.prototype.langs = function(videoId) {
 	var deferred = Q.defer();
 
-	videoId = "test-en-1";				
-
-	request.get(this._server + '/speech/langs?id=' + videoId + "&user=" + this._user + "&auth_token=" + this._passwd,
+	request.get(this._server.server + '/speech/langs?id=' + videoId + "&user=" + this._server.user + "&auth_token=" + this._server.passwd,
 		function(error, response, body) {
 			if (error) {
 				deferred.reject();
@@ -52,10 +48,10 @@ TranslecturesAPI30.prototype.langs = function(videoId) {
 	return deferred.promise;
 }
 
-TranslecturesAPI30.prototype.dfxp = function(videoId, lang ) {
+TranslecturesAPI30.prototype.dfxp = function(videoId, lang) {
 	var deferred = Q.defer();
 	
-	request.get(this._server + '/speech/get?id=' + uploadId + "&lang=" + lang + "&format=1&user=" + this._user + "&auth_token=" + this._passwd,	
+	request.get(this._server.server + '/speech/get?id=' + uploadId + "&lang=" + lang + "&format=1&user=" + this._server.user + "&auth_token=" + this._server.passwd,	
 		function(error, response, body) {
 			if (error) {
 				deferred.reject(500);
@@ -76,8 +72,7 @@ TranslecturesAPI30.prototype.dfxp = function(videoId, lang ) {
 TranslecturesAPI30.prototype.status = function(uploadId) {
 	var deferred = Q.defer();
 	
-	console.log("88");
-	request.get(this._server + '/speech/status?id=' + uploadId + "&user=" + this._user + "&auth_token=" + this._passwd,	
+	request.get(this._server.server + '/speech/status?id=' + uploadId + "&user=" + this._server.user + "&auth_token=" + this._server.passwd,	
 		function(error, response, body) {
 			if (error) {
 				deferred.reject(500);
@@ -119,8 +114,12 @@ TranslecturesAPI30.prototype.status = function(uploadId) {
 	return deferred.promise;		
 }
 
-TranslecturesAPI30.prototype.getURLToEditor= function(videoId) {
-		
+TranslecturesAPI30.prototype.getURLToEditor = function(user, video, lang) {
+	var deferred = Q.defer();
+	
+	deferred.reject();
+	
+	return deferred.promise;
 }
 
 

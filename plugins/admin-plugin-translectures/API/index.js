@@ -7,7 +7,7 @@ exports.getTlAPI = function(tlInfo) {
 	if (tlInfo.server) {
 		TranslecturesModel.findOne({_id: tlInfo.server}, function(err, server) {
 			var api = require('../API/' + server.apiVersion);
-			deferred.resolve( new api(server.server, server.user, server.password) );			
+			deferred.resolve( new api(server) );			
 		})					
 	}
 	else {
