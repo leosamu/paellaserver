@@ -2,23 +2,21 @@ var Video = require('./../../../../models/video');
 
 var request = require('request');
 var Q = require('q');
-
+var crypto = require('crypto');
 
 
 /**
  * `TranslecturesAPI10` constructor.
  */
-function TranslecturesAPI10(server, user, pass) {
+function TranslecturesAPI10(server) {
 	this._server = server;
-	this._user = user;
-	this.pass = pass;
 } 
 
 
 TranslecturesAPI10.prototype.langs = function(videoId) {
 	var deferred = Q.defer();
 	
-	request.post(this._server + '/langs?db=' + this._user + '&id=' + videoId,
+	request.post(this._server.server + '/langs?db=' + this._server.user + '&id=' + videoId,
 		function(error, response, body) {
 			if (error) {
 				deferred.reject();
@@ -52,7 +50,7 @@ TranslecturesAPI10.prototype.langs = function(videoId) {
 TranslecturesAPI10.prototype.dfxp = function(videoId, lang ) {
 	var deferred = Q.defer();
 	
-	request.post(this._server + '/dfxp?db=' + this._user + '&format=1&pol=0&id=' + videoId + '&lang=' + lang,
+	request.post(this._server.server + '/dfxp?db=' + this._server.user + '&format=1&pol=0&id=' + videoId + '&lang=' + lang,
 		function(error, response, body) {
 			if (error) {
 				deferred.reject();
@@ -74,7 +72,7 @@ TranslecturesAPI10.prototype.status = function(videoId) {
 	var deferred = Q.defer();
 	var uploadId = videoId;
 	
-	request.post(this._server + '/status?db=' + this._user + '&id=' + uploadId,
+	request.post(this._server.server + '/status?db=' + this._server.user + '&id=' + uploadId,
 		function(error, response, body) {
 			if (error) {
 				deferred.reject();
@@ -97,8 +95,58 @@ TranslecturesAPI10.prototype.status = function(videoId) {
 	return deferred.promise;		
 }
 
-TranslecturesAPI10.prototype.getURLToEditor= function(videoId) {
+TranslecturesAPI10.prototype.getURLToEditor = function(user, video, lang) {
+	var deferred = Q.defer();
+	
+	var userId = "anonymous";
+	var userName = "Anonymous";
+	var tlConf = 0;
+	if (user) {
+		userId = user._id;
+		userName = user.contactData.lastName + ", " + user.contactData.name;
+		var isOwner = false;
+		var isRevisor = false;
+		try {
+			isOwner = video.owner.some(function(o){ return (o == userId); });
+			isRevisor = user.roles.some(function(r){ return (r._id == "TRANSLECTURES_REVISOR"); })
+		}
+		catch(e){}
 		
+		if (isOwner || isRevisor) {
+			tlConf = 100;
+		}
+		else {
+			tlConf = 50;
+		}
+	}
+	
+	var expire = new Date();
+	expire.setDate(expire.getDate()+10);
+	var json = {
+		tlid: video._id,
+		tldb: this._server.user,
+		tlbaseurl: this._server.editorURL + "/data/pm/data",
+		tllang: lang,
+		tluserid: userId,
+		tlusername: userName,
+		tlconf: tlConf,
+		tlexpire: expire.getTime()
+	};
+	var jsonSTR = JSON.stringify(json);
+	var jsonBuffer = new Buffer(jsonSTR);
+	var json64 = jsonBuffer.toString('base64');
+	
+	var shasum = crypto.createHash('sha1');
+	var passjson64 = this._server.password + json64;
+	shasum.update(passjson64);
+	jsonSHA1 = shasum.digest('hex');						
+	
+
+	var redirectEditor = this._server.editorURL + "?tldata="+encodeURIComponent(json64)+"&tlkey="+encodeURIComponent(jsonSHA1);
+
+	deferred.resolve(redirectEditor);
+	
+	return deferred.promise;		
 }
 
 
