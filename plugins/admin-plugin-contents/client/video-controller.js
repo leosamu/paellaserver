@@ -216,7 +216,71 @@
 			});
 		};
 		
+		$scope.getVideoState = function(v) {
+			var state = "error";
+
+			if ( (v) && (v.source) && (v.source.videos) ) {
+				if (v.source.videos.length > 0) {
+					state = 'ready';
+				}
+				else if (v.source.masters) {
+					if (v.source.masters.task) {
+						if (v.source.masters.task.error) {
+							state = "error";
+						}
+						else if (v.source.masters.task.processing) {
+							state = "processing";
+						}
+						else {
+							state = "queue";
+						}
+					}
+					else {
+						state = "processing"; // Temporal Fix
+					}
+				}
+			}
+			return state;	
+		};		
 		
+		$scope.showLinks = function(video) {
+			var modalInstance = $modal.open({
+				templateUrl: 'showLinksVideo.html',
+				size: 'lg',
+				backdrop: true,
+				controller: function ($scope, $modalInstance) {
+					$scope.video = video;
+					$scope.vsize = "640x360";
+						
+						console.log($scope.video.repository);
+					try {
+						var v = $scope.video.source.videos[0];
+						if ((v) && (v.src)) {							
+							$scope.downloadURL = $scope.video.repository.server + $scope.video.repository.endpoint + video._id + '/polimedia/' + v.src;
+						}
+						else if ((v) && (v.href)) {
+							$scope.downloadURL = v.href;
+						}
+					}
+					catch(e) {}
+					
+					$scope.$watch('vsize', function(){
+						var arr = $scope.vsize.split('x');
+						if (arr.length == 2) {
+							$scope.vwidth = parseInt(arr[0]);
+							$scope.vheight = parseInt(arr[1]);
+						}
+					});
+					
+					$scope.cancel = function () {
+						$modalInstance.dismiss();
+					};
+					$scope.accept = function () {					
+						$modalInstance.close();
+					};
+				}
+			});
+		};			
 		
 		$scope.restoreVideo = function(v) {
 			var reloadVideos = $scope.reloadVideos;
