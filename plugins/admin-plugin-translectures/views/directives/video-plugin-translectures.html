@@ -1,0 +1,43 @@
+<div class="form-horizontal">
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Enviado a tranlectures</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" value="{{pluginData.ingestedDate | amDateFormat:'ll'}}" disabled>
+		</div>
+	</div>
+	<div class="form-group" ng-show="tlServer">
+		<label class="col-sm-2 control-label">Servidor translectures</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" value="{{tlServer.description}} ({{tlServer.user}}) - API: {{tlServer.apiVersion}}" disabled>
+		</div>
+	</div>
+
+	<div class="form-group" ng-show="langs">
+		<label class="col-sm-2 control-label">Idiomas disponibles</label>
+		<div class="col-sm-10">
+
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="l in langs">
+					{{l.label}} ({{l.transcription}})					
+					<div class="btn-group pull-right" role="group">
+						<a type="button" class="btn btn-xs btn-primary" ng-href="/rest/plugins/admin-plugin-translectures/dfxp/{{videoId}}/{{l.lang}}" download="{{videoId}}.{{l.lang}}.dfxp">Download</a>
+					</div>					
+				</li>
+			</ul>
+			
+		</div>
+	</div>
+
+	<div class="form-group" ng-show="pluginData.ingestedId">
+		<label class="col-sm-2 control-label">Upload Id</label>
+		<div class="col-sm-10">
+			<div class="input-group">
+				<input type="text" class="form-control" value="{{pluginData.ingestedId}}" disabled>
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button">Check status</button>
+				</span>
+			</div>
+		</div>
+	</div>
+
+</div>

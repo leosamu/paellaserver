@@ -2,7 +2,7 @@ var Video = require('./../../../../models/video');
 
 var request = require('request');
 var Q = require('q');
-
+var crypto = require('crypto');
 
 
 /**
@@ -117,8 +117,110 @@ TranslecturesAPI30.prototype.status = function(uploadId) {
 TranslecturesAPI30.prototype.getURLToEditor = function(user, video, lang) {
 	var deferred = Q.defer();
 	
-	deferred.reject();
+	var userId = "anonymous";
+	var userName = "Anonymous";
+	var tlConf = 0;
+	if (user) {
+		userId = user._id;
+		userName = user.contactData.lastName + ", " + user.contactData.name;
+		var isOwner = false;
+		var isRevisor = false;
+		try {
+			isOwner = video.owner.some(function(o){ return (o == userId); });
+			isRevisor = user.roles.some(function(r){ return (r._id == "TRANSLECTURES_REVISOR"); })
+		}
+		catch(e){}
+		
+		if (isOwner || isRevisor) {
+			tlConf = 100;
+		}
+		else {
+			tlConf = 50;
+		}
+	}
 	
+	var expire = new Date();
+	expire.setDate(expire.getDate()+60);
+		
+	var requestStr = video._id + expire.getTime() + this._server.user + this._server.password;	
+	var shasum = crypto.createHash('sha1');
+	shasum.update(requestStr);
+	var requestKey = shasum.digest('hex');	
+	
+	var json =  {
+		"id" : video._id,
+		"lang" : lang,
+		"author_id" : userId,
+		"author_conf" : tlConf,
+		"author_name" : userName,
+		"expire" : expire.getTime(),
+		"api_user" : this._server.user,
+		"request_key" : requestKey
+	};
+	
+	var jsonSTR = JSON.stringify(json);
+	var jsonBuffer = new Buffer(jsonSTR);
+	var json64 = jsonBuffer.toString('base64');	
+
+
+	var redirectEditor = this._server.editorURL + "?request="+encodeURIComponent(json64);
+	deferred.resolve(redirectEditor);	
+
+	return deferred.promise;
+}
+
+TranslecturesAPI30.prototype.getURLToPlayer = function(user, video, lang) {
+	var deferred = Q.defer();
+	
+	var userId = "anonymous";
+	var userName = "Anonymous";
+	var tlConf = 0;
+	if (user) {
+		userId = user._id;
+		userName = user.contactData.lastName + ", " + user.contactData.name;
+		var isOwner = false;
+		var isRevisor = false;
+		try {
+			isOwner = video.owner.some(function(o){ return (o == userId); });
+			isRevisor = user.roles.some(function(r){ return (r._id == "TRANSLECTURES_REVISOR"); })
+		}
+		catch(e){}
+		
+		if (isOwner || isRevisor) {
+			tlConf = 100;
+		}
+		else {
+			tlConf = 50;
+		}
+	}
+	
+	var expire = new Date();
+	expire.setDate(expire.getDate()+10);
+		
+	var requestStr = video._id + expire.getTime() + this._server.user + this._server.password;	
+	var shasum = crypto.createHash('sha1');
+	shasum.update(requestStr);
+	var requestKey = shasum.digest('hex');	
+	
+	var json =  {
+		"id" : video._id,
+		"lang" : lang,
+		"author_id" : userId,
+		"author_conf" : tlConf,
+		"author_name" : userName,
+		"expire" : expire.getTime(),
+		"api_user" : this._server.user,
+		"request_key" : requestKey
+	};
+	
+	var jsonSTR = JSON.stringify(json);
+	var jsonBuffer = new Buffer(jsonSTR);
+	var json64 = jsonBuffer.toString('base64');	
+
+
+	var redirectPlayer = this._server.playerURL + "?request="+encodeURIComponent(json64);
+	deferred.resolve(redirectPlayer);	
+
 	return deferred.promise;
 }
 

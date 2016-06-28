@@ -1,17 +1,5 @@
 (function() {
 	var app = angular.module('adminPluginVideos');
-	
-	
-	app.directive('videoPluginTranslectures', function(){
-		return {
-			restrict: 'E',
-			scope: {
-				pluginData: "=",
-				videoId: "="
-			},		
-			templateUrl: 'admin-plugin-contents/views/directives/video-plugin-translectures.html'
-		};
-	});
 
 	app.directive('videoPluginUnesco', function(){
 		return {
