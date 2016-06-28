@@ -386,6 +386,11 @@
 			when('/catalog/compact/:id',{
 				templateUrl: 'catalog/views/compact.html',
 				controller: "CatalogCompactController"
+			}).
+			
+			when('/catalog/compactblack/:id',{
+				templateUrl: 'catalog/views/compact-black.html',
+				controller: "CatalogCompactController"
 			});
 			
 			
