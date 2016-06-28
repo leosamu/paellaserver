@@ -75,19 +75,24 @@ TranslecturesAPI10.prototype.status = function(videoId) {
 	request.post(this._server.server + '/status?db=' + this._server.user + '&id=' + uploadId,
 		function(error, response, body) {
 			if (error) {
-				deferred.reject();
+				deferred.reject(500);
 			}
 			else if (response.statusCode>=400) {
-				deferred.reject();
+				deferred.reject(500);
 			}
 			else {
 				var jbody = JSON.parse(body);
+				
+				var ret = {
+					status: 'unknown',
+					description: jbody.desc + " (" + jbody.info + ")"
+				};				
+				
 				if (jbody.scode == 1) {
-					deferred.resolve({});
+					ret.status = 'error';
 				}
-				else {
-					deferred.resolve(body);
-				}
+				
+				deferred.resolve(ret);
 			}
 		}
 	);
