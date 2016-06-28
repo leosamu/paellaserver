@@ -16,7 +16,7 @@ function TranslecturesAPI30(server) {
 TranslecturesAPI30.prototype.langs = function(videoId) {
 	var deferred = Q.defer();
 
-	request.get(this._server.server + '/speech/langs?id=' + videoId + "&user=" + this._server.user + "&auth_token=" + this._server.passwd,
+	request.get(this._server.server + '/speech/langs?id=' + videoId + "&user=" + this._server.user + "&auth_token=" + this._server.password,
 		function(error, response, body) {
 			if (error) {
 				deferred.reject();
@@ -51,7 +51,7 @@ TranslecturesAPI30.prototype.langs = function(videoId) {
 TranslecturesAPI30.prototype.dfxp = function(videoId, lang) {
 	var deferred = Q.defer();
 	
-	request.get(this._server.server + '/speech/get?id=' + uploadId + "&lang=" + lang + "&format=1&user=" + this._server.user + "&auth_token=" + this._server.passwd,	
+	request.get(this._server.server + '/speech/get?id=' + uploadId + "&lang=" + lang + "&format=1&user=" + this._server.user + "&auth_token=" + this._server.password,	
 		function(error, response, body) {
 			if (error) {
 				deferred.reject(500);
@@ -72,7 +72,7 @@ TranslecturesAPI30.prototype.dfxp = function(videoId, lang) {
 TranslecturesAPI30.prototype.status = function(uploadId) {
 	var deferred = Q.defer();
 	
-	request.get(this._server.server + '/speech/status?id=' + uploadId + "&user=" + this._server.user + "&auth_token=" + this._server.passwd,	
+	request.get(this._server.server + '/speech/status?id=' + uploadId + "&user=" + this._server.user + "&auth_token=" + this._server.password,	
 		function(error, response, body) {
 			if (error) {
 				deferred.reject(500);

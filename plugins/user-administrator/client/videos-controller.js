@@ -87,7 +87,6 @@
 					$scope.video = video;
 					$scope.vsize = "640x360";
 						
-						console.log($scope.video.repository);
 					try {
 						var v = $scope.video.source.videos[0];
 						if ((v) && (v.src)) {							
