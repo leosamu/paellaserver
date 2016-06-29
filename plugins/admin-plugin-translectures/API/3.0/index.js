@@ -51,7 +51,7 @@ TranslecturesAPI30.prototype.langs = function(videoId) {
 TranslecturesAPI30.prototype.dfxp = function(videoId, lang) {
 	var deferred = Q.defer();
 	
-	request.get(this._server.server + '/speech/get?id=' + uploadId + "&lang=" + lang + "&format=1&user=" + this._server.user + "&auth_token=" + this._server.password,	
+	request.get(this._server.server + '/speech/get?id=' + videoId + "&lang=" + lang + "&format=1&user=" + this._server.user + "&auth_token=" + this._server.password,	
 		function(error, response, body) {
 			if (error) {
 				deferred.reject(500);
