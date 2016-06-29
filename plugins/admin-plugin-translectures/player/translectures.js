@@ -139,13 +139,13 @@ Class ("paella.plugins.media.translectures.CaptionsPlugIn", paella.EventDrivenPl
 							var l_txt = l.label;
 				            switch(l.transcription){
 						    	case 'automatic':
-						    		l_txt += "- (" + paella.dictionary.translate("Auto") + ")";
+						    		l_txt += " (" + paella.dictionary.translate("Auto") + ")";
 						    		break;
 						    	case 'manual':
-						    		l_txt += "- (" + paella.dictionary.translate("Manual") + ")";
+						    		l_txt += " (" + paella.dictionary.translate("Manual") + ")";
 						    		break;
 						    	case 'partially':
-						    		l_txt += "- (" + paella.dictionary.translate("Under review") + ")";
+						    		l_txt += " (" + paella.dictionary.translate("Under review") + ")";
 						    		break;
 						    }
 														
