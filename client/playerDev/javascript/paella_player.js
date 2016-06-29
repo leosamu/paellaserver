@@ -2358,7 +2358,8 @@ Class ("paella.ProfileFrameStrategy",{
 
 Class ("paella.LimitedSizeProfileFrameStrategy", paella.ProfileFrameStrategy, {
 	adaptFrame:function(videoDimensions,frameRect) {
-		if (videoDimensions.width<frameRect.width || videoDimensions.height<frameRect.height) {
+		if (videoDimensions.width<frameRect.width|| videoDimensions.height<frameRect.height)
+		{
 			var frameRectCopy = JSON.parse(JSON.stringify(frameRect));
 			frameRectCopy.width = videoDimensions.width;
 			frameRectCopy.height = videoDimensions.height;
@@ -2872,6 +2873,16 @@ Class ("paella.VideoContainer", paella.VideoContainerBase,{
 				This.overlayContainer.removeElement(overlayLoader);
 				This._isMasterReady = true;
 				This._isSlaveReady = true;
+
+				var config = paella.player.config;
+				var masterVolume = (config.player.audio && config.player.audio.master!=undefined) ?
+											config.player.audio.master:1.0;
+				var slaveVolume =  (config.player.audio && config.player.audio.slave!=undefined) ?
+											config.player.audio.slave:0.0;
+				masterVideo.setVolume(masterVolume);
+				if (videoData.length>1) {
+					slaveVideo.setVolume(slaveVolume);
+				}
 
 				paella.events.trigger(paella.events.videoReady);
 
@@ -6621,7 +6632,7 @@ Class("paella.plugins.FlexSkipForwardPlugin", paella.plugins.FlexSkipPlugin, {
 paella.plugins.flexSkipForwardPlugin = new paella.plugins.FlexSkipForwardPlugin();
 
 /*** File: plugins/es.upv.paella.TrimmingPlugins/trimming_editor.js ***/
-/*paella.plugins.TrimmingTrackPlugin = Class.create(paella.editor.MainTrackPlugin,{
+paella.plugins.TrimmingTrackPlugin = Class.create(paella.editor.MainTrackPlugin,{
 	trimmingTrack:null,
 	trimmingData:{s:0,e:0},
 
@@ -6718,7 +6729,7 @@ paella.plugins.flexSkipForwardPlugin = new paella.plugins.FlexSkipForwardPlugin(
 
 paella.plugins.trimmingTrackPlugin = new paella.plugins.TrimmingTrackPlugin();
 
-*/
+
 /*** File: plugins/es.upv.paella.TrimmingPlugins/trimming_player.js ***/
 Class ("paella.plugins.TrimmingLoaderPlugin",paella.EventDrivenPlugin,{
 	
@@ -12317,4 +12328,4 @@ Class ("paella.ZoomPlugin", paella.EventDrivenPlugin,{
 });
 
 paella.plugins.zoomPlugin = new paella.ZoomPlugin();
-paella.version = "5.0.10 - build: 37c4a70";
+paella.version = "5.0.11 - build: 5cd02d1";
