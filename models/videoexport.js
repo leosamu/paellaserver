@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 var uuid = require('./plugins/mongoose-uuid');
 
 var VideoExportSchema = new Schema({
-	user: [ { type:String, ref:'User' } ],
-    video: [ { type:String, ref:'Video' } ],
+	user: { type:String, ref:'User' },
+    video: { type:String, ref:'Video' },
     slices: [{
 	    start: {type: Number},
 	    end: {type: Number}
