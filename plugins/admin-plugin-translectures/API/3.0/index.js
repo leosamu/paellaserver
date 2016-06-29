@@ -156,15 +156,14 @@ TranslecturesAPI30.prototype.getURLToEditor = function(user, video, lang) {
 		"expire" : expire.getTime(),
 		"api_user" : this._server.user,
 		"request_key" : requestKey
-	};
+	};	
 	
 	var jsonSTR = JSON.stringify(json);
 	var jsonBuffer = new Buffer(jsonSTR);
 	var json64 = jsonBuffer.toString('base64');	
 
-
-	var redirectEditor = this._server.editorURL + "?request="+encodeURIComponent(json64);
-	deferred.resolve(redirectEditor);	
+	var redirectEditor = this._server.playerURL + "?request="+encodeURIComponent(json64);
+	deferred.resolve(redirectEditor);
 
 	return deferred.promise;
 }
