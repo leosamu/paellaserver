@@ -25,6 +25,7 @@ Class("paella.editor.PaellaPlayer", paella.PaellaPlayer, {
     paella.events.bind(paella.events.loadComplete, function() {
       paella.$editor.load().then(function() {
         angular.bootstrap(document, [paella.editor.APP_NAME]);
+        paella.keyManager.enabled = false;
       });
     });
     var backwBtn = $('#backward-btn')[0];
@@ -78,6 +79,7 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
       this.resizerH = $('#resizerH');
       this.resizerV = $('#resizerV');
       this.resizerH.setPosition = function(top) {
+        base.cookies.set("editorResizerH", top / $(window).height());
         var percentTop = top * 100 / $(window).height();
         var percentBottom = 100 - percentTop;
         $__2.topContainer.css({"height": percentTop + '%'});
@@ -87,7 +89,8 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
       };
       this.resizerH.minY = 30;
       this.resizerH.maxY = 80;
-      this.resizerH.setPosition($(window).height() * 0.6);
+      var storedHeight = base.cookies.get("editorResizerH") || 0.6;
+      this.resizerH.setPosition($(window).height() * storedHeight);
       this.resizerH.on("mousedown", function(evt) {
         $(document).on("mouseup", function(evt) {
           $(document).off("mouseup");
@@ -104,6 +107,7 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
         });
       });
       this.resizerV.setPosition = function(left) {
+        base.cookies.set("editorResizerV", left / $(window).width());
         var percentLeft = left * 100 / $(window).width();
         var percentRight = 100 - percentLeft;
         $__2.paellaVideoContainer.css({"width": percentLeft + '%'});
@@ -113,7 +117,8 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
       };
       this.resizerV.minX = 30;
       this.resizerV.maxX = 90;
-      this.resizerV.setPosition($(window).width() * 0.8);
+      var storedWidth = base.cookies.get("editorResizerV") || 0.8;
+      this.resizerV.setPosition($(window).width() * storedWidth);
       this.resizerV.on("mousedown", function(evt) {
         $(document).on("mouseup", function(evt) {
           $(document).off("mouseup");
@@ -321,6 +326,9 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
         }
       },
       selectTrackItem: function(plugin, trackData, tracks) {
+        if (plugin && plugin.setTimeOnSelect()) {
+          paella.player.videoContainer.setCurrentTime(trackData.s);
+        }
         if (currentTrackItem.plugin != plugin || !currentTrackItem.trackData || currentTrackItem.trackData.id != trackData.id) {
           if (currentTrackItem.trackData) {
             currentTrackItem.trackData.selected = false;
@@ -392,7 +400,7 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
   paella.editor.registerPlugin = function(plugin) {
     plugins.push(plugin);
   };
-  app.factory("PluginManager", ["$timeout", function($timeout) {
+  app.factory("PluginManager", ["$timeout", "$rootScope", function($timeout, $rootScope) {
     var loadingPlugins = false;
     var pluginsLoaded = false;
     function loadPlugins() {
@@ -483,6 +491,13 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
           plugin.onTrackSelected(newTrack);
         });
       },
+      subscribeTrackReload: function(scope, callback) {
+        var handler = $rootScope.$on('notify-track-reload', callback);
+        scope.$on('destroy', handler);
+      },
+      notifyTrackChanged: function(plugin) {
+        $rootScope.$emit('notify-track-reload');
+      },
       onSave: function() {
         var promises = [];
         var handleOnSave = function(plugin) {
@@ -530,6 +545,11 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
       this.type = 'editorTrackPlugin';
     }
     return ($traceurRuntime.createClass)(TrackPlugin, {
+      notifyTrackChanged: function() {
+        var injector = angular.element(document).injector();
+        var PluginManager = injector.get('PluginManager');
+        PluginManager.notifyTrackChanged(this);
+      },
       getIndex: function() {
         return 10000;
       },
@@ -568,6 +588,9 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
       },
       allowEditContent: function() {
         return true;
+      },
+      setTimeOnSelect: function() {
+        return false;
       },
       onTrackChanged: function(id, start, end) {
         paella.events.trigger(paella.events.documentChanged);
@@ -678,7 +701,7 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
     return {
       restrict: "E",
       templateUrl: "templates/timeline.html",
-      controller: ["$scope", "$translate", "PaellaEditor", function($scope, $translate, PaellaEditor) {
+      controller: ["$scope", "$translate", "PaellaEditor", "PluginManager", function($scope, $translate, PaellaEditor, PluginManager) {
         $scope.zoom = 100;
         $scope.zoomOptions = {
           floor: 100,
@@ -686,6 +709,14 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
         };
         $scope.trackSelector = {isOpen: false};
         $scope.divisionWidth = 60;
+        $scope.currentTime = toTextTime(0);
+        function toTextTime(time) {
+          var hours = Math.floor(time / (60 * 60));
+          var seconds = time % (60 * 60);
+          var minutes = Math.floor(seconds / 60);
+          seconds = Math.ceil(seconds % 60);
+          return hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        }
         function setTimeMark(time) {
           var p = time.currentTime * $scope.zoom / time.duration;
           $('#time-mark').css({left: p + '%'});
@@ -697,6 +728,8 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
         }
         paella.events.bind(paella.events.timeUpdate, function(evt, time) {
           setTimeMark(time);
+          $scope.currentTime = toTextTime(time.currentTime);
+          $scope.$apply();
         });
         function setTime(clientX) {
           var left = $('.timeline-zoom-container')[0].scrollLeft;
@@ -724,7 +757,7 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
               elem.innerHTML = hours + ":" + (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
               $(elem).css({width: divisionWidth + 'px'});
               timelineRuler.appendChild(elem);
-              time += Math.round(timeIncrement);
+              time += timeIncrement;
             }
           });
         }
@@ -744,49 +777,57 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
             setTime(evt.clientX);
           });
         });
-        PaellaEditor.tracks().then(function(tracks) {
-          $scope.tracks = tracks;
-          $scope.currentTrack = PaellaEditor.currentTrack;
-          $scope.selectTrack = function(t) {
-            PaellaEditor.selectTrack(t);
-          };
-          $scope.tools = PaellaEditor.tools;
-          $scope.currentTool = PaellaEditor.currentTool;
-          $scope.selectTool = function(tool) {
-            if (tool.isEnabled) {
-              PaellaEditor.selectTool(tool.name);
-            }
-          };
-          $scope.selectTrack = function(trackData) {
-            PaellaEditor.selectTrack(trackData);
-          };
-          $scope.saveAndClose = function() {
-            PaellaEditor.saveAll().then(function() {
-              $scope.closeEditor(true);
-            });
-          };
-          $scope.saveChanges = function() {
-            PaellaEditor.saveAll();
-          };
-          $scope.closeEditor = function(noConfirm) {
-            if (noConfirm || confirm($translate.instant("Are you sure you want to discard all changes and close editor?"))) {
-              location.href = location.href.replace("editor.html", "index.html");
-            }
-          };
-          $scope.$watch('tracks', function() {});
-          $scope.$watch('zoom', function() {
-            $('#timeline-content').css({width: $scope.zoom + "%"});
-            buildTimeDivisions($scope.divisionWidth);
-            paella.player.videoContainer.currentTime().then(function(time) {
-              setTimeMark(time);
-            });
+        $scope.selectTrack = function(t) {
+          PaellaEditor.selectTrack(t);
+        };
+        $scope.selectTool = function(tool) {
+          if (tool.isEnabled) {
+            PaellaEditor.selectTool(tool.name);
+          }
+        };
+        $scope.saveAndClose = function() {
+          PaellaEditor.saveAll().then(function() {
+            $scope.closeEditor(true);
           });
-          PaellaEditor.subscribe($scope, function() {
+        };
+        $scope.saveChanges = function() {
+          PaellaEditor.saveAll();
+        };
+        $scope.closeEditor = function(noConfirm) {
+          if (noConfirm || confirm($translate.instant("Are you sure you want to discard all changes and close editor?"))) {
+            location.href = location.href.replace("editor.html", "index.html");
+          }
+        };
+        $scope.$watch('tracks', function() {});
+        $scope.$watch('zoom', function() {
+          $('#timeline-content').css({width: $scope.zoom + "%"});
+          buildTimeDivisions($scope.divisionWidth);
+          paella.player.videoContainer.currentTime().then(function(time) {
+            setTimeMark(time);
+          });
+        });
+        $scope.setTimeToCursor = function(evt) {
+          setTimeout(function() {
+            setTime(evt.clientX);
+          }, 50);
+        };
+        function reloadTracks() {
+          PaellaEditor.tracks().then(function(tracks) {
+            $scope.tracks = tracks;
             $scope.currentTrack = PaellaEditor.currentTrack;
             $scope.tools = PaellaEditor.tools;
             $scope.currentTool = PaellaEditor.currentTool;
+            $scope.$apply();
           });
-          $scope.$apply();
+        }
+        reloadTracks();
+        PaellaEditor.subscribe($scope, function() {
+          $scope.currentTrack = PaellaEditor.currentTrack;
+          $scope.tools = PaellaEditor.tools;
+          $scope.currentTool = PaellaEditor.currentTool;
+        });
+        PluginManager.subscribeTrackReload($scope, function() {
+          reloadTracks();
         });
       }]
     };
@@ -800,7 +841,7 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
       restrict: "E",
       templateUrl: "templates/track.html",
       scope: {data: "="},
-      controller: ["$scope", "PaellaEditor", function($scope, PaellaEditor) {
+      controller: ["$scope", "PaellaEditor", "PluginManager", function($scope, PaellaEditor, PluginManager) {
         $scope.pluginId = $scope.data.pluginId;
         $scope.name = $scope.data.name;
         $scope.color = $scope.data.color;
@@ -810,6 +851,14 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
         $scope.allowResize = $scope.data.allowResize;
         $scope.allowMove = $scope.data.allowMove;
         $scope.plugin = $scope.data.plugin;
+        $scope.img = $scope.data.img;
+        $scope.getStyle = function(item) {
+          var style = ("color: " + $scope.textColor + "; background-color: " + $scope.color + ";");
+          if (item.img) {
+            style += (" background-image: url(" + item.img + "); background-size: auto 100%;");
+          }
+          return style;
+        };
         function selectTrackItem(trackData, tracks) {
           PaellaEditor.selectTrack(tracks);
           PaellaEditor.selectTrackItem($scope.plugin, trackData, tracks);
@@ -997,13 +1046,200 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
 
 "use strict";
 (function() {
+  var BreaksEditorPlugin = function($__super) {
+    function BreaksEditorPlugin() {
+      $traceurRuntime.superConstructor(BreaksEditorPlugin).apply(this, arguments);
+    }
+    return ($traceurRuntime.createClass)(BreaksEditorPlugin, {
+      isEnabled: function() {
+        var $__2 = this;
+        this._tracks = [];
+        return new Promise(function(resolve) {
+          paella.data.read('breaks', {id: paella.initDelegate.getId()}, function(data, status) {
+            if (data && $traceurRuntime.typeof((data)) == 'object' && data.breaks && data.breaks.length > 0) {
+              $__2._tracks = data.breaks;
+              resolve(true);
+            } else {
+              resolve(true);
+            }
+          });
+        });
+      },
+      getIndex: function() {
+        return 102;
+      },
+      getName: function() {
+        return "breakEditorPlugin";
+      },
+      getTrackName: function() {
+        return "Break";
+      },
+      getColor: function() {
+        return "#0D949F";
+      },
+      getTextColor: function() {
+        return "black";
+      },
+      getTrackItems: function() {
+        return Promise.resolve(this._tracks);
+      },
+      getTools: function() {
+        return ["Create", "Delete"];
+      },
+      onToolSelected: function(toolName) {
+        var $__2 = this;
+        if (toolName == "Delete" && this._currentId) {
+          var deleteIndex = -1;
+          this._tracks.some(function(track, index) {
+            if (track.id == $__2._currentId) {
+              deleteIndex = index;
+            }
+          });
+          if (deleteIndex != -1) {
+            this._tracks.splice(deleteIndex, 1);
+            this.notifyTrackChanged();
+          }
+        } else if (toolName == "Create") {
+          var id = 1;
+          var done = false;
+          while (!done) {
+            if (this._tracks.some(function(t) {
+              if (id == t.id) {
+                return true;
+              }
+            })) {
+              ++id;
+            } else {
+              done = true;
+            }
+          }
+          paella.player.videoContainer.currentTime().then(function(time) {
+            $__2._tracks.push({
+              id: id,
+              s: time,
+              e: time + 60,
+              text: "Break"
+            });
+            $__2.notifyTrackChanged();
+          });
+        }
+      },
+      allowResize: function() {
+        return true;
+      },
+      allowDrag: function() {
+        return true;
+      },
+      allowEditContent: function() {
+        return true;
+      },
+      setTimeOnSelect: function() {
+        return true;
+      },
+      onTrackChanged: function(id, start, end) {
+        this._tracks.some(function(t) {
+          if (t.id == id) {
+            t.s = start;
+            t.e = end;
+          }
+        });
+      },
+      onSelect: function(trackItemId) {
+        this._currentId = trackItemId;
+      },
+      onUnselect: function(id) {
+        this._currentId = null;
+      },
+      onSave: function() {
+        var $__2 = this;
+        return new Promise(function(resolve, reject) {
+          var data = {breaks: $__2._tracks};
+          paella.data.write('breaks', {id: paella.initDelegate.getId()}, data, function(response, status) {
+            resolve();
+          });
+        });
+      }
+    }, {}, $__super);
+  }(paella.editor.MainTrackPlugin);
+  new BreaksEditorPlugin();
+})();
+
+"use strict";
+(function() {
+  var SlidesEditorPlugin = function($__super) {
+    function SlidesEditorPlugin() {
+      $traceurRuntime.superConstructor(SlidesEditorPlugin).apply(this, arguments);
+    }
+    return ($traceurRuntime.createClass)(SlidesEditorPlugin, {
+      isEnabled: function() {
+        var frames = paella.player.videoLoader.frameList;
+        return Promise.resolve(Object.keys(frames).length);
+      },
+      getIndex: function() {
+        return 101;
+      },
+      getName: function() {
+        return "slidesEditorPlugin";
+      },
+      getTrackName: function() {
+        return "Slides";
+      },
+      getColor: function() {
+        return "#EEEEEE";
+      },
+      getTextColor: function() {
+        return "black";
+      },
+      getTrackItems: function() {
+        return new Promise(function(resolve, reject) {
+          paella.player.videoContainer.duration().then(function(duration) {
+            var frames = paella.player.videoLoader.frameList;
+            var result = [];
+            var last = null;
+            for (var index in frames) {
+              if (last) {
+                last.e = frames[index].time;
+              }
+              last = {
+                id: index,
+                s: frames[index].time,
+                e: duration,
+                img: frames[index].thumb || frames[index].url
+              };
+              result.push(last);
+            }
+            resolve(result);
+          });
+        });
+      },
+      allowResize: function() {
+        return false;
+      },
+      allowDrag: function() {
+        return false;
+      },
+      allowEditContent: function() {
+        return false;
+      },
+      setTimeOnSelect: function() {
+        return true;
+      },
+      onTrackChanged: function(id, start, end) {},
+      onSave: function() {}
+    }, {}, $__super);
+  }(paella.editor.MainTrackPlugin);
+  new SlidesEditorPlugin();
+})();
+
+"use strict";
+(function() {
   var TestPlugin = function($__super) {
     function TestPlugin() {
       $traceurRuntime.superConstructor(TestPlugin).apply(this, arguments);
     }
     return ($traceurRuntime.createClass)(TestPlugin, {
       isEnabled: function() {
-        return Promise.resolve(true);
+        return Promise.resolve(false);
       },
       getIndex: function() {
         return 10000;
@@ -1044,13 +1280,16 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
       allowEditContent: function() {
         return true;
       },
+      setTimeOnSelect: function() {
+        return true;
+      },
       onTrackChanged: function(id, start, end) {},
       onTrackContentChanged: function(id, content) {},
       onSelect: function(trackItemId) {
-        console.log('Track item selected: ' + this.getTrackName() + ", " + trackItemId);
+        this._currentId = trackItemId;
       },
       onUnselect: function(id) {
-        console.log('Track list unselected: ' + this.getTrackName() + ", " + id);
+        this._currentId = null;
       },
       onDblClick: function(trackData) {},
       getTools: function() {
