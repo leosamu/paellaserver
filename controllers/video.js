@@ -41,7 +41,7 @@ exports.LoadVideos = function(req,res,next) {
 
 exports.Related = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	var select = '-slides -slices -roles -duration -source -blackboard ' +
+	var select = '-slides -slices -roles -source -blackboard ' +
 				'-canRead -canWrite -hideSocial -unprocessed ' +
 				'-deletionDate -pluginData ' +
 				'-metadata -search -processSlides -operator';
@@ -61,6 +61,7 @@ exports.Related = function(req,res,next) {
 					)
 					.select(select)
 					.populate('repository', 'server endpoint')
+					.populate('owner', 'contactData.name contactData.lastName')
 					.sort({score: {$meta: "textScore"}})
 					.limit(30)
 					.exec(function (err, data) {
