@@ -34,28 +34,6 @@
 				}
 			}
 		);
-
-
-		Actions.registerAction(
-			{
-				context: "video",			
-				label: "Enviar a transLectures",
-				isDisabled: function(items) {
-					return (items.length == 0);
-				},
-				
-				runAction: function(v) {
-					var task1 = {
-						task: "translectures",
-						targetType: "video",
-						targetId: v._id,
-						error: false
-					};
-					
-					return TaskCRUD.save(task1).$promise;
-				}
-			}
-		);
 				
 	}]);	
 })();

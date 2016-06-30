@@ -10,7 +10,8 @@ exports.routes = {
 					task: "translectures",
 					targetType: "video",
 					targetId: req.params.id,
-					error: false
+					error: false,
+					priority: 5
 				});
 				
 				task.save(function(err) {
