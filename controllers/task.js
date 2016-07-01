@@ -1,66 +1,102 @@
 var Task = require(__dirname + '/../models/task');
+var Catalog = require(__dirname + '/../models/catalog');
 var Q = require('q');
+
+
+function getCatalogPriorityForVideo(videoData) {
+	var deferred = Q.defer();
+	
+	Catalog.findOne({_id:videoData.catalog}, function(err, elem){			
+		var priority = 10;
+		if ( (!err) && (elem) ){
+			priority = elem.tasksPriority;
+		}
+		
+		deferred.resolve(priority);
+	});	
+		
+	return deferred.promise;
+}
+
 
 var Utils = {
 	genLowRes:function(videoData) {
-		return new Task({
-			task:'encode',
-			targetType:'video',
-			error:false,
-			targetId:videoData._id,
-			priority:10
-		}).save();
+		return getCatalogPriorityForVideo(videoData)
+		.then(function(priority){	
+			return new Task({
+				task:'encode',
+				targetType:'video',
+				error:false,
+				targetId:videoData._id,
+				priority:priority
+			}).save();
+		});
 	},
 
 	extractSlides:function(videoData) {
-		return new Task({
-			task:'extractSlides',
-			targetType:'video',
-			error:false,
-			targetId:videoData._id,
-			priority:10
-		}).save();
+		return getCatalogPriorityForVideo(videoData)
+		.then(function(priority){
+			return new Task({
+				task:'extractSlides',
+				targetType:'video',
+				error:false,
+				targetId:videoData._id,
+				priority:priority
+			}).save();
+		});
 	},
 
 	processTranslectures:function(videoData) {
-		return new Task({
-			task:'translectures',
-			targetType:'video',
-			error:false,
-			targetId:videoData._id,
-			priority:10
-		}).save();
+		return getCatalogPriorityForVideo(videoData)
+		.then(function(priority){
+			return new Task({
+				task:'translectures',
+				targetType:'video',
+				error:false,
+				targetId:videoData._id,
+				priority:priority
+			}).save();
+		});
 	},
 
 	notify:function(videoData) {
-		return new Task({
-			task:'notify',
-			targetType:'video',
-			error:false,
-			targetId:videoData._id,
-			priority:10
-		}).save();
+		return getCatalogPriorityForVideo(videoData)
+		.then(function(priority){	
+			return new Task({
+				task:'notify',
+				targetType:'video',
+				error:false,
+				targetId:videoData._id,
+				priority:priority
+			}).save();
+		});
 	},
 
 	generateMD5:function(videoData) {
-		return new Task({
-			task:'md5',
-			targetType:'video',
-			error:false,
-			targetId:videoData._id,
-			priority:10
-		}).save();
+		return getCatalogPriorityForVideo(videoData)
+		.then(function(priority){	
+			return new Task({
+				task:'md5',
+				targetType:'video',
+				error:false,
+				targetId:videoData._id,
+				priority:priority
+			}).save();
+		});
 	},
 
 	workflow:function(videoData,tasks) {
-		return new Task({
-			task:'workflow',
-			targetType:'video',
-			error:false,
-			targetId:videoData._id,
-			priority:10,
-			parameters:JSON.stringify(tasks)
-		}).save();
+		return getCatalogPriorityForVideo(videoData)
+		.then(function(priority){
+			return new Task({
+				task:'workflow',
+				targetType:'video',
+				error:false,
+				targetId:videoData._id,
+				priority:priority,
+				parameters:JSON.stringify(tasks)
+			}).save();			
+		});	
 	}
 };
 
