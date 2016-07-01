@@ -56,7 +56,7 @@
 							<tr>
 								<th>Catalog</th>
 								<th>Description</th>
-								<th>Can owners delete?</th>
+								<th>Tasks priority</th>
 								<th width="80px;">Actions</th>
 							</tr>
 						</thead>
@@ -64,9 +64,7 @@
 							<tr ng-repeat="c in catalogs.list" ng-class="{danger:t.error, success:t.processing}">
 								<td>{{c._id}}</td>
 								<td>{{c.description}}</td>
-								<td>
-									<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':c.canBeDeletedByOwner, 'glyphicon-remove':(!c.canBeDeletedByOwner)}">
-								</td>
+								<td>{{c.tasksPriority}}</td>
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">

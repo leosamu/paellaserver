@@ -112,21 +112,14 @@
 									</div>
 								</div>								
 								
-								
-								<div class="form-group">
-									<label class="col-sm-2 control-label"></label>
+								<div class="form-group has-feedback" ng-class="{'has-error': !form.tasksPriority.$valid}">
+									<label class="col-sm-2 control-label">Tasks priority</label>
 									<div class="col-sm-10">
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" ng-model="catalog.canBeDeletedByOwner"> Owners can delete it's own videos
-											</label>
-										</div>
-										<div class="alert alert-warning" role="alert" ng-show="catalog.canBeDeletedByOwner">
-											<strong>Warning!</strong>
-											<span> Owners can delete it's own videos.</span>
-										</div>
+										<input name="tasksPriority" type="number" class="form-control" ng-model="catalog.tasksPriority">
 									</div>
 								</div>
+								
+								
 							</div>
 							
 							<div class="tab-pane" ng-show="tab==2">
