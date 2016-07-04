@@ -54,7 +54,7 @@
 						</thead>
 						<tbody ng-hide="loadingVideos">
 							<tr ng-repeat="t in tasks.list" ng-class="{danger:t.error, success:t.processing}">
-								<td>{{t.creationDate | amDateFormat:'ll'}}</td>
+								<td>{{t.creationDate | amCalendar}}</td>
 								<td>{{t.priority || '-'}}</td>
 								<td>{{t.task}}</td>
 								<td>{{t.targetType}}</td>
