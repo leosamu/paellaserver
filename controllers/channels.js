@@ -65,38 +65,40 @@ exports.LoadChannel = function(req,res,next) {
 
 			if (data.length>0) {
 				function populateVideoFunction(err,videoData) {
-					var videoItem = {
-						_id:videoData[0]._id,
-						title:videoData[0].title,
-						creationDate:videoData[0].creationDate,
-						owner:[],
-						hidden: videoData[0].hidden,
-						hiddenInSearches: videoData[0].hiddenInSearches
-					};
-					if (videoData[0].thumbnail) {
-						var repo = videoData[0].repository;
-						videoItem.thumbnail = repo.server + repo.endpoint + videoItem._id + "/" + videoData[0].thumbnail;
-					}
-					videoData[0].owner.forEach(function(owner) {
-						videoItem.owner.push({
-							_id:owner._id,
-							contactData: {
-								lastName:owner.contactData ? owner.contactData.lastName:"",
-								name:owner.contactData ? owner.contactData.name:""
+					if (videoData && videoData.length>0) {
+						var videoItem = {
+							_id:videoData[0]._id,
+							title:videoData[0].title,
+							creationDate:videoData[0].creationDate,
+							owner:[],
+							hidden: videoData[0].hidden,
+							hiddenInSearches: videoData[0].hiddenInSearches
+						};
+						if (videoData[0].thumbnail) {
+							var repo = videoData[0].repository;
+							videoItem.thumbnail = repo.server + repo.endpoint + videoItem._id + "/" + videoData[0].thumbnail;
+						}
+						videoData[0].owner.forEach(function(owner) {
+							videoItem.owner.push({
+								_id:owner._id,
+								contactData: {
+									lastName:owner.contactData ? owner.contactData.lastName:"",
+									name:owner.contactData ? owner.contactData.name:""
+								}
+							});
+						});
+	
+						videos.forEach(function(findVideo,index) {
+							if (findVideo._id==videoItem._id) {
+								if ((videoData[0] && videoData[0].published && videoData[0].published.status) || isAdmin) {
+									videos[index] = videoItem;
+								}
+								else {
+									videos.splice(index, 1);
+								}
 							}
 						});
-					});
-
-					videos.forEach(function(findVideo,index) {
-						if (findVideo._id==videoItem._id) {
-							if ((videoData[0] && videoData[0].published && videoData[0].published.status) || isAdmin) {
-								videos[index] = videoItem;
-							}
-							else {
-								videos.splice(index, 1);
-							}
-						}
-					});
+					}
 				};
 
 				req.data = data[0];
