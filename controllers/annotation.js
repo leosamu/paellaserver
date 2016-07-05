@@ -48,8 +48,8 @@ exports.LoadAnnotation = function(req,res,next) {
 //		req.params.id  -> videoId
 //		req.body: the new annotation
 //	Output: req.data: the new annotation data, including the UUID
-exports.CreateAnnotation = function(req,res,next) {
-	var item = new Annotation(req.body)	
+exports.CreateAnnotation = function(req,res,next) {	
+	var item = new Annotation(req.body.annotation)	
 	item.user = req.user._id;
 	item.video = req.params.id;
 	item.save(function(err) {
