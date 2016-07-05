@@ -21,6 +21,7 @@ exports.routes = {
 	},
 	
 	createAnnotation: {
+		param: 'annotationId',
 		post:[
 			VideoController.LoadVideo,
 			AuthController.LoadRoles,
