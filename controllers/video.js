@@ -86,7 +86,7 @@ exports.Newest = function(req,res,next) {
 		'-canRead -canWrite ' +
 		'-deletionDate -pluginData ' +
 		'-metadata -search -processSlides ';
-	var query = { "$where":"this.published && this.published.status && !this.deletionDate"};
+	var query = { "$where":"this.published && this.published.status && !this.deletionDate && !this.hidden && !this.hiddenInSearches"};
 	Video.find(query)
 		.skip(req.query.skip)
 		.limit(req.query.limit)
