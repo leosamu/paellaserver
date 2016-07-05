@@ -2,7 +2,6 @@
 var mongoose = require("mongoose");
 var configure = require("./configure");
 
-
 var db = mongoose.connection;
 db.once('open', function(callback) {});
 
@@ -18,6 +17,7 @@ function startServer() {
 	var passport = require('passport');
 	var security = require('./security');
 	var MongoStore = require('connect-mongo')(session);
+	var traceurApi = require('traceur/src/node/api.js');
 
 	app.use(bodyParser.urlencoded({ extended: true, limit:'500mb' }));
 	app.use(bodyParser.json({ limit: '500mb' }));
@@ -140,7 +140,9 @@ function startServer() {
 					res.status(500).send('Internal error: missing player files').end();
 				}
 				else {
-					var appendHeader = '<script src="/' + playerIndexPath + 'plugins.js"></script></head>';
+					var appendHeader = '<script src="/' + playerIndexPath + 'plugins.js"></script>\n' +
+									   '<script src="/' + playerIndexPath + 'editor-plugins.js"></script>\n' +
+					'</head>';
 					//		var resourcesPath = "url:'../rest/paella'";
 					var paellaTitle = '<title>Paella Engage Example</title>';
 					var playerTitle = configure.config.player && configure.config.player.title;
@@ -216,6 +218,15 @@ function startServer() {
 
 	app.listen(configure.config.connection.port, function() {
 		console.log("Node server running on http://localhost:" + configure.config.connection.port);
+	});
+
+	var editorPlugin = ClientResources.getEditorJavascript('plugins');
+	editorPlugin = traceurApi.compile(editorPlugin, { blockBinding:true });
+	router.get(['/playerDev/editor-plugins.js'],function(req,res) {
+		res.send(editorPlugin);
+	});
+	router.get(['/player/editor-plugins.js'],function(req,res) {
+		res.send(editorPlugin);
 	});
 }
 

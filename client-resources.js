@@ -67,6 +67,12 @@ module.exports = {
 		return this.buffer;
 	},
 
+	getEditorJavascript:function(path) {
+		this.getJavascriptCode(path + '/app/editor',this.buffer);
+		this.searchClientJavascript(path,'editor');
+		return this.buffer;
+	},
+
 	getClientStylesheet:function(path) {
 		this.searchClientStylesheet(path,"");
 		return this.buffer;
