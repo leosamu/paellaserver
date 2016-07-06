@@ -27,5 +27,130 @@
 	"sort_default":"Por defecto",
 	"sort_name":"Título",
 	"sort_date":"Fecha",
-	"sort_author":"Autor"
+	"sort_author":"Autor",
+
+	"edit":"Editar",
+	"create_channel":"Crear un canal",
+	"mychannels_text":"Mis Canales",
+
+	"close":"Cerrar",
+	"select":"Seleccionar",
+
+	"add_to_channel":"Añadir a un canal",
+  	"remove_from_channel":"Quitar del canal",
+
+	"edit_channel_text_title":"Editar datos del canal",
+	"create_channel_text_title":"Crear un canal",
+	"edit_text":"Guardar",
+	"create_text":"Crear",
+	"identifier_field_text":"Identificador",
+	"title_field_text":"Título",
+	"channel_title_field_placeholder_text":"nombre descriptivo del canal",
+	"visibility_field_text":"Visibilidad",
+	"hidden_in_list_text":"Bloqueado en listas",
+	"hidden_in_searches_text":"Bloqueado en búsquedas",
+
+  	"create_channel_menu_option":"Crear Nuevo Canal",
+  	"edit_channel_menu_option":"Editar Canal Actual",
+  	"remove_channel_menu_option":"Borrar Canal Actual",
+  	"confirm_channel_remove_message":"Está a punto de eliminar el canal actual. Esta acción no se puede deshacer, ¿desea continuar?",
+
+	"create_polimedia_menu_option":"Crear Polimedia",
+	"upload_video_menu_option":"Subir video",
+	"video_title_field_placeholder_text":"Título descriptivo del vídeo",
+	"create_video_text_title":"Crear vídeo",
+	"upload_video_text_title":"Subir vídeo",
+	"edit_video_text_title":"Editar vídeo",
+	"polimedia_video_details_title":"Datos del vídeo",
+	"politube_video_details_title":"Detalles del vídeo",
+	"email_text":"E-Mail",
+	"user_email_placeholder":"",
+	"name_text":"Nombre",
+	"lastname_text":"Apellido",
+
+	"identifier_text":"Identificador",
+	"file_name":"Nombre del archivo",
+	"resolution":"Resolución (ancho, alto)",
+	"polimedia_video_operator":"Operador de grabación",
+	"create_author_warning":"No se ha encontrado el autor, se creará uno nuevo con los datos especificados",
+	"video_edit_path":"Ruta en el servidor",
+	"video_edit_link":"Enlace",
+	"show_unprocessed_videos":"Mostrar los vídeos sin procesar",
+	"show_videos_by_author":"Mostrar vídeos por autor",
+	"search_author":"Buscar autor",
+
+	"es":"Español",
+	"en":"Inglés",
+	"it":"Italiano",
+	"fr":"Francés",
+	"pt":"Portugués",
+	"de":"Alemán",
+	"ca":"Valenciano",
+	"cn":"Chino",	
+	"af":"Afrikaans",
+	"lt":"Lituano",
+	"nl":"Neerlandés",
+	"da":"Danés",
+	"hu":"Húngaro",
+	"ja":"Japonés",
+	"ru":"Ruso",
+	"cs":"Checo",
+	"no":"Noruego",
+	"fi":"Finés",
+	"kk":"Kazajo",
+	"ar":"Árabe",
+	"other":"Otro",
+
+	"categories":"Categorías",
+	"no_categories_selected_text":"No hay ninguna categoria seleccionada",
+	"add_category_text":"Añadir categoría",
+	"select_subcategory_text":"Seleccionar subcategoría",
+
+	"upload_queue_title":"Vídeos pendientes de subir",
+	"drop_videos_text":"Arrastrar vídeo aquí o hacer click",
+
+	"add_to_upload_queue":"Añadir a cola de subida",
+
+	"links_list_text":"Listado de enlaces",
+
+	"videos_by_author_text":"Vídeos por autor",
+	"unprocessed_videos_text":"Vídeos sin procesar",
+	"author":"Autor",
+
+	"show_link_list":"Lista de enlaces",
+	"show_newest_videos":"Mostrar los últimos vídeos",
+	"newest_videos":"Últimos vídeos",
+
+	"open_admin_page":"Abrir página de administración",
+
+	"options":"opciones",
+	
+	
+	"keyworkds_text": "Palabras clave",
+	"public_text": "Público",
+	"private_text": "Privado",
+	"hidden_text": "Oculto",
+	"public_explanation_text": "El video será publico y aparecerá publicitado en el portal.",
+	"private_explanation_text": "El video solo lo podrá ver al autor del video.",
+	"hidden_explanation_text": "El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.",
+	"file_not_valid_text": "El fichero seleccionado no es válido. Seleccione otro fichero.",
+	"uploading_video_text": "Subiendo fichero",
+	"file_upload_ok_text": "El video se ha subido correctamente.",
+
+  	"unprocessed_video_text": "Pendiente de procesar",
+  	
+  	"cant_edit_is_OA_explanation_text": "No se pueden editar las propiedades del video ya que es un Objeto de Aprendizaje.",
+
+  	"myprofile_text": "Mi perfil",
+  	"gender_text": "Género",
+  	"gender_select_text": "Selecciona el genero",
+  	"gender_male_text": "Masculino",
+  	"gender_female_text": "Femenino",  	
+  	"telephone_text": "Teléfono",
+  	"language_communication_text": "Idioma de las comunicaciones",
+  	"selectlanguage_text": "Selecciona el idioma",
+  	"go_to_catalog_text": "Ir al catálogo",
+  	"new_channel_text_title": "Crear un canal",
+
+  	"manage_my_videos_menu_option": "Administrar mis videos"
 }

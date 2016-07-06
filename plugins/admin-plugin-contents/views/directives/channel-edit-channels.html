@@ -1,0 +1,104 @@
+<div class="row">
+	<div ng-class="{'col-md-8': !addChannelMode, 'col-md-offset-1': !addChannelMode, 'col-md-4': addChannelMode}">
+		<ul class="list-group" ui-sortable ng-model="channel.children" ng-show="channel.children && channel.children.length>0">
+			<li class="list-group-item" ng-repeat="v in channel.children">
+				<h5 class="list-group-item-heading">							
+				    <div class="btn-group" dropdown is-open="status.isopen">
+				      <button type="button" class="btn btn-primary btn-xs" dropdown-toggle>
+				        {{$index+1}} <span class="caret"></span>
+				      </button>
+				      <ul class="dropdown-menu" role="menu">
+				        <li role="menuitem"><a href="#/catalog/channel/{{v._id}}" target="_blank"> <span class="glyphicon glyphicon-eye-open"></span> Visualizar </a></li>
+				        <li role="menuitem"><a href="#/statistics/views/channel/{{v._id}}" target="_blank"> <span class="glyphicon glyphicon-stats"></span> Estadísticas</a></li>
+				        <li role="menuitem"><a href="#/admin/channels/edit/{{v._id}}" target="_blank"> <span class="glyphicon glyphicon-pencil"></span> Editar</a></li>
+				        <li class="divider"></li>
+				        <li role="menuitem"><a class="text-danger" href ng-click="removeChannelFromChannel(v)"> <span class="glyphicon glyphicon-remove"></span> Eliminar de este canal</a></li>
+				      </ul>
+				    </div>															
+					<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>
+				</h5>
+				<p class="list-group-item-text text-danger">
+					{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}
+				</p>
+				<p class="list-group-item-text">
+					<span class="label label-default">{{v.creationDate | amDateFormat:'ll'}}</span>								
+					<small>{{v._id}}</small>
+				</p>
+			</li>
+		</ul>
+		
+		<ul class="list-group" ng-hide="channel.children && channel.children.length>0">
+			<li class="list-group-item list-group-item-warning">
+				<h5>La lista de canales está vacía</h5>
+				<p class="list-group-item-text"> Añade algún canal</p>
+			</li>
+		</ul>
+		
+	</div>
+	<div class="col-md-2" ng-hide="addChannelMode==true">
+		<button class="btn btn-default" ng-click="addChannelMode=true"> Añadir canales </button>
+	</div>
+	
+	<div class="col-md-8" ng-show="addChannelMode==true">
+	
+	
+	<div class="panel panel-default">
+			<div class="panel-heading">
+				<a class="btn btn-default" ng-click="addChannelMode=false"> <span class="glyphicon glyphicon-arrow-right"></span> </a>
+				<admin-filters state-filters="state.channelFilters" type="'channel'"></admin-filters>
+			</div>	
+	
+	
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Fecha</th>
+							<th>Título</th>
+							<th>Autor</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody ng-hide="loadingChannels">
+						<tr ng-repeat="v in channels.list" ng-class="{'success':existsChannelInChannel(v)}">
+							<td>{{v.creationDate | amDateFormat:'ll'}}</td>
+							<td>{{v.title}}<br/><small>{{v._id}}</small></td>
+							<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>
+							<td>
+								<div class="btn-toolbar" role="toolbar">
+									<div class="btn-group" role="group">
+										<a class="btn btn-xs btn-default" target="_blank" href="/#/catalog/channel/{{v._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+										<a class="btn btn-xs btn-default" ng-click="addChannelToChannel(v)" ng-hide="existsChannelInChannel(v)"> <span class="glyphicon glyphicon-plus"></span> </a>
+										<a class="btn btn-xs btn-default" ng-click="removeChannelFromChannel(v)" ng-show="existsChannelInChannel(v)"> <span class="glyphicon glyphicon-minus"></span> </a>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<loader ng-show="loadingChannels"></loader>			
+			</div>
+		</div>
+		
+		<div>
+			<div role="toolbar" class="btn-toolbar">
+				<div class="btn-group" style="margin-top:-20px">		
+					<pagination total-items="channels.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+				</div>
+
+				<div class="btn-group pull-right">
+					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadChannels()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+			</div>
+			
+		</div>		
+		
+	</div>
+</div>

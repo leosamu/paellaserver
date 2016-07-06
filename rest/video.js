@@ -13,30 +13,29 @@ exports.routes = {
 		AuthController.LoadRoles,
 		CommonController.JsonResponse]},
 
-	checkVideo: { post:[
-		VideoController.CheckVideo,
+	createVideo: { post:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		function(req,res,next) {
+			req.data = req.body;
+			next();
+		},
+		VideoController.CreateVideo,
+		CommonController.JsonResponse
+	]},
+
+	updateVideo: { param:'id', patch:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		VideoController.LoadVideo,
+		AuthController.LoadRoles,
+		AuthController.CheckWrite,
+		function(req,res,next) {
+			req.data = req.body;
+			next();
+		},
+		VideoController.UpdateVideo,
 		CommonController.JsonResponse
 	]}
-
 /*
-	createVideo: { post:[
-		AuthController.CheckAccess(['ADMIN','USER']),
-		function(req,res) {
-			res.json({
-				status:true,
-				message:"Ok"
-			})
-		}]
-
-		//function(req,res) {
-		//var id = req.params.id
-		//var fooResult = {}
-		//fooResult._id = 5;
-		//fooResult.title = data.title;
-		//fooResult.src = data.src;
-		//res.json(fooResult);
-		//}
-	}
 
 	,
 

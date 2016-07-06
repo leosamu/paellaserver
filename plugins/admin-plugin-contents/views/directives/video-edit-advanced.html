@@ -1,0 +1,71 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label">Fecha de creación</label>
+	<div class="col-sm-10">
+		<div class="input-group">
+			<input name="creationDate" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.creationDate" is-open="datePickerEndOpened" close-text="Close" disabled />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+			</span>
+		</div>
+	</div>
+</div>
+			
+<div class="form-group has-feedback">
+	<label class="col-sm-2 control-label">Operador de grabación</label>
+	<div class="col-sm-10">
+		<owners-select-or-create owners="video.operator"></owners-select-or-create>
+	</div>
+</div>
+
+<div class="form-group has-feedback" ng-class="{'has-error': !($parent.form.catalog.$valid)}">
+	<label class="col-sm-2 control-label">Catálogo</label>
+	<div class="col-sm-10">
+		<catalog-select catalog="video.catalog" type="videos"></catalog-select>
+		<input name="catalog" ng-model="video.catalog" required style="display:none;">
+	</div>
+</div>
+
+<div class="form-group has-feedback" ng-class="{'has-error': !($parent.form.repository.$valid)}">
+	<label class="col-sm-2 control-label">Repositorio</label>
+	<div class="col-sm-10">
+		<div class="input-group">
+			<input name="repository" type="text" class="form-control" ng-model="video.repository._id" ng-disabled="!editRepository" required>
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-danger" ng-click="editRepository=!editRepository"><i class="glyphicon glyphicon-pencil"></i></button>
+			</span>
+		</div>			
+		
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Compartir</label>
+	<div class="col-sm-10">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="video.hideSocial"> Desabilitar el botón de compartir
+			</label>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Pendiente de procesar</label>
+	<div class="col-sm-10">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="video.unprocessed"> Pendiente de procesar
+			</label>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Ruta en el servidor</label>
+	<div class="col-sm-10">
+		<p class="form-control-static">
+			{{video.repository.path}}{{video._id}}
+		</p>
+	</div>
+</div>
+

@@ -14,24 +14,40 @@
 			ga('send', 'pageview');
 		</script>
 		<title>{{ "site_title" | translate }}</title>
-		<script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-route/angular-route.min.js"></script>
-        <script src="bower_components/angular-resource/angular-resource.min.js"></script>
-        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-        <script src="bower_components/angular-translate/angular-translate.min.js"></script>
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
         <script src="bower_components/jquery-cookie/jquery.cookie.js"></script>
+        <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+        <script src="bower_components/angular-route/angular-route.min.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+        
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script src="bower_components/angular-translate/angular-translate.min.js"></script>
         <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
         <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="bower_components/angular-base64/angular-base64.js"></script>
+        <script src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
+        <script src="me-lazyload.js"></script>
         
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script src="bower_components/moment/moment.js"></script>
+        <script src="bower_components/angular-moment/angular-moment.js"></script>
+
+        <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+        <script src="bower_components/microplugin/src/microplugin.js"></script>
+        <script src="bower_components/sifter/sifter.js"></script>
+        <script src="bower_components/selectize/dist/js/selectize.js"></script>
+
 		
 		<script src="bower_components/d3/d3.js"></script>
 		<script src="bower_components/nvd3/build/nv.d3.js"></script>
 		<link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css"/>
 		
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+		<link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.bootstrap3.css">
         <link rel="stylesheet" href="resources/upv.css">
 	</head>
 	<body>
@@ -42,7 +58,7 @@
                 </a>
 
                 <div class="hidden-xs pull-right">
-                    <a href="/#catalog"><img class="ps-logo ps-right img-responsive" src="resources/images/logo-polimedia.png" alt="Logo Polimedia"/></a>
+                    <a href="/#catalog"><img class="ps-logo ps-right img-responsive" src="resources/images/logo-media-upv.png" alt="Logo Polimedia"/></a>
                 </div>
 
                 <login-widget></login-widget>
@@ -55,18 +71,22 @@
             <footer>
                 <div class="row">
                     <div class="col-xs-12 col-md-6">
-                        <p>{{ "more_info" | translate }}</p>
                         <ul class="list-inline">
                             <li><a href="http://www.upv.es/entidades/ASIC/catalogo/522359normalc.html">Polimedia</a></li>
                             <li>|</li>
                             <li><a href="http://www.upv.es/entidades/ASIC/catalogo/847942normalc.html">Videoapuntes</a></li>
                             <li>|</li>
                             <li><a ng-href="{{ 'termsofuse-url' | translate }}">{{ 'terms_of_use' | translate }}</a></li>
+                            <li>|</li>
+                            <li><a ng-href="{{ 'termsofuse-url' | translate }}">{{ 'Contacto' | translate }}</a></li>
                         </ul>
+                        <p>Universitat Politècnica de València &#64; 2015 · Tel. (+34) 96 387 70 00 · <a href="mailto:polim@upvnet.upv.es">polim@upvnet.upv.es</a></p>
                     </div>
+                    <!--
                     <div class="col-xs-12 col-md-6">
                         <p>Universitat Politècnica de València &#64; 2015 - <a href="mailto:polim@upvnet.upv.es">polim@upvnet.upv.es</a></p>
                     </div>
+                    -->
                 </div>
             </footer>
         </div>

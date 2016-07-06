@@ -1,0 +1,17 @@
+<div class="alert alert-warning" role="alert" ng-hide="pluginData.id">
+	El video no está subido a YouTube
+</div>
+
+<div class="alert alert-success" role="alert" ng-show="pluginData.id">
+	Video subido a youtube:
+	<a class="alert-link" href="https://www.youtube.com/watch?v={{pluginData.id}}"> https://www.youtube.com/watch?v={{pluginData.id}} </a>
+</div>
+
+<div class="form-horizontal">
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Codigo de Youtube</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" ng-model="pluginData.id">
+		</div>
+	</div>
+</div>

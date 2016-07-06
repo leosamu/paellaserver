@@ -1,0 +1,109 @@
+<div class="form-group">
+	<label class="col-sm-2 control-label">ID</label>
+	<div class="col-sm-10">
+		<p class="form-control-static">{{video._id}}</p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">URL Video</label>
+	<div class="col-sm-10">
+		<p class="form-control-static"><a ng-href="https://media.upv.es/player/?id={{video._id}}" target="_blank">https://media.upv.es/player/?id={{video._id}}</a></p>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Thumbnail</label>
+	<div class="col-md-4 col-sm-5">
+		<img class="img-responsive2 img-thumbnail" ng-if="video.thumbnail" ng-src="{{video.repository.server}}{{video.repository.endpoint}}{{video._id}}/{{video.thumbnail}}">			
+		<img class="img-responsive2 img-thumbnail" ng-if="!video.thumbnail" src="/resources/images/video-placeholder.png">
+	</div>
+</div>					
+
+<div class="form-group has-feedback" ng-class="{'has-error': !($parent.form.title.$valid)}">
+	<label class="col-sm-2 control-label">Título</label>
+	<div class="col-sm-10">
+		<input name="title" type="text" class="form-control" ng-model="video.title" required>
+	</div>
+</div>
+
+<div class="form-group has-feedback">
+	<label class="col-sm-2 control-label">Propietario</label>
+	<div class="col-sm-10">
+		<owners-select-or-create owners="video.owner"></owners-select-or-create>
+	</div>
+</div>				
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Idioma</label>
+	<div class="col-sm-10">
+		<language-select language="video.language"></language-select>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Palabras clave</label>
+	<div class="col-sm-10">
+		<input type="text" class="form-control" ng-model="video.metadata.keywords" ng-list>
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Duración</label>
+	<div class="col-sm-10">
+		<p class="form-control-static">{{video.duration | secondsToHuman}}</p>
+	</div>
+</div>
+
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Visibilidad</label>
+	<div class="col-sm-10">
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="video.hidden"> Bloqueado en listas
+			</label>
+		</div>
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="video.hiddenInSearches"> Bloqueado en búsquedas
+			</label>
+		</div>
+	</div>
+</div>	
+
+
+<div class="form-group">
+	<label class="col-sm-2 control-label">Publicar</label>
+	<div class="col-sm-10">							
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" ng-model="video.published.status"> Marcado como publicado
+			</label>
+		</div>
+	</div>
+</div>	
+
+<div class="form-group" ng-show="(!video.published.status)">
+	<label class="col-sm-2 control-label">Publicar el video automaticamente</label>
+	<div class="col-sm-10">
+		<div class="input-group">
+			<input name="publicationDate" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.published.publicationDate" is-open="datePickerPublicationDateOpened" close-text="Close" disabled />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-default" ng-click="datePickerPublicationDateOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+			</span>
+		</div>
+	</div>
+</div>
+
+<div class="col-sm-offset-2 col-sm-10 alert alert-success" ng-show="videoPublishedStatus == 'published'">
+	El video está publicado y disponible para ser visualizado.
+</div>
+<div class="col-sm-offset-2 col-sm-10 alert alert-danger" ng-show="videoPublishedStatus == 'unpublished'">
+	El video no está publicado. Solo podrán visualizar el video los usuarios que tengan permiso de edición sobre el video.
+</div>
+<div class="col-sm-offset-2 col-sm-10 alert alert-warning" ng-show="videoPublishedStatus == 'futurePublished'">
+	El video no está publicado. Se publicará automaticamente el {{video.published.publicationDate | amDateFormat: 'll'}}
+</div>
+
+

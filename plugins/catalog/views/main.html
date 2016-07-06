@@ -2,20 +2,26 @@
     <search-bar channels="channels"
                 videos="videos"
                 my-videos="myVideos"
+                my-channels="myChannels"
                 search-text="searchText"
                 do-search-function="doSearch"
                 current-tab="currentTab"
                 show-search="!isEmbed"
                 show-sort="!isEmbed"
                 show-my-videos-tab="!isEmbed"
+                show-my-channels-tab="!isEmbed"
                 show-empty-tabs="!isEmbed"
+                current-channel="channelData"
+                current-user="currentUser"
             ></search-bar>
 
-    <section class="ps-current-channel" ng-show="channelData">
+
+    <section class="ps-current-channel" ng-show="channelData && currentTab!=2 && currentTab!=3">
         <h1>
             {{channelData.title}}
+            <!-- TODO: Eliminar 
             <span class="ps-header-link dropdown" dropdown ng-show="channelId">
-              <a href class="dropdown-toggle" dropdown-toggle>
+              <a href class="dropdown-toggle" dropdown-toggle ng-show="!isEmbed">
                   {{ "parent_channels_text" | translate }}
               </a>
               <ul class="dropdown-menu">
@@ -24,17 +30,12 @@
                   </li>
               </ul>
             </span>
+            -->
         </h1>
-    </section>
-    <section class="ps-current-channel" ng-hide="channelId">
-        <h1>
-            {{ "featured_videos_text" | translate }}
-            <span class="ps-video-counter pull-right" ng-show="totalVideos && !isEmbed">{{totalVideos}} {{ "available_videos_text" | translate }}</span>
-        </h1>
-
     </section>
 
     <loader ng-show="loading"></loader>
-    <catalog-contents channels="channels" videos="videos" my-videos="myVideos" is-admin="isAdmin" is-search="isSearch" show-parents="true" current-tab="currentTab"></catalog-contents>
+    <catalog-contents current-channel="channelData" current-user="currentUser" channels="channels" videos="videos" my-videos="myVideos" my-channels="myChannels" is-admin="isAdmin" is-search="isSearch" show-parents="true" current-tab="currentTab"></catalog-contents>
 
+    <upload-queue style="position: fixed; top: 0px; left: 0px;"></upload-queue>
 </main>

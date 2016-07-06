@@ -7,24 +7,119 @@
 			templateUrl: "catalog/directives/video-item.html",
 			scope: {
 				video: "=",
+				userChannels:"=",
+				currentChannel:"=?",
 				isAdmin: "=?",
 				isSearch: "=?",
-				showParents: "=?"
+				showParents: "=?",
+				currentUser: "=?"
 			},
-			controller: ['$scope','Video', function ($scope,Video) {
+			controller: ['$scope','Video','Channel','ChannelListPopup','Authorization','VideoEditPopup', function ($scope,Video,Channel,ChannelListPopup,Authorization,VideoEditPopup) {
 				$scope.parents = [];
 				$scope.isAdmin = $scope.isAdmin || false;
 				$scope.isSearch = $scope.isSearch || false;
+				
+				$scope.isEmbed = /embed/i.test(window.location.href);
+				$scope.showIfNotEmbed = !$scope.isEmbed;
+				
 				$scope.showParents = $scope.showParents || true;
 
+				$scope.showParentChannels = function() {
+					ChannelListPopup($scope.parents, true);
+				};
+
+				$scope.getCurrentChannelTitle = function() {
+					return $scope.currentChannel ? $scope.currentChannel.title:"";
+				};
+
+				$scope.removeFromCurrentChannel = function() {
+					if ($scope.currentChannel) {
+						Channel.removeVideo({ id:$scope.currentChannel.id, videoId:$scope.video._id },
+							{ id:'@id', videoId:'@videoId'}).$promise
+							.then(function(result) {
+								location.reload();
+							});
+					}
+				};
+
 				$scope.isVisible = function () {
-					if ($scope.isSearch) {
+					if ($scope.video.unprocessed) {
+						return false;
+					}
+					else if ($scope.currentUser && $scope.currentUser._id && $scope.video.owner.some(function(owner) {
+							var ownerId = owner._id || owner;
+							return ownerId==$scope.currentUser._id;
+						})
+					) {
+						return true;
+					}
+					else if ($scope.isSearch) {
 						return !$scope.video.hiddenInSearches;
 					}
 					else {
 						return !$scope.video.hidden;
 					}
-				}
+				};
+
+				$scope.isUnprocessed = function() {
+					if ($scope.video.unprocessed) {
+						return true;
+					}
+					else {
+						return false;
+					}
+				};
+
+				$scope.allowRemove = function() {
+					return Authorization($scope.currentChannel,$scope.currentUser).canWrite() &&
+						$scope.currentChannel &&
+						$scope.currentChannel.title &&
+						$scope.currentChannel.title!="";
+				};
+
+				$scope.allowEdit = function() {
+					return Authorization($scope.video,$scope.currentUser).canWrite();
+				};
+
+				$scope.editVideo = function() {
+					Video.get({ id:$scope.video._id }).$promise
+					.then(function(data) {
+
+						delete(data.slides);
+						delete(data.blackboard);
+						delete(data.source);
+						delete(data.thumbnail);					
+						delete(data.search);
+					
+						VideoEditPopup(data)
+						.then(function(newVideoData) {								
+							newVideoData.id = newVideoData._id;
+							return Video.update(newVideoData).$promise;
+						})
+						.then(function(result) {
+							location.reload();
+						});
+						/*
+						VideoEditPopup(data, true, null, function(newVideoData) {
+							newVideoData.id = newVideoData._id;
+							Video.update(newVideoData).$promise
+								.then(function(result) {
+									location.reload();
+								});
+						});
+						*/
+					});
+				};
+
+				$scope.addToChannel = function() {
+					ChannelListPopup($scope.userChannels, false, function(parentChannel) {
+						Channel.addVideo({ id:parentChannel._id, videoId:$scope.video._id },
+							{ id:'@id', videoId:'@videoId'}).$promise
+							.then(function(result) {
+								location.reload();
+							});
+					});
+				};
 
 				$scope.loadParents = function() {
 					Video.parents({id:$scope.video._id}).$promise
@@ -46,7 +141,7 @@
 				};
 
 				$scope.thumbnail = function() {
-					return $scope.video.thumbnail || 'resources/images/video-placeholder.jpg';
+					return $scope.video.thumbnail || 'resources/images/video-placeholder.png';
 				};
 			}]
 		};

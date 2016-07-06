@@ -6,23 +6,30 @@ var CommonController = require(__dirname + '/../../../controllers/common');
 var AuthController = require(__dirname + '/../../../controllers/auth');
 
 function loadPolimedia(streamsArray, videos, slaveVideos, preview, slavePreview) {
-	var masterStreamData = {
-		mp4: []
-	};
-
-	var slaveStreamData = {
-		mp4: []
-	};
+	var masterStreamData = {};
+	var slaveStreamData = {};
 
 	function addStream(streamData,data) {
-		streamData.mp4.push({
-			src: data.src || data.href,
-			mimetype: data.mimetype || "video/mp4",
-			res:{
-				w: data.width || 1280,
-				h: data.height || 720
-			}
-		});
+		var file = data.src  || data.href;
+		var fileExt = file.split('.').pop().toLowerCase();
+		if (fileExt=="mp4") {
+			streamData.mp4 = streamData.mp4 || [];
+			streamData.mp4.push({
+				src: file,
+				mimetype: data.mimetype || "video/mp4",
+				res:{
+					w: data.width || 1280,
+					h: data.height || 720
+				}
+			});
+		}
+		else if (fileExt=='mpd') {
+			streamData.mpd = streamData.mpd || [];
+			streamData.mpd.push({
+				src:file,
+				mimetype: data.mimetype || 'video/mp4'
+			});
+		}
 	}
 
 	videos.forEach(function(video) {
@@ -95,18 +102,23 @@ exports.routes = {
 		VideoController.CheckPublished,
 		VideoController.LoadUrlFromRepository,
 		function(req,res) {
-			if (req.data) {
+			if (req.data && req.data.source) {
 				var metadata = {
 					"duration":req.data.duration,
 					"title":req.data.title
 				};
 				var streams = [];
 
+				var poster, slavePoster;
+				if (req.data.source){
+					poster = req.data.source.poster;
+					posterFrame = req.data.source.posterFrame;
+				}
 				if (req.data.source.type=="polimedia" || req.data.source.type=="external") {
-					loadPolimedia(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
+					loadPolimedia(streams, req.data.source.videos, req.data.source.slaveVideos, poster, slavePoster);
 				}
 				else if (req.data.source.type=="live") {
-					loadLiveStream(streams, req.data.source.videos, req.data.source.slaveVideos, req.data.thumbnail);
+					loadLiveStream(streams, req.data.source.videos, req.data.source.slaveVideos, poster, slavePoster);
 				}
 
 				res.json({

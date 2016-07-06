@@ -1,0 +1,26 @@
+
+<section class="ps-popup-content">
+	<h1 class="modal-header">
+		{{ title | translate }}
+		<p class="pull-right">
+			<input type="search" class="form-control" ng-model="query" placeholder="buscar"/>
+		</p>
+	</h1>
+
+	<div class="ps-popup-list">
+		<ul class="list-group" ng-show="!navMode">
+			<li class="list-group-item" ng-repeat="video in videos">
+				<a ng-href="{{getVideoUrl(video)}}" target="_blank">{{video.title}}</a>
+				<button class="btn pull-right btn-xs" ng-click="selectItem(video)">{{ "edit" | translate }}</button>
+			</li>
+		</ul>
+
+		<ul class="" ng-show="navMode">
+			<li ng-repeat="video in videos | filter:query"><a ng-href="{{getVideoUrl(video)}}" ng-click="close()">{{video.title}}</a></li>
+		</ul>
+	</div>
+
+	<p class="modal-footer">
+		<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
+	</p>
+</section>

@@ -29,7 +29,7 @@ exports.routes = {
 					});
 				}
 				else {
-					res.state(401).json({ status:false, message: "No such video with ID " + req.id});
+					res.state(401).json({ status:false, message: "No such channel with ID " + req.id});
 				}
 			},
 			CommonController.JsonResponse

@@ -1,55 +1,79 @@
-/**
- * Created by fernando on 15/4/15.
- */
+var fs = require('fs');
+var path = require('path');
 
-var mongoose = require('mongoose');
+var Channel = require(__dirname + '/../models/channel');
+var Catalog = require(__dirname + '/../models/catalog');
+var Repository = require(__dirname + '/../models/repository');
 
 var ChannelController = require(__dirname + '/../controllers/channels');
 var CommonController = require(__dirname + '/../controllers/common');
 var AuthController = require(__dirname + '/../controllers/auth');
 
+var catalogId = "politube";
+
 exports.routes = {
 	getChannelData: { param:'id', get:[
 		ChannelController.LoadChannel,
 		ChannelController.LoadUrlFromRepository,
-		CommonController.JsonResponse]}
-/*
-	createChannel: { post:[
-		AuthController.CheckAccess(['ADMIN','USER']),
-		function(req,res) {
-			res.json({
-				status:true,
-				message:"Ok"
-			})
-		}]
-
-		//function(req,res) {
-		//var id = req.params.id
-		//var fooResult = {}
-		//fooResult._id = 5;
-		//fooResult.title = data.title;
-		//fooResult.src = data.src;
-		//res.json(fooResult);
-		//}
+		CommonController.JsonResponse]
 	},
-	updateChannel: { param:'id', put:function(req,res) {
-		var id = req.params.id
-		data._id = id;
-		res.json(fooResult);
-	}},
 
-	updateChannelField: { param:'id', patch:function(req,res) {
-		var id = req.params.id
-		fooResult._id = id;
-		fooResult.title = "Channel " + id;
-		fooResult.src = "Channel_" + id + ".mp4";
-		fooResult[data.field] = data.value;
-		res.json(fooResult);
-	}},
+	createChannel: { post:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		//AuthController.CheckAccess(['ADMIN']),
+		function(req,res,next) {					
+			Catalog.findOne({ "_id": catalogId })
+			.populate('defaultRepositoryForChannels')
+			.exec(function(err, catalog) {
+				if (err) return res.sendStatus(500);
+								
+				req.data = req.body;									
+				req.data.catalog =  catalogId;
+				req.data.repository = catalog.defaultRepositoryForChannels;
+				req.data.owner = [req.user._id];
+				req.data.creationDate = new Date();					
+				
+				next();										
+			});			
+		},
+		ChannelController.CreateChannel,
+		CommonController.JsonResponse
+	]},
 
-	deleteChannel: { param:'id', delete:function(req,res) {
-		var id = req.params.id
-		res.json({ status:true, message:"Channel deleted"});
-	}}
-	*/
-}
+	// Update all the channel fields with the contents of request.body
+	updateChannel: { param:'id', patch:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		ChannelController.LoadChannel,
+		AuthController.LoadRoles,
+		AuthController.CheckWrite,
+		function(req,res,next) {
+			req.data = req.body;
+			next();
+		},
+		ChannelController.UpdateChannel,
+		CommonController.JsonResponse
+	]},
+
+	// Update only the fields specified in request.body
+	patchChannel: { param:'id', patch:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		ChannelController.LoadChannel,
+		AuthController.LoadRoles,
+		AuthController.CheckWrite,
+		function(req,res,next) {
+			req.data = req.body;
+			next();
+		},
+		ChannelController.PatchChannel,
+		CommonController.JsonResponse
+	]},
+
+	removeChannel: { param:'id', delete:[
+		AuthController.EnsureAuthenticatedOrDigest,
+		ChannelController.LoadChannel,
+		AuthController.LoadRoles,
+		AuthController.CheckWrite,
+		ChannelController.RemoveChannel,
+		CommonController.JsonResponse
+	]}
+};

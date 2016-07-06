@@ -1,0 +1,76 @@
+<div class="modal-header">
+	<h4 class="modal-title text-danger">Join users</h4>
+</div>
+<div class="modal-body">
+
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></th>
+					<th>Nombre</th>
+					<th>Apellidos</th>
+					<th>E-mail</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="u in users">
+					<td>
+						<input type="radio" name="optionsRadios" ng-value="u" ng-model="$parent.selectedUser">
+					</td>
+					<td>{{u.contactData.name}}</td>
+					<td>{{u.contactData.lastName}}</td>
+					<td>{{u.contactData.email}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+
+	<div class="panel panel-primary" ng-show="editUser">
+		<div class="panel-heading">			
+			Editando el Usuario
+		</div>
+		<div class="panel-body">
+			<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
+				<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Información básica</a></li>
+				<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Roles</span></a></li>
+				<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Sistema de autenticación</span></a></li>
+			</ul>			
+		
+			<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
+				<div class="panel-body">
+					<form name="form" class="form-horizontal" novalidate>			
+				
+						<div class="tab-pane" ng-show="tab==1">
+							<user-edit-basic user="editUser"></user-edit-basic>
+						</div>
+					
+						<div class="tab-pane" ng-show="tab==2">
+							<user-roles-list roles="editUser.roles"></user-roles-list>
+						</div>
+								
+						<div class="tab-pane" ng-show="tab==3">
+							<user-edit-auth user="editUser"></user-edit-auth>
+						</div>
+						
+					</form>						
+				</div>
+			</div>			
+		</div>
+	</div>
+	
+	<div class="alert alert-warning" role="alert">
+		<strong> Warning! </strong> All videos and channels from those users will be owned by the user selected. The other users will be deleted.
+		<div>This operation is not reversible!</div>		
+	</div>			
+	
+
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="cancel()"> Cancel </button>
+	<button type="button" class="btn btn-primary" ng-click="accept()" ng-disabled="updating || !form.$valid">
+		<loader-field ng-show="updating"></loader-field> Ok
+	</button>
+</div>

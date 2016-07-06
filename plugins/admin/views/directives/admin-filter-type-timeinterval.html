@@ -1,0 +1,14 @@
+<div class="form-group" >
+	<div class="input-group">
+		<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="filterParam.start" is-open="datePickerStartOpened" close-text="Close" disabled />
+		<span class="input-group-btn">
+			<button type="button" class="btn btn-default" ng-click="datePickerStartOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+		</span>
+	</div>
+	<div class="input-group" ng-show="filterParam.start">
+		<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="filterParam.end" min-date="filterParam.start" is-open="datePickerEndOpened" close-text="Close" ng-change="addIntervalDateFilter()" disabled />
+		<span class="input-group-btn">
+			<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+		</span>
+	</div>
+</div>

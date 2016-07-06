@@ -1,0 +1,141 @@
+<div>
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li >
+						<a href="#/catalog">
+				    		{{'Go to catalog' | translate}}
+				    	</a>
+				    </li>
+
+					<li>
+						<a href="#/useradmin/videos">
+				    		{{'My videos' | translate}}
+				    	</a>
+				    </li>
+					<li class="active">
+						<a href="#/useradmin/channels">
+				    		{{'My channels' | translate}}
+				    	</a>
+				    </li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li>
+						<a href ng-click="newChannel()">
+				    		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'New Channel' | translate}}
+				    	</a>
+				    </li>
+				</ul>				
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th width="120px">
+							<!--<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>-->
+							{{'Date' | translate}}
+						</th>
+						<th>
+							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
+							{{'Title' | translate}}
+						</th>
+<!--						<th><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Autor</th>  -->
+						<th width="90px"># V/Ch</th>
+						<th width="90px"> {{'Visibility' | translate}} </th>
+						<th width="100px">{{'Actions' | translate}}</th>
+					</tr>
+				</thead>
+				<tbody ng-hide="loadingVideos">
+					<tr ng-repeat="c in channels.list" ng-class="{danger: c.deletionDate}">
+						<td> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> {{c.creationDate | amDateFormat:'ll'}}</td>
+						<td>{{c.title}}</td>
+<!--						<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>  -->
+						<td>{{c.videos.length || 0}} / {{c.children.length || 0}}</td>
+						<td>
+							<span ng-show="(c.hidden==true)">{{'hidden' | translate}}</span>
+							<span ng-show="(c.hidden!=true)">{{'public' | translate}}</span>
+						</td>
+						<td>
+							<div class="btn-toolbar" role="toolbar">
+								<div class="btn-group" role="group">
+									<a class="btn btn-xs btn-default" target="_blank" ng-href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+									<a class="btn btn-xs btn-default" ng-href="#/useradmin/channels/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+								</div>
+								<div class="btn-group" role="group">
+									<button class="btn btn-xs btn-danger" ng-click="deleteChannel(c)" ng-show="canDeleteChannel(c)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<loader ng-show="loadingVideos"></loader>			
+		</div>
+
+
+		<div>
+			<div role="toolbar" class="btn-toolbar">
+				<div class="btn-group" style="margin-top:-20px">		
+					<pagination total-items="channels.total" items-per-page="itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+				</div>
+
+				<div class="btn-group pull-right">
+					<select ng-model="itemsPerPage" class="form-control input-sm" ng-change="reloadChannels()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+	</section>
+</div>
+
+<script type="text/ng-template" id="confirmDeleteChannel.html">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title text-danger">¿Estás seguro de querer borrar este canal?</h4>
+	</div>
+	<div class="modal-body">
+		<div class="alert alert-danger" role="alert">
+			<strong>Cuidado!</strong> Lee atentamente antes de continuar!
+			<p><strong>Esta acción no se puede deshacer.</strong></p>
+		</div>
+		<p>Estás a punto de borrar el canal '{{channel.title}}' con identificador '{{channel._id}}'.</p>
+		
+		<div class="form-group">
+			<label>Por favor, escribe el título del canal o el identificador para confirmar la operación.</label>
+			<input ng-model="confirm" class="form-control">
+		</div>		
+		
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" ng-click="accept()" ng-disabled="(confirm!=channel._id) && (confirm!=channel.title)">
+			Entiendo las consecuencias, borrar el canal
+		</button>
+	</div>	
+</script>
+
+

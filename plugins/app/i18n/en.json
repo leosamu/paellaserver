@@ -27,6 +27,111 @@
 	"sort_default":"Default",
 	"sort_name":"Title",
 	"sort_date":"Date",
-	"sort_author":"Author"
+	"sort_author":"Author",
+
+	"edit":"Edit",
+	"create_channel":"Create a channel",
+	"mychannels_text":"My Channels",
+
+	"close":"Close",
+	"select":"Select",
+
+	"add_to_channel":"Add to a channel",
+  	"remove_from_channel":"Remove from channel",
+
+	"edit_channel_text_title":"Edit channel data",
+	"create_channel_text_title":"Create channel",
+	"edit_text":"Save",
+	"create_text":"Create",
+	"identifier_field_text":"Identifier",
+	"title_field_text":"Title",
+	"channel_title_field_placeholder_text":"descriptive title",
+	"visibility_field_text":"Visibility",
+	"hidden_in_list_text":"Locked in lists",
+	"hidden_in_searches_text":"Locked in searches",
+  	"confirm_channel_remove_message":"You are about to remove the current channel. This action can't be undone. Do you want to continue?",
+	  
+	"create_channel_menu_option":"Create channel",
+	"upload_video_menu_option":"Upload video",
+	"upload_video_text_title": "Upload video",
+	"video_title_field_placeholder_text": "video descriptive title",
+	"politube_video_details_title":"video details",   
+
+	"create_polimedia_menu_option":"Create Polimedia",
+	"create_author_warning":"No author found with this e-mail. A new author will be created with the specified data.",
+	"video_edit_path":"Path at server",
+	"video_edit_link":"Link",
+	"show_unprocessed_videos":"Show unprocessed videos",
+	"show_videos_by_author":"Show videos by author",
+	"search_author":"Search author",
+
+	"es":"Spanish",
+	"en":"English",
+	"it":"Italian",
+	"fr":"French",
+	"pt":"Portuguese",
+	"de":"German",
+	"ca":"Valencian",
+	"cn":"Chinese",	
+	"af":"Afrikaans",
+	"lt":"Lithuanian",
+	"nl":"Dutch",
+	"da":"Danés",
+	"hu":"Hungarian",
+	"ja":"Japanese",
+	"ru":"Russian",
+	"cs":"Czeck",
+	"no":"Norwegian",
+	"fi":"Finnish",
+	"kk":"Kazakh",
+	"ar":"Arabic",
+	"other":"Other",
+	
+
+	"categories":"Categories",
+	"no_categories_selected_text":"There isn't any category selected",
+	"add_category_text":"Add category",
+	"select_subcategory_text":"Select category",
+
+	"upload_queue_title":"Upload videos",
+	"drop_videos_text":"Drop video here or make click",
+
+	"add_to_upload_queue":"Add to upload queue",
+
+	"open_admin_page":"Open admin page",
+	
+	"options":"options",
+	
+	
+	"keyworkds_text": "Palabras clave",
+	"public_text": "Público",
+	"private_text": "Privado",
+	"hidden_text": "Oculto",
+	"public_explanation_text": "El video será publico y aparecerá publicitado en el portal.",
+	"private_explanation_text": "El video solo lo podrá ver al autor del video.",
+	"hidden_explanation_text": "El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.",
+	"file_not_valid_text": "El fichero seleccionado no es válido. Seleccione otro fichero.",
+	"uploading_video_text": "Subiendo fichero",
+	"file_upload_ok_text": "El video se ha subido correctamente.",
+
+  	"unprocessed_video_text": "Unprocessed video",
+   	"cant_edit_is_OA_explanation_text": "You can not edit the properties of the video as it is a Learning Object.",
+
+
+   	"name_text": "Name",
+   	"lastname_text": "Last name",
+   	"email_text": "E-Mail",
+  	"myprofile_text": "My profile",
+  	"gender_text": "Gender",
+  	"gender_select_text": "Select your gender",
+  	"gender_male_text": "Male",
+  	"gender_female_text": "Female",
+  	"telephone_text": "Telephone",
+  	"language_communication_text": "communicacion language",
+  	"selectlanguage_text": "Select a language",
+  	"go_to_catalog_text": "Go to catalog",
+  	"new_channel_text_title": "Create new channel",
+
+  	"manage_my_videos_menu_option": "Manage my videos"
 
 }

@@ -1,34 +1,32 @@
-<span class="dropdown ps-item-menu" dropdown on-toggle="loadParents()" ng-show="showParents">
-    <button class="glyphicon glyphicon-option-horizontal dropdown-toggle" dropdown-toggle>
+<span class="dropdown ps-item-menu" dropdown on-toggle="loadParents()" ng-show="!isEmbed">
+    <button class="glyphicon glyphicon-option-horizontal dropdown-toggle ps-item-menu-button" dropdown-toggle>
         <!--Listado de canales que incluyen este recurso-->
     </button>
-    <ul class="dropdown-menu">
-        <li><p>{{ "parent_channels_text" | translate }}:</p></li>
+    <ul class="dropdown-menu ps-item-menu-dropdown">
+    	<!-- TODO: Eliminar
+        <li><a ng-click="showParentChannels(parents)">{{ "parent_channels_text" | translate }}</a></li>
         <li class="divider"></li>
-        <li ng-repeat="parent in parents" ng-show="parent._id!='default'" ng-class="{ disabled:parent._id==channelId }">
-            <a href ng-href="#/catalog/channel/{{parent._id}}">{{parent.title}}</a>
-        </li>
+        -->
+        <!--
+        TODO: Activar cuando esten terminadas las estadisticas
+        <li><a ng-href="/#/statistics/views/video/{{video._id}}">{{ "statistics_video_text_title" | translate }}</a></li>
+        <li class="divider"></li>
+        -->
+        <li><a ng-click="addToChannel()" ng-show="userChannels.length">{{ "add_to_channel" | translate }}</a></li>
+        <li><a ng-click="removeFromCurrentChannel()" ng-show="allowRemove()">{{ "remove_from_channel" | translate }} "{{ getCurrentChannelTitle() }}"</a></li>
+        <li><a ng-click="editVideo()" ng-show="allowEdit()">{{ "edit_video_text_title" | translate }}</a></li>
     </ul>
 </span>
-<article class="ps-list-item ps-video" ng-click="openVideo(video)"  ng-class="{ 'ps-hidden':(!isVisible()), 'ps-admin':isAdmin }">
+<article class="ps-list-item ps-video" ng-class="{ 'ps-hidden':(!isVisible()), 'ps-admin':isAdmin, 'ps-unprocessed':video.unprocessed }">
 
-    <img class="ps-image img-responsive" ng-src="{{thumbnail(video)}}" alt="{{video.title + ' image'}}"/>
-    <div class="ps-lock" ng-show="!isVisible()"><i class="glyphicon glyphicon-lock"></i></div>
+    <img class="ps-image img-responsive" ng-click="openVideo(video)" lazy-src="{{thumbnail()}}" alt="{{video.title + ' image'}}" />
+    <!--Padlock in hidden videos-->
+    <div class="ps-lock" ng-show="!isVisible() && !isUnprocessed()"><i class="glyphicon glyphicon-lock"></i></div>
+    <div class="ps-unprocessed-icon" ng-show="isUnprocessed()"><i class="glyphicon glyphicon-refresh"></i></div>
+    <div class="ps-unprocessed-text" ng-show="isUnprocessed()">{{ 'unprocessed_video_text' | translate }}</div>
     <h2 class="ps-title text-center">
-        {{video.title}}
-        <br/>
-        <em class="ps-date">{{video.creationDate | date:"dd/MM/yyyy" }}</em>
-        <em class="ps-author">{{ownerName(video)}}</em>
+        <div class="ps-title-text" ng-click="openVideo(video)">{{video.title}}</div>
+        <em class="ps-date" ng-click="openVideo(video)">{{video.creationDate | date:"dd/MM/yyyy" }}</em>
+        <em class="ps-author" ng-click="openVideo(video)">{{ownerName(video)}}</em>
     </h2>
-
-    <!--
-    <div class="ps-edit text-right hidden-xs">
-
-        <button class="btn">Delete</button>
-        <button class="btn">Move Up</button>
-        <button class="btn">Move Down</button>
-        <button class="btn">Channels</button>
-        <button class="btn">Edit</button>
-
-    </div>-->
 </article>

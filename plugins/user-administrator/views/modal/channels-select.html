@@ -1,0 +1,201 @@
+<div class="modal-header">
+	<button type="button" class="close" aria-label="Close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+	<h1 class="modal-title">{{'Channels select' | translate}}</h1>	
+</div>
+
+<div class="modal-body">
+
+	<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
+		<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}"><a href>{{'Your channels' | translate}} </a></li>			
+		<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>{{'Channel search' | translate}}</a></li>
+		<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ><a href>{{'URL' | translate}}</a></li> 
+	</ul>		
+				
+	<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
+		<div class="panel-body">
+			
+			<div class="tab-pane" ng-show="tab==1">				
+				<ul class="list-group media-list">
+					<li class="list-group-item" ng-class="{'list-group-item-info': v.selected}" ng-repeat="v in yourChannels.list">
+						<div class="media-left">
+							<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{v.thumbnail}}">
+						</div>
+						<div class="media-body">
+								
+
+						<div class="btn-toolbar pull-right" role="toolbar">
+							<div class="btn-group" role="group">
+								<button class="btn btn-xs btn-default" ng-click="switchSelectChannel(v)">
+									<span class="glyphicon glyphicon-plus" ng-show="!v.selected"></span>
+									<span class="glyphicon glyphicon-minus" ng-show="v.selected"></span>
+								</button>
+							</div>
+						</div>
+
+
+		
+						
+						<h5 class="media-heading">
+							<div class="btn-group" dropdown is-open="status.isopen">
+						      <!--
+						      <button type="button" class="btn btn-primary btn-xs" >
+						        {{$index+1}} 
+						      </button>
+						      -->
+						    </div>	
+														
+							<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>							
+							
+						</h5>
+						<p class="list-group-item-text text-danger">
+							{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}
+						</p>
+						<p class="list-group-item-text">
+							<span class="label label-default">{{v.creationDate | amDateFormat:'ll'}}</span>								
+							<small>{{v.duration | secondsToHuman }}</small>
+						</p>
+						
+						</div>
+					</li>
+				</ul>				
+				
+				
+				<div>
+					<div role="toolbar" class="btn-toolbar">
+						<div class="btn-group" style="margin-top:-20px">		
+							<pagination total-items="yourVideos.total" items-per-page="itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+						</div>
+		
+						<div class="btn-group pull-right">
+							<select ng-model="itemsPerPage" class="form-control input-sm" ng-change="reloadVideos()">
+								<option value="5">5</option>
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+								<option value="200">200</option>
+							</select>
+						</div>
+					</div>
+				</div>				
+				
+			</div>
+
+			<div class="tab-pane" ng-show="tab==2">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{ "Channel search" | translate }}</label>
+						<div class="col-sm-10">						
+							<div class="input-group">
+								<input type="text" class="form-control" ng-model="searchChannelText">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" ng-click="searchChannels()">{{ "search_text" | translate }}</button>
+								</span>
+							</div>										
+						</div>
+					</div>	
+				</form>
+				
+
+
+
+				<ul class="list-group media-list">
+					<li class="list-group-item" ng-class="{'list-group-item-info': v.selected}" ng-repeat="v in resultChannels">
+						<div class="media-left">
+							<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{v.thumbnail}}">
+						</div>
+						<div class="media-body">
+								
+
+						<div class="btn-toolbar pull-right" role="toolbar">
+							<div class="btn-group" role="group">
+								<button class="btn btn-xs btn-default" ng-click="switchSelectChannel(v)">
+									<span class="glyphicon glyphicon-plus" ng-show="!v.selected"></span>
+									<span class="glyphicon glyphicon-minus" ng-show="v.selected"></span>
+								</button>
+							</div>
+						</div>
+
+
+		
+						
+						<h5 class="media-heading">
+							<div class="btn-group" dropdown is-open="status.isopen">
+								<!--
+							      <button type="button" class="btn btn-primary btn-xs" >
+							        {{$index+1}} 
+							      </button>
+							    -->
+						    </div>	
+														
+							<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>							
+							
+						</h5>
+						<p class="list-group-item-text text-danger">
+							{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}
+						</p>
+						<p class="list-group-item-text">
+							<span class="label label-default">{{v.creationDate | amDateFormat:'ll'}}</span>								
+							<small>{{v.duration | secondsToHuman }}</small>
+						</p>
+						
+						</div>
+					</li>
+				</ul>	
+
+
+			
+			</div>
+			
+			<div class="tab-pane" ng-show="tab==3">						
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{'Channel URL' | translate}}</label>
+						<div class="col-sm-10">
+							<input name="url" type="text" class="form-control" placeholder="{{'URL' | translate}}" ng-model="channelURL">
+						</div>
+					</div>	
+				</form>
+
+				<div class="alert alert-info" role="alert" ng-show="channelURL == null">
+					<p> {{"If the URL is valid, you will see a channel preview. This can take several minutes." | translate }} </p>
+					<small> {{"Remember: Using other people's videos on the Internet without their permission may be bad manners or worse, an infringement of copyright." | translate }}</small>
+				</div>
+				<div class="alert alert-danger" role="alert" ng-show="(channelURL != null) && (embedChannel == null)">
+					<p> {{"The channel URL can't be loaded. Check it is correct." | translate}} </p>
+				</div>
+
+				<div  ng-show="embedChannel != null">								
+					<ul class="list-group media-list">
+						<li class="list-group-item">
+							<div class="media-left">
+								<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{embedChannel.thumbnail}}">
+							</div>
+							<div class="media-body">	
+								<h5 class="media-heading">
+									<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{embedChannel.title}} </div>
+								</h5>
+								<p class="list-group-item-text text-danger">
+									{{embedChannel.owner[0].contactData.name}} {{embedChannel.owner[0].contactData.lastName}}
+								</p>
+								<p class="list-group-item-text">
+									<span class="label label-default">{{embedChannel.creationDate | amDateFormat:'ll'}}</span>								
+								</p>
+								
+							</div>
+						</li>
+					</ul>					
+				
+				
+				</div>									
+			</div>
+			
+		</div>					  
+	</div>
+</div>
+
+
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="close()">{{ "Close" | translate }}</button>
+	<button class="btn btn-default" ng-click="accept()">{{ "Accept" | translate }}</button>	
+</div>

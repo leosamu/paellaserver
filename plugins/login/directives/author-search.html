@@ -1,0 +1,17 @@
+
+<section class="ps-popup-content">
+	<h1 class="modal-header">
+		<input type="search" class="form-control" ng-model="searchString" placeholder="{{ 'search_author' | translate }}" ng-model="searchString" ng-change="doSearch()"/>
+	</h1>
+
+	<div class="ps-popup-list">
+		<loader-field class="col-sm-1" ng-show="searching"></loader-field>
+		<ul class="">
+			<li ng-repeat="result in resultList"><a href="" ng-click="selectResult(result)">{{ result.name }} {{ result.lastName }}</a></li>
+		</ul>
+	</div>
+
+	<p class="modal-footer">
+		<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
+	</p>
+</section>

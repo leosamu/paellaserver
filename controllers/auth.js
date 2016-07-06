@@ -53,7 +53,10 @@ exports.CheckAccess = function(roles) {
 		var userRoles = [];
 		var access = false;
 		if (req.user && req.user.roles) {
-			userRoles = req.user.roles;
+			// userRoles es un array de modelos, y tendría que ser un array de nombres de rol
+			req.user.roles.forEach(function(roleItem) {
+				userRoles.push(roleItem._id);
+			});
 		}
 		if (roles && roles.length>0) {
 			access = roles.some(function(role) {
@@ -112,8 +115,9 @@ exports.LoadRoles = function(req,res,next) {
 			item.permissions = JSON.parse(JSON.stringify(item.permissions));
 		}
 		item.owner.forEach(function(owner) {
+			var ownerId = typeof(owner)=="string" ? owner:owner._id;
 			item.permissions.push({
-				"role":"ROLE_" + owner,
+				"role":"ROLE_" + ownerId,
 				"read":true,
 				"write":true
 			});
@@ -124,6 +128,16 @@ exports.LoadRoles = function(req,res,next) {
 		req.data.forEach(function(itemData) {
 			loadItemRoles(itemData);
 		});
+		next();
+	}
+	else if (req.data && req.data.list) {
+		req.data.list.forEach(function(itemData) {
+			loadItemRoles(itemData);
+		});
+		next();
+	}
+	else if (req.data && req.data._id) {
+		loadItemRoles(req.data);
 		next();
 	}
 	else {

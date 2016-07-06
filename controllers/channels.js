@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Q = require('q');
 
 // Load channel title and identifier list
-//	Input: req.query.skip, req.query.limit
+//	Input: req.data.query: mongodb query object, req.query.skip, req.query.limit
 //	Output: res.data [ { _id:"channel_id", title:"channel_title" } ]
 exports.LoadChannels = function(req,res,next) {
 	var Channel = require(__dirname + '/../models/channel');
@@ -10,8 +10,11 @@ exports.LoadChannels = function(req,res,next) {
 		'-hidden -hiddenInSearches -owned -pluginData ' +
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
-	Channel.count({},function(err, count) {
-		Channel.find()
+	var query = (req.data && req.data.query) ? req.data.query : {};
+	query.deletionDate=null;
+	
+	Channel.count(query,function(err, count) {
+		Channel.find(query)
 			.skip(req.query.skip)
 			.limit(req.query.limit)
 			.select(select)
@@ -41,14 +44,14 @@ exports.LoadChannel = function(req,res,next) {
 			return role.isAdmin;
 		});
 	var select = '-search -processSlides';
-	var query = { "_id":req.params.id };
+	var query = { "_id":req.params.id , "deletionDate":null};
 
 	Channel.find(query)
 		.select(select)
 		.populate('owner','contactData.name contactData.lastName')
 		.populate('repository','server endpoint')
-		.populate('videos')
-		.populate('children')
+		.populate('videos',null,{"deletionDate":null})
+		.populate('children',null,{"deletionDate":null})
 		.exec(function(err,data) {
 			var populationList = [];
 			var videos = [];
@@ -62,38 +65,40 @@ exports.LoadChannel = function(req,res,next) {
 
 			if (data.length>0) {
 				function populateVideoFunction(err,videoData) {
-					var videoItem = {
-						_id:videoData[0]._id,
-						title:videoData[0].title,
-						creationDate:videoData[0].creationDate,
-						owner:[],
-						hidden: videoData[0].hidden,
-						hiddenInSearches: videoData[0].hiddenInSearches
-					};
-					if (videoData[0].thumbnail) {
-						var repo = videoData[0].repository;
-						videoItem.thumbnail = repo.server + repo.endpoint + videoItem._id + "/" + videoData[0].thumbnail;
-					}
-					videoData[0].owner.forEach(function(owner) {
-						videoItem.owner.push({
-							_id:owner._id,
-							contactData: {
-								lastName:owner.contactData ? owner.contactData.lastName:"",
-								name:owner.contactData ? owner.contactData.name:""
+					if (videoData && videoData.length>0) {
+						var videoItem = {
+							_id:videoData[0]._id,
+							title:videoData[0].title,
+							creationDate:videoData[0].creationDate,
+							owner:[],
+							hidden: videoData[0].hidden,
+							hiddenInSearches: videoData[0].hiddenInSearches
+						};
+						if (videoData[0].thumbnail) {
+							var repo = videoData[0].repository;
+							videoItem.thumbnail = repo.server + repo.endpoint + videoItem._id + "/" + videoData[0].thumbnail;
+						}
+						videoData[0].owner.forEach(function(owner) {
+							videoItem.owner.push({
+								_id:owner._id,
+								contactData: {
+									lastName:owner.contactData ? owner.contactData.lastName:"",
+									name:owner.contactData ? owner.contactData.name:""
+								}
+							});
+						});
+	
+						videos.forEach(function(findVideo,index) {
+							if (findVideo._id==videoItem._id) {
+								if ((videoData[0] && videoData[0].published && videoData[0].published.status) || isAdmin) {
+									videos[index] = videoItem;
+								}
+								else {
+									videos.splice(index, 1);
+								}
 							}
 						});
-					});
-
-					videos.forEach(function(findVideo,index) {
-						if (findVideo._id==videoItem._id) {
-							if ((videoData[0] && videoData[0].published && videoData[0].published.status) || isAdmin) {
-								videos[index] = videoItem;
-							}
-							else {
-								videos.splice(index, 1);
-							}
-						}
-					});
+					}
 				};
 
 				req.data = data[0];
@@ -157,16 +162,20 @@ exports.LoadChannel = function(req,res,next) {
 							};
 							if (channelData[0].thumbnail) {
 								var repo = channelData[0].repository;
-								channelItem.thumbnail = repo.server + repo.endpoint + channelItem._id + "/" + channelData[0].thumbnail;
+								if (repo) {
+									channelItem.thumbnail = repo.server + repo.endpoint + channelItem._id + "/channels/" + channelData[0].thumbnail;
+								}
 							}
 							channelData[0].owner.forEach(function(owner) {
-								channelItem.owner.push({
+								if (owner) {
+									channelItem.owner.push({
 									_id:owner._id,
 									contactData: {
-										lastName:owner.contactData ? owner.contactData.lastName:"",
-										name:owner.contactData ? owner.contactData.name:""
-									}
-								});
+											lastName:owner.contactData ? owner.contactData.lastName:"",
+											name:owner.contactData ? owner.contactData.name:""
+										}
+									});
+								}
 							});
 
 							children.forEach(function(findChannel,index) {
@@ -235,7 +244,7 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 	var data = req.data;
 	if (data.list && data.list.length>0) {
 		data.list.forEach(function(channelData) {
-			if (channelData.thumbnail) {
+			if (channelData.thumbnail && channelData.repository) {
 				channelData.thumbnail = channelData.repository.server +
 										channelData.repository.endpoint +
 										channelData._id + '/channels/' +
@@ -243,7 +252,7 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 			}
 		});
 	}
-	else if (data.thumbnail) {
+	else if (data.thumbnail && data.repository) {
 		data.thumbnail = data.repository.server +
 			data.repository.endpoint +
 			data._id + '/channels/' +
@@ -262,7 +271,7 @@ exports.ParentsOfChannels = function(req,res,next) {
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
 
-	Channel.find({"children":{$in:[req.params.id]}})
+	Channel.find({"children":{$in:[req.params.id]}, deletionDate:null})
 		.select(select)
 		.populate('owner','contactData.name contactData.lastName')
 		.populate('repository','server endpoint')
@@ -284,7 +293,7 @@ exports.ParentsOfVideo = function(req,res,next) {
 		'-canRead -canWrite -search -metadata ' +
 		'-videos';
 
-	Channel.find({"videos":{$in:[req.params.id]}})
+	Channel.find({"videos":{$in:[req.params.id]}, deletionDate:null})
 		.select(select)
 		.populate('owner','contactData.name contactData.lastName')
 		.populate('repository','server endpoint')
@@ -298,7 +307,7 @@ exports.ParentsOfVideo = function(req,res,next) {
 
 
 // Execute a $where query in the Video document
-//	Input: req.query.skip, req.query.limit, req.data.query
+//	Input: req.query.skip, req.query.limit, req.data.query, req.user: the owner of the new channel
 //	Output: res.data: the video data.
 exports.Where = function(query,select) {
 	return function(req,res,next) {
@@ -316,7 +325,7 @@ exports.Where = function(query,select) {
 			'-deletionDate ' +
 			'-metadata -search -processSlides ';
 
-		Channel.find({ $where:q })
+		Channel.find({ $where:q, deletionDate:null })
 			.skip(req.query.skip)
 			.limit(req.query.limit)
 			.select(select)
@@ -326,5 +335,113 @@ exports.Where = function(query,select) {
 				next();
 			});
 	};
+};
+
+// Create a new channel
+//	Input: req.data: the new channel data
+//	Output: req.data: the new channel data, including the UUID
+exports.CreateChannel = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	var channelData = req.data;
+	var user = req.user;
+	if (!user) {
+		res.status(401).json({ status:false, message:"Could not create channel. No user logged in"});
+		return;
+	}
+
+	if (typeof(channelData)!='object' ||
+		!channelData.title ||
+		!channelData.catalog ||
+		!channelData.repository
+	) {
+		res.status(500).json({ status:false, message:"Could not create a new channel. Invalid channel data. Title, catalog and repository fields are required."});
+		return;
+	}
+
+	channelData.owner = [ user._id ];
+	var newChannel = new Channel(channelData);
+	newChannel.save(function(err) {
+		if (!err) {
+			req.data = JSON.parse(JSON.stringify(newChannel));
+			delete req.data.__v;
+			newChannel.updateSearchIndex();
+			next();
+		}
+		else {
+			res.status(500).json({ status:false, message:"Unexpected server error creating new channel: " + err});
+		}
+	})
+};
+
+// Update an existing channel
+//	Input: req.data: the new data, req.params.id: the target channel. req.data._id will be ignored
+//	Output: req.data: the new channel data.
+exports.UpdateChannel = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	var channelData = req.data;
+	var user = req.user;
+
+	if (typeof(channelData)!="object" && (!channelData.title || channelData.title=="")) {
+		res.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
+		return;
+	}
+
+	delete channelData._id;
+
+	Channel.update({ "_id":req.params.id }, channelData, { multi:false }, function(err,data) {
+		if (!err) {
+			req.data = channelData;
+			req.data._id = req.params.id;
+			Channel.findOne({_id: req.params.id}, function(err, item){ item.updateSearchIndex(); });
+			next();
+		}
+		else {
+			res.status(500).json({ status:false, message:"Unexpected server error creating new channel:" + err});
+		}
+	});
+};
+
+// Update an existing channel with the parameters specified in req.data, and keep unchanged the resto of the elements
+//	Input: req.data: the new data, req.params.id: the target channel. req.data._id will be ignored
+//	Output: req.data: the new channel data.
+exports.PatchChannel = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	var channelData = req.data;
+	var user = req.user;
+
+	if (typeof(channelData)!="object" && (!channelData.title || channelData.title=="")) {
+		res.status(500).json({ status:false, message:"Could not create new channel. Invalid channel data." });
+		return;
+	}
+
+	delete channelData._id;
+
+	Channel.update({ "_id":req.params.id }, { "$set":channelData }, { multi:false }, function(err,data) {
+		if (!err) {
+			req.data = channelData;
+			req.data._id = req.params.id;
+			next();
+		}
+		else {
+			res.status(500).json({ status:false, message:"Unexpected server error creating new channel:" + err.message});
+		}
+	});
+};
+
+// Delete a channel
+//	Input: req.params.id: the channel id
+//	Output:
+exports.RemoveChannel = function(req,res,next) {
+	var Channel = require(__dirname + '/../models/channel');
+	Channel.find({"_id":req.params.id})
+		.remove()
+		.exec(function(err,data) {
+			if (err) {
+				res.status(500).json({status:false, message:"Error executing query: " + err.message() });
+			}
+			else {
+				next();
+			}
+		});
 };
 

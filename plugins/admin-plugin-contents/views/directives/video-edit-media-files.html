@@ -1,0 +1,140 @@
+<accordion close-others='false'>
+	<accordion-group ng-show="video.source.videos.length > 0">
+		<accordion-heading>
+			Videos del ponente <span class='badge'>{{video.source.videos.length || 0}}</span>
+		</accordion-heading>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Resolución</th>
+						<th>Formato</th>
+						<th>Enalce</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="v in video.source.videos">
+						<td>{{v.width}}x{{v.height}}</td>
+						<td>{{v.mimetype}}</td>
+						<td>
+							<a ng-href="{{video.repository.server}}{{video.repository.endpoint}}{{video._id}}/polimedia/{{v.src}}">
+								{{video.repository.server}}{{video.repository.endpoint}}{{video._id}}/polimedia/{{v.src}}							
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</accordion-group>
+
+
+	<accordion-group ng-show="video.source.slaveVideos.length > 0">
+		<accordion-heading>
+			Videos de la presentación <span class='badge'>{{video.source.slaveVideos.length || 0}}</span>
+		</accordion-heading>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Resolución</th>
+						<th>Formato</th>
+						<th>Enalce</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="v in video.source.slaveVideos">
+						<td>{{v.width}}x{{v.height}}</td>
+						<td>{{v.mimetype}}</td>
+						<td>
+							<a ng-href="{{video.repository.server}}{{video.repository.endpoint}}{{video._id}}/polimedia/{{v.src}}">
+								{{video.repository.server}}{{video.repository.endpoint}}{{video._id}}/polimedia/{{v.src}}							
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>								
+	</accordion-group>
+
+
+
+	<accordion-group ng-show="video.slides.length > 0">
+		<accordion-heading>
+			Detector de diapositivas <span class='badge'>{{video.slides.length || 0}}</span>
+		</accordion-heading>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Instante de tiempo</th>
+						<th>Formato</th>
+						<th>Imagen</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="s in video.slides">
+						<td>{{s.time}}</td>
+						<td>{{s.mimetype}}</td>
+						<td>
+							<a ng-href="{{video.repository.server}}{{video.repository.endpoint}}{{video._id}}/slides/{{s.url}}">
+								{{video.repository.server}}{{video.repository.endpoint}}{{video._id}}/slides/{{s.url}}
+							</a>							
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</accordion-group>
+	
+	<!--
+	<accordion-group>
+		<accordion-heading>
+			Fotos de la pizarra <span class='badge'>{{video.blackboard.length || 0}}</span>
+		</accordion-heading>						
+	</accordion-group>
+	<accordion-group>
+		<accordion-heading>
+			Ficheros adjuntos <span class='badge'>{{video.attachments.length || 0}}</span>
+		</accordion-heading>						
+	</accordion-group>
+	-->
+	
+	<accordion-group>
+		<accordion-heading>
+			Masters <span class='badge'>{{video.source.masters.files.length || 0}}</span>
+		</accordion-heading>
+		<div class="alert alert-warning" ng-hide="video.source.masters.files.length > 0">
+			This video has no masters files.
+		</div>			
+		
+		<div class="table-responsive" ng-show="video.source.masters.files.length > 0">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>File</th>
+						<th>Tag</th>
+						<th>Server Path</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="s in video.source.masters.files">
+						<td> {{s.name}} </td>
+						<td> {{s.tag}} </td>
+						<td> {{video.source.masters.repository.path}}/{{video._id}}/{{s.name}} </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>	
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-warning btn-xs" ng-click="uploadMasters()">
+					Upload master files
+				</button>
+			</div>
+		</div>			
+		
+					
+	</accordion-group>
+
+</accordion>

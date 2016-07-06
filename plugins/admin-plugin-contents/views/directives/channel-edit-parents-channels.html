@@ -1,0 +1,119 @@
+<div ng-hide="loadingParentChannels">
+	<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Fecha</th>
+					<th>Título</th>
+					<th>Autor</th>
+					<th>Catalog</th>
+					<th width="90px">Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="c in parentChannels" ng-class="{danger: c.deletionDate}">
+					<td>{{c.creationDate | amDateFormat:'ll'}}</td>
+					<td>{{c.title}}</td>
+					<td>{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}</td>
+					<td>{{c.catalog}}</td>
+					<td>
+						<div class="btn-toolbar" role="toolbar">
+							<div class="btn-group" role="group">
+								<a class="btn btn-xs btn-default" target="_blank" href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+								<a class="btn btn-xs btn-default" target="_blank" href="#/admin/channels/edit/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+								<button class="btn btn-xs btn-default" ng-click="removeChannel(c)">
+									<span class="glyphicon glyphicon-minus"></span>
+								</button>							
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<button class="btn btn-xs btn-default btn-block" ng-show="detailView==false" ng-click="detailView=true">
+		<span class="glyphicon glyphicon glyphicon-chevron-down"></span>
+	</button>
+	<button class="btn btn-xs btn-default btn-block" ng-show="detailView==true" ng-click="detailView=false">
+		<span class="glyphicon glyphicon glyphicon-chevron-up"></span>
+	</button>
+	
+	<div ng-show="detailView==true">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">			
+				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:15px;">
+					<div class="navbar-form form-inline" novalidate>
+						<admin-filters state-filters="state.channelFilters" type="'channel'"></admin-filters>						
+					</div>								
+				</div>
+		
+				<h2>Canales</h2>
+				<h6>{{channels.total}} canales</h6>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Título</th>
+								<th>Autor</th>
+								<th># V/Ch</th>
+								<th>Catalog</th>
+								<th width="110px">Acciones</th>
+							</tr>
+						</thead>
+						<tbody ng-hide="loadingChannels">
+							<tr ng-repeat="c in channels.list" ng-class="{danger: c.deletionDate, 'success':existsChannelInChannel(c)}">
+								<td>{{c.creationDate | amDateFormat:'ll'}}</td>
+								<td>{{c.title}}</td>
+								<td>{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}</td>
+								<td>{{c.videos.length || 0}} / {{c.children.length || 0}}</td>
+								<td>{{c.catalog}}</td>
+								<td>
+									<div class="btn-toolbar" role="toolbar">
+										<div class="btn-group" role="group">
+											<a class="btn btn-xs btn-default" target="_blank" href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+											<a class="btn btn-xs btn-default" href="#/admin/channels/edit/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+
+											<button class="btn btn-xs btn-default" ng-click="addChannel(c)" ng-hide="existsChannelInChannel(c)">
+												<span class="glyphicon glyphicon-plus"></span>
+											</button>
+											<button class="btn btn-xs btn-default" ng-click="removeChannel(c)" ng-show="existsChannelInChannel(c)">
+												<span class="glyphicon glyphicon-minus"></span>
+											</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<loader ng-show="loadingChannels"></loader>			
+				</div>
+				
+				
+				<div role="toolbar" class="btn-toolbar">
+					<div class="btn-group" style="margin-top:-20px">		
+						<pagination total-items="channels.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+					</div>
+	
+					<div class="btn-group pull-right">
+						<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadChannels()">
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+							<option value="200">200</option>
+						</select>
+					</div>
+				</div>				
+			</div>
+		</div>		
+	</div>
+		
+	
+</div>
+<loader ng-show="loadingParentChannels"></loader>			

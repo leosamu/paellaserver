@@ -1,0 +1,13 @@
+<div class="modal-header">
+	<h4 class="modal-title text-danger">Seleccionar el propietario</h4>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal" novalidate>
+		<author-field id="ownerId" name="ownerName" last-name="ownerLastName" email="ownerEmail"></author-field>
+		<div class="alert alert-warning" role="alert" ng-show="!ownerId && ownerEmail">{{ "create_author_warning" | translate }}</div>	
+	</form>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+	<button type="button" class="btn btn-primary" ng-click="accept()">Continuar</button>
+</div>

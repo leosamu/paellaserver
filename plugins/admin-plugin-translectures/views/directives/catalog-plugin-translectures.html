@@ -1,0 +1,27 @@
+<div class="form-horizontal">
+	<div class="form-group">
+		<label class="col-sm-2 control-label"></label>
+		<div class="col-sm-10">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" ng-model="pluginData.enabled"> Enable translecture ingestion
+				</label>
+			</div>
+			<div class="alert alert-warning" role="alert" ng-hide="pluginData.enabled">
+				<strong>Warning!</strong>
+				<span> translectures ingestion is not enabled in this catalog.</span>
+			</div>
+		</div>
+	</div>
+
+	<div ng-show="pluginData.enabled">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Translectures Server</label>
+			<div class="col-sm-10">
+				<select class="form-control" ng-model="pluginData.defaultServer" ng-options="item._id as item.description for item in serversList.list">
+					<option value="">None</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</div>

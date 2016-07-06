@@ -27,5 +27,107 @@
 	"sort_default":"Per defecte",
 	"sort_name":"Títol",
 	"sort_date":"Data",
-	"sort_author":"Autor"
+	"sort_author":"Autor",
+
+	"edit":"Editar",
+	"create_channel":"Crear un canal",
+	"mychannels_text":"Els meus canals",
+
+	"close":"Tancar",
+	"select":"Seleccionar",
+
+	"add_to_channel":"Afegir a un canal",
+  	"remove_from_channel":"Treure del canal",
+
+	"edit_channel_text_title":"Editar datos del canal",
+	"create_channel_text_title":"Crear un canal",
+	"edit_text":"Desar",
+	"create_text":"Crear",
+	"identifier_field_text":"Identificador",
+	"title_field_text":"Títol",
+	"channel_title_field_placeholder_text":"nom descriptiu del canal",
+	"visibility_field_text":"Visibilitat",
+	"hidden_in_list_text":"Bloquejat en llistats",
+	"hidden_in_searches_text":"Bloquejat  en recerques",
+  	"confirm_channel_remove_message":"Está a punto de eliminar el canal actual. Esta acción no se puede deshacer, ¿desea continuar?",
+
+	"create_channel_menu_option":"Crear un canal",
+	"upload_video_menu_option":"Pujar video",
+	"upload_video_text_title": "Pujar video",
+	"video_title_field_placeholder_text": "Títol descriptiu del video",
+	"politube_video_details_title":"detalls del video",
+	"drop_videos_text":"arrossegar el video açí o fer click",   
+
+	"create_author_warning":"No se ha encontrado el autor, se creará uno nuevo con los datos especificados",
+	"video_edit_path":"Ruta en el servidor",
+	"video_edit_link":"Enllaç",
+	"show_unprocessed_videos":"Mostrar los vídeos sin procesar",
+
+	"show_videos_by_author":"Mostrar vídeos por autor",
+	"search_author":"Buscar autor",
+
+
+	"es":"Espanyol",
+	"en":"Anglès",
+	"it":"Italià",
+	"fr":"Francès",
+	"pt":"Portuguès",
+	"de":"Alemà",
+	"ca":"Valencià",
+	"cn":"Xinés",
+	"af":"Africà",
+	"lt":"Lituà",
+	"nl":"Neerlandès",
+	"da":"Danès",
+	"hu":"Hongarès",
+	"ja":"Japonès",
+	"ru":"Rus",
+	"cs":"Txec",
+	"no":"Noruec",
+	"fi":"Finés",
+	"kk":"kazakh",
+	"ar":"Àrab",
+	"other":"Un altre",
+	
+
+	"categories":"Categories",
+	"no_categories_selected_text":"No hi ha cap categoria sel·leccionada",
+	"add_category_text":"Afegir una categoria",
+	"select_subcategory_text":"Sel·leccionar una subcategoria",
+
+	"open_admin_page":"Obrir pàgina d'administració",
+
+	"options":"opcions",	
+	
+	"keyworkds_text": "Palabras clave",
+	"public_text": "Público",
+	"private_text": "Privado",
+	"hidden_text": "Oculto",
+	"public_explanation_text": "El video será publico y aparecerá publicitado en el portal.",
+	"private_explanation_text": "El video solo lo podrá ver al autor del video.",
+	"hidden_explanation_text": "El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.",
+	"file_not_valid_text": "El fichero seleccionado no es válido. Seleccione otro fichero.",
+	"uploading_video_text": "Subiendo fichero",
+	"file_upload_ok_text": "El video se ha subido correctamente.",
+	
+	
+  	"unprocessed_video_text": "Pendent de processar",
+  	
+  	"cant_edit_is_OA_explanation_text": "No es poden editar les propietats del vídeo ja que és un Objecte d'Aprenentatge.",
+  	
+   	"name_text": "Nom",
+   	"lastname_text": "Cognoms",
+   	"email_text": "E-Mail",
+  	"myprofile_text": "El meu perfil",
+  	"gender_text": "Gènere",
+  	"gender_select_text": "Seleccione el seu gènere",
+  	"gender_male_text": "Masculí",
+  	"gender_female_text": "Femení",
+  	"telephone_text": "Telèfon",
+  	"language_communication_text": "Llenguatge de les comunicacions",
+  	"selectlanguage_text": "Seleccione un idioma",
+  	"go_to_catalog_text": "Anar al catàleg",
+  	"new_channel_text_title": "Crear un canal",
+
+  	"manage_my_videos_menu_option": "Administrar els meus videos"
 }

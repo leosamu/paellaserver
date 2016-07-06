@@ -1,7 +1,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var uuid = require('mongoose-uuid');
+var uuid = require('./plugins/mongoose-uuid');
 
 var UserSchema = new Schema({
 	auth: Schema.Types.Mixed,
@@ -9,7 +9,9 @@ var UserSchema = new Schema({
 		email: String,
 		name: String,
 		lastName: String,
-		phone: String
+		phone: String,
+		gender: { type:String },
+		comunicationLanguage: { type:String }
 	},
 	roles: [ { type:String, ref:'Role' } ]
 }, {_id:false});

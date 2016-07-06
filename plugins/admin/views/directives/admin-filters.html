@@ -1,0 +1,30 @@
+<div class="input-group">
+	<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
+	<input type="text" class="form-control input-sm" placeholder="Búsqueda" ng-model="stateFilters.searchText">
+</div>							
+
+<div class="btn-group" role="group">	
+	<button class="btn btn-default btn-sm" ng-click="addingFilter=!addingFilter">
+		<span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+	</button>
+</div>
+
+<span ng-show="addingFilter">
+	<div class="form-group">
+		<select class="form-control input-sm" ng-model="filterSelected" ng-options="f as f.label for f in filters">
+		</select>
+	</div>
+	
+	<span id="customFilter">
+	</span>
+
+</span>
+
+<div class="form-group">
+	<span class="label label-primary" ng-repeat="f in stateFilters.filters" style="margin-left:2px;">
+		{{f.filter.label}}: {{f.value.label}}
+		<a href style="color:#fff" ng-click="removeFilter(f)">
+			<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+		</a>
+	</span>
+</div>

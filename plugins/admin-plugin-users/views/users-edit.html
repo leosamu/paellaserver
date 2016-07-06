@@ -1,0 +1,93 @@
+<main>		
+
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+    
+				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>				
+					<li class="active">
+						<a href="#/admin/users">
+				    		Usuarios
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/roles">
+				    		Roles
+				    	</a>
+				    </li>
+				    
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+	
+		<div style="height: 30px;"></div>
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">			
+				<h2>Editando el Usuario</h2>			
+			</div>
+			<div class="panel-body">
+			
+				<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
+					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Información básica</a></li>
+					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Roles</span></a></li>
+					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Roles dinámicos</span></a></li>
+					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Sistema de autenticación</span></a></li>
+				</ul>			
+			
+				<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
+					<div class="panel-body">
+						<form name="form" class="form-horizontal" novalidate>			
+					
+							<div class="tab-pane" ng-show="tab==1">
+								<user-edit-basic user="user"></user-edit-basic>
+							</div>
+						
+							<div class="tab-pane" ng-show="tab==2">
+								<user-roles-list roles="user.roles"></user-roles-list>
+							</div>
+							
+							<div class="tab-pane" ng-show="tab==3">
+								<div class="alert alert-info" role="alert">
+									<p>Listado de roles que el usuario obtiene por otros sistemas (sakai, ...)</p>
+								</div>							
+							</div>						
+	
+							<div class="tab-pane" ng-show="tab==4">
+								<user-edit-auth user="user"></user-edit-auth>
+							</div>
+							
+						</form>						
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-default" onclick="window.history.back();">Back</button>
+				<button class="btn btn-primary pull-right" ng-click="updateRole()" ng-disabled="updating || !form.$valid">
+					<loader-field ng-show="updating"></loader-field> Save
+				</button>
+			</div>
+		</div>
+			
+	</section>
+</main>

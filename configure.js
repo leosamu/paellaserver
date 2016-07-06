@@ -1,30 +1,49 @@
 var mongoose = require('mongoose');
-var config = require("./config");
+var configFile = require("./config");
+exports.configFile = configFile;
 var install = require("./install");
-exports.config = config;
 exports.install = install;
 var Q = require('q');
 
 exports.serverUrl = function() {
-	var port = config.connection.port;
-	var showPort = config.connection.showPortInURL;
-	return config.connection.protocol + '://' +
-		config.connection.rootUrl +
+	var port = configFile.connection.port;
+	var showPort = configFile.connection.showPortInURL;
+	return configFile.connection.protocol + '://' +
+		configFile.connection.rootUrl +
 		(showPort && port!=80 && port!=443 ? ':' + port:"");
 };
 
-exports.checkInitConfig = function() {
+exports.checkInitConfig = function(configDone) {
 	var Role = require(__dirname + '/models/role');
 	var User = require(__dirname + '/models/user');
 	var Video = require(__dirname + '/models/video');
 	var Channel = require(__dirname + '/models/channel');
 	var Repository = require(__dirname + '/models/repository');
+	var Config = require("./models/config");
 
 	var rolePromises = [];
 	var roles = [];
 	var userPromises = [];
 	var adminUser = null;
 	var channelPromises = [];
+	var configPromises = [];
+
+	var fileKeys = Object.keys(configFile);
+	Config.find({"_id":{"$in":fileKeys}}).exec(function(err,data) {
+		fileKeys.forEach(function(fileKey) {
+			var isInDb = data.some(function(dataItem) {
+				if (dataItem._id==fileKey) {
+					return true;
+				}
+			});
+			if (!isInDb) {
+				console.log("Insert config data: " + fileKey + ":" + JSON.stringify(configFile[fileKey]));
+				var configItem = new Config({"_id":fileKey, "value":configFile[fileKey]});
+				configPromises.push(configItem.save());
+			}
+		});
+	});
+
 
 	Repository.find().exec()
 		.then(function(data) {
@@ -76,6 +95,19 @@ exports.checkInitConfig = function() {
 					newChannel.save();
 				});
 			}
+		});
+
+	Q.all(configPromises)
+		.then(function() {
+			Config.find()
+				.exec(function(err,data) {
+					exports.config = {};
+					data.forEach(function(data) {
+						exports.config[data._id] = data.value;
+					});
+					configDone();
+				});
+
 		});
 };
 

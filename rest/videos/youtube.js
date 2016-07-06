@@ -7,7 +7,7 @@ var AuthController = require(__dirname + '/../../controllers/auth');
 exports.routes = {
 	getYoutubeVideos: {
 		get: [
-			VideoController.Where("this.pluginData.youtube && this.pluginData.youtube.id",
+			VideoController.Where("this.pluginData && this.pluginData.youtube && this.pluginData.youtube.id",
 				'-slides -hidden -roles -duration -source -repository -thumbnail ' +
 				'-hiddenInSearches -canRead -canWrite ' +
 				'-deletionDate ' +
@@ -32,7 +32,7 @@ exports.routes = {
 	getVideo: {
 		param:'id',
 		get:[
-			VideoController.Where("this.pluginData.youtube && this.pluginData.youtube.id==':id'",
+			VideoController.Where("this.pluginData && this.pluginData.youtube && this.pluginData.youtube.id==':id'",
 				'-slides -hidden -roles -duration ' +
 				'-hiddenInSearches -canRead -canWrite ' +
 				'-deletionDate ' +

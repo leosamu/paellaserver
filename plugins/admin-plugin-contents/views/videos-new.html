@@ -1,0 +1,247 @@
+<upload-queue style="position: fixed; top: 0px; left: 0px; z-index: 100;"></upload-queue>
+
+<main>		
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>				
+					<li class="active">
+						<a href="#/admin/videos">
+				    		Videos
+				    	</a>
+				    </li>
+					<li>
+						<a href="#/admin/channels">
+				    		Canales
+				    	</a>
+				    </li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+		<div style="height: 30px;"></div>
+			
+		<div class="panel panel-primary">
+			<div class="panel-heading">			
+				<h2>Nuevo vídeo</h2>
+			</div>
+			<div class="panel-body">				
+				<form name="form" class="form-horizontal" novalidate>
+													
+					<div class="form-group has-feedback" ng-class="{'has-error': !(form.title.$valid)}">
+						<label class="col-sm-2 control-label">Título</label>
+						<div class="col-sm-10">
+							<input name="title" type="text" class="form-control" ng-model="video.title" required>
+						</div>
+					</div>
+					
+					<div class="form-group has-feedback">
+						<label class="col-sm-2 control-label">Propietario</label>
+						<div class="col-sm-10">
+							<owners-select-or-create owners="video.owner"></owners-select-or-create>
+						</div>
+					</div>				
+					
+					<div class="form-group has-feedback">
+						<label class="col-sm-2 control-label">Operador de grabación</label>
+						<div class="col-sm-10">
+							<owners-select-or-create owners="video.operator"></owners-select-or-create>
+						</div>
+					</div>					
+					
+					<div class="form-group has-feedback" ng-class="{'has-error': !(form.language.$valid)}">
+						<label class="col-sm-2 control-label">Idioma</label>
+						<div class="col-sm-10">
+							<language-select  language="video.language"></language-select>										
+							<input name="language" type="text" ng-model="video.language" style="display: none;" required>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Palabras clave</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" placeholder="internet, web, html" ng-model="video.metadata.keywords" ng-list>
+						</div>
+					</div>
+					
+					<div class="form-group has-feedback" ng-class="{'has-error': !(form.creationDate.$valid)}">
+						<label class="col-sm-2 control-label">Fecha de creación</label>
+						<div class="col-sm-10">
+							<div class="input-group">
+								<input name="creationDate" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.creationDate" is-open="datePickerEndOpened" close-text="Close" disabled required />
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</div>
+						</div>
+					</div>								
+
+					<div class="form-group has-feedback">
+						<label class="col-sm-2 control-label">Tipo de video</label>
+						<div class="col-sm-10">
+							<select class="form-control" ng-model="video.source.type">
+								<option value="polimedia">Video gestionado por el portal</option>
+								<option value="external">Video externo</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="alert alert-info" ng-show="video.source.type=='polimedia'">
+								El video será gestionado por el portal. Podrás subir el fichero del video en el siguiente paso.
+							</div>
+							<div class="alert alert-info" ng-show="video.source.type=='external'">
+								<div>El video no será gestionado por el portal, sino que está en una página externa (youtube, vimeo,...).</div>
+								
+								<div class="form-group has-feedback" ng-class="{'has-error': !(form.url.$valid)}">
+									<label class="col-sm-1 control-label">URL</label>
+									<div class="col-sm-11">
+										<input name="url" type="text" class="form-control" ng-model="video.source.link" placeholder="http://wwww.youtube.com/?v=xx" ng-required="video.source.type=='external'">
+									</div>
+								</div>											
+								
+								
+							</div>
+						</div>
+					</div>
+					
+					
+					<div class="form-group has-feedback" ng-class="{'has-error': !(form.catalog.$valid)}">
+						<label class="col-sm-2 control-label">Catálogo</label>
+						<div class="col-sm-10">
+							<catalog-select catalog="video.catalog" type="videos"></catalog-select>
+							<input name="catalog" ng-model="video.catalog" required style="display:none;">
+						</div>
+					</div>
+					
+					<div class="form-group has-feedback" ng-class="{'has-error': !(form.repository.$valid)}">
+						<label class="col-sm-2 control-label">Repositorio</label>
+						<div class="col-sm-10">
+							<div class="input-group">
+								<input name="repository" type="text" class="form-control" ng-model="video.repository._id" ng-disabled="!editRepository" required>
+								<span class="input-group-btn">
+									<button type="button" class="btn btn-danger" ng-click="editRepository=!editRepository">
+										<i class="glyphicon glyphicon-pencil"></i>
+									</button>
+								</span>
+							</div>
+						</div>
+					</div>								
+					
+					
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Categorias</h3>
+						</div>
+						<div class="panel-body">
+							<unesco-code-list ng-model="video.pluginData.unesco.codes"></unesco-code-list>
+						</div>
+					</div>	
+										
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Visibilidad</h3>
+						</div>
+						<div class="panel-body">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Compartir</label>
+								<div class="col-sm-10">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="video.hideSocial"> Desabilitar el botón de compartir
+										</label>
+									</div>
+								</div>
+							</div>						
+						
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Visibilidad</label>
+								<div class="col-sm-10">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="video.hidden"> Bloqueado en listas
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="video.hiddenInSearches"> Bloqueado en búsquedas
+										</label>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Publicar</label>
+								<div class="col-sm-10">							
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="video.published.status"> Marcado como publicado
+										</label>
+									</div>
+								</div>
+							</div>	
+							
+							<div class="form-group" ng-show="(!video.published.status)">
+								<label class="col-sm-2 control-label">Publicar el video automaticamente</label>
+								<div class="col-sm-10">
+									<div class="input-group">
+										<input name="publicationDate" type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="video.published.publicationDate" is-open="datePickerPublicationDateOpened" close-text="Close" disabled />
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-default" ng-click="datePickerPublicationDateOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+										</span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-sm-offset-2 col-sm-10 alert alert-success" ng-show="video.published.status==true">
+								El video está publicado y disponible para ser visualizado.
+							</div>
+							<div class="col-sm-offset-2 col-sm-10 alert alert-danger" ng-show="video.published.status==false && (!video.published.publicationDate)">
+								El video no está publicado. Solo podrán visualizar el video los usuarios que tengan permiso de edición sobre el video.
+							</div>
+							<div class="col-sm-offset-2 col-sm-10 alert alert-warning" ng-show="video.published.status==false && video.published.publicationDate">
+								El video no está publicado. Se publicará automaticamente el {{video.published.publicationDate | amDateFormat: 'll'}}
+							</div>
+							
+						</div>
+					</div>
+					
+					
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Canales</h3>
+						</div>
+						<div class="panel-body">
+							<video-edit-parents-channels video-id="video._id" channels="parentChannels"></video-edit-parents-channels>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
+				<button class="btn btn-primary pull-right" ng-click="createVideo()" ng-disabled="updating || !form.$valid">
+					<loader-field ng-show="updating"></loader-field>  Crear video
+				</button>
+			</div>
+		</div>			
+				
+	</section>
+</main>

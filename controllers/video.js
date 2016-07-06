@@ -1,46 +1,108 @@
 
 var mongoose = require('mongoose');
+var RepositoryController = require('./repository');
 
 // Load video title and identifier list
 //	Input: req.query.skip, req.query.limit, req.data.query
 //	Output: res.data [ { _id:"video_id", title:"video_title" } ]
 exports.LoadVideos = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	var select = '-slides -hidden -roles -duration ' +
-				'-hiddenInSearches -canRead -canWrite ' +
+	var select = '-slides -roles -duration ' +
+				'-canRead -canWrite ' +
 				'-deletionDate -pluginData ' +
-				'-metadata -search -processSlides ';
-	var query = req.data ? req.data.query:null;
-	Video.find(query)
-		.skip(req.query.skip)
-		.limit(req.query.limit)
-		.select(select)
-		.populate('repository','server endpoint')
+				'-metadata -search -processSlides -operator';
+				
+	var query = (req.data && req.data.query) ? req.data.query:{};
+	
+	query.deletionDate = null;
+	
+	Video.find(query).count().exec(function(errCount, count) {
+		Video.find(query)
+			.skip(req.query.skip)
+			.limit(req.query.limit)
+			.select(select)
+			.populate('repository','server endpoint')
+			.populate('owner', 'contactData.name contactData.lastName')
+			.exec(function(err,data) {
+				if (err) {
+					return res.sendStatus(500);
+				}
+				if (data){
+					req.data = data;
+					next();
+				}
+				else {
+					res.sendStatus(404);
+				}
+			});
+	});				
+				
+};
+
+exports.Related = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	var select = '-slides -slices -roles -source -blackboard ' +
+				'-canRead -canWrite -hideSocial -unprocessed ' +
+				'-deletionDate -pluginData ' +
+				'-metadata -search -processSlides -operator';
+
+	Video.find({ _id:req.params.id })
+		.select('title')
 		.exec(function(err,data) {
-			req.data = data;
-			next();
+			if (data && data.length>0) {
+				Video.find(
+					{	$text: {$search: data[0].title},
+						deletionDate: null,
+						$or:[ {hiddenInSearches:false},{hiddenInSearches:undefined}], 
+						$or:[ {hidden:false},{hidden:undefined}],
+						_id: { $not:{ $eq:req.params.id } }
+					},
+					{score: {$meta: "textScore"}}
+					)
+					.select(select)
+					.populate('repository', 'server endpoint')
+					.populate('owner', 'contactData.name contactData.lastName')
+					.sort({score: {$meta: "textScore"}})
+					.limit(30)
+					.exec(function (err, data) {
+						req.data = data || [];
+						next();
+					});
+			}
+			else {
+				req.data = [];
+				next();
+			}
 		});
 };
 
 
-// Load newest vides (title and identifier) list
+// Load newest videos (title and identifier) list
 //	Input: req.query.skip, req.query.limit, req.data.query
 //	Output: res.data [ { _id:"video_id", title:"video_title" } ]
 exports.Newest = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	var select = '-slides -hidden -roles -duration -source -blackboard ' +
-		'-hiddenInSearches -canRead -canWrite ' +
+	var select = '-slides -roles -duration -source -blackboard ' +
+		'-canRead -canWrite ' +
 		'-deletionDate -pluginData ' +
 		'-metadata -search -processSlides ';
-	var query = { "$where":"this.published && this.published.status"};
+	var query = { "$where":"this.published && this.published.status && !this.deletionDate && !this.hidden && !this.hiddenInSearches"};
 	Video.find(query)
 		.skip(req.query.skip)
 		.limit(req.query.limit)
 		.sort({ creationDate:'desc' })
 		.select(select)
 		.exec(function(err,data) {
-			req.data = data;
-			next();
+			if (err) {
+				return res.sendStatus(500);
+			}
+			if (data){
+				req.data = data;
+				next();
+			}
+			else {
+				res.sendStatus(404);
+			}
 		});
 };
 
@@ -48,9 +110,18 @@ exports.Newest = function(req,res,next) {
 // 	Output: res.data > the number of videos
 exports.Count = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
-	Video.count().exec(function(err,data) {
-		req.data = data;
-		next();
+	var query = {"deletionDate":null}
+	Video.count(query).exec(function(err,data) {
+		if (err) {
+			return res.sendStatus(500);
+		}
+		if (data){
+			req.data = data;
+			next();
+		}
+		else {
+			res.sendStatus(404);
+		}
 	});
 };
 
@@ -59,18 +130,68 @@ exports.Count = function(req,res,next) {
 //	Output: req.data
 exports.LoadVideo = function(req,res,next) {
 	var Video = require(__dirname + '/../models/video');
+	var select = '-search -processSlides -operator';
+	Video.find({ "_id":req.params.id })
+		.select(select)
+		.populate("repository")
+		.exec(function(err,data) {
+			if (err) {
+				return res.sendStatus(500);
+			}
+			// data is an array. if the video is deleted, it will return an error 404
+			if (data.length>0) {
+				if (data[0].deletionDate != null){
+					return res.status(404).json({ status:false, message:"No such video with id " + data[0]._id});
+				}
+				else{
+					if (data.published && !data.published.status) {
+						var user = req.user;
+						
+					}
+					else {
+						req.data = data;
+					}
+					next();
+				}
+			}
+			else {
+				res.sendStatus(404);
+			}
+		});
+};
+
+// Load video data
+// 	Input: req.params.id
+//	Output: req.data
+exports.LoadVideoPopulate = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
 	var select = '-search -processSlides';
 	Video.find({ "_id":req.params.id })
 		.select(select)
+		.populate("repository")
+		.populate("owner","contactData.name contactData.lastName")
 		.exec(function(err,data) {
-			if (data.published && !data.published.status) {
-				var user = req.user;
-
+			if (err) {
+				return res.sendStatus(500);
+			}
+			if (data.length>0) {
+				if (data[0].deletionDate!=null){
+					return res.status(404).json({ status:false, message:"No such video with id " + data[0]._id});
+				}
+				else{
+					if (data.published && !data.published.status) {
+						var user = req.user;
+						
+					}
+					else {
+						req.data = data;
+					}
+					next();
+				}
 			}
 			else {
-				req.data = data;
+				res.sendStatus(404);
 			}
-			next();
 		});
 };
 
@@ -105,7 +226,7 @@ exports.CheckPublished = function(req,res,next) {
 exports.LoadUrlFromRepository = function(req,res,next) {
 	var Repository = require(__dirname + '/../models/repository');
 	if (req.data && req.data.length>0 && req.data[0].source && req.data[0].source.videos) {
-		var videoData = req.data[0];
+		var videoData = JSON.parse(JSON.stringify(req.data[0]));
 		Repository.find({"_id":videoData.repository})
 			.exec(function(err,repo) {
 				if (repo.length>0) {
@@ -114,15 +235,24 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 				else {
 					repo = { server:'', endpoint:'' };
 				}
+				if (videoData.source && videoData.source.poster) {
+					videoData.source.poster = repo.server + repo.endpoint + videoData._id + '/' + videoData.source.poster;
+				}
 				videoData.source.videos.forEach(function(video) {
 					if (video.src) {
-						video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + video.src;
+						var videoSrc = video.src;
+						video.src_file = videoSrc;
+						video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + videoSrc;
+						video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
 					}
 				});
 				if (videoData.source.slaveVideos && videoData.source.slaveVideos.forEach) {
 					videoData.source.slaveVideos.forEach(function(video) {
 						if (video.src) {
-							video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + video.src;
+							var videoSrc = video.src;
+							video.src_file = videoSrc;
+							video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + videoSrc;
+							video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
 						}
 					});
 				}
@@ -145,8 +275,9 @@ exports.LoadUrlFromRepository = function(req,res,next) {
 };
 
 exports.LoadThumbnails = function(req,res,next) {
-	if (req.data) {
-		req.data.forEach(function(videoData) {
+	if ((req.data && req.data.list) || req.data.length) {
+		var list = req.data.list || req.data;
+		list.forEach(function(videoData) {
 			var repo = videoData.repository;
 			if (repo) {
 				if (videoData.thumbnail) videoData.thumbnail = repo.server + repo.endpoint + videoData._id + '/' + videoData.thumbnail;
@@ -154,6 +285,42 @@ exports.LoadThumbnails = function(req,res,next) {
 		});
 	}
 	next();
+};
+
+// Load the video url's from the repository
+//	Input: req.data (video)
+//	Output: req.data (video) with the full video url
+exports.LoadStorageDataFromRepository = function(req,res,next) {
+	//var Repository = require(__dirname + '/../models/repository');
+	if (req.data && req.data.length>0) {
+		var videoList = JSON.parse(JSON.stringify(req.data));
+		videoList.forEach(function(videoData) {
+			var repo = videoData.repository;
+			videoData.source.videos.forEach(function(video) {
+				if (video.src) {
+					var videoSrc = video.src;
+					video.src_file = videoSrc;
+					video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + videoSrc;
+					video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
+				}
+			});
+			if (videoData.source.slaveVideos && videoData.source.slaveVideos.forEach) {
+				videoData.source.slaveVideos.forEach(function(video) {
+					if (video.src) {
+						var videoSrc = video.src;
+						video.src_file = videoSrc;
+						video.src = repo.server + repo.endpoint + videoData._id + '/polimedia/' + video.src;
+						video.path = repo.path + videoData._id + '/polimedia/' + videoSrc;
+					}
+				});
+			}
+		});
+		req.data = videoList;
+		next();
+	}
+	else {
+		next();
+	}
 };
 
 function checkVideoData(video) {
@@ -213,12 +380,12 @@ exports.Where = function(query,select) {
 			q = q.replace(new RegExp(varName),req.params[paramName]);
 		}
 		var Video = require(__dirname + '/../models/video');
-		select = select || '-slides -hidden -roles -duration ' +
-			'-hiddenInSearches -canRead -canWrite ' +
+		select = select || '-slides -roles -duration ' +
+			'-canRead -canWrite ' +
 			'-deletionDate ' +
 			'-metadata -search -processSlides ';
 
-		Video.find({ $where:q })
+		Video.find({ $where:q, deletionDate:null })
 			.skip(req.query.skip)
 			.limit(req.query.limit)
 			.select(select)
@@ -231,16 +398,171 @@ exports.Where = function(query,select) {
 };
 
 // Create a new video using the full json object except the identifier
-//	Input: req.body.data > valid video object (see CheckVideo)
+//	Input: req.data > valid video object
 // 	Output: req.data > the new video object, including the identifier
-exports.Create = function(req,res,next) {
-
-
-	if (data) {
-
+exports.CreateVideo = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	var videoData = req.data;
+	var user = req.user;
+	if (!user) {
+		res.status(401).json({ status:false, message:"Could not create video. No user logged in" });
+		return;
 	}
+
+	if (typeof(videoData)!='object' ||
+		!videoData.title ||
+		!videoData.catalog ||
+		!videoData.repository ||
+		!videoData.source ||
+		!videoData.source.type
+	) {
+		res.status(500).json({ status:false, message:"Could not create video. Invalid video data. Title, catalog, repository and type fields are required."});
+		return;
+	}
+
+	if (!videoData.published) {
+		videoData.published = {
+			status:true
+		}
+	}
+
+	if (!videoData.owner) {
+		videoData.owner = [ user._id ];
+	}
+
+	if (!videoData.unprocessed) {
+		videoData.unprocessed = true;
+	}
+
+	if (!videoData.source) {
+		videoData.source = {
+			type:videoData.type,
+			videos:[]
+		}
+	}
+
+	if (!videoData.pluginData) {
+		videoData.pluginData = {}
+	}
+
+	// TODO: Autocompletar los respositorios a partir del catalogo
+	var newVideo = new Video(videoData);
+	newVideo.save(function(err, newVideoData) {
+		if (!err) {
+			req.data = JSON.parse(JSON.stringify(newVideoData));
+			delete req.data.__v;
+			newVideo.updateSearchIndex();
+			next();
+		}
+		else {
+			res.status(500).json({ status:false, message:"Unexpected server error creating new video: " + err.toString()});
+		}
+	});
+}
+
+exports.CreateVideoOld = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	var videoData = req.data;
+	var user = req.user;
+	if (!user) {
+		res.status(401).json({ status:false, message:"Could not create video. No user logged in" });
+		return;
+	}
+
+	if (typeof(videoData)!='object' ||
+		!videoData.title ||
+		!videoData.source ||
+		!videoData.source.type
+	) {
+		res.status(500).json({ status:false, message:"Could not create video. Invalid video data. Title and type fields are required."});
+		return;
+	}
+
+	if (!videoData.published) {
+		videoData.published = {
+			status:true
+		}
+	}
+
+	if (!videoData.owner) {
+		videoData.owner = [ user._id ];
+	}
+
+	if (!videoData.unprocessed) {
+		videoData.unprocessed = true;
+	}
+
+	if (!videoData.source) {
+		videoData.source = {
+			type:videoData.type,
+			videos:[]
+		}
+	}
+
+	if (!videoData.pluginData) {
+		videoData.pluginData = {}
+	}
+
+	videoData._id = "";
+	RepositoryController.utils.initializeResource(videoData)
+		.then(function(repository) {
+			delete videoData._id;
+			var newVideo = new Video(videoData);
+			newVideo.repository = repository._id;
+			newVideo.save(function(err, newVideoData) {
+				if (!err) {
+					req.data = JSON.parse(JSON.stringify(newVideoData));
+					delete req.data.__v;
+					RepositoryController.utils.createResourcesDirectory(req.data)
+						.then(function() {
+							next();
+						})
+						.fail(function(err) {
+							res.status(500).json({ status:false, message:err.message });
+						});
+				}
+				else {
+					res.status(500).json({ status:false, message:"Unexpected server error creating new video: " + err.toString()});
+				}
+			});
+		})
+		.fail(function(err) {
+			res.status(500).json({ status:false, message:err.message });
+		});
 };
 
+// Create a new video using the full json object except the identifier
+//	Input: req.data > valid video object
+// 	Output: req.data > the new video object, including the identifier
+exports.UpdateVideo = function(req,res,next) {
+	var Video = require(__dirname + '/../models/video');
+	var videoData = req.data;
+	var user = req.user;
+	if (!user) {
+		res.status(401).json({ status:false, message:"Could not update video. No user logged in" });
+		return;
+	}
+
+	if (typeof(videoData)!='object') {
+		res.status(500).json({ status:false, message:"Could not update video. Invalid video data."});
+		return;
+	}
+
+	delete videoData._id;
+
+	Video.update({ "_id":req.params.id}, { "$set":videoData }, { multy:false }, function(err,data) {
+		if (!err) {
+			req.data = videoData;
+			req.data._id = req.params.id;
+			
+			Video.findOne({_id: req.params.id}, function(err, item){ item.updateSearchIndex(); });
+			next();			
+		}
+		else {
+			res.status(500).json({ status:false, message:"Unexpected server error creating new video: " + err.message });
+		}
+	});
+};
 
 // Update a video field
 //	Input:

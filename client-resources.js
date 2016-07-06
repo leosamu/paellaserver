@@ -20,9 +20,56 @@ module.exports = {
 		return buffer;
 	},
 
+
+ 	getClientI18n:function(path, lang) {
+		var i18n = {};
+		
+		if (fs.existsSync(path)){
+			var dir = fs.readdirSync(path);
+			dir.forEach(function(pluginName) {				
+				if (fs.existsSync(path+'/'+pluginName+'/i18n' )){
+					var filepath = path+'/'+pluginName+'/i18n/'+lang+'.json'
+					if (fs.existsSync(filepath)) {
+						var data = fs.readFileSync(filepath);
+						try {												
+							var merge = function() {
+							    var obj = {},
+							        i = 0,
+							        il = arguments.length,
+							        key;
+							    for (; i < il; i++) {
+							        for (key in arguments[i]) {
+							            if (arguments[i].hasOwnProperty(key)) {
+							                obj[key] = arguments[i][key];
+							            }
+							        }
+							    }
+							    return obj;
+							};						
+						
+							var jdata = JSON.parse(data);
+							i18n = merge(i18n, jdata);
+							
+						}
+						catch(e){}
+					};
+				}
+			});
+		}		
+		return i18n;
+	},
+
+
+
  	getClientJavascript:function(path) {
 	 	this.getJavascriptCode(path + '/app/client',this.buffer);
 		this.searchClientJavascript(path);
+		return this.buffer;
+	},
+
+	getEditorJavascript:function(path) {
+		this.getJavascriptCode(path + '/app/editor',this.buffer);
+		this.searchClientJavascript(path,'editor');
 		return this.buffer;
 	},
 
@@ -55,7 +102,7 @@ module.exports = {
 			}
 		});
 	},
-
+	
 	searchClientStylesheet:function(path) {
 		if (!fs.existsSync(path)) return;
 		var dir = fs.readdirSync(path);

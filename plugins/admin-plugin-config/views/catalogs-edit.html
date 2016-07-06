@@ -1,0 +1,188 @@
+<main>		
+
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<admin-plugins-menu></admin-plugins-menu>
+					<li>
+						<a href="#/admin/config">
+				    		Configuration
+				    	</a>
+				    </li>
+					<li >
+						<a href="#/admin/repositories">
+				    		Repositories
+				    	</a>
+				    </li>
+					<li class="active">
+						<a href="#/admin/catalogs">
+				    		Catalogs
+				    	</a>
+				    </li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>
+	
+		<div style="height: 30px;"></div>
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">			
+				<h2>Edit a catalog</h2>			
+			</div>
+			<div class="panel-body">
+			
+				<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
+					<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}" ><a href>Basic information</a></li>
+					<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}"><a href>Catalog roles</span></a></li>
+					<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}"><a href>Inherited roles</span></a></li>
+					<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}"><a href>Plugins</span></a></li>
+					<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}"><a href>Player config</span></a></li>
+					<li role="presentation" ng-click="tab=6" ng-class="{active:tab==6}"><a href>Notify</span></a></li>					
+				</ul>			
+			
+				<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
+					<div class="panel-body">		
+
+						<form name="form" class="form-horizontal" novalidate>
+				
+							<div class="tab-pane" ng-show="tab==1">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Catalog</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" ng-model="catalog._id" disabled>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Description</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" ng-model="catalog.description">
+									</div>
+								</div>
+
+<!--
+								<div class="form-group has-feedback" ng-class="{'has-error': !form.type.$valid}">
+									<label class="col-sm-2 control-label">Type</label>
+									<div class="col-sm-10">
+										<select name="type" class="form-control" ng-model="catalog.type" required>
+											<option value="">Select the catalog type</option>
+											<option value="videos">Videos</option>
+											<option value="channels">Channels</option>
+										</select>
+									</div>
+								</div>
+-->
+
+								<div class="form-group has-feedback" ng-class="{'has-error': !form.repository.$valid}">
+									<label class="col-sm-2 control-label">Videos default repository</label>
+									<div class="col-sm-10">
+										<repository-select repository="catalog.defaultRepository"></repository-select>
+										<input name="repository" required ng-model="catalog.defaultRepository" style="display:none;">
+									</div>
+								</div>
+								
+								<div class="form-group has-feedback" ng-class="{'has-error': !form.repositoryChannel.$valid}">
+									<label class="col-sm-2 control-label">Channels default repository</label>
+									<div class="col-sm-10">
+										<repository-select repository="catalog.defaultRepositoryForChannels"></repository-select>
+										<input name="repositoryChannel" required ng-model="catalog.defaultRepositoryForChannels" style="display:none;">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Masters default repository</label>
+									<div class="col-sm-10">
+										<repository-select repository="catalog.defaultRepositoryForMasters"></repository-select>
+									</div>
+								</div>								
+								
+								<div class="form-group has-feedback" ng-class="{'has-error': !form.tasksPriority.$valid}">
+									<label class="col-sm-2 control-label">Tasks priority</label>
+									<div class="col-sm-10">
+										<input name="tasksPriority" type="number" class="form-control" ng-model="catalog.tasksPriority">
+									</div>
+								</div>
+								
+								
+							</div>
+							
+							<div class="tab-pane" ng-show="tab==2">
+								<catalog-permissions-editor permissions="catalog.permissions"></catalog-permissions-editor>
+							</div>	
+							
+							<div class="tab-pane" ng-show="tab==3">
+								<div class="alert alert-info" role="alert">
+									<p>Those permissions will be used in case the video will not have permissions assigned</p>
+								</div>
+								<permissions-editor permissions="catalog.inheritedPermissions"></permissions-editor>
+							</div>
+							
+							<div class="tab-pane" ng-show="tab==4">
+								<plugins-list plugins="catalog.pluginData" id="{{catalog._id}}" type="catalog"></plugins-list>								
+							</div>							
+
+							<div class="tab-pane" ng-show="tab==5">
+								<div class="alert alert-info" role="alert">
+									<p>TODO: Show here the player config</p>
+								</div>
+							</div>							
+
+							<div class="tab-pane" ng-show="tab==6">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Language</label>
+									<div class="col-sm-10">
+										<select class="form-control" ng-model="notifySelected"
+											ng-options="option as option.lang | translate for option in catalog.notify">
+											<option value="">-</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Subject</label>
+									<div class="col-sm-10">
+										<input class="form-control" ng-model="notifySelected.subject">
+									</div>
+								</div>									
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Message</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="20" ng-model="notifySelected.content"></textarea>
+									</div>
+								</div>						
+							</div>
+							
+							
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-default" onclick="window.history.back();">Volver</button>
+				<button class="btn btn-primary pull-right" ng-click="updateCatalog()" ng-disabled="updating || !form.$valid">
+					<loader-field ng-show="updating"></loader-field>  Guardar
+				</button>
+			</div>
+		</div>
+			
+	</section>
+</main>

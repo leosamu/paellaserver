@@ -1,0 +1,51 @@
+<main style="min-height:300px;">
+
+    <section class="ps-current-channel">
+        <h1>
+            {{video.title}}
+        </h1>
+        
+        <div class="row">
+        
+	        <div class="col-md-7">	        
+				<div class="panel panel-default">
+					<div class="panel-body">        
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe allowfullscreen="" class="embed-responsive-item" ng-src="{{embedUrl}}" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" ></iframe>		
+						</div>         
+					</div>
+				</div>        
+	        </div>
+	        
+	        <div class="col-md-5">
+				<ul class="list-group media-list">
+					<li class="list-group-item" ng-repeat="v in related | limitTo : 6">
+						<div class="media-left">
+							<a ng-href="#/catalog/compact/{{v._id}}">
+								<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{v.thumbnail}}">
+							</a>
+						</div>
+						<div class="media-body">
+										
+						
+						<h5 class="media-heading">		
+							<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>							
+						</h5>
+						<p class="list-group-item-text text-danger">
+							{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}
+						</p>
+						<p class="list-group-item-text">
+							<span class="label label-default">{{v.creationDate | amDateFormat:'ll'}}</span>								
+							<small>{{v.duration | secondsToHuman }}</small>
+						</p>
+						
+						</div>
+					</li>
+				</ul>						        
+	        </div>
+        </div>
+								
+    </section>
+
+    <loader ng-show="loading"></loader>
+</main>

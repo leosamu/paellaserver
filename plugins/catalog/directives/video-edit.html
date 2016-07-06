@@ -1,0 +1,165 @@
+<section class="ps-popup-content">
+	<script type="text/ng-template" id="group-template.html">
+		<div class="panel">
+			<div class="panel-heading">
+				<h4 class="panel-title" style="color:#fa39c3">
+					<a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" accordion-transclude="heading"><span
+							ng-class="{'text-muted': isDisabled}">{{heading}}</span></a>
+				</h4>
+			</div>
+			<div class="panel-collapse collapse" collapse="!isOpen">
+				<div class="panel-body" style="text-align: right" ng-transclude></div>
+			</div>
+		</div>
+	</script>
+
+
+
+	<h1 class="modal-header">
+		<span ng-show="!editing"> {{ "upload_video_text_title" | translate }} </span>
+		<span ng-hide="!editing"> {{ "edit_video_text_title"   | translate }} </span>
+	</h1>
+
+	<form name="videoForm" class="form-horizontal" novalidate>	
+		<fieldset>
+			<div ng-hide="video.pluginData.OA.isOA==true">
+		
+				<div class="panel panel-default">
+					<!--
+					<div class="panel-heading">
+						<h3 class="panel-title">{{ 'video_info_text' | translate }}</h3>
+					</div>
+					-->
+					<div class="panel-body">		
+						<div class="form-group has-feedback" ng-class="{'has-error': !(videoForm.title.$valid)}">
+							<label class="col-sm-2 control-label" for="title">{{ "title_field_text" | translate }}</label>
+							<div class="col-sm-10">
+								<input name="title" type="text" placeholder="{{ 'video_title_field_placeholder_text' | translate }}" class="form-control input-md" required ng-model="video.title">
+							</div>
+						</div>
+			
+						<div class="form-group has-feedback" ng-class="{'has-error': !(videoForm.language.$valid)}">
+							<label class="col-sm-2 control-label">{{ "language" | translate }}</label>
+							<div class="col-sm-10">
+								<language-select language="video.language" allow-other="true"></language-select>
+								<input name="language" type="text" ng-model="video.language" style="display: none;" required>					
+							</div>
+						</div>
+			
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{ "keyworkds_text" | translate }}</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" ng-model="video.metadata.keywords" ng-list>
+							</div>
+						</div>
+	
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
+							<div class="col-sm-10">
+								<select class="form-control" ng-model="visibility">
+									<option value="public"> {{ "public_text" | translate }} </option>
+									<!-- <option value="private"> {{ "private_text" | translate }} </option> -->
+									<option value="hidden"> {{ "hidden_text" | translate }} </option>
+								</select>
+								
+								<div class="alert alert-success" ng-show="visibility=='public'">
+									{{ "public_explanation_text" | translate }}
+								</div>							
+								<div class="alert alert-danger" ng-show="visibility=='private'">
+									{{ "private_explanation_text" | translate }}
+								</div>							
+								<div class="alert alert-warning" ng-show="visibility=='hidden'">
+									{{ "hidden_explanation_text" | translate }} 
+								</div>
+							</div>
+						</div>
+	
+	
+						<div class="form-group">
+							<!-- Drag and drop files area -->					
+							<div ngf-drop ngf-select name="file" ng-model="videoFile" class="drop-box" 
+								ngf-drag-over-class="{pattern: 'video/*', accept:'dragover', reject:'dragover-err', delay:100}"
+								ngf-multiple="false"
+								ngf-allow-dir="false"
+								ngf-max-size="'5GB'"
+								ngf-accept="'video/*'"
+								ngf-pattern="'video/*'"
+								ngf-model-invalid="invalidFile"
+								accept="'video/*'"
+								
+								ng-change="selectFile"
+								ng-required="!editing"
+								ng-show="!editing">
+									<span ng-hide="videoFile">
+										{{ "drop_videos_text" | translate }}
+									</span>
+									<span ng-show="videoFile">
+										{{ videoFile.name }} <br/> ({{videoFile.size}} Bytes)
+									</span>
+							</div>
+							<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>		
+							<!-- form.file.$error.maxSize=true -->
+						</div>
+	
+						<div class="form-group" ng-show="invalidFile.length > 0">
+							<div class="alert alert-danger">
+								{{ "file_not_valid_text" | translate }}
+							</div>	
+						</div>
+						
+					</div>
+				</div>
+						
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">{{ 'categories' | translate }}</h3>
+					</div>
+					<div class="panel-body">
+						<unesco-code-list ng-model="video.pluginData.unesco.codes"></unesco-code-list>
+					</div>
+				</div>	
+			</div>
+			<div class="alert alert-warning" ng-show="video.pluginData.OA.isOA==true">
+				{{ "cant_edit_is_OA_explanation_text" | translate }}
+			</div>			
+		</fieldset>
+
+		<p class="modal-footer">		
+			<div>
+				<button class="btn btn-default" ng-click="close()">{{ "close" | translate }}</button>
+				<button class="btn btn-primary pull-right" ng-click="videoForm.$valid && accept()" ng-disabled="!videoForm.$valid || updating" ng-hide="video.pluginData.OA.isOA==true">
+					<loader-field ng-show="updating"></loader-field>
+					<span ng-show="!editing"> {{ "create_text" | translate }} </span>
+					<span ng-hide="!editing"> {{ "edit_text"   | translate }} </span>				
+				</button>
+			</div>
+		</p>
+	</form>
+</section>
+
+
+
+<script type="text/ng-template" id="uploadingVideoMessageBox.html">
+	<div class="modal-header">
+		<h4 class="modal-title">{{ 'uploading_video_text' | translate }}</h4>
+	</div>
+	<div class="modal-body">
+		
+		<div class="progress">
+			<div class="progress-bar progress-bar-success" ng-class="{'progress-bar-striped':updating, active:updating}"
+				role="progressbar" aria-valuenow="{{uploadPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{uploadPercentage}}%">
+				{{uploadPercentage}}%
+			</div>
+		</div>
+		
+		<div class="alert alert-success" ng-hide="updating">
+			{{ 'file_upload_ok_text' | translate }}
+		</div>		
+		
+	</div>		
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" ng-click="cancel()" ng-show="updating"> Cancelar </button>
+		<button type="button" class="btn btn-default" ng-click="accept()" ng-hide="updating"> Aceptar </button>
+	</div>	
+</script>
