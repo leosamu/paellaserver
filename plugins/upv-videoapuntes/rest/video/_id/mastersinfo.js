@@ -1,10 +1,6 @@
-var Catalog = require(__dirname + '/../../../../../models/catalog');
 var Video = require(__dirname + '/../../../../../models/video');
 var AuthController = require(__dirname + '/../../../../../controllers/auth');
-var configure = require("../../../../../configure.js");
 
-var request = require('request')
-var Q = require('q');
 
 exports.routes = {
 	addVideos: {
@@ -14,16 +10,27 @@ exports.routes = {
 				/*
 				body:
 				{
-					_id: 
 					files: [
 						{
 							name: { type:String },
 							tag: { type:String }
 						}
 					]
-				*/			
-			
-				res.sendStatus(404);
+				*/						
+				Video.findOne({_id: req.params.id}, function(err, video){
+					if (err) { return res.sendStatus(500); }
+					
+					if (video) {					
+						if ( (!video.source) && (!video.source.master) && (!video.source.master.repository)) {
+							return res.sendStatus(500);	
+						}						
+						video.source.master.files = req.body.files;						
+						return res.sendStatus(204);
+					}
+					else {
+						return res.sendStatus(404);
+					}
+				});
 			}			
 		]
 	}	
