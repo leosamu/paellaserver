@@ -171,8 +171,11 @@
 							state = "queue";
 						}
 					}
+					else if ( (v.source.files) && (v.source.files.length > 0) ){
+						state = "processing";
+					}
 					else {
-						state = "processing"; // Temporal Fix
+						state = "pendingUpload"; // Temporal Fix
 					}
 				}
 			}
