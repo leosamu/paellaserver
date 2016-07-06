@@ -175,7 +175,7 @@ function startServer() {
 			playerConfig.plugins.enablePluginsByDefault = true;
 			playerConfig.plugins.list["es.upv.paella.extendedTabAdapterPlugin"] = { enabled:false };
 			playerConfig.plugins.list["es.upv.paella.multipleQualitiesPlugin"] = { enabled:true, showWidthRes: true };
-
+			playerConfig.plugins.list["es.upv.paella.visualAnnotationPlugin"] = { enabled: true, url: "/rest/video/"};
 			playerConfig.plugins.list["es.upv.paella.usertracking.GoogleAnalyticsSaverPlugIn"] = {
 				"enabled": true,
 				"trackingID": "UA-26470475-7"
@@ -201,7 +201,8 @@ function startServer() {
 					"trimming": "MediaServiceTrimmingDataDelegate",
 					"breaks": "MediaServiceBreksDataDelegate",
 					"userInfo": "UserDataDelegate",
-					"videoExports": "MediaServiceVideoExportsDataDelegate"
+					"videoExports": "MediaServiceVideoExportsDataDelegate",
+					"visualAnnotations": "VisualAnnotationsDataDelegate"
 				}
 			};
 

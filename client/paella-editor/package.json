@@ -1,0 +1,22 @@
+{
+  "name": "PaellaEditor",
+  "version": "1.0.0",
+  "description": "Paella Editor",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polimediaupv/paella-editor.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-connect": "^3.1.0",
+    "gulp-merge-json": "^0.3.0",
+    "gulp-replace": "^0.5.4",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-traceur": "^0.17.2"
+  },
+  "scripts": {
+    "test": "grunt checksyntax"
+  }
+}
