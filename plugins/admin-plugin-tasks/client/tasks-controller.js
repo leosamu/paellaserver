@@ -2,8 +2,8 @@
 	var plugin = angular.module('adminPluginTasks');
 	
 	
-	plugin.controller("AdminTasksListController", ["$scope", "$modal", "$base64", "$timeout", "MessageBox", "TaskCRUD", "AdminState", 
-	function($scope, $modal, $base64, $timeout, MessageBox, TaskCRUD, AdminState) {
+	plugin.controller("AdminTasksListController", ["$scope", "$modal", "$base64", "$timeout", "MessageBox", "TaskCRUD", "Filters", "AdminState", 
+	function($scope, $modal, $base64, $timeout, MessageBox, TaskCRUD, Filters, AdminState) {
 		$scope.state=AdminState;
 
 		$scope.currentPage=1;
@@ -13,13 +13,22 @@
 
 		$scope.$watch('currentPage', function(){ $scope.reloadTasks(); });
 		
+		$scope.$watch('state.taskFilters', function(){ 
+			if ($scope.state.taskFilters) {
+				var final_query = Filters.makeQuery($scope.state.taskFilters.filters || [], $scope.state.taskFilters.searchText);
+				$scope.filterQuery = $base64.encode(unescape(encodeURIComponent(JSON.stringify(final_query))));
+				$scope.reloadTasks();
+			}
+		}, true );		
+		
+		
 		$scope.reloadTasks = function(){
 			if ($scope.timeoutReload) {
 				$timeout.cancel($scope.timeoutReload);
 			}		
 			$scope.loadingVideos = true;
 			$scope.timeoutReload = $timeout(function() {			
-				TaskCRUD.query({limit:$scope.state.itemsPerPage, skip:($scope.currentPage-1)*$scope.state.itemsPerPage})
+				TaskCRUD.query({limit:$scope.state.itemsPerPage, skip:($scope.currentPage-1)*$scope.state.itemsPerPage, filters:$scope.filterQuery})
 				.$promise.then(function(data){
 					$scope.tasks = data;
 					$scope.loadingVideos = false

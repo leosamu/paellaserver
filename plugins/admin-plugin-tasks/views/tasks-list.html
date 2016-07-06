@@ -32,7 +32,16 @@
 		<div style="height: 30px;"></div>
 		
 		<div class="panel panel-primary">
-			<div class="panel-heading">			
+			<div class="panel-heading">
+			
+				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:15px;">
+					<form class="navbar-form" novalidate>
+<!--						<actions-dropdown elements="tasks.list" type="'task'"></actions-dropdown>						-->
+						<admin-filters state-filters="state.taskFilters" type="'task'"></admin-filters>						
+					</form>				
+				</div>
+			
+			
 				<h2>Tareas</h2>
 				<h6>{{tasks.total}} tareas</h6>
 			

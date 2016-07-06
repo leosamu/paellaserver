@@ -26,14 +26,12 @@ exports.routes = {
 							
 				Model.find(query).count().exec(function(errCount, count) {
 					if(errCount) { return res.sendStatus(500); }
-					
 					Model.find(query)
 					.sort({priority:-1, creationDate:-1})					
 					.skip(skip)
 					.limit(limit)
 					.exec(function(err, items) {
 						if(err) { return res.sendStatus(500); }
-						
 						res.status(200).send({
 							total: count,
 							skip: Number(skip),

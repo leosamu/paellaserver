@@ -16,6 +16,8 @@ var TaskSchema = new Schema({
 	creationDate: { type: Date, default: Date.now }
 });
 
+TaskSchema.index({ task: "text", targetType: "text", targetId: "text" });
+
 TaskSchema.plugin(uuid.plugin, 'Task');
 
 module.exports = mongoose.model('Task',TaskSchema);
