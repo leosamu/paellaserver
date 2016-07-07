@@ -153,7 +153,8 @@ exports.routes = {
 					error: false,
 					targetType: 'video',
 					targetId: req.data._id,
-					parameters: workflowParams
+					parameters: workflowParams,
+					description: "Encoding video '" + req.data.title + "' from catalog '" + req.data.catalog + "'"
 				});
 				
 				workflow.save(workflow, function(err){

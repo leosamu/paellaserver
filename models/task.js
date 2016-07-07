@@ -11,12 +11,13 @@ var TaskSchema = new Schema({
 	targetType: String,
 	targetId: String,
 	parameters: String,
+	description: String,
 	processing: {type: Boolean, default: false},
 	priority: {type: Number, default: 10},
 	creationDate: { type: Date, default: Date.now }
 });
 
-TaskSchema.index({ task: "text", targetType: "text", targetId: "text" });
+TaskSchema.index({ task: "text", description: "text", targetType: "text", targetId: "text" });
 
 TaskSchema.plugin(uuid.plugin, 'Task');
 
