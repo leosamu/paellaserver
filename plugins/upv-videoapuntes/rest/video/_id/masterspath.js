@@ -285,7 +285,7 @@ function getVideoMastersPath(videoId) {
 exports.routes = {
 	masterPath: {
 		post: [
-			//AuthController.CheckRole(['ADMIN']),		
+			AuthController.CheckRole(['ADMIN']),		
 			function(req, res) {
 				getVideoMastersPath(req.params.id)
 				.then(
