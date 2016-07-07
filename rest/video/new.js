@@ -157,8 +157,11 @@ exports.routes = {
 				});
 				
 				workflow.save(workflow, function(err){
-					if (err) return res.sendStatus(500);
-					next();					
+					if (err) { return res.sendStatus(500); }
+					Video.update({_id: req.data._id}, {$set:{"source.masters.task": workflow._id}}, function(err){
+						if (err) { return res.sendStatus(500); }						
+						next();					
+					});
 				})
 			},
 			CommonController.JsonResponse
