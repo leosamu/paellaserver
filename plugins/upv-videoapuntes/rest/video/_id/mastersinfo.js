@@ -16,16 +16,20 @@ exports.routes = {
 							tag: { type:String }
 						}
 					]
-				*/						
+				}
+				*/
 				Video.findOne({_id: req.params.id}, function(err, video){
 					if (err) { return res.sendStatus(500); }
 					
 					if (video) {					
-						if ( (!video.source) && (!video.source.master) && (!video.source.master.repository)) {
+						if ( (!video.source) || (!video.source.masters) || (!video.source.masters.repository)) {
 							return res.sendStatus(500);	
 						}						
-						video.source.master.files = req.body.files;						
-						return res.sendStatus(204);
+						video.source.masters.files = req.body.files;
+						video.save(function(err){
+							if (err) { return res.sendStatus(500); }							
+							res.sendStatus(204);
+						});
 					}
 					else {
 						return res.sendStatus(404);
