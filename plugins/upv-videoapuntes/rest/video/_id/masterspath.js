@@ -9,6 +9,7 @@ var request = require('request')
 var Q = require('q');
 
 
+
 function getOrCreateUser(userInfo) {
 
 	var deferred = Q.defer();
@@ -75,13 +76,16 @@ function getOrCreateUser(userInfo) {
 	return deferred.promise;
 }
 
+
+
+
 function getVideoApuntesSchoolroom(roomId) {
 	var deferred = Q.defer();	
-	var url = "https://videoapuntes.upv.es/rest/schoolrooms/" + roomId;
+	var url = configure.config.videoapuntes.config.server +"/rest/schoolrooms/" + roomId;
 	request.get(url, {
 		auth: {
-			user: 'admin',
-			pass: '91cf3469a842d3b391a4ff6f203e0bbde0d89614',
+			user: configure.config.videoapuntes.config.user,
+			pass: configure.config.videoapuntes.config.password,
 			sendImmediately: false
 		},
 		headers:{
@@ -103,11 +107,11 @@ function getVideoApuntesSchoolroom(roomId) {
 
 function getVideoApuntesVideo(videoId) {
 	var deferred = Q.defer();	
-	var url = "https://videoapuntes.upv.es/rest/recordings/" + videoId;
+	var url = configure.config.videoapuntes.config.server +"/rest/recordings/" + videoId;
 	request.get(url, {
 		auth: {
-			user: 'admin',
-			pass: '91cf3469a842d3b391a4ff6f203e0bbde0d89614',
+			user: configure.config.videoapuntes.config.user,
+			pass: configure.config.videoapuntes.config.password,
 			sendImmediately: false
 		},
 		headers:{
@@ -128,11 +132,11 @@ function getVideoApuntesVideo(videoId) {
 
 function getVideoApuntesOwner(ownerId) {
 	var deferred = Q.defer();	
-	var url = "https://videoapuntes.upv.es/rest/users/" + ownerId;
+	var url = configure.config.videoapuntes.config.server +"/rest/users/" + ownerId;
 	request.get(url, {
 		auth: {
-			user: 'admin',
-			pass: '91cf3469a842d3b391a4ff6f203e0bbde0d89614',
+			user: configure.config.videoapuntes.config.user,
+			pass: configure.config.videoapuntes.config.password,
 			sendImmediately: false
 		},
 		headers:{
