@@ -75,6 +75,32 @@ function getOrCreateUser(userInfo) {
 	return deferred.promise;
 }
 
+function getVideoApuntesSchoolroom(roomId) {
+	var deferred = Q.defer();	
+	var url = "https://videoapuntes.upv.es/rest/schoolrooms/" + roomId;
+	request.get(url, {
+		auth: {
+			user: 'admin',
+			pass: '91cf3469a842d3b391a4ff6f203e0bbde0d89614',
+			sendImmediately: false
+		},
+		headers:{
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			'X-Requested-Auth': 'Digest'
+		}							
+	}, function(error, response, body) {
+		if ((error) || (response.statusCode>=400)) {
+			return deferred.reject();
+		}
+		var jbody = JSON.parse(body);
+		deferred.resolve(jbody);
+	});	
+		
+	return deferred.promise;	
+}
+
+
 function getVideoApuntesVideo(videoId) {
 	var deferred = Q.defer();	
 	var url = "https://videoapuntes.upv.es/rest/recordings/" + videoId;
@@ -132,9 +158,13 @@ function createVideoFromVideoApuntes(videoId) {
 		
 	getVideoApuntesVideo(videoId)
 	.then(function(video){
-		return [video, getVideoApuntesOwner(video.owner)];
+		return Q.all([getVideoApuntesOwner(video.owner), getVideoApuntesSchoolroom(video.schoolroom)])
+		.spread(function(owner, sr){
+			return [video, owner, sr];
+		})
+		.catch(	function(err) {deferred.reject(err);} )
 	})
-	.spread(function(va_video, va_owner){
+	.spread(function(va_video, va_owner, va_schoolroom){
 	
 		Catalog.findOne({_id:"videoapuntes"})
 		.exec(function(err, catalog){
@@ -168,6 +198,12 @@ function createVideoFromVideoApuntes(videoId) {
 				sakai_code = va_video.privacy.sakai;
 			}
 
+			var selectedAudio = va_video.selectedAudio;
+			if (selectedAudio == 'auto') {
+				console.log(va_schoolroom);
+				selectedAudio = va_schoolroom.preferedAudio;
+			}
+			
 			var video = {
 				_id: videoId,
 				repository: catalog.defaultRepository,
@@ -198,7 +234,7 @@ function createVideoFromVideoApuntes(videoId) {
 				pluginData: {
 					videoapuntes: {
 						requestedBy: null,
-						selectedAudio: va_video.selectedAudio,
+						selectedAudio: selectedAudio,
 						streaming: va_video.streaming,
 						schoolroom: va_video.schoolroom
 //						recordedByAgent: ""
@@ -284,7 +320,7 @@ function getVideoMastersPath(videoId) {
 
 exports.routes = {
 	masterPath: {
-		post: [
+		post: [ //post
 			AuthController.CheckRole(['ADMIN']),		
 			function(req, res) {
 				getVideoMastersPath(req.params.id)
