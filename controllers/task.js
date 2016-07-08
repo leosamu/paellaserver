@@ -95,7 +95,7 @@ var Utils = {
 				targetId:videoData._id,
 				priority:priority,
 				parameters:JSON.stringify(tasks),
-				description: "Encoding video '" + videoData.title + "' from catalog '" + videoData.catalog + "'"
+				description: "Processing video '" + videoData.title + "' from catalog '" + videoData.catalog + "'"
 			}).save();			
 		});	
 	}

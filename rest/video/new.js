@@ -142,7 +142,7 @@ exports.routes = {
 					{ task: "encodeFromMasters", cancelOnError: true },
 					{ task: "calculateDuration", cancelOnError: false  },
 					{ task: "extractSlides", cancelOnError: false  },
-					{ task: "encode", cancelOnError: false },
+					{ task: "scaleVideos", cancelOnError: false },
 					{ task: "md5", cancelOnError: false  },
 					{ task: "notify", cancelOnError: false  }
 				];
@@ -154,7 +154,8 @@ exports.routes = {
 					targetType: 'video',
 					targetId: req.data._id,
 					parameters: workflowParams,
-					description: "Encoding video '" + req.data.title + "' from catalog '" + req.data.catalog + "'"
+//					priority:priority,
+					description: "Processing video '" + req.data.title + "' from catalog '" + req.data.catalog + "'"
 				});
 				
 				workflow.save(workflow, function(err){
