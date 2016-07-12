@@ -1,0 +1,60 @@
+<p>Current track: {{ currentTrack.name }}</p>
+<style>	
+    .tooltipbutton {background-color: #FA8533;: #BCDBEA
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    line-height: 26px;
+    cursor: default;
+    border-radius: 50%;
+    padding: 0px 0px 23px 0px
+    color: #ccc;
+    }
+</style>
+<div>	
+	<select ng-model="selectedAnnotation" ng-options="trackItem.name for trackItem in currentTrack.list track by trackItem.id">
+	</select>
+	<form role="form">		
+		<div class="form-group">
+			<label>{{ "Name" | translate }}</label>
+			<input type="trackItemName" class="form-control" ng-model="selectedAnnotation.name" >
+		</div>
+		<div>{{ "start" | translate }}: {{ selectedAnnotation.s | number : 0 }}, {{ "end" | translate }}: {{ selectedAnnotation.e | number : 0 }}</div>
+		<div class="form-group">
+			<label>Style:      <button popover-placement="right" uib-popover="El estilo influirá en la disposición de la anotación sobre el video" popover-trigger="mouseenter" type="button" class="tooltipbutton">?</button>
+</label>		
+			<select class="form-control" ng-model="selectedAnnotation.style">
+				<option></option>
+				<option>AD</option>
+				<option>BANNER</option>
+				<option>FULL</option>
+				<option>NOTE</option>
+				<option>MEMO</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>Type:</label> <button popover-placement="right" uib-popover="Selecciones si quiere texto plano (markdown) o si prefiere enlazar o incrustar el contenino de una pagina externa" popover-trigger="mouseenter" type="button" class="tooltipbutton">?</button>			
+			<select class="form-control" ng-model="selectedAnnotation.type">
+				<option></option>
+				<option>Text</option>
+				<option>Link</option>
+				<option>Embed</option>				
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="">Data</label>
+			<textarea cols="40" rows="5" type="trackItemText" class="form-control" value="" ng-model="selectedAnnotation.data">{{selectedAnnotation.data}}</textarea>
+		</div>		
+		<div class="form-group">
+			<label>Profile:</label>	<button popover-placement="right" uib-popover="Si desea modificar la distribución del video durante la representación de la anotacion puede cambiarlo aqui" popover-trigger="mouseenter" type="button" class="tooltipbutton">?</button>		
+			<select class="form-control" ng-model="selectedAnnotation.profile" ng-options="profile for profile in profileList">
+				<option value="">no_change</option>
+			</select>
+		</div>
+		
+		<div class="form-group">
+			<label for="">Pauser:</label>
+			<input type="checkbox" ng-checked="selectedAnnotation.pauser">
+		</div>
+	</form>
+</div>
