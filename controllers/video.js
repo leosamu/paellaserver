@@ -90,6 +90,7 @@ exports.Newest = function(req,res,next) {
 	Video.find(query)
 		.skip(req.query.skip)
 		.limit(req.query.limit)
+		.populate("repository")
 		.sort({ creationDate:'desc' })
 		.select(select)
 		.exec(function(err,data) {
