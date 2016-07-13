@@ -116,13 +116,9 @@ exports.Count = function(req,res,next) {
 		if (err) {
 			return res.sendStatus(500);
 		}
-		if (data){
-			req.data = data;
-			next();
-		}
-		else {
-			res.sendStatus(404);
-		}
+		req.data = data || 0;
+		
+		next();
 	});
 };
 
