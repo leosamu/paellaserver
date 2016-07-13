@@ -2,36 +2,5 @@
 	"db": {
 		"url":"mongodb://localhost/polimedia",
 		"pass":""
-	},
-	"connection":{
-		"protocol":"https",
-		"rootUrl":"media.upv.es",
-		"port":4000,
-		"showPortInURL":false
-	},
-	"session":{
-		"secret":"1234567890QWERTY"
-	},
-	"channels":{
-		"default":"default"
-	},
-	"security":{
-		"loginField":"auth.polimedia.login",
-		"passwField":"auth.polimedia.pass",
-		"userModel":"user",
-		"csrfCheck":true
-	},
-	"cas":{
-		"serverUrl":"https://aplicat.upv.es/cas-app"
-	},
-	"elasticsearch": {
-		"url": "http://localhost:9200"
-	},
-	"player":{
-		"title":"Polimedia"
-	},
-  	"repository":{
-	  	"default":"polimedia_imported",
-	  	"polimedia":"polimedia_imported"
 	}
 }
