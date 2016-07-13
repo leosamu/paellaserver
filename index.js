@@ -263,8 +263,8 @@ mongoose.connect(configure.configFile.db.url, options);
 
 var conn = mongoose.connection;
 conn.once('open', function() {
-	console.log("Conected to polimedia");
-	configure.checkInitConfig(function() {
+	console.log("Connected to DB");
+	configure.loadConfig(function() {
 		startServer();
 	});
 });
