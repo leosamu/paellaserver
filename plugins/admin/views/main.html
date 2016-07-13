@@ -31,6 +31,55 @@
 			<p>
 				{{ 'Use the menu to navigate to the desired tool' | translate }}
 			</p>
-		</div>	
+		</div>			
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">			
+				<h3>{{'Logged user' | translate}}</h3>
+			</div>
+			<div class="panel-body">			
+				<form name="form" class="form-horizontal" novalidate>
+					<div class="col-xs-3">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{'Name' | translate}}</label>
+							<div class="col-sm-10">
+								<p class="form-control" disabled>{{currentUser.contactData.name}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{'Last name' | translate}}</label>
+							<div class="col-sm-10">
+								<p class="form-control" disabled>{{currentUser.contactData.lastName}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-3">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">{{'e-mail' | translate}}</label>
+							<div class="col-sm-9">
+								<p class="form-control" disabled>{{currentUser.contactData.email}}</p>
+							</div>
+						</div>
+					</div>									
+				</form>	
+				
+				<form>
+					<div class="form-group">
+						<label class="wcol-sm-1 control-label">Roles</label>
+						<div class="colw-sm-11">
+							<ul class="list-group">
+								<li class="list-group-item" ng-repeat="r in currentUser.roles">
+									{{r._id}} ({{r.description}})
+								</li>
+							</ul>		
+						</div>
+					</div>
+				</form>				
+								
+			</div>
+		</div>
+		
 	</section>
 </main>
