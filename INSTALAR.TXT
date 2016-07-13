@@ -1,0 +1,39 @@
+Intrucciones para instalar Paella Server
+
+1.- Instalar NodeJS y MongoDB
+	
+	https://nodejs.org/en/
+	https://www.mongodb.com
+	
+	
+2.- Una vez instalado nodejs, instalar bower
+
+	$npm install bower -g
+	
+	
+3.- Instalar las dependencias de la parte servidor
+
+	Desde la carpeta donde este el código de Paella Server
+	
+	$npm install
+	
+4.- Instalar las dependencias de la parte cliente
+
+	Ir a la carpera $(PAELLA_SERVER)/client
+	
+	$bower install
+	
+5.- Modificar el fichero config.json para configurar el servidor de MongoDB
+
+
+7.- Inicializar la Base de Datos por defecto
+
+	Ir a la carpeta $(PAELLA_SERVER)/scripts/install
+	
+	$node ./install.js installdb
+	
+
+8.- Lanzar el Servidor
+
+	$node index.js
+	
