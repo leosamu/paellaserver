@@ -1,0 +1,38 @@
+[
+	{
+	    "_id" : "connection",
+	    "value" : {
+	        "showPortInURL" : false,
+	        "port" : 4000,
+	        "rootUrl" : "localhost",
+	        "protocol" : "http"
+	    }
+	},
+	{
+	    "_id" : "session",
+	    "value" : {
+	        "secret" : "1234567890QWERTY"
+	    }
+	},
+	{
+	    "_id" : "player",
+	    "value" : {
+	        "title" : "Polimedia"
+	    }
+	},
+	{
+	    "_id" : "channels",
+	    "value" : {
+	        "default" : "default"
+	    }
+	},
+	{
+	    "_id" : "security",
+	    "value" : {
+	        "csrfCheck" : true,
+	        "userModel" : "user",
+	        "passwField" : "auth.polimedia.pass",
+	        "loginField" : "auth.polimedia.login"
+	    }
+	}
+]

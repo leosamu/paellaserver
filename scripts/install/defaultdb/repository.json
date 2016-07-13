@@ -1,0 +1,16 @@
+[
+	{
+	    "_id" : "default",
+	    "endpoint" : "/resources/default/",
+	    "server" : "",
+	    "path" : "/media/paellaserver/ice/",
+	    "backup" : {
+	        "enable" : false
+	    },
+	    "diskusage" : {
+	        "updatedDate" : "2016-05-16T11:04:13.647Z",
+	        "value" : 0
+	    },
+	    "description" : "Default Repository"
+	}
+]

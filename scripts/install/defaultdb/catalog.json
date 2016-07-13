@@ -1,0 +1,9 @@
+[
+	{
+	    "_id" : "default",
+	    "description" : "Default Catalog",
+	    "defaultRepository" : "default",
+	    "defaultRepositoryForChannels" : "default",
+	    "defaultRepositoryForMasters" : "default"
+    }
+]
