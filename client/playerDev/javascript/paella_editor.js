@@ -146,9 +146,20 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
       return new Promise(function(resolve, reject) {
         $.get("config/editor-config.json").then(function(data) {
           $__2.config = data;
-          resolve();
+          return paella.player.auth.canWrite();
         }, function() {
           reject();
+        }).then(function(canWrite) {
+          if (canWrite) {
+            resolve();
+          } else {
+            alert(base.dictionary.translate("You are not authorized to view this resource"));
+            var url = location.href;
+            var result = /(\?.*)$/.exec(url);
+            if (result) {
+              location.href = ("index.html" + result[1]);
+            }
+          }
         });
       });
     }
@@ -210,6 +221,7 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
         }
       });
     }
+    var trackItemSumary = {};
     var service = {
       _tracks: [],
       tools: [],
@@ -220,7 +232,27 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
         var $__2 = this;
         return new Promise(function(resolve) {
           ensurePaellaEditorLoaded().then(function() {
-            return resolve($__2._tracks);
+            var newTrackItems = {};
+            var newTrackItemData = {
+              track: null,
+              trackItem: null
+            };
+            var oldTrackItemCount = Object.keys(trackItemSumary).length;
+            $__2._tracks.forEach(function(track) {
+              track.list.forEach(function(trackItem) {
+                var hash = (track.pluginId + "-" + trackItem.id);
+                newTrackItems[hash] = trackItem;
+                if (!trackItemSumary[hash] && oldTrackItemCount > 0 && newTrackItemData.track == null) {
+                  newTrackItemData.track = track;
+                  newTrackItemData.trackItem = trackItem;
+                }
+              });
+            });
+            trackItemSumary = newTrackItems;
+            resolve($__2._tracks);
+            if (newTrackItemData.track && newTrackItemData.trackItem) {
+              $__2.selectTrackItem(newTrackItemData.track.plugin, newTrackItemData.trackItem);
+            }
           });
         });
       },
