@@ -151,5 +151,31 @@ module.exports = {
 				This.buffer += fs.readFileSync(itemPath);
 			}
 		});
+	},
+
+	processPluginDependencies:function(router,depsDir,depsEndpoint) {
+		var path = require('path');
+		var plugins = __dirname + '/plugins';
+		var dir = fs.readdirSync(plugins);
+		var This = this;
+		var depsArray = [];
+		dir.forEach(function(pluginPath) {
+			var itemPath = path.join(plugins,pluginPath);
+			itemPath = path.join(itemPath,depsDir);
+			if (fs.existsSync(itemPath) && fs.lstatSync(itemPath).isDirectory()) {
+				var pluginDepsDir = fs.readdirSync(itemPath);
+				pluginDepsDir.forEach(function(dependency) {
+					var depPublicPath = '/' + depsEndpoint + '/' + dependency;
+					depsArray.push(depPublicPath); 
+					router.get(depPublicPath, function(req,res) {
+						fs.readFile(path.join(itemPath,dependency), 'utf8', function(err,data) {
+							res.send(data);
+						});
+					})
+				});
+			}
+		});
+
+		return depsArray;
 	}
 }

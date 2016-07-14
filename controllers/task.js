@@ -94,7 +94,8 @@ var Utils = {
 				error:false,
 				targetId:videoData._id,
 				priority:priority,
-				parameters:JSON.stringify(tasks)
+				parameters:JSON.stringify(tasks),
+				description: "Processing video '" + videoData.title + "' from catalog '" + videoData.catalog + "'"
 			}).save();			
 		});	
 	}

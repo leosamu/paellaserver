@@ -1,0 +1,17 @@
+[
+	{
+		"_id": "6f1a31d6-2020-4786-ba9f-5f962a525000",
+		"roles":["ADMIN","USER"],
+		"contactData":{
+			"name":"Admin",
+			"lastName":"admin",
+			"email":"admin@admin.com"
+		},
+		"auth":{
+			"polimedia":{
+				"login":"admin",
+				"pass":"1234"
+			}
+		}
+	}
+]

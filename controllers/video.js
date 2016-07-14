@@ -90,6 +90,7 @@ exports.Newest = function(req,res,next) {
 	Video.find(query)
 		.skip(req.query.skip)
 		.limit(req.query.limit)
+		.populate("repository")
 		.sort({ creationDate:'desc' })
 		.select(select)
 		.exec(function(err,data) {
@@ -115,13 +116,9 @@ exports.Count = function(req,res,next) {
 		if (err) {
 			return res.sendStatus(500);
 		}
-		if (data){
-			req.data = data;
-			next();
-		}
-		else {
-			res.sendStatus(404);
-		}
+		req.data = data || 0;
+		
+		next();
 	});
 };
 

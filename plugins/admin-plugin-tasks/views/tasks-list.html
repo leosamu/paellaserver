@@ -53,11 +53,14 @@
 							<tr>
 								<th>Fecha</th>
 								<th>Prioridad</th>
+								<th>Descripción</th>								
 								<th>Tarea</th>
 								<th>Tipo</th>
 								<th>Id</th>
+<!--
 								<th>Procesando</th>
 								<th width="80px;">Error</th>
+-->								
 								<th width="80px;">Acciones</th>
 							</tr>
 						</thead>
@@ -65,15 +68,18 @@
 							<tr ng-repeat="t in tasks.list" ng-class="{danger:t.error, success:t.processing}">
 								<td>{{t.creationDate | amCalendar}}</td>
 								<td>{{t.priority || '-'}}</td>
+								<td>{{t.description}}</td>								
 								<td>{{t.task}}</td>
 								<td>{{t.targetType}}</td>
 								<td>
 									<a href="#/admin/videos/edit/{{t.targetId}}" ng-show="t.targetType=='video'">{{t.targetId}}</a>
 								</td>
+<!--								
 								<td>
 									<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.processing, 'glyphicon-remove':(!t.processing)}">
 								</td>
 								<td><span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.error, 'glyphicon-remove':(!t.error)}"> </span></td>
+-->
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">

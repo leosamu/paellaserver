@@ -132,6 +132,7 @@ function startServer() {
 		}
 	}
 
+	var editorDeps = ClientResources.processPluginDependencies(router,'editorDeps','editorDeps');
 	function getEditorIndex(playerIndexPath) {
 		return function(req,res) {
 			fs.readFile('./client/' + playerIndexPath + 'editor.html', 'utf8', function (err, data) {
@@ -140,7 +141,18 @@ function startServer() {
 					res.status(500).send('Internal error: missing player files').end();
 				}
 				else {
-					var appendHeader = '<script src="/' + playerIndexPath + 'plugins.js"></script>\n' +
+					var appendHeader = "";
+					editorDeps.forEach(function(depPath) {
+						var ext = depPath.split('.').pop(); 
+						if (ext=='js') {
+							appendHeader += '<script src="' + depPath + '"></script>';	
+						}
+						else if (ext=='css') {
+							appendHeader += '<link rel="stylesheet" type="text/css" href="' + depPath + '">';
+						}
+						
+					});
+					appendHeader += '<script src="/' + playerIndexPath + 'plugins.js"></script>\n' +
 									   '<script src="/' + playerIndexPath + 'editor-plugins.js"></script>\n' +
 					'</head>';
 					//		var resourcesPath = "url:'../rest/paella'";
@@ -251,8 +263,8 @@ mongoose.connect(configure.configFile.db.url, options);
 
 var conn = mongoose.connection;
 conn.once('open', function() {
-	console.log("Conected to polimedia");
-	configure.checkInitConfig(function() {
+	console.log("Connected to DB");
+	configure.loadConfig(function() {
 		startServer();
 	});
 });

@@ -1,0 +1,22 @@
+[
+	{
+		"_id":"ADMIN",
+		"description":"Administrator role",
+		"isAdmin": true
+	},
+	{
+		"_id":"USER",
+		"description":"Standard user role",
+		"isAdmin": false
+	},
+	{
+		"_id":"UNKNOWN",
+		"description":"Unknown user",
+		"isAdmin": false
+	},
+	{
+		"_id":"POLIMEDIA",
+		"description":"Polimedia operator role",
+		"isAdmin": false
+	}
+]

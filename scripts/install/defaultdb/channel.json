@@ -1,0 +1,11 @@
+[
+	{
+		"_id":"default",
+		"title":"default",
+		"repository":"default",
+		"catalog":"default",
+		"hidden":false,
+		"hiddenInSearches":false,
+		"owner": ["6f1a31d6-2020-4786-ba9f-5f962a525000"]
+	}
+]
