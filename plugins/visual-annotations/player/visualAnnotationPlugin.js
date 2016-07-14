@@ -78,12 +78,12 @@ Class ("paella.plugins.visualAnnotationPlugin", paella.EventDrivenPlugin,{
 
     setup:function(){
     	var self = this;
-    	$.getScript( "http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js", function( data, textStatus, jqxhr ) {
+    	/*$.getScript( "http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js", function( data, textStatus, jqxhr ) {
 		  console.log( data ); // Data returned
 		  console.log( textStatus ); // Success
 		  console.log( jqxhr.status ); // 200
 		  console.log( "Load was performed." );
-		});
+		});*/
         paella.data.read('visualAnnotations',{id:paella.initDelegate.getId(),url:self.config.url},function(data,status) {
 	        self._ready = true;
             self._annotations = data;
