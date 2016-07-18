@@ -141,6 +141,7 @@ exports.routes = {
 				var tasks = [
 					{ task: "encodeFromMasters", cancelOnError: true },
 					{ task: "calculateDuration", cancelOnError: false  },
+					{ task: "translectures", cancelOnError: false  },
 					{ task: "extractSlides", cancelOnError: false  },
 					{ task: "scaleVideos", cancelOnError: false },
 					{ task: "md5", cancelOnError: false  },
