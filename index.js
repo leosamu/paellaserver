@@ -107,6 +107,7 @@ function startServer() {
 	app.use(express.static(__dirname + '/client'));
 	app.use(express.static(__dirname + '/plugins',{extensions: ['htm','html']}));
 
+	var playerDeps = ClientResources.processPluginDependencies(router,'playerDeps','playerDeps');
 	function getPlayerIndex(playerIndexPath) {
 		return function(req,res) {
 			fs.readFile('./client/' + playerIndexPath + 'index.html', 'utf8', function (err, data) {
@@ -115,7 +116,18 @@ function startServer() {
 					res.status(500).send('Internal error: missing player files').end();
 				}
 				else {
-					var appendHeader = '<script src="/' + playerIndexPath + 'plugins.js"></script></head>';
+					var appendHeader = "";
+					playerDeps.forEach(function(depPath) {
+						var ext = depPath.split('.').pop();
+						if (ext=='js') {
+							appendHeader += '<script src="' + depPath + '"></script>';	
+						}
+						else if (ext=='css') {
+							appendHeader += '<link rel="stylesheet" type="text/css" href="' + depPath + '">';
+						}
+					})
+
+					appendHeader += '<script src="/' + playerIndexPath + 'plugins.js"></script></head>';
 					//		var resourcesPath = "url:'../rest/paella'";
 					var paellaTitle = '<title>Paella Engage Example</title>';
 					var playerTitle = configure.config.player && configure.config.player.title;
