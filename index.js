@@ -145,6 +145,7 @@ function startServer() {
 	}
 
 	var editorDeps = ClientResources.processPluginDependencies(router,'editorDeps','editorDeps');
+	var editorDict = ClientResources.processDictionaries(router,'editor/localization','editorDictionary');
 	function getEditorIndex(playerIndexPath) {
 		return function(req,res) {
 			fs.readFile('./client/' + playerIndexPath + 'editor.html', 'utf8', function (err, data) {
@@ -165,8 +166,16 @@ function startServer() {
 						
 					});
 					appendHeader += '<script src="/' + playerIndexPath + 'plugins.js"></script>\n' +
-									   '<script src="/' + playerIndexPath + 'editor-plugins.js"></script>\n' +
-					'</head>';
+									'<script src="/' + playerIndexPath + 'editor-plugins.js"></script>\n';
+									
+					appendHeader += '<script>';
+					appendHeader += '	(function() {' +
+									'var lang=base.dictionary.currentLanguage();' + 
+									'var dict=' + JSON.stringify(editorDict) + ';dict=dict[lang];' +
+									'if(dict)base.dictionary.addDictionary(dict);' +
+									'})();';
+					appendHeader += '</script>';
+					appendHeader += '</head>';
 					//		var resourcesPath = "url:'../rest/paella'";
 					var paellaTitle = '<title>Paella Engage Example</title>';
 					var playerTitle = configure.config.player && configure.config.player.title;
