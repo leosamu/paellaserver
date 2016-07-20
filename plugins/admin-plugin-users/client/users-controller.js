@@ -16,6 +16,9 @@
 		$scope.updating = false;
 		$scope.user = UserCRUD.get({id: $routeParams.id});
 		
+		$scope.dynamicRoles = UserCRUD.dynamicRoles({id: $routeParams.id})
+
+		
 		$scope.createLocalAuth = function() {
 			$scope.user.auth.polimedia = {};
 		}

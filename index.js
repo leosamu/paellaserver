@@ -1,4 +1,3 @@
-
 var mongoose = require("mongoose");
 var configure = require("./configure");
 
@@ -18,6 +17,9 @@ function startServer() {
 	var security = require('./security');
 	var MongoStore = require('connect-mongo')(session);
 	var traceurApi = require('traceur/src/node/api.js');
+	var plugins = require('./plugins.js');
+	plugins.loadPlugins();
+	
 
 	app.use(bodyParser.urlencoded({ extended: true, limit:'500mb' }));
 	app.use(bodyParser.json({ limit: '500mb' }));
@@ -48,7 +50,7 @@ function startServer() {
 		}
 	});
 
-	security.init(app);
+	app.use(security.router);
 
 	var router = express.Router();
 	repository.setup(router,app);

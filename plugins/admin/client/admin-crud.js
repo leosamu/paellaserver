@@ -28,7 +28,8 @@
 			'query': {method: 'GET', isArray: false },
 			'update': {method: 'PATCH'},
 			'joinUsers': {method: 'PATCH', url:'/rest/plugins/admin/CRUD/users/:id/joinUsers'},
-			'switchUser': {method: 'POST', url:'/rest/plugins/admin/CRUD/users/:id/switchUser'}
+			'switchUser': {method: 'POST', url:'/rest/plugins/admin/CRUD/users/:id/switchUser'},
+			'dynamicRoles': {method: 'GET', url:'/rest/plugins/admin/CRUD/users/:id/dynamicRoles', isArray: true}
 		});
 	}]);
 
