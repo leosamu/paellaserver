@@ -146,9 +146,17 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
       return new Promise(function(resolve, reject) {
         $.get("config/editor-config.json").then(function(data) {
           $__2.config = data;
-          resolve();
+          return paella.player.auth.canWrite();
         }, function() {
           reject();
+        }).then(function(canWrite) {
+          if (canWrite) {
+            resolve();
+          } else {
+            var url = location.href;
+            var result = /(\?.*)$/.exec(url);
+            if (result) {}
+          }
         });
       });
     }
@@ -210,6 +218,7 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
         }
       });
     }
+    var trackItemSumary = {};
     var service = {
       _tracks: [],
       tools: [],
@@ -220,7 +229,27 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
         var $__2 = this;
         return new Promise(function(resolve) {
           ensurePaellaEditorLoaded().then(function() {
-            return resolve($__2._tracks);
+            var newTrackItems = {};
+            var newTrackItemData = {
+              track: null,
+              trackItem: null
+            };
+            var oldTrackItemCount = Object.keys(trackItemSumary).length;
+            $__2._tracks.forEach(function(track) {
+              track.list.forEach(function(trackItem) {
+                var hash = (track.pluginId + "-" + trackItem.id);
+                newTrackItems[hash] = trackItem;
+                if (!trackItemSumary[hash] && oldTrackItemCount > 0 && newTrackItemData.track == null) {
+                  newTrackItemData.track = track;
+                  newTrackItemData.trackItem = trackItem;
+                }
+              });
+            });
+            trackItemSumary = newTrackItems;
+            resolve($__2._tracks);
+            if (newTrackItemData.track && newTrackItemData.trackItem) {
+              $__2.selectTrackItem(newTrackItemData.track.plugin, newTrackItemData.trackItem);
+            }
           });
         });
       },
@@ -1452,46 +1481,6 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
 
 "use strict";
 (function() {
-  var app = angular.module(paella.editor.APP_NAME);
-  app.directive("trackInfo", function() {
-    return {
-      restrict: "E",
-      templateUrl: "templates/es.upv.paella-editor.trackInfo/track-info.html",
-      controller: ["$scope", "PaellaEditor", function($scope, PaellaEditor) {
-        $scope.trackName = "";
-        PaellaEditor.subscribe($scope, function() {
-          $scope.currentTrack = PaellaEditor.currentTrack;
-          if ($scope.currentTrack) {
-            $scope.trackName = $scope.currentTrack.name;
-          }
-        });
-      }]
-    };
-  });
-  var TrackInfoPlugin = function($__super) {
-    function TrackInfoPlugin() {
-      $traceurRuntime.superConstructor(TrackInfoPlugin).apply(this, arguments);
-    }
-    return ($traceurRuntime.createClass)(TrackInfoPlugin, {
-      isEnabled: function() {
-        return Promise.resolve(true);
-      },
-      getName: function() {
-        return "trackInfoSidebar";
-      },
-      getTabName: function() {
-        return "Track info";
-      },
-      getDirectiveName: function() {
-        return "track-info";
-      }
-    }, {}, $__super);
-  }(paella.editor.SideBarPlugin);
-  new TrackInfoPlugin();
-})();
-
-"use strict";
-(function() {
   var TrimmingEditorPlugin = function($__super) {
     function TrimmingEditorPlugin() {
       $traceurRuntime.superConstructor(TrimmingEditorPlugin).apply(this, arguments);
@@ -1585,3 +1574,71 @@ var PaellaPlayer = paella.editor.PaellaPlayer;
   }(paella.editor.MainTrackPlugin);
   new TrimmingEditorPlugin();
 })();
+
+"use strict";
+(function() {
+  var app = angular.module(paella.editor.APP_NAME);
+  app.directive("trackInfo", function() {
+    return {
+      restrict: "E",
+      templateUrl: "templates/es.upv.paella-editor.trackInfo/track-info.html",
+      controller: ["$scope", "PaellaEditor", function($scope, PaellaEditor) {
+        $scope.trackName = "";
+        PaellaEditor.subscribe($scope, function() {
+          $scope.currentTrack = PaellaEditor.currentTrack;
+          if ($scope.currentTrack) {
+            $scope.trackName = $scope.currentTrack.name;
+          }
+        });
+      }]
+    };
+  });
+  var TrackInfoPlugin = function($__super) {
+    function TrackInfoPlugin() {
+      $traceurRuntime.superConstructor(TrackInfoPlugin).apply(this, arguments);
+    }
+    return ($traceurRuntime.createClass)(TrackInfoPlugin, {
+      isEnabled: function() {
+        return Promise.resolve(true);
+      },
+      getName: function() {
+        return "trackInfoSidebar";
+      },
+      getTabName: function() {
+        return "Track info";
+      },
+      getDirectiveName: function() {
+        return "track-info";
+      }
+    }, {}, $__super);
+  }(paella.editor.SideBarPlugin);
+  new TrackInfoPlugin();
+})();
+
+"use strict";
+Class("paella.AccessControl", {
+  canRead: function() {
+    return paella_DeferredResolved(true);
+  },
+  canWrite: function() {
+    return paella_DeferredResolved(base.parameters.get("write") == "true");
+  },
+  userData: function() {
+    return paella_DeferredResolved({
+      username: 'anonymous',
+      name: 'Anonymous',
+      avatar: paella.utils.folders.resources() + '/images/default_avatar.png',
+      isAnonymous: true
+    });
+  },
+  getAuthenticationUrl: function(callbackParams) {
+    var authCallback = this._authParams.authCallbackName && window[this._authParams.authCallbackName];
+    if (!authCallback && paella.player.config.auth) {
+      authCallback = paella.player.config.auth.authCallbackName && window[paella.player.config.auth.authCallbackName];
+    }
+    if (typeof(authCallback) == "function") {
+      return authCallback(callbackParams);
+    }
+    return "";
+  }
+});

@@ -43,20 +43,23 @@ var paellaserver_loadUserDataCallback = function(onSuccess) {
 };
 
 Class ("PaellaServerAccessControl",paella.AccessControl, {
+	authData:{},
+
 	loadData:function() {
+		var This = this;
 		var defer = $.Deferred();
 		base.ajax.get({ url:'/rest/paella/auth/' + paella.initDelegate.getId() }, function(data) {
-				authData = data;
-				if (!authData.permissions.canShare) {
+				This.authData = data;
+				if (!This.authData.permissions.canShare) {
 					paella.player.config.plugins.list["es.upv.paella.socialPlugin"] = { enabled: false };
 				}
 			//	onSuccess(authData);
-				defer.resolve(authData);
+				defer.resolve(This.authData);
 			},
 			function(data) {
-				authData.loadError = true;
+				This.authData.loadError = true;
 			//	onSuccess(authData);
-				defer.reject();
+				defer.reject("The specified video identifier does not exist");
 			});
 		return defer;
 	},
@@ -66,8 +69,11 @@ Class ("PaellaServerAccessControl",paella.AccessControl, {
 		var defer = $.Deferred();
 		this.loadData()
 			.then(function(data) {
-				defer.resolve(data.permissions.canRead);
-			});
+					defer.resolve(data.permissions.canRead);
+				},
+				function(data) {
+					defer.reject(data);
+				});
 		return defer;
 	},
 
