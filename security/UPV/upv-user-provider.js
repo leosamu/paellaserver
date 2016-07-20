@@ -30,7 +30,7 @@ UPVUserProvider.prototype.getOrCreateUserByAuthInfo = function(autenticateInfo) 
 	.select('-auth.polimedia.pass')
 	.exec(function(err, user) {
 		if (err) { deferred.reject(err); }
-		else if (user) { done(null, user); }
+		else if (user) { deferred.resolve(user); }
 		else {
 			getOrCreateUserByEmail(profile.email)
 			.then(
