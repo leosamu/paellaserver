@@ -17,17 +17,16 @@
     
 				<ul class="nav navbar-nav">
 				    <admin-plugins-menu></admin-plugins-menu>
-					<li class="active">
-						<a href="#/admin/roles">
+					<li>
+						<a href="#/admin/tasks">
 				    		Tareas
 				    	</a>
 				    </li>
-					<li>
+					<li class="active">
 						<a href="#/admin/scheduler">
 				    		Trabajos repetitivos
 				    	</a>
 				    </li>
-				    
 				</ul>
 			</div>
 		</div>
@@ -39,17 +38,16 @@
 		
 		<div class="panel panel-primary">
 			<div class="panel-heading">
-			
+<!--			
 				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:15px;">
 					<form class="navbar-form" novalidate>
-<!--						<actions-dropdown elements="tasks.list" type="'task'"></actions-dropdown>						-->
 						<admin-filters state-filters="state.taskFilters" type="'task'"></admin-filters>						
 					</form>				
 				</div>
+-->		
 			
-			
-				<h2>Tareas</h2>
-				<h6>{{tasks.total}} tareas</h6>
+				<h2>Trabajos repetitivos</h2>
+				<h6>{{jobs.length}} trabajos</h6>
 			
 			</div>
 			<div class="panel-body">
@@ -57,56 +55,19 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>Fecha</th>
-								<th>Prioridad</th>
-								<th>Descripción</th>								
-								<th>Tarea</th>
-								<th>Tipo</th>
-								<th>Id</th>
-<!--
-								<th>Procesando</th>
-								<th width="80px;">Error</th>
--->								
+								<th>Descripción</th>
+								<th>Periocidad</th>
 								<th width="120px;">Acciones</th>
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingVideos">
-							<tr ng-repeat="t in tasks.list" ng-class="{danger:t.error, success:t.processing}">
-								<td>{{t.creationDate | amCalendar}}</td>
-								<td>{{t.priority || '-'}}</td>
-								<td>{{t.description}}</td>								
-								<td>{{t.task}}</td>
-								<td>{{t.targetType}}</td>
-								<td>
-									{{t.targetId}}
-									<!--
-										<a href="#/admin/videos/edit/{{t.targetId}}" ng-show="t.targetType=='video'">{{t.targetId}}</a>
-										<a href="#/admin/videos/edit/{{t.targetId}}" ng-show="t.targetType=='reporitory'">{{t.targetId}}</a>
-									-->
-								</td>
-<!--								
-								<td>
-									<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.processing, 'glyphicon-remove':(!t.processing)}">
-								</td>
-								<td><span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.error, 'glyphicon-remove':(!t.error)}"> </span></td>
--->
+							<tr ng-repeat="t in jobs">
+								<td>{{t.name}}</td>
+								<td>{{t.rule || '-'}}</td>
 								<td>
 									<div class="btn-toolbar" role="toolbar">
-										<div class="btn-group" role="group">
-										
-											<a class="btn btn-xs btn-default" ng-href="#/admin/task/edit/{{t._id}}" ng-disabled="true" target="_blank">
-												<span class="glyphicon glyphicon-pencil"></span>
-											</a>
-											
-											<a class="btn btn-xs btn-default" ng-href="#/admin/videos/edit/{{t.targetId}}" ng-disabled="t.targetType!='video'" target="_blank">
-												<span class="glyphicon glyphicon-flash"></span>
-											</a>
-										
-										
-											<a class="btn btn-xs btn-default" href="/player/?id={{t.targetId}}&autoplay=true" target="_blank">
-												<span class="glyphicon glyphicon-eye-open"></span>
-											</a>
-											<button class="btn btn-xs btn-danger" ng-click="deleteTask(t)" ng-disabled="t.processing">
+										<div class="btn-group" role="group">									
+											<button class="btn btn-xs btn-danger" ng-disabled="true">
 												<span class="glyphicon glyphicon-remove"></span>
 											</button>
 										</div>
@@ -120,7 +81,7 @@
 			</div>
 		</div>	
 		
-		
+<!--		
 		<div>
 
 			<div role="toolbar" class="btn-toolbar">
@@ -141,7 +102,7 @@
 			</div>
 			
 		</div>
-				
+-->				
 	</section>
 </main>
 
