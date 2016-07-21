@@ -1,5 +1,5 @@
 (function() {
-	var plugin = angular.module('adminPluginTasks', ['AuthorizationRoutesModule']);
+	var plugin = angular.module('adminPluginTasks', ['AuthorizationRoutesModule', 'angular-cron-jobs']);
 
 	plugin.config(['$routeProvider', 'AuthorizationRoutesProvider', function($routeProvider, AuthorizationRoutesProvider) {
 		

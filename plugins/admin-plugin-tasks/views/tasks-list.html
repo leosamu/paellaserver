@@ -18,13 +18,13 @@
 				<ul class="nav navbar-nav">
 				    <admin-plugins-menu></admin-plugins-menu>
 					<li class="active">
-						<a href="#/admin/roles">
-				    		Tareas
+						<a href="#/admin/tasks">
+				    		{{ 'Tasks' | translate }}
 				    	</a>
 				    </li>
 					<li>
 						<a href="#/admin/scheduler">
-				    		Trabajos repetitivos
+				    		{{ 'Scheduled tasks'  | translate }}
 				    	</a>
 				    </li>
 				    
@@ -48,8 +48,8 @@
 				</div>
 			
 			
-				<h2>Tareas</h2>
-				<h6>{{tasks.total}} tareas</h6>
+				<h2>{{ 'Tasks' | translate }}</h2>
+				<h6>{{tasks.total}} {{ 'tasks' | translate }}</h6>
 			
 			</div>
 			<div class="panel-body">
@@ -57,12 +57,12 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>Fecha</th>
-								<th>Prioridad</th>
-								<th>Descripción</th>								
-								<th>Tarea</th>
-								<th>Tipo</th>
-								<th>Id</th>
+								<th>{{ 'Date' | translate }}</th>
+								<th>{{ 'Priority' | translate }}</th>
+								<th>{{ 'Description' | translate }}</th>								
+								<th>{{ 'Task' | translate }}</th>
+								<th>{{ 'Type' | translate }}</th>
+								<th>{{ 'Id' | translate }}</th>
 <!--
 								<th>Procesando</th>
 								<th width="80px;">Error</th>

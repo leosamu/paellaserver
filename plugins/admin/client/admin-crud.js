@@ -48,6 +48,13 @@
 		});
 	}]);
 
+	app.factory('ScheduledTaskCRUD', ['$resource', function($resource){
+		return $resource('/rest/plugins/admin/CRUD/schedule/:id', {'id':'@_id'}, {
+			'query': {method: 'GET', isArray: false },
+			'update': {method: 'PATCH'}
+		});
+	}]);
+
 	app.factory('RoleCRUD', ['$resource', function($resource){
 		return $resource('/rest/plugins/admin/CRUD/roles/:id', {'id':'@_id'}, {
 			'query': {method: 'GET', isArray: false },
