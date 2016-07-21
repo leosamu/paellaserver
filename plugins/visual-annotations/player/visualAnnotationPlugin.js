@@ -77,13 +77,7 @@ Class ("paella.plugins.visualAnnotationPlugin", paella.EventDrivenPlugin,{
     },
 
     setup:function(){
-    	var self = this;
-    	/*$.getScript( "http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js", function( data, textStatus, jqxhr ) {
-		  console.log( data ); // Data returned
-		  console.log( textStatus ); // Success
-		  console.log( jqxhr.status ); // 200
-		  console.log( "Load was performed." );
-		});*/
+    	var self = this;    
         paella.data.read('visualAnnotations',{id:paella.initDelegate.getId(),url:self.config.url},function(data,status) {
 	        self._ready = true;
             self._annotations = data;
@@ -97,6 +91,9 @@ Class ("paella.plugins.visualAnnotationPlugin", paella.EventDrivenPlugin,{
     		case paella.events.timeUpdate:
                 this.drawAnnotation(event,params);
                 break;
+            case paella.events.seekToTime:
+                this.drawAnnotation(event,params);
+            	break;
     	}
     },
     
@@ -137,7 +134,7 @@ Class ("paella.plugins.visualAnnotationPlugin", paella.EventDrivenPlugin,{
             currentTime = Math.round(params.currentTime);
 			var annotation = JSON.parse(element.content);
 			//if we are on time and the annotation does not exist
-    		if(currentTime >= element.time && currentTime < element.time+element.duration && $("#" + element._id).length==0 && element.video == paella.player.videoIdentifier){
+    		if(currentTime >= element.time && currentTime <= element.time+element.duration && $("#" + element._id).length==0 && element.video == paella.player.videoIdentifier){
 	    		//var annotation = JSON.parse(element.content);
                 //create a layer for each type of videoanotation
                 var layer = paella.player.videoContainer.overlayContainer.getLayer(element.type);
@@ -162,13 +159,27 @@ Class ("paella.plugins.visualAnnotationPlugin", paella.EventDrivenPlugin,{
                 var converter = new Showdown.converter();
                 var dataText = annotation.data[navigator.language || navigator.userLanguage]||annotation.data[firstKey];
                 var dataHtml = converter.makeHtml(dataText);
-                if (element.type=="AD") {
-                    el.innerHTML = '<div class="AdtextAnnotationLink" ><img src="./resources/images/popup.png" class="AdtextAnnotationIMG"></div>  <div class="AdtextAnnotationBody">' + dataHtml + '</div></div>';
+                switch(element.type){
+					case "Link":
+						 el.innerHTML = '<div class="AdtextAnnotationLink" ><img src="./resources/images/popup.png" class="AdtextAnnotationIMG"></div>  <div class="AdtextAnnotationBody"><a href="' + dataText + '">' + dataText + '</a></div></div>';
+						break;					
+					case "Embed":
+						el.innerHTML = '<embed src="' + dataText + '" width="100%" height="443">';
+						break;
+					case "Text":
+						el.innerHTML = dataHtml;
+						break;
+					default:
+						el.innerHTML = dataHtml;
+					}
+                
+                /*if (element.type=="Link") {
+                   
                 }
                 else
                 {	                
                     el.innerHTML = dataHtml;
-                }
+                }*/
 
                 if (annotation.profile!=""){
                     //we need to store and recover the profile
@@ -180,7 +191,7 @@ Class ("paella.plugins.visualAnnotationPlugin", paella.EventDrivenPlugin,{
                 el.appendChild(button);
                 //let create the style
                 var sheet = document.createElement('style');
-                sheet.innerHTML=annotation.style;
+                sheet.innerHTML=annotation.css;
                 el.appendChild(sheet);
                 
                 self._rootElement.appendChild(el);
