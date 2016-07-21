@@ -56,23 +56,24 @@
 				size: 'lg',
 				backdrop: true,
 				controller: function ($scope, $modalInstance) {
-					$scope.task = t;
+					$scope.task = angular.copy(t);
 					$scope.cancel = function () {
 						$modalInstance.dismiss();
 					};
 					$scope.accept = function () {
-						$modalInstance.close();
+						$modalInstance.close($scope.task);
 					};
 				}				
 			});
 			
 			modalInstance.result
-			.then(function() {
-				return ScheduledTaskCRUD.update(t).$promise
+			.then(function(task) {
+				ScheduledTaskCRUD.update(task).$promise
+				.then(function() {
+					angular.copy(task, t);
+				});
 			})
-			.then(function() {
-				$scope.reloadTasks();
-			});		
+					
 		}
 	}])	
 	

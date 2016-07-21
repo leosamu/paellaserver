@@ -116,11 +116,9 @@
 
 <script type="text/ng-template" id="editScheduledTask.html">
 	<div class="modal-header">
-		<h4 class="modal-title text-danger">¿Estás seguro?</h4>
+		<h4 class="modal-title text-primary">{{ 'Edit scheduled task' | translate }} </h4>
 	</div>
-	<div class="modal-body">
-		<p>¿Estás seguro de querer borrar este tarea?</p>
-		
+	<div class="modal-body">		
 		<form name="form" class="form-horizontal" novalidate>			
 			<div class="form-group">
 				<label class="col-sm-2 control-label">Scheduled Job</label>
@@ -153,7 +151,7 @@
 		
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-default" ng-click="cancel()">No</button>
-		<button type="button" class="btn btn-danger" ng-click="accept()">Si</button>
+		<button type="button" class="btn btn-default pull-left" ng-click="cancel()">Cancel</button>
+		<button type="button" class="btn btn-primary" ng-click="accept()">Save</button>
 	</div>	
 </script>
