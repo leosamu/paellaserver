@@ -147,7 +147,37 @@ function startServer() {
 	}
 
 	var editorDeps = ClientResources.processPluginDependencies(router,'editorDeps','editorDeps');
-	var editorDict = ClientResources.processDictionaries(router,'editor/localization','editorDictionary');
+	var editorPluginLoc = ClientResources.processDictionaries(router,'editor/localization','editorDictionary');
+
+	function getEditorLocalization(playerDir) {
+		return function(req,res) {
+			var languageFile = req.params.lang;
+			var result = /([a-z]*)_([a-z]*).json/.exec(languageFile);
+			if (result) {
+				var lang = result[2];
+				var staticFilePath = __dirname + '/client/' + playerDir + 'localization/' + languageFile;
+				fs.exists(staticFilePath,function(exists) {
+					if (exists) {
+						var editorFile = require(staticFilePath);
+						var pluginLoc = editorPluginLoc[lang];
+						if (pluginLoc) {
+							for (var key in pluginLoc) {
+								editorFile[key] = pluginLoc[key];
+							}
+						}
+						res.send(editorFile);
+					}
+					else {
+						res.send({});
+					}
+				});
+			}
+			else {
+				res.send({});
+			}
+		}
+	}
+
 	function getEditorIndex(playerIndexPath) {
 		return function(req,res) {
 			fs.readFile('./client/' + playerIndexPath + 'editor.html', 'utf8', function (err, data) {
@@ -169,14 +199,6 @@ function startServer() {
 					});
 					appendHeader += '<script src="/' + playerIndexPath + 'plugins.js"></script>\n' +
 									'<script src="/' + playerIndexPath + 'editor-plugins.js"></script>\n';
-									
-					appendHeader += '<script>';
-					appendHeader += '	(function() {' +
-									'var lang=base.dictionary.currentLanguage();' + 
-									'var dict=' + JSON.stringify(editorDict) + ';dict=dict[lang];' +
-									'if(dict)base.dictionary.addDictionary(dict);' +
-									'})();';
-					appendHeader += '</script>';
 					appendHeader += '</head>';
 					//		var resourcesPath = "url:'../rest/paella'";
 					var paellaTitle = '<title>Paella Engage Example</title>';
@@ -248,6 +270,8 @@ function startServer() {
 	router.get(['/player/index.html','/player/','/player/embed.html'], getPlayerIndex('player/'));
 	router.get(['/playerDev/index.html','/playerDev/','/playerDev/embed.html','playerDev/editor.html'], getPlayerIndex('playerDev/'));
 	router.get(['/playerDev/editor.html'], getEditorIndex('playerDev/'));
+
+	router.get(['/playerDev/localization/:lang'],getEditorLocalization('playerDev/'));
 
 	router.get(['/player/config/config.json'],getPlayerConfig('player/'));
 	router.get(['/playerDev/config/config.json'],getPlayerConfig('playerDev/'));
