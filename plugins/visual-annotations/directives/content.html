@@ -33,7 +33,7 @@
 			</select>
 		</div>
 		<div class="form-group">
-			<label>Type:</label> <button popover-placement="right" uib-popover="Selecciones si quiere texto plano (markdown) o si prefiere enlazar o incrustar el contenino de una pagina externa" popover-trigger="mouseenter" type="button" class="tooltipbutton">?</button>			
+			<label>Type:</label> <button popover-placement="right" uib-popover="Seleccione si desea texto plano (markdown) o si prefiere enlazar o incrustar el contenino de una pagina externa" popover-trigger="mouseenter" type="button" class="tooltipbutton">?</button>			
 			<select class="form-control" ng-model="selectedAnnotation.type">
 				<option></option>
 				<option>Text</option>
@@ -45,7 +45,7 @@
 			<label for="">Data</label>
 			<textarea cols="40" rows="5" type="trackItemText" class="form-control" value="" ng-model="selectedAnnotation.data">{{selectedAnnotation.data}}</textarea>
 		</div>		
-		<div class="form-group">
+		<div class="form-group" ng-show="paella.player.videoContainer._sourceData.length >=1">
 			<label>Profile:</label>	<button popover-placement="right" uib-popover="Si desea modificar la distribución del video durante la representación de la anotacion puede cambiarlo aqui" popover-trigger="mouseenter" type="button" class="tooltipbutton">?</button>		
 			<select class="form-control" ng-model="selectedAnnotation.profile" ng-options="profile for profile in profileList">
 				<option value="">no_change</option>
