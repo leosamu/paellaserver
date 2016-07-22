@@ -14,7 +14,7 @@ function getUserProviderByName(name) {
 	var ret;
 
 	userProviders.forEach(function(up){
-		if  (rp.getProviderName() == name) {
+		if  (up.getProviderName() == name) {
 			ret = up;
 		}
 	});	
@@ -26,19 +26,24 @@ function getUserProviderByName(name) {
 function findUserById(userId) {
 	var deferred = Q.defer();
 	
-	User.findOne({_id:userId})
-	.populate("roles", "-__v")
-	.exec(function(err, user){
-		if (err) {
-			deferred.reject(err);
-		}
-		else if (user) {
-			deferred.resolve(user);
-		}
-		else {
-			deferred.reject();
-		}
-	});
+	if (userId) {
+		User.findOne({_id:userId})
+		.populate("roles", "-__v")
+		.exec(function(err, user){
+			if (err) {
+				deferred.reject(err);
+			}
+			else if (user) {
+				deferred.resolve(user);
+			}
+			else {
+				deferred.reject();
+			}
+		});
+	}
+	else {
+		deferred.reject();
+	}
 	
 	return deferred.promise;
 }
@@ -66,17 +71,6 @@ function findUserByEmail(email) {
 
 
 
-function getOrCreateUserByEmail(email) {
-	var deferred = Q.defer();
-	
-	deferred.reject();
-	
-	return deferred.promise;
-}
-
-
-
-
 
 module.exports.UserProvider = UserProvider;
 
@@ -87,4 +81,3 @@ module.exports.getUserProviderByName = getUserProviderByName;
 
 module.exports.findUserById = findUserById;
 module.exports.findUserByEmail = findUserByEmail;
-module.exports.getOrCreateUserByEmail = getOrCreateUserByEmail;
