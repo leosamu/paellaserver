@@ -41,6 +41,12 @@
 		});
 	}]);
 
+	app.factory('ConfigCRUD', ['$resource', function($resource){
+		return $resource('/rest/plugins/admin/CRUD/config/:id', {'id':'@_id'}, {
+			'query': {method: 'GET', isArray: false },
+		});
+	}]);
+	
 	app.factory('TaskCRUD', ['$resource', function($resource){
 		return $resource('/rest/plugins/admin/CRUD/tasks/:id', {'id':'@_id'}, {
 			'query': {method: 'GET', isArray: false },
