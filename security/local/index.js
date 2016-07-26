@@ -53,5 +53,36 @@ router.post('/auth/local',
 	}
 );
 
+router.post('/rest/auth/local', function(req, res, next) {
+	passport.authenticate('local',
+		{
+			usernameField:'username',
+			passwordField:'password'
+		},
+		function(error, user, info) {
+			if (error) {
+				return res.status(500).send({ status:false, message:error.toString() });
+			}
+			else if (!user) {
+				return res.status(403).send({ status:false, message:info.message });
+			}
+			else {
+				req.logIn(user, function(err) {
+					if (err) {
+						return res.status(500).send({ status:false, message:err.toString() });
+					}
+					else {
+						return res.send({ status:true, message:"Login successfull" });
+					}
+				})
+			}
+	
+		}
+	)(req,res,next);
+});
+
+
+
+
 
 module.exports.router = router;
