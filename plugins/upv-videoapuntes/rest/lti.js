@@ -144,7 +144,23 @@ if (configure.config.lti) {
 						getOrCreateLTIChannel(req.lti)
 						.then(
 							function(channel) {
-								res.redirect("/embed.html#/catalog/channel/"+channel._id);							
+								var isTeacher = false;
+								req.lti.roles.forEach(function(r){
+									if (r.toUpperCase() == "INSTRUCTOR") {
+										isTeacher = true;
+									}
+								});
+								if (req.lti.ext_sakai_role == "ayudante" || req.lti.ext_sakai_role == "profesor") {
+									isTeacher = true;
+								}
+
+
+								if (isTeacher) {
+									res.redirect("/embed.html#/videoapuntes/teacher/" + req.lti.context_id);
+								}
+								else {
+									res.redirect("/embed.html#/videoapuntes/student/" + req.lti.context_id);									
+								}
 							},
 							function(err) {
 								res.send("<h1>ERROR</h1><p>"+err+"</p>");

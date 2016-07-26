@@ -1,0 +1,97 @@
+<main>
+
+
+<div ng-show="loading">
+	<loader></loader>
+</div>
+
+<div ng-hide="loading">	
+
+	<div class="btn-toolbar" role="toolbar" style='padding-top:30px;'>
+		<div class="btn-group">
+			<button class="btn btn-lg btn-default" type="button" ng-click="applyARecording()"> Solicitar una grabación </button>
+		</div>
+		<div class="btn-group pull-right">
+			<a class="btn btn-lg btn-default" type="button" target="_blank" href="https://media.upv.es/?id=31afee3e-6baf-b44d-bda7-4f55a2bfa23a"> Guias de uso </a>
+			<button class="btn btn-lg btn-primary" type="button" ng-click="goToSubjectRecordings()" ng-show="subjectFound"> Ir a las grabaciones de esta asignatura </button>
+		</div>
+	</div>
+
+
+	<div ng-hide="subjectFound">
+		<h1> Esta asignatura aun no tiene grabaciones</h1>
+		<div style='padding-left:25px;'>
+			<p> Puedes empezar a utilizar el servicio de VideoApuntes hoy mismo. Solo tienes que solicitarlo y tus clases se grabarán automáticamente. </p>
+			<p> Si tienes alguna duda sobre el servicio de VideoApuntes no dudes en ponerte en contacto y te ayudaremos en todo lo posible.</p>
+		</div>
+	</div>
+	
+
+	<h1> ¿Qué es VideoApuntes? </h1>
+	<div style='padding-left:25px;'>	
+		<p> El ASIC pone a disposición del personal docente el servicio Videoapuntes que permite la grabación automática en vídeo de las clases presenciales.</p>
+		<p> Mediante este servicio el docente realiza la grabación de sus clases y ésta aparecerá disponible para su visualización por sus alumnos en la correspondiente asignatura de PoliformaT.</p>
+		<p>
+			El docente puede revisar la grabación y decidir si se hace pública a sus alumnos o no. También tendrá acceso
+			a distintas herramientas como la edición del vídeo recortando éste para eliminar algunas secciones o 
+			introducir descansos.
+		</p>
+		<p> Este servicio está disponible en aulas preparadas para Videoapuntes. Más información aquí: <a target="_blank" href="https://videoapuntes.upv.es/info"> https://videoapuntes.upv.es/info</a></p>
+	</div>				
+	<p class="text-center">
+		<iframe class="embed-responsive-item2" width="620" height="349" frameborder="0" allowfullscreen="true" src="https://paellaplayer.upv.es/demo/player/index.html?id=belmar-demo"></iframe>
+	</p>			
+
+
+
+	<h1> Solicitud del servicio </h1>
+	<div style='padding-left:25px;'>
+		<p>
+			Se trata de un mecanismo por el cual el solicitante puede programar la grabación automática de sus clases indicando los
+			horarios de las mismas y la asignatura a la cual se asociarán en PoliformaT.
+		</p>
+		<p>
+			De esta forma el docente tiene el control absoluto sobré cuales de sus clases serán grabadas, pudiendo modificar estas
+			preferencias en cualquier momento.						
+		</p>
+
+	</div>
+	<h1> Guias de uso </h1>
+	<div style='padding-left:25px;'>
+		<p>	Guia de uso sobre la herramienta videoapuntes </p>
+		<ul>
+			<li>
+				<a target="_blank" href="https://media.upv.es/player/?id=796de537-d772-f94f-8c51-59721cb85472"> Cómo solicitar un aula de Videoapuntes</a>
+			</li>
+			<li>
+				<a target="_blank" href="https://media.upv.es/player/?id=0261ec7c-0742-874d-ba00-23937045e931"> Cómo modificar o eliminar una solicitud de Videoapuntes</a>
+			</li>
+		</ul>
+
+		<p>	Guia de uso sobre el reproductor/editor de videoapuntes </p>
+
+		<ul>
+			<li>
+				<a target="_blank" href="https://media.upv.es/player/?id=bfea6eec-1b1a-3642-811d-a6578c416b32"> Cómo funciona el reproductor de Videoapuntes</a>
+			</li>
+			<li>
+				<a target="_blank" href="https://media.upv.es/?id=89fa9664-19f7-ac47-8d4b-7c442bac5b32"> Ayuda sobre el editor de Videoapuntes</a>
+			</li>
+		</ul>
+	</div>
+			
+	<div class="btn-toolbar" role="toolbar" style='padding-top:30px;'>
+		<div class="btn-group">
+			<button class="btn btn-lg btn-default" type="button" ng-click="applyARecording()"> Solicitar una grabación </button>
+		</div>
+		<div class="btn-group pull-right">
+			<a class="btn btn-lg btn-default" type="button" target="_blank" href="https://media.upv.es/?id=31afee3e-6baf-b44d-bda7-4f55a2bfa23a"> Guias de uso </a>
+			<button class="btn btn-lg btn-primary" type="button" ng-click="goToSubjectRecordings()" ng-show="subjectFound"> Ir a las grabaciones de esta asignatura </button>
+		</div>
+	</div>	
+
+</div>
+
+
+</main>        
+        

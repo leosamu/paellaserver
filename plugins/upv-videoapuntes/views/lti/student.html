@@ -1,0 +1,41 @@
+<main>
+
+
+<div ng-show="loading">
+	<loader></loader>
+</div>
+
+<div ng-hide="loading">	
+	<h1> Bienvenido al servicio VideoApuntes</h1>
+	<div style='padding-left:25px;'>	
+		<p> El ASIC pone a disposición del personal docente el servicio Videoapuntes que permite la grabación automática en vídeo de las clases presenciales.</p>
+		<p> Mediante este servicio el docente realiza la grabación de sus clases y ésta aparecerá disponible para su visualización por sus alumnos en la correspondiente asignatura de PoliformaT.</p>
+		<p> Este servicio está disponible en aulas preparadas para Videoapuntes. Más información aquí: <a target="_blank" href="https://videoapuntes.upv.es/info"> https://videoapuntes.upv.es/info</a></p>
+	</div>
+									
+	<p class="text-center">
+		<iframe class="embed-responsive-item2" width="620" height="349" frameborder="0" allowfullscreen="true" src="https://paellaplayer.upv.es/demo/player/index.html?id=belmar-demo"></iframe>
+	</p>			
+
+
+	<div ng-hide="subjectFound">
+		<h1> Esta asignatura aun no tiene grabaciones</h1>
+		<div style='padding-left:25px;'>
+			<p> Los profesores de esta asignatura no están usando el servicio de VideoApuntes.</p>
+			<p> Si estás interesado en que se graben las clases de esta asignatura hazselo saber a tu profesor. Es posible que tu profesor aun no conozca las ventajas del servicio de VideoApuntes.</p>
+		</div>
+	</div>
+
+
+	<div ng-show="subjectFound" class="row">
+		<div class="col-sm-12">
+			<button class="btn btn-lg btn-primary" ng-click="goToSubjectRecordings()">
+				{{ "Go to lectures recordings of this subject" | translate }}
+			</button>
+		</div>
+	</div>
+</div>
+
+
+</main>        
+        

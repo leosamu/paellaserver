@@ -10,7 +10,7 @@ exports.routes = {
 						return res.sendStatus(500);
 					}
 					if (item) {
-						var redirectUrl = "/embed.html/#catalog/channel/" + item._id
+						var redirectUrl = "/embed.html/#/catalog/channel/" + item._id
 						res.redirect(302, redirectUrl);
 						//res.send(redirectUrl)
 					}

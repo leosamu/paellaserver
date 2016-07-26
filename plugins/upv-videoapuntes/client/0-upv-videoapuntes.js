@@ -10,6 +10,17 @@
 			templateUrl: 'upv-videoapuntes/views/config.html',
 			controller: "VideoapuntesConfigController"
 		})		
+
+
+		.when('/videoapuntes/student/:id', {
+			templateUrl: 'upv-videoapuntes/views/lti/student.html',
+			controller: "VideoapuntesLTIStudentController"
+		})		
+		.when('/videoapuntes/teacher/:id', {
+			templateUrl: 'upv-videoapuntes/views/lti/teacher.html',
+			controller: "VideoapuntesLTITeacherController"
+		})		
+
 			
 	}]);	
 
