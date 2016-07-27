@@ -159,20 +159,20 @@ function getVideoApuntesOwner(ownerId) {
 function createVideoFromVideoApuntes(videoId) {	
 	var deferred = Q.defer();
 		
-		
 	getVideoApuntesVideo(videoId)
-	.then(function(video){
+	.then(function(video) {
 		return Q.all([getVideoApuntesOwner(video.owner), getVideoApuntesSchoolroom(video.schoolroom)])
 		.spread(function(owner, sr){
+			
 			return [video, owner, sr];
 		})
-		.catch(	function(err) {deferred.reject(err);} )
+		.catch(	function(err) { deferred.reject(err);} )
 	})
-	.spread(function(va_video, va_owner, va_schoolroom){
-	
+	.spread(function(va_video, va_owner, va_schoolroom) {	
 		Catalog.findOne({_id:"videoapuntes"})
 		.exec(function(err, catalog){
-			if (err) {return deferred.reject();}
+			if (err) { return deferred.reject();}
+
 			
 			var isPublic = false;
 			var sakai_code;
@@ -204,7 +204,6 @@ function createVideoFromVideoApuntes(videoId) {
 
 			var selectedAudio = va_video.selectedAudio;
 			if (selectedAudio == 'auto') {
-				console.log(va_schoolroom);
 				selectedAudio = va_schoolroom.preferedAudio;
 			}
 			
@@ -274,6 +273,16 @@ function createVideoFromVideoApuntes(videoId) {
 				function(o, p) {
 					video.owner = [p._id];
 					video.pluginData.videoapuntes.requestedBy = o._id;
+					
+					video.permissions.push({ role: "USER_" + p._id, read: true, write: true });
+					if (isPublic) {
+						video.permissions.push({ role: "ANONYMOUS", read: true, write: false });						
+						video.permissions.push({ role: "USER", read: true, write: false });						
+					}
+					if (sakai_code) {
+						video.permissions.push({ role: "ROLE_SAKAI_" + sakai_code, read: true, write: false });						
+					}
+					
 					var v = new Video(video);
 					v.save(function(err){
 						if (err) { return deferred.reject();}
@@ -281,7 +290,7 @@ function createVideoFromVideoApuntes(videoId) {
 						deferred.resolve(v);
 					});
 				},
-				function() {deferred.reject()}
+				function() { deferred.reject()}
 			);
 		});
 	})
