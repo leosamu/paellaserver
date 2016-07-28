@@ -1,0 +1,99 @@
+<div class="modal-header">
+	<h1 class="modal-title">{{'Video edit' | translate}}</h1>	
+</div>
+
+
+<div class="modal-body">
+
+	<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
+		<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}"><a href>{{'Video information' | translate}} </a></li>			
+		<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>{{'Categories' | translate}}</a></li>
+<!--		<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ><a href>{{'Permissions' | translate}}</a></li> -->
+		<li role="presentation" ng-click="tab=4" ng-class="{active:tab==4}" ><a href>{{'Subjects' | translate}}</a></li> 
+		<li role="presentation" ng-click="tab=5" ng-class="{active:tab==5}" ng-show2="{{video.pluginData.translectures}}"><a href>{{'Transcripción' | translate}}</a></li>
+	</ul>
+	
+	<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
+		<div class="panel-body">
+			<form name="videoForm" class="form-horizontal" novalidate>
+			
+				<div class="tab-pane" ng-show="tab==1">
+					<div class="panel-body">		
+						<div class="form-group has-feedback" ng-class="{'has-error': !(videoForm.title.$valid)}">
+							<label class="col-sm-2 control-label" for="title">{{ "title_field_text" | translate }}</label>
+							<div class="col-sm-10">
+								<input name="title" type="text" placeholder="{{ 'video_title_field_placeholder_text' | translate }}" class="form-control input-md" required ng-model="video.title">
+							</div>
+						</div>
+			
+						<div class="form-group has-feedback" ng-class="{'has-error': !(videoForm.language.$valid)}">
+							<label class="col-sm-2 control-label">{{ "language" | translate }}</label>
+							<div class="col-sm-10">
+								<language-select language="video.language" allow-other="true"></language-select>
+								<input name="language" type="text" ng-model="video.language" style="display: none;" required>					
+							</div>
+						</div>
+			
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{ "keyworkds_text" | translate }}</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" ng-model="video.metadata.keywords" ng-list>
+							</div>
+						</div>
+	
+						<div class="form-group">
+							<label class="col-sm-2 control-label">{{ "visibility_field_text" | translate }}</label>
+							<div class="col-sm-10">
+								<select class="form-control" ng-model="visibility">
+									<option value="public"> {{ "public_text" | translate }} </option>
+									<!-- <option value="private"> {{ "private_text" | translate }} </option> -->
+									<option value="hidden"> {{ "hidden_text" | translate }} </option>
+								</select>
+								
+								<div class="alert alert-success" ng-show="visibility=='public'">
+									{{ "public_explanation_text" | translate }}
+								</div>							
+								<div class="alert alert-danger" ng-show="visibility=='private'">
+									{{ "private_explanation_text" | translate }}
+								</div>							
+								<div class="alert alert-warning" ng-show="visibility=='hidden'">
+									{{ "hidden_explanation_text" | translate }} 
+								</div>
+							</div>
+						</div>				
+					</div>				
+				</div>
+				
+				<div class="tab-pane" ng-show="tab==2">
+					<unesco-code-list ng-model="video.pluginData.unesco.codes"></unesco-code-list>
+				</div>
+				
+				<div class="tab-pane" ng-show="tab==3">	
+				</div>
+				
+				<div class="tab-pane" ng-show="tab==4">	
+				</div>
+	
+				<div class="tab-pane" ng-show="tab==5">
+					<video-user-edit-translectures video="video"></video-user-edit-translectures>											
+				</div>
+				
+			</form>
+		</div>
+	</div>	
+	
+	
+	<div class="alert alert-warning" ng-show="video.pluginData.OA.isOA==true">
+		{{ "cant_edit_is_OA_explanation_text" | translate }}
+	</div>	
+</div>
+
+
+
+
+<div class="modal-footer">
+	<button class="btn btn-default pull-left" ng-click="close()">{{ "Close" | translate }}</button>
+	<button class="btn btn-primary" ng-click="accept()">{{ "Accept" | translate }}</button>	
+</div>	
+	
+	

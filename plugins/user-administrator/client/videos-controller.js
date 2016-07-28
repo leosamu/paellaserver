@@ -2,8 +2,8 @@
 	var app = angular.module('userAdminModule');
 
 
-	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', '$modal', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup', 'MessageBox',
-	function($scope, $http, $timeout, $cookies, $modal, User, Video, VideoEditPopup, VideoUploadPopup, MessageBox) {
+	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', '$modal', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup', 'MessageBox', 'VideoUserEditPopup', 
+	function($scope, $http, $timeout, $cookies, $modal, User, Video, VideoEditPopup, VideoUploadPopup, MessageBox, VideoUserEditPopup) {
 	
 		$scope.currentPage=1;
 //		$scope.filterQuery = null;
@@ -67,7 +67,8 @@
 				delete(data.thumbnail);					
 				delete(data.search);
 			
-				VideoEditPopup(data)
+				VideoUserEditPopup(data)				
+//				VideoEditPopup(data)
 				.then(function(newVideoData) {								
 					newVideoData.id = newVideoData._id;
 					return Video.update(newVideoData).$promise;
