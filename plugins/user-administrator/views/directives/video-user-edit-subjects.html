@@ -1,0 +1,39 @@
+<div class="table-responsive">
+	<table class="table table-condensed">
+	<thead>
+		<tr>
+			<td> {{ 'PoliformaT code' | translate }} </td>
+			<td> {{ 'Subject' | translate }} </td>
+			<td style="vertical-align: middle; width:40px;"></td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-show="codes.length <= 0">
+			<td colspan="2">
+				<div class="alert alert-info" role="alert">
+					{{ 'Video is not linked to any subject' | translate }}
+				</div>
+			</td>
+		</tr>	
+		<tr ng-repeat="code in codes">
+		  <td> {{ code.code }}</td>
+		  <td> {{ code.description }}</td>
+		  <td style="vertical-align: middle; width:40px;">
+		  	<button class="btn btn-danger btn-xs pull-right" ng-click="removeSubject(code);"><span class="glyphicon glyphicon-remove"></span></button>
+		  </td>
+		</tr>
+				
+	</tbody>
+	</table>
+</div>
+
+
+<div>
+	<button class="btn btn-default btn-xs pull-right" ng-click="addSubject();">
+		<span class="glyphicon glyphicon-plus"></span>
+	</button>
+</div>
+
+	
+	
+	

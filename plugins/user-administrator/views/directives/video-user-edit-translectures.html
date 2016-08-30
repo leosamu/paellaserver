@@ -1,37 +1,37 @@
+<loader ng-show="loading"></loader>
 
-<div ng-hide="video.pluginData.translectures.ingestedDate">
-	<div class="alert alert-warning">
-		<strong>El video no se va a transcribir!</strong> Si quiere que el video se transcriba póngase en contacto con el administrador.
-	</div>					
-</div>
-
-<div ng-show="video.pluginData.translectures.ingestedDate">
-	<div class="alert alert-warning" ng-show="(langs.length == 0) && status.status != 'error'">
-		El video se está analizando para transcribir.
-	</div>	
-	<div class="alert alert-danger" ng-show="(langs.length == 0) && status.status == 'error'">
-		<strong>El video no se ha podido transcribir!</strong> Ha ocurrido un problema al transcribir el video, póngase en contacto con el administrador.
-	</div>	
-	<div class="alert alert-success" ng-show="langs.length > 0">
-		<strong>El video se ha transcrito sin problemas!</strong>
-		Puede revisar y corregir las transcripciones.
+<div ng-hide="loading">
+	<div ng-hide="video.pluginData.translectures.ingestedDate">
+		<div class="alert alert-warning">
+			<strong>El video no se va a transcribir!</strong> Si quiere que el video se transcriba póngase en contacto con el administrador.
+		</div>					
 	</div>
-							
-	<div class="form-group" ng-show="langs.length > 0">
-		<label class="col-sm-2 control-label">Idiomas disponibles</label>
-		<div class="col-sm-10">
-
-			<ul class="list-group">
-				<li class="list-group-item" ng-repeat="l in langs">
-					{{l.label}} ({{l.transcription}})					
-					<div class="btn-group pull-right" role="group">
-						<a type="button" class="btn btn-xs btn-primary" ng-href="/rest/plugins/admin-plugin-translectures/dfxp/{{video._id}}/{{l.lang}}" download="{{videoId}}.{{l.lang}}.dfxp">Download</a>
-						<a type="button" class="btn btn-xs btn-primary" ng-href="/rest/plugins/admin-plugin-translectures/redirectToEditor/{{video._id}}/{{l.lang}}" target="_blank">Edit</a>
-					</div>					
-				</li>
-			</ul>							
+	
+	<div ng-show="video.pluginData.translectures.ingestedDate">
+		<div class="alert alert-warning" ng-show="(langs.length == 0) && status.status != 'error'">
+			El video se está analizando para transcribir.
+		</div>	
+		<div class="alert alert-danger" ng-show="(langs.length == 0) && status.status == 'error'">
+			<strong>El video no se ha podido transcribir!</strong> Ha ocurrido un problema al transcribir el video, póngase en contacto con el administrador.
+		</div>	
+		<div class="alert alert-success" ng-show="langs.length > 0">
+			<strong>El video se ha transcrito sin problemas!</strong>
+			Puede revisar y corregir las transcripciones.
 		</div>
-	</div>	
+		<div class="form-group" ng-show="langs.length > 0">
+			<label class="col-sm-2 control-label">Idiomas disponibles</label>
+			<div class="col-sm-10">
+	
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="l in langs">
+						{{l.label}} ({{l.transcription}})					
+						<div class="btn-group pull-right" role="group">
+							<a type="button" class="btn btn-xs btn-primary" ng-href="/rest/plugins/admin-plugin-translectures/dfxp/{{video._id}}/{{l.lang}}" download="{{videoId}}.{{l.lang}}.dfxp">Download</a>
+							<a type="button" class="btn btn-xs btn-primary" ng-href="/rest/plugins/admin-plugin-translectures/redirectToEditor/{{video._id}}/{{l.lang}}" target="_blank">Edit</a>
+						</div>					
+					</li>
+				</ul>							
+			</div>
+		</div>	
+	</div>
 </div>
-	
-	
