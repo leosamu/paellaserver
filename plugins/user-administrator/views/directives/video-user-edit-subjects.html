@@ -16,8 +16,11 @@
 			</td>
 		</tr>	
 		<tr ng-repeat="code in codes">
-		  <td> {{ code.code }}</td>
-		  <td> {{ code.description }}</td>
+		  <td> <a href="https://poliformat.upv.es/portal/site/{{code.code}}" target="_blank">{{code.code}}</a></td>
+		  <td>
+			  <loader-field></loader-field>
+			  {{ code.description }}
+		  </td>
 		  <td style="vertical-align: middle; width:40px;">
 		  	<button class="btn btn-danger btn-xs pull-right" ng-click="removeSubject(code);"><span class="glyphicon glyphicon-remove"></span></button>
 		  </td>
