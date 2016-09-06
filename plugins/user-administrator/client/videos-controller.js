@@ -2,15 +2,21 @@
 	var app = angular.module('userAdminModule');
 
 
-	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', '$modal', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup', 'MessageBox',
-	function($scope, $http, $timeout, $cookies, $modal, User, Video, VideoEditPopup, VideoUploadPopup, MessageBox) {
+	app.service('UserAdminState', function () {
+		this.itemsPerPage = '10';
+	});	
+
+
+	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', '$modal', 'UserAdminState', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup', 'MessageBox',
+	function($scope, $http, $timeout, $cookies, $modal, UserAdminState, User, Video, VideoEditPopup, VideoUploadPopup, MessageBox) {
 	
+		$scope.state = UserAdminState;
 		$scope.currentPage=1;
 //		$scope.filterQuery = null;
 //		$scope.selectableFilters = Filters.$get('video');
 		$scope.timeoutReload = null;
 //		$scope.timeoutSearchText = null;			
-		$scope.itemsPerPage = $cookies.get('itemsPerPage') || '10';
+		$scope.state.videosSort = $scope.state.videosSort || 'date';
 		
 
 		User.current().$promise
@@ -21,29 +27,53 @@
 		});
 				
 		
-		$scope.$watch('itemsPerPage', function(value){
-			$cookies.put('itemsPerPage', value);
-		});
-				
-		$scope.reloadVideos = function(){
+		$scope.$watch('selectAll', function(value, old){
+			if (value != old) {
+				try{
+					$scope.videos.list.forEach(function(v){
+						v.selected = value;
+					});
+				}
+				catch(e) {}
+			}
+		});				
+		$scope.$watch('state.videoSearchText', function(value, old){
+			if (value != old) {
+				$scope.reloadVideosWithTimer();
+			}
+		});					
+		$scope.$watch('state.videosSort', function(value, old){
+			if (value != old) {
+				$scope.reloadVideos();
+			}
+		});					
+			
+		$scope.reloadVideosWithTimer = function() {
 			if ($scope.timeoutReload) {
 				$timeout.cancel($scope.timeoutReload);
-			}		
+			}					
+			$scope.timeoutReload = $timeout(function() {	
+				$scope.reloadVideos();
+				$scope.timeoutReload = null;
+			}, 1000);
+		};
+				
+		$scope.reloadVideos = function(){
+			
 			$scope.loadingVideos = true;
-			$scope.timeoutReload = $timeout(function() {			
-				$http.get('/rest/plugins/user-administrator/videos?limit='+$scope.itemsPerPage+'&skip='+($scope.currentPage-1)*$scope.itemsPerPage)
-				.then(
-					function successCallback(response) {
-						$scope.videos = response.data;
-						$scope.loadingVideos = false
-						$scope.timeoutReload = null;
-					},
-					function errorCallback(response) {
-						$scope.loadingVideos = false
-						$scope.timeoutReload = null;
-					}
-				);				
-			});	
+			
+			var searchText = $scope.state.videoSearchText || '';
+			
+			$http.get('/rest/plugins/user-administrator/videos?limit='+$scope.state.itemsPerPage+'&skip='+($scope.currentPage-1)*$scope.state.itemsPerPage+"&q="+searchText+"&sort="+$scope.state.videosSort)
+			.then(
+				function successCallback(response) {
+					$scope.videos = response.data;
+					$scope.loadingVideos = false
+				},
+				function errorCallback(response) {
+					$scope.loadingVideos = false
+				}
+			);				
 		}
 		
 		$scope.uploadVideo = function() {
@@ -150,7 +180,8 @@
 		};		
 		
 		
-		$scope.$watch('currentPage', function(){ $scope.reloadVideos(); });
+		$scope.$watch('currentPage', function(){ console.log($scope.currentPage); $scope.reloadVideos(); });
+		
 		
 		$scope.getVideoState = function(v) {
 			var state = "error";
