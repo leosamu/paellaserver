@@ -171,11 +171,49 @@ module.exports = {
 						fs.readFile(path.join(itemPath,dependency), 'utf8', function(err,data) {
 							res.send(data);
 						});
-					})
+					});
 				});
 			}
 		});
 
 		return depsArray;
+	},
+
+	processDictionaries:function(router,dictPath) {
+		var path = require('path');
+		var plugins = __dirname + '/plugins';
+		var dir = fs.readdirSync(plugins);
+		var This = this;
+		var allDictionaries = {};
+
+		function addDictionary(lang,dict) {
+			if (!allDictionaries[lang]) {
+				allDictionaries[lang] = dict;
+			}
+			else {
+				for (var key in dict) {
+					allDictionaries[lang][key] = dict[key];
+				}
+			}
+		} 
+		
+		dir.forEach(function(pluginPath) {
+			var itemPath = path.join(plugins,pluginPath);
+			itemPath = path.join(itemPath,dictPath);
+			console.log(itemPath);
+			if (fs.existsSync(itemPath) && fs.lstatSync(itemPath).isDirectory()) {
+				var dictionaryDir = fs.readdirSync(itemPath);
+				dictionaryDir.forEach(function(dictItem) {
+					var lang = /loc_([a-z]+)/.exec(dictItem);
+					if (lang && lang[1]) {
+						lang = lang[1];
+						var dictionary = require(path.join(itemPath,dictItem));
+						addDictionary(lang,dictionary);
+					}
+				});
+			}
+		});
+
+		return allDictionaries;
 	}
 }

@@ -1,0 +1,157 @@
+<main>		
+
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">
+	    
+
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+    
+				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>
+					<li>
+						<a href="#/admin/tasks">
+				    		{{ 'Tasks' | translate }}
+				    	</a>
+				    </li>
+					<li class="active">
+						<a href="#/admin/scheduler">
+				    		{{ 'Scheduled tasks'  | translate }}
+				    	</a>
+				    </li>
+				</ul>
+			</div>
+		</div>
+	</section>
+
+
+	<section>	
+		<div style="height: 30px;"></div>
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+
+				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:15px;">
+					<form class="navbar-form" novalidate>
+						<admin-filters state-filters="state.scheduledTaskFilters" type="'scheduledtask'"></admin-filters>						
+					</form>				
+				</div>
+			
+				<h2>{{ 'Scheduled tasks'  | translate }}</h2>
+				<h6>{{scheduledTasks.total}} {{ 'Tasks'  | translate }}</h6>
+			
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>{{ 'Scheduled task'  | translate }}</th>
+								<th>{{ 'Scheduled time'  | translate }}</th>
+								<th>{{ 'Enabled'  | translate }}</th>
+								<th>{{ 'Next run'  | translate }}</th>
+								<th width="80px;">Actions</th>
+							</tr>
+						</thead>
+						<tbody ng-hide="loadingVideos">
+							<tr ng-repeat="t in scheduledTasks.list">
+								<td>{{t._id}}</td>
+								<td>{{scheduledTime(t)}}</td>
+								<td>
+									<span class="glyphicon glyphicon-ok" ng-show="t.enabled"></span>
+									<span class="glyphicon glyphicon-remove" ng-hide="t.enabled"></span>
+								</td>
+								<td>{{(nextScheduledRun(t))}}</td>
+								<td>
+									<div class="btn-toolbar" role="toolbar">
+										<div class="btn-group" role="group">									
+											<button class="btn btn-xs btn-default" ng-click="editTask(t)">
+												<span class="glyphicon glyphicon-pencil"></span>
+											</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<loader ng-show="loadingVideos"></loader>			
+				</div>
+			</div>
+		</div>	
+		
+		<div>
+
+			<div role="toolbar" class="btn-toolbar">
+				<div class="btn-group" style="margin-top:-20px">		
+					<pagination total-items="scheduledTasks.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+				</div>
+
+				<div class="btn-group pull-right">
+					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadTasks()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+			</div>
+			
+		</div>
+
+	</section>
+</main>
+
+
+
+
+<script type="text/ng-template" id="editScheduledTask.html">
+	<div class="modal-header">
+		<h4 class="modal-title text-primary">{{ 'Edit scheduled task' | translate }} </h4>
+	</div>
+	<div class="modal-body">		
+		<form name="form" class="form-horizontal" novalidate>			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Scheduled Job</label>
+				<div class="col-sm-10">
+					<input name="role" type="text" class="form-control" ng-model="task._id" required disabled>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label"></label>
+				<div class="col-sm-10">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" ng-model="task.enabled"> Enabled
+						</label>
+					</div>
+				</div>
+			</div>			
+			
+			
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Description</label>
+				<div class="col-sm-10">
+					<cron-selection ng-model="task.scheduler"></cron-selection>
+				</div>
+			</div>			
+		</form>
+		
+		
+		
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default pull-left" ng-click="cancel()">Cancel</button>
+		<button type="button" class="btn btn-primary" ng-click="accept()">Save</button>
+	</div>	
+</script>

@@ -142,10 +142,18 @@ TranslecturesAPI30.prototype.getURLToEditor = function(user, video, lang) {
 	var expire = new Date();
 	expire.setDate(expire.getDate()+60);
 		
-	var requestStr = video._id + expire.getTime() + this._server.user + this._server.password;	
-	var shasum = crypto.createHash('sha1');
-	shasum.update(requestStr);
-	var requestKey = shasum.digest('hex');	
+	var requestStr1 = video._id + expire.getTime() + this._server.user + this._server.password;	
+	var shasum1 = crypto.createHash('sha1');
+	shasum1.update(requestStr1);
+	var requestKey1 = shasum1.digest('hex');	
+
+	var requestStr2 = userId + tlConf.toString() + expire.getTime().toString() + this._server.user + this._server.password;	
+	var shasum2 = crypto.createHash('sha1');
+	shasum2.update(requestStr2);
+	var requestKey2 = shasum2.digest('hex');	
+	
+	var requestKey = requestKey1 + requestKey2;
+	
 	
 	var json =  {
 		"id" : video._id,

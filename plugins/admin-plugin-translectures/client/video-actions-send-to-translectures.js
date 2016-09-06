@@ -7,7 +7,7 @@
 			{
 				context: "video",			
 				label: "Enviar a transLectures",
-				role: "ADMIN",
+//				role: "ADMIN",
 				
 				isDisabled: function(items) {
 					return (items.length == 0);

@@ -1,4 +1,3 @@
-
 var mongoose = require("mongoose");
 var configure = require("./configure");
 
@@ -18,6 +17,9 @@ function startServer() {
 	var security = require('./security');
 	var MongoStore = require('connect-mongo')(session);
 	var traceurApi = require('traceur/src/node/api.js');
+	var plugins = require('./plugins.js');
+	plugins.loadPlugins();
+	
 
 	app.use(bodyParser.urlencoded({ extended: true, limit:'500mb' }));
 	app.use(bodyParser.json({ limit: '500mb' }));
@@ -48,7 +50,7 @@ function startServer() {
 		}
 	});
 
-	security.init(app);
+	app.use(security.router);
 
 	var router = express.Router();
 	repository.setup(router,app);
@@ -107,6 +109,7 @@ function startServer() {
 	app.use(express.static(__dirname + '/client'));
 	app.use(express.static(__dirname + '/plugins',{extensions: ['htm','html']}));
 
+	var playerDeps = ClientResources.processPluginDependencies(router,'playerDeps','playerDeps');
 	function getPlayerIndex(playerIndexPath) {
 		return function(req,res) {
 			fs.readFile('./client/' + playerIndexPath + 'index.html', 'utf8', function (err, data) {
@@ -115,7 +118,18 @@ function startServer() {
 					res.status(500).send('Internal error: missing player files').end();
 				}
 				else {
-					var appendHeader = '<script src="/' + playerIndexPath + 'plugins.js"></script></head>';
+					var appendHeader = "";
+					playerDeps.forEach(function(depPath) {
+						var ext = depPath.split('.').pop();
+						if (ext=='js') {
+							appendHeader += '<script src="' + depPath + '"></script>';	
+						}
+						else if (ext=='css') {
+							appendHeader += '<link rel="stylesheet" type="text/css" href="' + depPath + '">';
+						}
+					})
+
+					appendHeader += '<script src="/' + playerIndexPath + 'plugins.js"></script></head>';
 					//		var resourcesPath = "url:'../rest/paella'";
 					var paellaTitle = '<title>Paella Engage Example</title>';
 					var playerTitle = configure.config.player && configure.config.player.title;
@@ -133,6 +147,37 @@ function startServer() {
 	}
 
 	var editorDeps = ClientResources.processPluginDependencies(router,'editorDeps','editorDeps');
+	var editorPluginLoc = ClientResources.processDictionaries(router,'editor/localization','editorDictionary');
+
+	function getEditorLocalization(playerDir) {
+		return function(req,res) {
+			var languageFile = req.params.lang;
+			var result = /([a-z]*)_([a-z]*).json/.exec(languageFile);
+			if (result) {
+				var lang = result[2];
+				var staticFilePath = __dirname + '/client/' + playerDir + 'localization/' + languageFile;
+				fs.exists(staticFilePath,function(exists) {
+					if (exists) {
+						var editorFile = require(staticFilePath);
+						var pluginLoc = editorPluginLoc[lang];
+						if (pluginLoc) {
+							for (var key in pluginLoc) {
+								editorFile[key] = pluginLoc[key];
+							}
+						}
+						res.send(editorFile);
+					}
+					else {
+						res.send({});
+					}
+				});
+			}
+			else {
+				res.send({});
+			}
+		}
+	}
+
 	function getEditorIndex(playerIndexPath) {
 		return function(req,res) {
 			fs.readFile('./client/' + playerIndexPath + 'editor.html', 'utf8', function (err, data) {
@@ -153,8 +198,8 @@ function startServer() {
 						
 					});
 					appendHeader += '<script src="/' + playerIndexPath + 'plugins.js"></script>\n' +
-									   '<script src="/' + playerIndexPath + 'editor-plugins.js"></script>\n' +
-					'</head>';
+									'<script src="/' + playerIndexPath + 'editor-plugins.js"></script>\n';
+					appendHeader += '</head>';
 					//		var resourcesPath = "url:'../rest/paella'";
 					var paellaTitle = '<title>Paella Engage Example</title>';
 					var playerTitle = configure.config.player && configure.config.player.title;
@@ -225,6 +270,8 @@ function startServer() {
 	router.get(['/player/index.html','/player/','/player/embed.html'], getPlayerIndex('player/'));
 	router.get(['/playerDev/index.html','/playerDev/','/playerDev/embed.html','playerDev/editor.html'], getPlayerIndex('playerDev/'));
 	router.get(['/playerDev/editor.html'], getEditorIndex('playerDev/'));
+
+	router.get(['/playerDev/localization/:lang'],getEditorLocalization('playerDev/'));
 
 	router.get(['/player/config/config.json'],getPlayerConfig('player/'));
 	router.get(['/playerDev/config/config.json'],getPlayerConfig('playerDev/'));

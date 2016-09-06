@@ -37,13 +37,24 @@
 		</div>
 	</section>
 
-
-
-
 	<section>
 		<p></p>
-		<div class="jumbotron">
-			<h1>Página de Configuracion</h1>
+		<div class="panel panel-primary">
+			<div class="panel-heading">			
+				<h2>{{'Configuration sections' | translate }}</h2>
+			</div>			
+			<div class="panel-body">		
+				<plugins-list plugins="configs" type="config"></plugins-list>	
+			</div>			
 		</div>	
+		
+		<div class="row">
+			<div class="col-sm-12">
+				<button class="btn btn-primary pull-right" ng-click="saveConfig()">
+					<loader-field ng-show="updating"></loader-field> Save
+				</button>
+			</div>
+		</div>
+				
 	</section>
 </main>

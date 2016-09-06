@@ -5756,8 +5756,8 @@ Class ("paella.PaellaPlayer", paella.PlayerBase,{
 				}
 			})
 
-			.fail(function() {
-				errorMessage = base.dictionary.translate("Error loading video");
+			.fail(function(error) {
+				errorMessage = base.dictionary.translate(error);
 				thisClass.unloadAll(errorMessage);
 				paella.events.trigger(paella.events.error,{error:errorMessage});
 			});
@@ -6009,6 +6009,19 @@ Class ("paella.DefaultVideoLoader", paella.VideoLoader, {
 					This.loadVideoData(This._data,onSuccess);
 				},
 				function(data,type,err) {
+					switch (err) {
+					case 401:
+						paella.messageBox.showError(base.dictionary.translate("You are not logged in"));
+						break;
+					case 403:
+						paella.messageBox.showError(base.dictionary.translate("You are not authorized to view this resource"));
+						break;
+					case 404:
+						paella.messageBox.showError(base.dictionary.translate("The specified video identifier does not exist"));
+						break;
+					default:
+						paella.messageBox.showError(base.dictionary.translate("Could not load the video"));
+					}
 				});
 		}
 	},
@@ -7358,7 +7371,7 @@ Class ("paella.plugins.CaptionsPlugin", paella.ButtonPlugin,{
 	},
 
 	showUI: function(){
-		if(!paella.captions.getAvailableLangs().length || paella.captions.getAvailableLangs().length < 1){
+		if(paella.captions.getAvailableLangs().length>1){
 			this.parent();
 		}
 	},
@@ -9865,18 +9878,25 @@ Class ("paella.RTMPVideo", paella.VideoElementBase,{
 	},
 
 	setQuality:function(index) {
+		index = index!==undefined && index!==null ? index:0;
 		var defer = $.Deferred();
 		var This = this;
 		var paused = this._paused;
 		var sources = this._stream.sources.rtmp;
 		this._currentQuality = index<sources.length ? index:0;
-		var currentTime = this._currentTime;
-		This.load()
-			.then(function() {
-				This._loadCurrentFrame();
-				defer.resolve();
-			});
-		return defer;
+		var source = sources[index];
+		if (source.isLiveStream) {
+			return paella_DeferredResolved();
+		}
+		else {
+			var currentTime = this._currentTime;
+			This.load()
+				.then(function() {
+					//This._loadCurrentFrame();
+					defer.resolve();
+				});
+			return defer;
+		}
 	},
 
 	getCurrentQuality:function() {
@@ -12328,4 +12348,4 @@ Class ("paella.ZoomPlugin", paella.EventDrivenPlugin,{
 });
 
 paella.plugins.zoomPlugin = new paella.ZoomPlugin();
-paella.version = "5.0.11 - build: 5cd02d1";
+paella.version = "5.0.13 - build: f1b5a31";

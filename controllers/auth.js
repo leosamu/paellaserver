@@ -117,7 +117,7 @@ exports.LoadRoles = function(req,res,next) {
 		item.owner.forEach(function(owner) {
 			var ownerId = typeof(owner)=="string" ? owner:owner._id;
 			item.permissions.push({
-				"role":"ROLE_" + ownerId,
+				"role":"USER_" + ownerId,
 				"read":true,
 				"write":true
 			});

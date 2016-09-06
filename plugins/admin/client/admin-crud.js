@@ -28,7 +28,8 @@
 			'query': {method: 'GET', isArray: false },
 			'update': {method: 'PATCH'},
 			'joinUsers': {method: 'PATCH', url:'/rest/plugins/admin/CRUD/users/:id/joinUsers'},
-			'switchUser': {method: 'POST', url:'/rest/plugins/admin/CRUD/users/:id/switchUser'}
+			'switchUser': {method: 'POST', url:'/rest/plugins/admin/CRUD/users/:id/switchUser'},
+			'dynamicRoles': {method: 'GET', url:'/rest/plugins/admin/CRUD/users/:id/dynamicRoles', isArray: true}
 		});
 	}]);
 
@@ -40,8 +41,21 @@
 		});
 	}]);
 
+	app.factory('ConfigCRUD', ['$resource', function($resource){
+		return $resource('/rest/plugins/admin/CRUD/config/:id', {'id':'@_id'}, {
+			'query': {method: 'GET', isArray: false },
+		});
+	}]);
+	
 	app.factory('TaskCRUD', ['$resource', function($resource){
 		return $resource('/rest/plugins/admin/CRUD/tasks/:id', {'id':'@_id'}, {
+			'query': {method: 'GET', isArray: false },
+			'update': {method: 'PATCH'}
+		});
+	}]);
+
+	app.factory('ScheduledTaskCRUD', ['$resource', function($resource){
+		return $resource('/rest/plugins/admin/CRUD/schedule/:id', {'id':'@_id'}, {
 			'query': {method: 'GET', isArray: false },
 			'update': {method: 'PATCH'}
 		});

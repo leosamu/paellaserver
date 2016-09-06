@@ -18,10 +18,16 @@
 				<ul class="nav navbar-nav">
 				    <admin-plugins-menu></admin-plugins-menu>
 					<li class="active">
-						<a href="#/admin/roles">
-				    		Tareas
+						<a href="#/admin/tasks">
+				    		{{ 'Tasks' | translate }}
 				    	</a>
 				    </li>
+					<li>
+						<a href="#/admin/scheduler">
+				    		{{ 'Scheduled tasks'  | translate }}
+				    	</a>
+				    </li>
+				    
 				</ul>
 			</div>
 		</div>
@@ -42,8 +48,8 @@
 				</div>
 			
 			
-				<h2>Tareas</h2>
-				<h6>{{tasks.total}} tareas</h6>
+				<h2>{{ 'Tasks' | translate }}</h2>
+				<h6>{{tasks.total}} {{ 'tasks' | translate }}</h6>
 			
 			</div>
 			<div class="panel-body">
@@ -51,17 +57,17 @@
 					<table class="table table-hover">
 						<thead>
 							<tr>
-								<th>Fecha</th>
-								<th>Prioridad</th>
-								<th>Descripción</th>								
-								<th>Tarea</th>
-								<th>Tipo</th>
-								<th>Id</th>
+								<th>{{ 'Date' | translate }}</th>
+								<th>{{ 'Priority' | translate }}</th>
+								<th>{{ 'Description' | translate }}</th>								
+								<th>{{ 'Task' | translate }}</th>
+								<th>{{ 'Type' | translate }}</th>
+								<th>{{ 'Id' | translate }}</th>
 <!--
 								<th>Procesando</th>
 								<th width="80px;">Error</th>
 -->								
-								<th width="80px;">Acciones</th>
+								<th width="120px;">Acciones</th>
 							</tr>
 						</thead>
 						<tbody ng-hide="loadingVideos">
@@ -72,7 +78,11 @@
 								<td>{{t.task}}</td>
 								<td>{{t.targetType}}</td>
 								<td>
-									<a href="#/admin/videos/edit/{{t.targetId}}" ng-show="t.targetType=='video'">{{t.targetId}}</a>
+									{{t.targetId}}
+									<!--
+										<a href="#/admin/videos/edit/{{t.targetId}}" ng-show="t.targetType=='video'">{{t.targetId}}</a>
+										<a href="#/admin/videos/edit/{{t.targetId}}" ng-show="t.targetType=='reporitory'">{{t.targetId}}</a>
+									-->
 								</td>
 <!--								
 								<td>
@@ -83,6 +93,16 @@
 								<td>
 									<div class="btn-toolbar" role="toolbar">
 										<div class="btn-group" role="group">
+										
+											<a class="btn btn-xs btn-default" ng-href="#/admin/task/edit/{{t._id}}" ng-disabled="true" target="_blank">
+												<span class="glyphicon glyphicon-pencil"></span>
+											</a>
+											
+											<a class="btn btn-xs btn-default" ng-href="#/admin/videos/edit/{{t.targetId}}" ng-disabled="t.targetType!='video'" target="_blank">
+												<span class="glyphicon glyphicon-flash"></span>
+											</a>
+										
+										
 											<a class="btn btn-xs btn-default" href="/player/?id={{t.targetId}}&autoplay=true" target="_blank">
 												<span class="glyphicon glyphicon-eye-open"></span>
 											</a>

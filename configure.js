@@ -9,11 +9,12 @@ function serverUrl() {
 	var showPort = exports.config.connection.showPortInURL;
 	return exports.config.connection.protocol + '://' +
 		exports.config.connection.rootUrl +
-		(showPort && port!=80 && port!=443 ? ':' + port:"");
+		(showPort && port!=80 && port!=443 ? ':' + port : "");
 };
 
 
-function loadConfig (callback) {		
+function loadConfig (callback) {
+	exports.config = {};		
 	Config.find({}, function(err, data) {
 		if (err) { throw err;}
 		

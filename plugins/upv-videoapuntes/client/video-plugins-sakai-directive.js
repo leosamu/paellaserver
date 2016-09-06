@@ -9,7 +9,7 @@
 				pluginData: "=",
 				videoId: "=id"
 			},		
-			templateUrl: 'sakai/views/directives/video-plugin-sakai.html'
+			templateUrl: 'upv-videoapuntes/views/directives/video-plugin-sakai.html'
 		};
 	});
 	
