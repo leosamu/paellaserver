@@ -10,8 +10,9 @@ var AuthController = require(__dirname + '/../../../controllers/auth');
 exports.routes = {
 	listRecordings: { get:[
 		// TODO: Authenticate
+		AuthController.EnsureAuthenticatedOrDigest,
 		function(req, res) {			
-			var recordingFrom = moment().startOf('day').toDate();
+			var recordingFrom = moment().startOf('day');
 			if (req.query.start) {
 				recordingFrom = moment(decodeURIComponent(req.query.start));
 				if (recordingFrom.isValid() == false) {
@@ -22,7 +23,7 @@ exports.routes = {
 				}				
 			}
 			
-			var recordingTo = moment(recordingFrom).endOf('day').toDate();
+			var recordingTo = moment(recordingFrom).endOf('day');
 			if (req.query.end) {
 				recordingTo = moment(decodeURIComponent(req.query.end));
 				if (recordingTo.isValid() == false) {
@@ -32,14 +33,14 @@ exports.routes = {
 					return res.sendStatus(404);
 				}				
 			}
-			
-			
-			var email = "carbagi@ade.upv.es";			
 			recordingFrom = recordingFrom.toDate();
-			recordingTo = recordingTo.toDate();
+			recordingTo = recordingTo.toDate();			
 			
+			var email = req.user.contactData.email;			
+			var url = "https://videoapuntes.upv.es/rest/videoapuntes-notes?email="+email+"&recordingFrom="+recordingFrom.getTime()+"&recordingTo=" + recordingTo.getTime();
+
 			request.post({
-				url: "https://videoapuntes.upv.es/rest/videoapuntes-notes?email="+email+"&recordingFrom="+recordingFrom+"&recordingTo=" + recordingTo
+				url: url
 			}, function(error, response, body) {
 				if (error) {
 					res.status(500).send(error);
