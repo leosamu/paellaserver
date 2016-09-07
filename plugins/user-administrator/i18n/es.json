@@ -54,6 +54,16 @@
 	"Video size": "Tamaño del video",
 	"Custom": "Presonalizado",
 	"Embed code": "Código de incrustado",
-	"Pending upload" : "Pendiente de subir"
+	"Pending upload" : "Pendiente de subir",
+	
+	"Edit properties": "Editar las propiedades",
+	"View": "Ver",
+	"Links": "Enlaces",
+	"Remove": "Eliminar",
+	"videos":"videos",
+	"channels":"canales",
+	"Search":"Búsqueda",
+	"restricted":"restringido"
+	
 	
 }
