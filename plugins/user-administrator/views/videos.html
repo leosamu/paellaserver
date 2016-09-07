@@ -178,30 +178,24 @@
 						-->
 	
 						<div style="min-width:120px;">
-							<div>
-								<div ng-show="(v.permissions.length == 0)" data-toggle="tooltip" data-placement="left" title="{{'This video is public.' | translate}}">
-									<span class="glyphicon glyphicon-globe"></span>
-									<span>{{'public' | translate}}</span>
+							<div>							
+								<div ng-show="(v.permissions.length > 0)">
+									<div data-toggle="tooltip" data-placement="left" title="{{'Only people with correct credentials can view this video.' | translate}}">
+										<span class="glyphicon glyphicon-lock"></span>
+										<span>{{'restricted' | translate}}</span>
+									</div>
 								</div>
-								<div ng-show="(v.permissions.length > 0)" data-toggle="tooltip" data-placement="left" title="{{'Only people with correct credentials can view to this video.' | translate}}">
-									<span class="glyphicon glyphicon-lock"></span>
-									<span>{{'restricted' | translate}}</span>
+								<div ng-show="(v.permissions.length == 0)">							
+									<div ng-show="(v.hidden != true)" data-toggle="tooltip" data-placement="left" title="{{'People can view this video' | translate}}">
+										<span class="glyphicon glyphicon-globe"></span>
+										<span>{{'public' | translate}}</span>
+									</div>
+									<div ng-show="(v.hidden==true)" data-toggle="tooltip" data-placement="left" title="{{'Only people who knows the url can access to this video.' | translate}}">
+										<span class="glyphicon glyphicon-sunglasses"></span>
+										<span> {{'hidden' | translate}}</span>
+									</div>
 								</div>
-							</div>
-
-							<div>
-								<div ng-show="(v.published.status==true) && (v.hidden==true)" data-toggle="tooltip" data-placement="left" title="{{'Only people who knows the url can access to this video.' | translate}}">
-									<span class="glyphicon glyphicon-sunglasses"></span>
-									<span> {{'hidden' | translate}}</span>
-								</div>
-								<!--
-								<div ng-show="(v.published.status==true) && (v.hidden!=true)" data-toggle="tooltip" data-placement="left" title="{{'This video can be searched in the portal' | translate}}">
-									<span class="glyphicon glyphicon-eye-open"></span>
-									<span> {{'visible' | translate}}</span>
-								</div>
-								-->
-							</div>
-							
+							</div>							
 							 
 							<div>
 								<div ng-show="getVideoState(v) == 'queue'">

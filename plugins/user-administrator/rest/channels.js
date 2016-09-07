@@ -16,8 +16,6 @@ var CatalogController = require(__dirname + '/../../../controllers/catalog');
 
 
 
-
-
 exports.routes = {
 	channels: { 
 		get: [
