@@ -47,6 +47,9 @@
 				$scope.reloadVideos();
 			}
 		});					
+		$scope.$watch('currentPage', function(){ $scope.reloadVideos(); });
+			
+			
 			
 		$scope.reloadVideosWithTimer = function() {
 			if ($scope.timeoutReload) {
@@ -178,10 +181,6 @@
 				}
 			});
 		};		
-		
-		
-		$scope.$watch('currentPage', function(){ console.log($scope.currentPage); $scope.reloadVideos(); });
-		
 		
 		$scope.getVideoState = function(v) {
 			var state = "error";
