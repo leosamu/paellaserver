@@ -120,8 +120,9 @@
 					</div>
 					<div class="media-left hidden-xs">
 						<a ng-href="#/catalog/channel/{{c._id}}">
-							<img class="media-object" style="width:100px;" src="resources/images/channel-placeholder.png" 
-								ng-src="{{c.repository.server}}/{{c.repository.endpoint}}/{{c._id}}/{{c.thumbnail}}">
+							<img class="media-object" style="width:100px;" src="resources/images/channel-placeholder.png"
+								err-src="resources/images/channel-placeholder.png" 
+								ng-src="{{c.repository.server}}/{{c.repository.endpoint}}/{{c._id}}/channels/{{c.thumbnail}}">
 						</a>
 					</div>
 					<div class="media-body" style="overflow: visible !important;">					

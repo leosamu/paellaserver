@@ -65,6 +65,9 @@ exports.routes = {
 						}						
 	
 						var query = {"$and": queries};
+						
+						console.log(JSON.stringify(query));
+						
 						Channel.find(query).count().exec(function(errCount, count) {
 							if(errCount) { return res.sendStatus(500); }
 							
