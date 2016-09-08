@@ -49,7 +49,7 @@
 	
 		return function(seconds) {
 			if (!seconds) {
-				return "-"
+				return "00:00:00"
 			}
 			
 			return secondsTohhmmss(seconds);

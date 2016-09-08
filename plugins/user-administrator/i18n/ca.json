@@ -53,7 +53,17 @@
 	"Link": "Enllaç",
 	"Video size": "Mida del video",
 	"Custom": "Presonalitzat",
-	"Embed code": "Códig d'inserció"
-	"Pending upload" : "Pendent de putjar"
+	"Embed code": "Códig d'inserció",
+	"Pending upload" : "Pendent de putjar",
+	
+	"Edit properties": "Editar les propietats",
+	"View": "Vore",
+	"Links": "Enlaços",
+	"Remove": "Eliminar",
+	"videos":"videos",
+	"channels":"canals",
+	"Search":"Cerca",
+	"restricted":"restringit"
+	
 	
 }

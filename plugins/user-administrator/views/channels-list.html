@@ -43,62 +43,175 @@
 	</section>
 
 	<section>
-		<div class="table-responsive">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th width="120px">
-							<!--<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>-->
-							{{'Date' | translate}}
-						</th>
-						<th>
-							<!-- <span class="glyphicon glyphicon-sort" aria-hidden="true"></span> -->
-							{{'Title' | translate}}
-						</th>
-<!--						<th><span class="glyphicon glyphicon-sort" aria-hidden="true"></span> Autor</th>  -->
-						<th width="90px"># V/Ch</th>
-						<th width="90px"> {{'Visibility' | translate}} </th>
-						<th width="100px">{{'Actions' | translate}}</th>
-					</tr>
-				</thead>
-				<tbody ng-hide="loadingVideos">
-					<tr ng-repeat="c in channels.list" ng-class="{danger: c.deletionDate}">
-						<td> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> {{c.creationDate | amDateFormat:'ll'}}</td>
-						<td>{{c.title}}</td>
-<!--						<td>{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}</td>  -->
-						<td>{{c.videos.length || 0}} / {{c.children.length || 0}}</td>
-						<td>
-							<span ng-show="(c.hidden==true)">{{'hidden' | translate}}</span>
-							<span ng-show="(c.hidden!=true)">{{'public' | translate}}</span>
-						</td>
-						<td>
-							<div class="btn-toolbar" role="toolbar">
-								<div class="btn-group" role="group">
-									<a class="btn btn-xs btn-default" target="_blank" ng-href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
-									<a class="btn btn-xs btn-default" ng-href="#/useradmin/channels/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+		<div style="height: 30px;"></div>
+		
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<div class="pull-right" style="padding:0px; margin:0px; margin-top:15px;">
+					<div class="navbar-form">						
+						<div class="input-group">
+							<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+							<input type="text" class="form-control input-sm ng-pristine ng-valid ng-empty ng-touched" placeholder="{{'Search'|translate}}" ng-model="state.channelSearchText">
+						</div>
+					</div>
+				</div>
+			
+				<h2>{{'My channels' | translate}} <span class="badge">{{channels.total}}</span></h2>		
+			</div>
+			
+			<ul class="list-group">
+<!-- TODO: Filters
+				<li class="list-group-item list-group-item-info" style="padding:0 0 1px 5px;">
+					<span>
+						<div class="btn-group" role="group">	
+							<button class="btn btn-default btn-xs" ng-click="addingFilter=!addingFilter">
+								<span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+							</button>
+						</div>						
+					</span>
+					<span> Filters: </span>
+					<span class="label label-default ng-binding ng-scope" style="margin-left:2px;">
+						Catalogo: cfp - Politube (CFP)
+						<a href="" style="color:#fff" ng-click="removeFilter(f)">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 
+						</a>
+					</span>
+					
+				</li>
+-->
+				<li class="list-group-item" >
+					<span> <input type="checkbox" ng-model="selectAll"> </span>
+<!-- TODO: Actions
+					<actions-dropdown elements="channels.list" type="'user-videos'"></actions-dropdown>
+-->
+					<div class="pull-right">
+						<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+						
+						<!-- Single button -->
+						<div class="btn-group">
+							<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span ng-show="state.channelsSort=='date'"> {{'Date' | translate}}</span>
+								<span ng-show="state.channelsSort=='title'"> {{'Title' | translate}}</span>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href ng-click="state.channelsSort='date'" ng-show="state.channelsSort!='date'"> {{'Date' | translate}}</a></li>
+								<li><a href ng-click="state.channelsSort='title'" ng-show="state.channelsSort!='title'"> {{'Title' | translate}}</a></li>
+							</ul>
+						</div>						
+						
+					</div>
+				</li>
+								
+				<li class="list-group-item" style="min-height: 310px;" ng-show="loadingChannels">
+					<loader></loader>
+				</li>			
+				<li class="list-group-item" ng-show="channels.list == 0">
+					<div class="alert alert-info" role="alert">
+						{{ 'No channels found' | translate }}
+					</div>					
+				</li>
+				
+				<li class="list-group-item" ng-repeat="c in channels.list" ng-hide="loadingChannels">
+					<div class="media-left">
+						<div style="margin-top: 18px;">
+							<input type="checkbox" ng-model="c.selected">
+						</div>
+					</div>
+					<div class="media-left hidden-xs">
+						<a ng-href="#/catalog/channel/{{c._id}}">
+							<img class="media-object" style="width:100px;" src="resources/images/channel-placeholder.png"
+								err-src="resources/images/channel-placeholder.png" 
+								ng-src="{{c.repository.server}}/{{c.repository.endpoint}}/{{c._id}}/channels/{{c.thumbnail}}">
+						</a>
+					</div>
+					<div class="media-body" style="overflow: visible !important;">					
+						<h5 class="media-heading">
+							<a ng-href="#/catalog/channel/{{c._id}}">
+							<div style="display:inline-block; width:80%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{c.title}} </div>
+							</a>
+						</h5>
+						
+						<p class="list-group-item-text text-danger">
+							<span class="label label-default">{{c.creationDate | amDateFormat:'ll'}}</span>	
+							{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}
+						</p>
+						<!-- Split button -->
+						<div class="btn-group" style="margin-top:5px;">
+							<a class="btn btn-default btn-xs" ng-href="#/useradmin/channels/{{c._id}}">
+								{{ 'Edit properties' | translate }}
+							</a>							
+							<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+							</button>
+							<ul class="dropdown-menu">
+								<li>
+									<a ng-href="#/catalog/channel/{{c._id}}">
+										<span class="glyphicon glyphicon-eye-open"></span> {{'View' | translate}}
+									</a>
+								</li>
+								<!--
+								<li>
+									<a href ng-click="showLinks(v)" ng-disabled="getVideoState(v) != 'ready'">
+										<span class="glyphicon glyphicon-link"></span> Enlaces
+									</a>
+								</li>
+								-->
+								<li role="separator" class="divider"></li>
+								<li>
+									<a href ng-click="deleteChannel(c)" ng-show="canDeleteChannel(c)">
+										<span class="glyphicon glyphicon-trash"></span> {{'Remove' | translate}}
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="media-right">
+						<!--
+						<div>
+							{{v.catalog.description}}
+						</div>
+						-->
+	
+						<div style="min-width:120px;">
+							<div>
+								<div><span class="glyphicon glyphicon-film"></span> {{c.videos.length}} {{'videos' | translate}} </div>
+								<div><span class="glyphicon glyphicon-list-alt"></span> {{c.children.length}} {{'channels' | translate}} </div>
+							</div>
+<!--
+							<div>
+								<div ng-show="(v.permissions.length == 0)" data-toggle="tooltip" data-placement="left" title="{{'This video is public.' | translate}}">
+									<span class="glyphicon glyphicon-globe"></span>
+									<span>{{'public' | translate}}</span>
 								</div>
-								<div class="btn-group" role="group">
-									<button class="btn btn-xs btn-danger" ng-click="deleteChannel(c)" ng-show="canDeleteChannel(c)">
-										<span class="glyphicon glyphicon-trash"></span>
-									</button>
+								<div ng-show="(v.permissions.length > 0)" data-toggle="tooltip" data-placement="left" title="{{'Only people with correct credentials can view to this video.' | translate}}">
+									<span class="glyphicon glyphicon-lock"></span>
+									<span>{{'restricted' | translate}}</span>
 								</div>
 							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<loader ng-show="loadingVideos"></loader>			
+-->
+							<div>
+								<div ng-show="c.hidden==true" data-toggle="tooltip" data-placement="left" title="{{'Only people who knows the url can access to this channel.' | translate}}">
+									<span class="glyphicon glyphicon-sunglasses"></span>
+									<span> {{'hidden' | translate}}</span>
+								</div>								
+							</div>					
+						</div>
+					</div>					
+				</li>								
+			</ul>
 		</div>
-
 
 		<div>
 			<div role="toolbar" class="btn-toolbar">
 				<div class="btn-group" style="margin-top:-20px">		
-					<pagination total-items="channels.total" items-per-page="itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+					<pagination total-items="channels.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
 				</div>
 
 				<div class="btn-group pull-right">
-					<select ng-model="itemsPerPage" class="form-control input-sm" ng-change="reloadChannels()">
+					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadChannels()">
 						<option value="5">5</option>
 						<option value="10">10</option>
 						<option value="20">20</option>
