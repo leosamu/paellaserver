@@ -112,7 +112,7 @@
 						{{ 'No videos found' | translate }}
 					</div>					
 				</li>
-				
+						
 				<li class="list-group-item" ng-repeat="v in videos.list" ng-hide="loadingVideos">
 					<div class="media-left">
 						<div style="margin-top: 18px;">
@@ -124,17 +124,17 @@
 							<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" 
 								err-src="resources/images/video-placeholder.png" 
 								ng-src="{{v.repository.server}}/{{v.repository.endpoint}}/{{v._id}}/{{v.thumbnail}}">
-							<span class="label label-default" style="position: absolute;bottom: 20px; left: 88px; background-color: #4e4e4e;">
+							<span class="label label-default" style="position: absolute;top: 50px; left: 88px; background-color: #4e4e4e;">
 								{{v.duration | secondsToHuman }}
 							</span>
 						</a>
 					</div>
 					<div class="media-body" style="overflow: visible !important;">					
-						<h5 class="media-heading">
+						<div class="media-heading" style="font-weight: bold;">
 							<a ng-href="/player/?id={{v._id}}">
-							<div style="display:inline-block; width:80%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>
+							<div style="display:inline-block; text-overflow: ellipsis; /*white-space:nowrap;*/ overflow: hidden;"> {{v.title}} </div>
 							</a>
-						</h5>
+						</div>
 						
 						<p class="list-group-item-text text-danger">
 							<span class="label label-default">{{v.creationDate | amDateFormat:'ll'}}</span>	
