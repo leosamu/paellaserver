@@ -99,10 +99,10 @@
 
 	"options":"opcions",	
 	
-	"keyworkds_text": "Palabras clave",
-	"public_text": "Público",
-	"private_text": "Privado",
-	"hidden_text": "Oculto",
+	"keyworkds_text": "Paraules clau",
+	"public_text": "Públic",
+	"private_text": "Privat",
+	"hidden_text": "Ocult",
 	"public_explanation_text": "El video será publico y aparecerá publicitado en el portal.",
 	"private_explanation_text": "El video solo lo podrá ver al autor del video.",
 	"hidden_explanation_text": "El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.",
