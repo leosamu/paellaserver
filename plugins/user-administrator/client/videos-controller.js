@@ -7,8 +7,9 @@
 	});	
 
 
-	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', '$modal', 'UserAdminState', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup', 'MessageBox',
-	function($scope, $http, $timeout, $cookies, $modal, UserAdminState, User, Video, VideoEditPopup, VideoUploadPopup, MessageBox) {
+
+	app.controller("UserAdminListVideosController", ['$scope', '$http', '$timeout', '$cookies', '$modal', 'UserAdminState', 'User', 'Video', 'VideoEditPopup', 'VideoUploadPopup', 'MessageBox', 'VideoUserEditPopup',
+	function($scope, $http, $timeout, $cookies, $modal, UserAdminState, User, Video, VideoEditPopup, VideoUploadPopup, MessageBox, VideoUserEditPopup) {
 	
 		$scope.state = UserAdminState;
 		$scope.currentPage=1;
@@ -100,7 +101,8 @@
 				delete(data.thumbnail);					
 				delete(data.search);
 			
-				VideoEditPopup(data)
+				VideoUserEditPopup(data)				
+//				VideoEditPopup(data)
 				.then(function(newVideoData) {								
 					newVideoData.id = newVideoData._id;
 					return Video.update(newVideoData).$promise;

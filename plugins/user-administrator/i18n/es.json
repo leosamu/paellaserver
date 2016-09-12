@@ -63,7 +63,21 @@
 	"videos":"videos",
 	"channels":"canales",
 	"Search":"Búsqueda",
-	"restricted":"restringido"
+	"restricted":"restringido",
+	
+	"Video information": "Información del video",
+	"Categories": "Categorias",
+	"Transcription": "Transcripción",
+	
+	"Available languages": "Lenguajes disponibles",
+	"Edit": "Editar",
+	"This video is not going to be transcribed!": "El video no se va a transcribir!",
+	"If you want the video to be transcribed contact the administrator.": "Si quiere que el video se transcriba póngase en contacto con el administrador.",
+	"The video is being analyzed to be transcribed.": "El video se está analizando para transcribir.",
+	"The video could not be transcribed!": "El video no se ha podido transcribir!",
+	"A problem has occurred while transcribing the video, contact your administrator.": "Ha ocurrido un problema al transcribir el video, póngase en contacto con el administrador.",
+	"The video has been transcribed smoothly!": "El video se ha transcrito sin problemas!",
+	"You can review and correct the transcripts.": "Puede revisar y corregir las transcripciones."
 	
 	
 }

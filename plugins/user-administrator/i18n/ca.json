@@ -35,7 +35,7 @@
 	"URL": "URL",
 	"Channel URL": "URL del canal",
 	"Video URL": "URL del vídeo",
-	"Close": "Tancat",
+	"Close": "Tancar",
 	"Accept": "Acceptar",
 	"The channel URL can't be loaded. Check it is correct.": "La URL del canal introduït no es pot carregar. Comprova que sigui correcta.",
 	"If the URL is valid, you will see a channel preview. This can take several minutes.": "Si la URL es correcta, veuràs una vista prèvia del canal ací. Pot trigar uns minuts a aparèixer.",
@@ -63,7 +63,21 @@
 	"videos":"videos",
 	"channels":"canals",
 	"Search":"Cerca",
-	"restricted":"restringit"
+	"restricted":"restringit",
+	
+	"Video information": "Informació del video",
+	"Categories": "Categories",
+	"Transcription": "Transcripció",
+	
+	"Available languages":"Llenguatges disponibles",
+	"Edit": "Editar",
+	"This video is not going to be transcribed!": "El video no es va a transcriure!",
+	"If you want the video to be transcribed contact the administrator.": "Si vol que el vídeo es transcriga, poseu-vos en contacte amb l'administrador.",
+	"The video is being analyzed to be transcribed.": "El video està analitzant-se per a transcriure.",
+	"The video could not be transcribed!": "El video no s'ha pogut transcriure!",
+	"A problem has occurred while transcribing the video, contact your administrator.": "Hi ha hagut un problema al transcriure el vídeo, poseu-vos en contacte amb l'administrador.",
+	"The video has been transcribed smoothly!": "El video s'ha transcrit sense problemes!",
+	"You can review and correct the transcripts.": "Pot revisar i corregir les transcripcions."
 	
 	
 }

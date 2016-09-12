@@ -99,16 +99,16 @@
 
 	"options":"opcions",	
 	
-	"keyworkds_text": "Palabras clave",
-	"public_text": "Público",
-	"private_text": "Privado",
-	"hidden_text": "Oculto",
-	"public_explanation_text": "El video será publico y aparecerá publicitado en el portal.",
-	"private_explanation_text": "El video solo lo podrá ver al autor del video.",
-	"hidden_explanation_text": "El video no aparecerá publicitado en el portal, pero sera visible por cualquier persona que conozca el enlace.",
-	"file_not_valid_text": "El fichero seleccionado no es válido. Seleccione otro fichero.",
-	"uploading_video_text": "Subiendo fichero",
-	"file_upload_ok_text": "El video se ha subido correctamente.",
+	"keyworkds_text": "Paraules clau",
+	"public_text": "Públic",
+	"private_text": "Privat",
+	"hidden_text": "Ocult",
+	"public_explanation_text": "El vídeo serà públic i apareixerà publicat al portal.",
+	"private_explanation_text": "El vídeo només el podrà veure l'autor del vídeo.",
+	"hidden_explanation_text": "El vídeo no apareixerà publicat al portal, però serà visible per qualsevol persona que conegui l'enllaç.",
+	"file_not_valid_text": "El fitxer seleccionat no és vàlid. Seleccioneu un altre fitxer.",
+	"uploading_video_text": "Pujant fitxer",
+	"file_upload_ok_text": "El video s'ha pujat correctament.",
 	
 	
   	"unprocessed_video_text": "Pendent de processar",
