@@ -52,21 +52,29 @@ exports.routes = {
 							items = items[0].items;
 						}
 	
+						var queryroles = []
+						req.user.roles.forEach(function(r){ queryroles.push(r._id); });
+	
 						var queries = [
 							{$or: [
 								{deletionDate: {$eq: null}},
 								{deletionDate: {$exists: false}},
 							]},
-							{owner:req.user._id},
+							{$or: [
+								{owner:req.user._id},
+								{permissions: { $elemMatch: {
+									role: {$in: queryroles},
+									write: true
+								}}}
+							]},
 							{_id: {"$nin": items}}							
 						];
 						if ((searchText!=undefined) && (searchText!='')) {
 							queries.push({ '$text': {'$search': searchText} });
 						}						
 	
-						var query = {"$and": queries};
-						
-						console.log(JSON.stringify(query));
+						var query = {"$and": queries};						
+						//console.log(JSON.stringify(query));
 						
 						Channel.find(query).count().exec(function(errCount, count) {
 							if(errCount) { return res.sendStatus(500); }
