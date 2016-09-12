@@ -25,23 +25,52 @@ exports.routes = {
 			function(req,res) {			
 				var skip = req.query.skip || 0;
 				var limit = req.query.limit || 100;
+				var sort = req.query.sort;
+				var searchText = req.query.q;
+								
 				var filters = {}; //JSON.parse(new Buffer(req.query.filters, 'base64').toString());
 								
 				//var isAdmin = req.user.roles.some(function(a) {return a.isAdmin;});					
 				//var qcatalogs = (isAdmin)? {} : {"catalog": {"$in": catalogs}};
-				var query = {"$and":[
-					{deletionDate: {$eq: null}}, 
-					{owner:req.user._id}, 
-					filters
-				]};
+
+
+				var queryroles = []
+				req.user.roles.forEach(function(r){ queryroles.push(r._id); });
+
+				
+				var queries = [
+					{$or: [
+						{deletionDate: {$eq: null}},
+						{deletionDate: {$exists: false}},
+					]},
+					{$or: [
+						{owner:req.user._id},
+						{permissions: { $elemMatch: {
+							role: {$in: queryroles},
+							write: true
+						}}}
+					]},
+				]
+				if ((searchText!=undefined) && (searchText!='')) {
+					queries.push({ '$text': {'$search': searchText} });
+				}
+
+				var query = {"$and":queries};				
+				//console.log(JSON.stringify(query));
+				
 				
 				Video.find(query).count().exec(function(errCount, count) {
 					if(errCount) { return res.sendStatus(500); }
 					
-					Video.find(query)
+					var C = Video.find(query)
 					.select("-blackboard -operator -search")
-					.sort({creationDate:-1})
-					.skip(skip)
+					if (sort == 'date') {
+						C = C.sort({creationDate:-1});
+					}
+					else if (sort == 'title') {
+						C = C.sort({title:+1});
+					}
+					C.skip(skip)
 					.limit(limit)
 					.populate('repository')
 					.populate('owner', '_id contactData')					

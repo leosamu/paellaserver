@@ -25,14 +25,15 @@ util.inherits(UPVUserProvider, UserProvider);
 UPVUserProvider.prototype.getOrCreateUserByAuthInfo = function(autenticateInfo) {
 	var profile = autenticateInfo;
 	var deferred = Q.defer();
-		
+	var self = this;
+	
 	User.findOne({"auth.UPV.dni": profile.dni})
 	.select('-auth.polimedia.pass')
 	.exec(function(err, user) {
 		if (err) { deferred.reject(err); }
 		else if (user) { deferred.resolve(user); }
 		else {
-			getOrCreateUserByEmail(profile.email)
+			self.getOrCreateUserByEmail(profile.email)
 			.then(
 				function(user){ deferred.resolve(user); },
 				function(err) { deferred.reject(err); }
