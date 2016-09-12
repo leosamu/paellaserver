@@ -66,7 +66,46 @@
 	app.controller('VideoUserEditModalController', [ "$scope", "$modalInstance", "videoData",
 		function($scope, $modalInstance, videoData) {
 			$scope.video = videoData;
-						
+			
+			if ( ($scope.video.hidden == false) && ($scope.video.hiddenInSearches == false) && ($scope.video.published.status == true) ){
+				$scope.visibility="public";
+			}
+			else if ( ($scope.video.hidden == true) && ($scope.video.hiddenInSearches == true) && ($scope.video.published.status == false) ){
+				//$scope.visibility="private";
+				$scope.visibility="hidden";
+			}
+			else if ( ($scope.video.hidden == true) && ($scope.video.hiddenInSearches == true) && ($scope.video.published.status == true) ){
+				$scope.visibility="hidden";
+			}
+			else {
+				$scope.visibility="public";
+			}
+				
+				
+			$scope.$watch('visibility', function() {
+				if ($scope.visibility == 'public') {
+					$scope.video.hidden = false;
+					$scope.video.hiddenInSearches = false;
+					$scope.video.published = {
+						status: true
+					}
+				}	/*		
+				else if ($scope.visibility == 'private') {
+					$scope.video.hidden = true;
+					$scope.video.hiddenInSearches = true;
+					$scope.video.published = {
+						status: false
+					}
+					
+				}	*/		
+				else if ($scope.visibility == 'hidden') {
+					$scope.video.hidden = true;
+					$scope.video.hiddenInSearches = true;
+					$scope.video.published = {
+						status: true
+					}
+				}			
+			});	
 			
 			$scope.close = function() {
 				$modalInstance.dismiss();
