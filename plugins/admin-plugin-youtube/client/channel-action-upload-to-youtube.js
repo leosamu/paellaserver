@@ -7,7 +7,7 @@
 		Actions.registerAction(
 			{
 				label: "Upload channel to Youtube",
-				context: "channel",
+				context: "youtube-channel",
 				role: "YOUTUBE_UPLOADER",
 				isDisabled: function(selectedChannels) {
 					var disabled = true;
