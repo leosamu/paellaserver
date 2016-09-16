@@ -77,7 +77,8 @@ Class ("paella.plugins.visualAnnotationPlugin", paella.EventDrivenPlugin,{
     },
 
     setup:function(){
-    	var self = this;    
+    	var self = this;   
+		//TODO- maybe i need to set the style here 
         paella.data.read('visualAnnotations',{id:paella.initDelegate.getId(),url:self.config.url},function(data,status) {
 	        self._ready = true;
             self._annotations = data;
@@ -119,7 +120,7 @@ Class ("paella.plugins.visualAnnotationPlugin", paella.EventDrivenPlugin,{
 	    self._annotations.splice(index,1);
 	    self._annotations.push(annotation);
 	    self.closeAnnotation(annotation._id); 
-	    paella.player.videoContainer.seekToTime(annotation.time);
+	    paella.player.videoContainer.seekToTime(annotation.time + annotation.duration/2);
     },
 
     drawAnnotation:function(event,params){
@@ -190,7 +191,9 @@ Class ("paella.plugins.visualAnnotationPlugin", paella.EventDrivenPlugin,{
                 }
                 el.appendChild(button);
                 //let create the style
+				//patata?
                 var sheet = document.createElement('style');
+				console.log("style!");
                 sheet.innerHTML=annotation.css;
                 el.appendChild(sheet);
                 
