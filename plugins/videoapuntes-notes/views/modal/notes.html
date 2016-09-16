@@ -1,0 +1,35 @@
+<div class="modal-header">
+	<h4 class="modal-title text-danger">Anotaciones</h4>
+</div>
+<div class="modal-body">
+	<form class="form-horizontal">
+		<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th width="80px;">Acciones</th>
+								<th>Data</th>								
+								<th>Time</th>
+							</tr>
+						</thead>
+						<tbody ng-hide="loadingVideos">
+							<tr ng-repeat="t in anotations" ng-class="{danger:t.error, success:t.processing}">
+								<td><a href ="https://engage.videoapuntes.upv.es/paella4.0/ui/watch.html?id={{recordId}}&autoplay=true&time={{t.time}}s" target="notes"><i class="glyphicon glyphicon-play-circle"></i></a></td>
+								<td ng-bind-html="t.Data"></td>								
+								<td>{{t.time | secondsToHuman}}</td>
+							</tr>
+						</tbody>
+					</table>
+					</div>
+		<!--<div ng-show="type=='transcode'">
+		
+		
+		</div>!-->		
+		
+		
+	</form>
+</div>
+<div class="modal-footer">    
+	<button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
+	<!--<button type="button" class="btn btn-primary" ng-click="accept()">Continuar</button>!-->
+</div>

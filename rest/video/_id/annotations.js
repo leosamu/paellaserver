@@ -9,8 +9,8 @@ var AuthController = require(__dirname + '/../../../controllers/auth');
 exports.routes = {
 	getAnnotations: {
 		get:[
-			VideoController.LoadVideo,
-			AuthController.LoadRoles,
+//			VideoController.LoadVideo,
+	//		AuthController.LoadRoles,
 //			AuthController.CheckAccess,	
 			// TODO: Paginator					
 			AnnotationController.LoadAnnotations,

@@ -1,0 +1,114 @@
+<main>	
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">	    
+
+			<!--<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>!-->
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+    				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>
+					<li class="active">
+						<a href="#/videoapuntes-notes">
+				    		Grabaciones
+				    	</a>
+				    </li>
+				    <li>
+						<a href="#/videoapuntes-notes/notes">
+				    		Notas
+				    	</a>
+				    </li>
+
+				</ul>
+			</div>
+		</div>
+	</section>
+	<section>	
+		<div style="height: 30px;"></div>
+		
+		<div class="panel panel-primary">
+				<div class="well well-sm pull-right" style="padding:0px; margin:0px; margin-top:45px;">					
+					 
+					 <span>
+						Filtrar con anotaciones <input type="checkbox" ng-model="hasannotations"><i data-toggle="tooltip" data-placement="top" title="Filtrar con anotaciones" class="glyphicon glyphicon-edit"></i></input>
+						 <input type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="initdate" is-open="datePickerInitOpened" close-text="Close" readonly />
+						 <button type="button" class="btn btn-default" ng-click="datePickerInitOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+						 <input type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="enddate" is-open="datePickerEndOpened" close-text="Close" readonly />
+						 <button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</div>
+			<div class="panel-heading">
+				
+				<h2>Grabaciones</h2>
+				<h6>{{recordings.total}} grabaciones</h6>
+			
+				
+			
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th width="80px;">Acciones</th>
+								<th>Fecha</th>
+								<th>Titulo</th>
+								<th>Profesor</th>								
+								<th>Campus</th>
+								<th>Edificio</th>
+								<th>Aula</th>
+								<th>Id</th>
+<!--
+								<th>Procesando</th>
+								<th width="80px;">Error</th>
+-->								
+								
+							</tr>
+						</thead>
+						<tbody ng-hide="loadingVideos">
+							<tr ng-repeat="t in recordings" ng-class="{danger:t.error, success:t.processing}" ng-show="t.hasannotations || !hasannotations">
+								<td>									
+									<div class="btn-toolbar" role="toolbar">
+										<div class="btn-group" role="group">
+											<a class="btn btn-xs btn-default" href="/#/videoapuntes-notes/notes/{{t._id}}">
+												<span class="glyphicon glyphicon-eye-open"></span>
+											</a>
+												<a class="btn btn-xs btn-default" ng-click="showAnnotations(t._id)">
+												<span class="glyphicon glyphicon-pencil"></span>
+											</a>											
+										</div>
+									</div>
+								</td>
+								<td>{{t.startRecord | amCalendar}}</td>
+								<td>{{t.title }}</td>
+								<td>{{t.presenter.name}}</td>								
+								<td>{{t.schoolroom.name.campus}}</td>
+								<td>{{t.schoolroom.name.building}}</td>
+								<td>{{t.schoolroom.name.schoolroom}}</td>
+								<td>{{t._id}}</td>
+								<!--<td>
+									<a href="#/admin/videos/edit/{{t.targetId}}" ng-show="t.targetType=='video'">{{t.targetId}}</a>
+								</td>
+<!--								
+								<td>
+									<span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.processing, 'glyphicon-remove':(!t.processing)}">
+								</td>
+								<td><span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok':t.error, 'glyphicon-remove':(!t.error)}"> </span></td>
+-->
+								
+							</tr>
+						</tbody>
+					</table>
+					<loader ng-show="loadingVideos"></loader>			
+				</div>
+			</div>
+		</div>
+	</section>
+
+</main>
