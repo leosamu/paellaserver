@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 //		(opt) req.params.type
 //	Output: req.data
 exports.LoadAnnotations = function(req,res,next) {
-	var and = [{video: req.data[0]._id}];
+	var and = [{video: req.params.id}];
 	if (req.params.type) {
 		and.push({tye: req.params.type})
 	}
@@ -50,8 +50,10 @@ exports.LoadAnnotation = function(req,res,next) {
 //	Output: req.data: the new annotation data, including the UUID
 exports.CreateAnnotation = function(req,res,next) {	
 	var item = new Annotation(req.body.annotation)	
+	console.log(req.user);
 	item.user = req.user._id;
 	item.video = req.params.id;
+	console.log(item);
 	item.save(function(err) {
 		if(!err) {
 			res.status(201);

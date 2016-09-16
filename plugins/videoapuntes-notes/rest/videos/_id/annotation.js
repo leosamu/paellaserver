@@ -12,8 +12,8 @@ exports.routes = {
 	getAnnotation: {
 		param: 'annotationId',
 		get:[		
-			VideoController.LoadVideo,
-			AuthController.LoadRoles,
+//			VideoController.LoadVideo,
+//			AuthController.LoadRoles,
 //			AuthController.CheckAccess,
 			AnnotationController.LoadAnnotation,
 			CommonController.JsonResponse
@@ -22,9 +22,9 @@ exports.routes = {
 	
 	createAnnotation: {
 		post:[
-			VideoController.LoadVideo,
-			AuthController.LoadRoles,
-//			AuthController.CheckWrite,
+		//	VideoController.LoadVideo,
+		//	AuthController.LoadRoles,
+			//AuthController.CheckAccess,
 			AnnotationController.CreateAnnotation,
 			CommonController.JsonResponse
 		]
@@ -33,8 +33,8 @@ exports.routes = {
 	updateAnnotation: {
 		param: 'annotationId',	
 		patch:[
-			VideoController.LoadVideo,
-			AuthController.LoadRoles,
+	//		VideoController.LoadVideo,
+	//		AuthController.LoadRoles,
 //			AuthController.CheckWrite,
 			AnnotationController.UpdateAnnotation,
 			CommonController.JsonResponse
@@ -44,8 +44,8 @@ exports.routes = {
 	deleteAnnotation: {
 		param: 'annotationId',	
 		delete:[
-			VideoController.LoadVideo,
-			AuthController.LoadRoles,
+	//		VideoController.LoadVideo,
+	//		AuthController.LoadRoles,
 //			AuthController.CheckWrite,
 			AnnotationController.DeleteAnnotation,
 			CommonController.JsonResponse

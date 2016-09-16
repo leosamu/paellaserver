@@ -36,9 +36,9 @@ exports.routes = {
 			recordingFrom = recordingFrom.toDate();
 			recordingTo = recordingTo.toDate();			
 			
-			var email = req.user.contactData.email;			
+			var email = req.user.contactData.email;	//'miesgre@asic.upv.es';//		
 			var url = "https://videoapuntes.upv.es/rest/videoapuntes-notes?email="+email+"&recordingFrom="+recordingFrom.getTime()+"&recordingTo=" + recordingTo.getTime();
-
+			
 			request.post({
 				url: url
 			}, function(error, response, body) {

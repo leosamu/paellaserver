@@ -1,0 +1,93 @@
+<main>	
+	<section class="ps-search-bar navbar navbar-default">
+	    <div class="container-fluid">	    
+
+			<!--<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#admin-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>!-->
+
+			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
+    				<ul class="nav navbar-nav">
+				    <admin-plugins-menu></admin-plugins-menu>
+					<li>
+						<a href="#/videoapuntes-notes">
+				    		Grabaciones
+				    	</a>
+				    </li>
+				    <li class="active">
+						<a href="#/videoapuntes-notes/notes">
+				    		Notas
+				    	</a>
+				    </li>
+
+				</ul>
+			</div>
+		</div>
+	</section>
+	<section>	
+		<div style="height: 30px;"></div>
+		<div class="panel panel-primary col-sm-12">
+			<div class="panel-heading">			
+							
+				<h2>{{recording.title}}</h2>
+				<h6>{{recording.presenter.name}}, {{recording.startRecord}}</h6>
+                <h6>{{recording.schoolroom.name.campus}} - {{recording.schoolroom.name.building}} - {{recording.schoolroom.name.schoolroom}}</h6>
+			</div>
+            <div class="panel-body">
+					<div class ="col-sm-6">
+					<div>
+						Use estos botones para insertar notas en este instante de tiempo.
+					</div>	
+					
+					<div class="btn-group">
+						<button data-toggle="tooltip" data-placement="top" title="Anotar positivo" class="btn btn-primary"><i class="glyphicon glyphicon-thumbs-up" ng-click="addNote('like')"></i></button>
+						<button data-toggle="tooltip" data-placement="top" title="Anotar negativo" class="btn btn-primary"><i class="glyphicon glyphicon-thumbs-down" ng-click="addNote('dislike')"></i></button>
+						<button data-toggle="tooltip" data-placement="top" title="Anotar duda" class="btn btn-primary"><i class="glyphicon glyphicon-question-sign" ng-click="addNote('question')"></i></button>
+						<button data-toggle="tooltip" data-placement="top" title="Anotar la diapositiva" class="btn btn-primary"><i class="glyphicon glyphicon-picture" ng-click="addNote('picture')"></i></button>
+						<button data-toggle="tooltip" data-placement="top" title="Anotar la camara" class="btn btn-primary"><i class="glyphicon glyphicon-camera" ng-click="addNote('camera')"></i></button>
+						<button data-toggle="tooltip" data-placement="top" title="Anotar un texto" class="btn btn-primary" style="font-family: serif;" ng-click="showText()">T</button>
+						<button data-toggle="tooltip" data-placement="top" title="Anotar un dibujo" class="btn btn-primary" ng-click="showDraw()"><i class="glyphicon glyphicon-pencil" ></i></button>
+				</div>
+				<div class="alert alert-success" id="success-alert">
+						<button type="button" class="close" data-dismiss="alert">x</button>
+						<strong>Enhorabuena! </strong>
+						La anotación ha sido guardada con éxito!.
+					</div>
+				<div ng-show="isVisibleText">
+						<textarea class="form-control" rows="5" id="comment"  ng-model="textNote"></textarea>
+						<button class="btn btn-primary pull-right" ng-click="addNote(textNote)"><i class="glyphicon glyphicon-share" ></i></button>
+				</div>
+				<div ng-show="isVisibleDraw">
+					<div class="col-lg-12"> 
+						<canvas  width="600px" width="200px"
+							style=" 
+									border-bottom: 1px solid rgba(0,0,0,0.3); 
+									background-color: #FFF;
+									box-shadow: 0 9px 20px -5px rgba(0,0,0,0.8);"
+							id="canvas" drawing></canvas>
+					</div>                         
+							<button class="btn btn-primary pull-right" ng-click="addDrawing()"><i class="glyphicon glyphicon-share" ></i></button>
+				</div>  
+
+				</div>
+				<div class ="col-sm-6">
+<div class="embed-responsive embed-responsive-16by9">
+					<div id="playerContainer" style="display:block;width:100%;padding-left:15vw">
+						<iframe allowfullscreen src="https://media.upv.es/player/?autoplay=true&amp;id=27395be9-1cff-4315-942b-bf35526c9055" style="border:0px #FFFFFF none;" name="Paella Player" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" width=" 620" height="349 "></iframe>
+					</div>
+				</div>
+
+				</div>
+                            
+            </div>                
+        </div>
+		
+        
+	</section>
+
+</main>
