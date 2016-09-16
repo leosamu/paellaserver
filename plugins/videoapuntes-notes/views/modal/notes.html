@@ -14,7 +14,7 @@
 						</thead>
 						<tbody ng-hide="loadingVideos">
 							<tr ng-repeat="t in anotations" ng-class="{danger:t.error, success:t.processing}">
-								<td><a href ="https://media.upv.es/player/?id=98{{recordId}}&autoplay=true&time={{t.time}}s" target="notes"><i class="glyphicon glyphicon-play-circle"></i></a></td>
+								<td><a href ="https://engage.videoapuntes.upv.es/paella4.0/ui/watch.html?id={{recordId}}&autoplay=true&time={{t.time}}s" target="notes"><i class="glyphicon glyphicon-play-circle"></i></a></td>
 								<td ng-bind-html="t.Data"></td>								
 								<td>{{t.time | secondsToHuman}}</td>
 							</tr>
