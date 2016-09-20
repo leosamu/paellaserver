@@ -30,6 +30,11 @@
 				    		{{'My channels' | translate}}
 				    	</a>
 				    </li>
+					<li >
+						<a href="#/useradmin/subjects">
+				    		{{'My subjects' | translate}}
+				    	</a>
+				    </li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
@@ -82,9 +87,8 @@
 -->
 				<li class="list-group-item" >
 					<span> <input type="checkbox" ng-model="selectAll"> </span>
-<!-- TODO: Actions
-					<actions-dropdown elements="channels.list" type="'user-videos'"></actions-dropdown>
--->
+					<item-actions-dropdown elements="videos.list" type="'user-videos-list'"></item-actions-dropdown>
+
 					<div class="pull-right">
 						<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
 						
@@ -170,7 +174,6 @@
 							</ul>
 						</div>					
 					</div>
-					
 					<div class="media-right">
 						<!--
 						<div>
