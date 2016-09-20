@@ -190,7 +190,9 @@
 				
 				$scope.doAction = function(action) {
 					var selectedElements = getSelectedItems();
-					ItemActions.runAction(action, selectedElements);
+					if (action.isDisabled(selectedElements) == false){
+						ItemActions.runAction(action, selectedElements);
+					}
 				};	
 			}]
 		};
