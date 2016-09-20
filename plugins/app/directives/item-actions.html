@@ -1,0 +1,18 @@
+<div class="modal-header">
+	<h4 class="modal-title text-danger">{{'Running action' | translate}}</h4>
+</div>
+<div class="modal-body">
+	<p>{{action.label | translate}}</p>
+	
+	<uib-progress class="active" ng-class="{'progress-striped':(successCompleted+successError)<totalActions}">
+		<uib-bar type="success" value="100*(successCompleted/totalActions)">
+			<span ng-show="successCompleted>0">{{successCompleted}}/{{successCompleted+successError}}</span>
+		</uib-bar>
+		<uib-bar type="danger" value="100*(successError/totalActions)">
+			<span ng-show="successError>0">{{successError}}/{{successCompleted+successError}}</span>
+		</uib-bar>
+	</uib-progress>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" ng-click="accept()" ng-disabled="(finished==false)">{{'Continue' | translate}}</button>
+</div>	
