@@ -2,8 +2,10 @@
 	var app = angular.module('userAdminModule');
 
 
-	app.controller("ChannelsSelectController", ['$scope', '$http', '$timeout', '$cookies', '$modal', "$modalInstance", "$sce", "Video", "Channel",
-	function($scope, $http, $timeout, $cookies, $modal, $modalInstance, $sce, Video, Channel) {	
+	app.controller("ChannelsSelectController", ['$scope', '$http', '$timeout', '$cookies', '$modal', "$modalInstance", "$sce", "Video", "Channel", "onlyYourVideos",
+	function($scope, $http, $timeout, $cookies, $modal, $modalInstance, $sce, Video, Channel, onlyYourVideos) {	
+						
+		$scope.onlyYourVideos = onlyYourVideos;
 		
 		$scope.$watch('tab', function() {
 			$scope.channelURL = null;
@@ -20,11 +22,7 @@
 				var urlparser = document.createElement('a');
 				$scope.parser = urlparser;
 				urlparser.href = $scope.channelURL;
-					
-				console.log(urlparser.host);
-				console.log(urlparser.pathname);
-				console.log(urlparser.hash);
-								
+													
 				if ((urlparser.host == "media.upv.es") && (urlparser.pathname == "/")) {				
 					var rx = /#\/catalog\/channel\/(.+)/;
 					var arr = rx.exec(urlparser.hash);
@@ -33,7 +31,6 @@
 					if (id != null) {
 						Channel.get({id: id}).$promise.then(function(channel){
 							$scope.embedChannel = channel;
-							console.log($scope.embedChannel);
 							$scope.selectedChannels = [channel];						
 						});					
 					}
@@ -96,13 +93,16 @@
 	
 	
 	app.factory('ChannelsSelect', ['$modal',function($modal) {
-		return function() {
+		return function(onlyYourVideos) {
 			var modalInstance = $modal.open({
 				size: 'lg',
 				templateUrl:'user-administrator/views/modal/channels-select.html',
-				controller:'ChannelsSelectController',	
-				resolve:{
-				}							
+				controller:'ChannelsSelectController',
+				resolve: {
+					onlyYourVideos: function () {
+						return (onlyYourVideos==true);
+					}
+				}
 			});
 
 			return modalInstance.result;

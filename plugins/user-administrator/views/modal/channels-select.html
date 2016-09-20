@@ -7,8 +7,8 @@
 
 	<ul class="nav nav-tabs nav-justified" ng-init="tab=1">
 		<li role="presentation" ng-click="tab=1" ng-class="{active:tab==1}"><a href>{{'Your channels' | translate}} </a></li>			
-		<li role="presentation" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>{{'Channel search' | translate}}</a></li>
-		<li role="presentation" ng-click="tab=3" ng-class="{active:tab==3}" ><a href>{{'URL' | translate}}</a></li> 
+		<li role="presentation" ng-hide="onlyYourVideos" ng-click="tab=2" ng-class="{active:tab==2}" ><a href>{{'Channel search' | translate}}</a></li>
+		<li role="presentation" ng-hide="onlyYourVideos" ng-click="tab=3" ng-class="{active:tab==3}" ><a href>{{'URL' | translate}}</a></li> 
 	</ul>		
 				
 	<div class="panel panel-default" style="border-top:0px; border-radius: 0px 0px 4px 4px;">
@@ -63,11 +63,11 @@
 				<div>
 					<div role="toolbar" class="btn-toolbar">
 						<div class="btn-group" style="margin-top:-20px">		
-							<pagination total-items="yourVideos.total" items-per-page="itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+							<pagination total-items="yourChannels.total" items-per-page="itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
 						</div>
 		
 						<div class="btn-group pull-right">
-							<select ng-model="itemsPerPage" class="form-control input-sm" ng-change="reloadVideos()">
+							<select ng-model="itemsPerPage" class="form-control input-sm" ng-change="reloadChannels()">
 								<option value="5">5</option>
 								<option value="10">10</option>
 								<option value="20">20</option>
