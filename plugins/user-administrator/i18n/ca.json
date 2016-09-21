@@ -77,7 +77,16 @@
 	"The video could not be transcribed!": "El video no s'ha pogut transcriure!",
 	"A problem has occurred while transcribing the video, contact your administrator.": "Hi ha hagut un problema al transcriure el vídeo, poseu-vos en contacte amb l'administrador.",
 	"The video has been transcribed smoothly!": "El video s'ha transcrit sense problemes!",
-	"You can review and correct the transcripts.": "Pot revisar i corregir les transcripcions."
+	"You can review and correct the transcripts.": "Pot revisar i corregir les transcripcions.",
+	
+	"Action": "Acció",
+	"Get links to channels": "Obtindre els enllaços a els canals",
+	"Get links to videos": "Obtindre els enllaços a els vídeos",
+	"Channel links list": "Llista d'enllaços als canals",
+	"Video links list": "Llista d'enllaços als vídeos",
+	"Add videos to channels": "Afegir vídeos als canals",
+	"Running action": "Executant l'acció"
+	
 	
 	
 }
