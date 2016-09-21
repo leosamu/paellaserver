@@ -1,0 +1,13 @@
+<div class="btn-group" role="group">
+	<button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	{{'Action' | translate}} <span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu">
+		<li ng-repeat="a in actions" ng-class="{disabled:isDisabled(a)}">
+			<a href ng-click="doAction(a)"> {{a.label | translate}} </a>
+		</li>
+		<li ng-show="!actions || actions.length == 0">
+			<a href> {{'The are no actions available'|translate}}</a>
+		</li>
+	</ul>
+</div>
