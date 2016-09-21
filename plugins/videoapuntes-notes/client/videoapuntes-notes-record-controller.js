@@ -35,9 +35,17 @@
             }
         }
 
-        $scope.newObjectId = function(m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) {
-			return 'anot' + s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h));
+        $scope.newObjectId = function(m,d,h,s) {
+        	m = m || Math;
+        	d = d || Date;
+        	h = h || 16;
+        	s = s || function(s) { return m.floor(s).toString(h); }
+        	
+			return 'anot' + s(d.now() / 1000) + ' '.repeat(h).replace(/./g, function () {
+				return s(m.random() * h);
+			});
 		}
+
 
         $scope.addDrawing = function(){
             //(document.getElementById('canvas').toDataURL());
