@@ -84,18 +84,18 @@
 					<span> <input type="checkbox" ng-model="selectAll"> </span>
 					<item-actions-dropdown elements="videos.list" type="'user-videos-list'"></item-actions-dropdown>
 
-					<div class="pull-right">
-						<span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
+					<div class="pull-right">						
+						{{'Sort' | translate}}: <span class="glyphicon glyphicon-sort" aria-hidden="true"></span>
 						
 						<!-- Single button -->
 						<div class="btn-group">
 							<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span ng-show="state.videosSort=='date'"> {{'Date' | translate}}</span>
+								<span ng-show="state.videosSort=='date'"> {{'More recents' | translate}}</span>
 								<span ng-show="state.videosSort=='title'"> {{'Title' | translate}}</span>
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
-								<li><a href ng-click="state.videosSort='date'" ng-show="state.videosSort!='date'"> {{'Date' | translate}}</a></li>
+								<li><a href ng-click="state.videosSort='date'" ng-show="state.videosSort!='date'"> {{'More recents' | translate}}</a></li>
 								<li><a href ng-click="state.videosSort='title'" ng-show="state.videosSort!='title'"> {{'Title' | translate}}</a></li>
 							</ul>
 						</div>						

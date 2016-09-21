@@ -79,14 +79,17 @@
 	"The video has been transcribed smoothly!": "El video s'ha transcrit sense problemes!",
 	"You can review and correct the transcripts.": "Pot revisar i corregir les transcripcions.",
 	
-	"Action": "Acció",
+	"Actions": "Accions",
 	"Get links to channels": "Obtindre els enllaços a els canals",
 	"Get links to videos": "Obtindre els enllaços a els vídeos",
 	"Channel links list": "Llista d'enllaços als canals",
 	"Video links list": "Llista d'enllaços als vídeos",
 	"Add videos to channels": "Afegir vídeos als canals",
-	"Running action": "Executant l'acció"
+	"Running action": "Executant l'acció",
 	
+	"Sort": "Ordenar",
+	"More recents": "Més recents"
+		
 	
 	
 }
