@@ -1,7 +1,7 @@
 (function() {
 	var plugin = angular.module('userAdminModule');
 
-	plugin.run(['ItemActions', 'ChannelsSelect', '$http', '$q', function(ItemActions, ChannelsSelect, $http, $q) {
+	plugin.run(['ItemActions', 'ChannelsSelect', '$http', '$q', 'runInSequence', 'Channel', function(ItemActions, ChannelsSelect, $http, $q, runInSequence, Channel) {
 
 		ItemActions.registerAction(
 			{
@@ -28,26 +28,13 @@
 					);
 				},
 				
-				runAction: function(item, params) {
-
-					var promises = [];
-					params.forEach(function(channel){						
-						var p = $http.get('/rest/plugins/user-administrator/channels/' + channel._id)
-						.then(function successCallback(response) {
-							var ch = response.data;
-							if (angular.isArray(ch.videos) == false) {
-								ch.videos = [];
-							}
-							if ( ch.videos.some(function(v){return (v._id==item._id);}) == false) {
-								ch.videos.push(item._id);
-							}
-							return $http.put('/rest/plugins/user-administrator/channels/' + channel._id, ch)
-						});
-						
-						promises.push(p);
+				runAction: function(video, channels) {
+					return runInSequence(channels, function(ch){						
+						return Channel.addVideo({id:ch._id, videoId:video._id}).$promise;
+					})
+					.then(function(r){
+						return $q.all(r);
 					});					
-					
-					return $q.all(promises);
 				}
 			}
 		);

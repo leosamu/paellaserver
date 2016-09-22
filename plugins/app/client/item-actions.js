@@ -27,7 +27,7 @@
 	*/
 
 
-	plugin.factory('ItemActions', ['$modal', '$q', 'User', function ($modal, $q, User) {
+	plugin.factory('ItemActions', ['$modal', '$q', 'User', 'runInSequence',  function ($modal, $q, User, runInSequence) {
 		var actions = [];
 				
 		return {
@@ -111,7 +111,8 @@
 													
 								$scope.action = action;
 								$scope.successError = 0;
-								$scope.successCompleted = 0;		
+								$scope.successCompleted = 0;
+								$scope.totalActions = items.length;
 								$scope.finished = false;
 				
 								$scope.accept = function () {
@@ -119,7 +120,7 @@
 								};						
 		
 								
-								function runInSequence(arr, doSomethingAsync) {
+								function runInSequence2(arr, doSomethingAsync) {
 									return arr.reduce(function (promise, item) {	
 										return promise.then(function(result) {        
 											var p = doSomethingAsync(item);			
@@ -131,15 +132,15 @@
 									}, $q.when([]));
 								}
 
-								runInSequence(items, function(i){
-									return $q.resolve(action.runAction(i, actionParams))
+								runInSequence(items, function(i){									
+									return $q.when(action.runAction(i, actionParams))
 									.then(
 										function(value)  { $scope.successCompleted = $scope.successCompleted + 1; },
 										function(reason) { $scope.successError = $scope.successError + 1; }
 									);																		
 								})
 								.finally(
-									function() {$scope.finished = true;}
+									function() { $scope.finished = true; }
 								);				
 							}
 						});	
