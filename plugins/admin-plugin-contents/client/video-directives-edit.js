@@ -29,7 +29,8 @@
 					{ "id":"fi", "name":"fi" },
 					{ "id":"kk", "name":"kk" },
 					{ "id":"ar", "name":"ar" },
-					{ "id":"cn", "name":"cn" }
+					{ "id":"cn", "name":"cn" },
+					{ "id":"ro", "name":"ro" }
 				];
 				
 				if ($scope.allowOther) {
