@@ -14,7 +14,7 @@
 				},
 				
 				beforeRun: function(items) {
-					return ChannelsSelect(true)
+					return ChannelsSelect()
 					.then(
 						function(selectedChannels) {
 							if (selectedChannels.length == 0) {

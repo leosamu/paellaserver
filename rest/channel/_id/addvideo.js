@@ -34,7 +34,9 @@ exports.routes = {
 				else {
 					var Channel = require(__dirname + '/../../../models/channel');
 					var channelData = req.channelData;
-					if (channelData.videos.indexOf(req.params.videoId)==-1) {
+										
+					var isVideoInChannel = channelData.videos.some(function(v){ return (v._id == req.params.videoId);});					
+					if ( isVideoInChannel == false ) {
 						channelData.videos.push(req.params.videoId);
 						Channel.update({"_id":req.channelData._id}, channelData, function(err,data) {
 							if (err) {
@@ -47,6 +49,7 @@ exports.routes = {
 						});
 					}
 					else {
+						req.data = channelData;
 						next();
 					}
 				}
