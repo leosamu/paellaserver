@@ -66,7 +66,7 @@ Strategy.prototype.authenticate = function(req, options) {
 		else {
 			return this.redirect(self._cua);
 		}
-	}
+	}		
 	
 	https.get('https://www.upv.es/dir/autt/media/'+ip+'?'+ticket, function(res) {	
 		res.setEncoding('binary');
@@ -80,7 +80,7 @@ Strategy.prototype.authenticate = function(req, options) {
 			body = iconv.decode(new Buffer(body), 'iso-8859-1');
 			
 			if (body.substr(0,5) == "ERROR") {
-				return self.error(new Error('UPV authentication failed. ' + body));
+				return self.fail(body);
 			}
 			else {
 				var profile = self._parseProfileExt(body, self._profileInfo);
