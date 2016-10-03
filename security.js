@@ -33,12 +33,29 @@ passport.deserializeUser(function(obj, done) {
 
 
 var router = express.Router();
+
+// General Digest AUTH
+router.use(function(req,res,next){
+	if (req.headers['x-requested-auth'] == 'Digest') {
+		passport.authenticate('digest', { session: false })(req, res, next);
+	}
+	else {
+		next();
+	}
+});
+
+//
+
+
+// Logout ROUTE
 router.get('/auth/logout', function(req, res){
 	req.logout();
 	req.session.destroy();
 	res.redirect('/');
 });
+// Local Authentication
 router.use(securityLocal.router);
+// UPV Authentication
 router.use(securityUPV.router);
 
 
