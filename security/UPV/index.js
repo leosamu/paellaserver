@@ -34,7 +34,7 @@ passport.use(new UPVStrategy({
 			function(err) {
 				done(err);
 			}
-		)
+		);
 	}
 ));
 

@@ -4,14 +4,17 @@ var User =require("./models/user.js");
 
 var configure = require("./configure");
 var RoleServices = require("./services/role-services.js");
-
 var securityLocal = require("./security/local")
 var securityUPV = require("./security/UPV")
-var securityDigest = require("./security/digest")
+var securityRemoteApps = require("./security/remote-apps")
+
+var Q = require('q');
 
 
-passport.serializeUser(function(user, done) {
-	User.populate(user, [{path:"roles"}], function(err, user){			
+function enrichUserWithRoles(user) {
+	var deferred = Q.defer();
+
+	User.populate(user, [{path:"roles"}], function(err, user){
 		RoleServices.getRolesForUser(user)
 		.then(function(roles){
 			roles.forEach(function(r){
@@ -19,11 +22,18 @@ passport.serializeUser(function(user, done) {
 			});
 		})
 		.finally(function() {
-			//user.roles.push({_id: 'USER_' + user["_id"], description: "Role for user: " + user.contactData.name + " " + user.contactData.lastName, isAdmin: false});
-			done(null, user);
-		});			
-	});
+			deferred.resolve(user);
+		});
+	});	
 	
+	return deferred.promise;
+}
+
+passport.serializeUser(function(user, done) {
+	enrichUserWithRoles(user)
+	.then(function(user) {
+		done(null, user);
+	});
 });
 
 passport.deserializeUser(function(obj, done) {
@@ -32,20 +42,8 @@ passport.deserializeUser(function(obj, done) {
 
 
 
+
 var router = express.Router();
-
-// General Digest AUTH
-router.use(function(req,res,next){
-	if (req.headers['x-requested-auth'] == 'Digest') {
-		passport.authenticate('digest', { session: false })(req, res, next);
-	}
-	else {
-		next();
-	}
-});
-
-//
-
 
 // Logout ROUTE
 router.get('/auth/logout', function(req, res){
@@ -53,12 +51,20 @@ router.get('/auth/logout', function(req, res){
 	req.session.destroy();
 	res.redirect('/');
 });
+
+// Local Authentication
+router.use(securityRemoteApps.router);
 // Local Authentication
 router.use(securityLocal.router);
 // UPV Authentication
 router.use(securityUPV.router);
 
 
+router.get('/test', function(req, res){
+	res.send(req.user);	
+});
+
 
 
 module.exports.router = router;
+module.exports.enrichUserWithRoles = enrichUserWithRoles;

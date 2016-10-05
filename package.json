@@ -27,6 +27,7 @@
     "npm": "^2.9.1",
     "passport": "^0.2.1",
     "passport-http": "^0.2.2",
+    "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "passport-lti": "0.0.5",
     "passport-openid": "^0.3.1",
