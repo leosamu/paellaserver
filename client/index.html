@@ -57,71 +57,49 @@
 	</head>
 	<body>
         <div class="container" style="width:950px;">
-        <!--
-            <header>
-                <a href="http://www.upv.es" class="navbar-brand">
-                    <img class="ps-logo img-responsive" src="resources/images/logo-upv.png" alt="Logo Universidad Politécnica de Valencia"/>
-                </a>
-
-                <div class="hidden-xs pull-right">
-                    <a href="/#catalog"><img class="ps-logo ps-right img-responsive" src="resources/images/logo-media-upv.png" alt="Logo Polimedia"/></a>
-                </div>
-
-                <login-widget></login-widget>
-            </header>
-        -->
             <header>
 	            <div id="DIVsep1N2" style="width: 100%; margin: 0; padding: 0px; background-color: #666666; height: 10px;">
 					<img alt="-" src="//www.upv.es/imagenes/NGR.png" style="float:left;width:342px;height:10px;">
 					<img alt="-" src="//www.upv.es/imagenes/NGR.png" style="width:128px;height:10px;margin-left:30px;margin-right: 22px;float:right;">
 				</div>
 
-<div id="DIVcab1N2" style="height: 81px; margin: 0px; padding: 0px">
-	<div id="DIVescudoN2" style="vertical-align: top; width: 341px; height: 81px!important; float: left;">
-		<a href="/index-es.html">
-			<img src="//www.upv.es/imagenes/marcaUPV_home61.png" id="escudoN2" alt="UPV" width="182" height="61" longdesc="/escudo-es.txt" 
-				style="width: 182px; height: 61px; margin: 10px 17px; border: none;">
-		</a>
-	</div>
-	
-	<div id="DIVmenuHerramientas">
-		<lang-widget></lang-widget>
-	
-	<!--
-		<ul>
-		  <li class="menuHerramientas">&nbsp;I</li>
-		  
-		  <li class="menuHerramientas"><a href="?tl=a" title="Reducir texto" onclick="return cambia_tipografia(tipo1);return false;" class="menuHerramientas">a</a> · <a href="?tl=A" onclick="return cambia_tipografia(tipo2);return false;" title="Agrandar texto" class="menuHerramientas">A</a> &nbsp;I</li>
-		  <li class="menuHerramientas"><a href="/otros/accesibilidad-es.html" title="Accesibilidad" class="menuHerramientas">Accesibilidad</a> &nbsp;I</li>
-		  <li class="menuHerramientas"><a href="/otros/mapa-web-es.html" title="Mapa web" class="menuHerramientas">Mapa web</a> &nbsp;I</li>
-		  <li class="menuHerramientas"><a href="/pls/oalu/sic_mag.MetaBus?ie=utf8&amp;P_IDIOMA=c&amp;q=polilupa" title="Buscador" class="menuHerramientas">Buscar</a> &nbsp;I</li>
-		  <li class="menuHerramientas"><a href="/pls/oalu/sic_per.Busca_Persona?P_IDIOMA=c" title="Directorio" class="menuHerramientas">Directorio</a></li>
-		  
-		</ul>
-	-->
-
-		<div style="height: 23px; margin-top: -24px; padding: 0px; padding-top: 4px; float: right;">
-			<a href="/#catalog"><img class="ps-logo ps-right img-responsive" src="resources/images/logo-media-upv-ok.png" alt="Logo MediaUpv"></a>		  
-			<ul id="DIVaccesoDirectoN2">
-			  <li class="menuAD" style="display:inline;">
-			  	::&nbsp;
-			  	<a href="https://www.upv.es/pls/soalu/est_intranet.Ni_portal_n?P_IDIOMA=c" title="Mi UPV" class="menuAD2N2">
-			  		<login-widget></login-widget>
-			  	</a>
-			  	&nbsp;::&nbsp;
-			  	<img src="//www.upv.es/imagenes/espacio2.png" alt="espacio" width="23" height="5">
-			  </li>
-			  
-			</ul>
-		</div>
-	</div>
-<!--
-	<div class="estabilizador">&nbsp; </div>
--->
-</div>
-
-
+				<div id="DIVcab1N2" style="height: 81px; margin: 0px; padding: 0px">
+					<div id="DIVescudoN2" style="vertical-align: top; width: 341px; height: 81px!important; float: left;">
+						<a href="/index-es.html">
+							<img src="//www.upv.es/imagenes/marcaUPV_home61.png" id="escudoN2" alt="UPV" width="182" height="61" longdesc="/escudo-es.txt" 
+								style="width: 182px; height: 61px; margin: 10px 17px; border: none;">
+						</a>
+					</div>
+					
+					<div id="DIVmenuHerramientas" style="
+					
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #4b4b4b;
+    font-style: normal;
+    text-decoration: none;
+    text-align: left;
+    margin-top: 0px;
+					padding-top: 5px;">
+						<lang-widget></lang-widget>
+					
+				
+						<div style="height: 23px; margin-top: -24px; padding: 0px; padding-top: 4px; float: right;">
+							<a href="/#catalog"><img class="ps-logo ps-right img-responsive" src="resources/images/logo-media-upv-ok.png" alt="Logo MediaUpv" style="float:right"></a>		  
+							<ul id="DIVaccesoDirectoN2">
+							  <li class="menuAD" style="display:inline;">
+							  	::&nbsp;
+							  	<login-widget></login-widget>
+							  	&nbsp;::&nbsp;
+							  	<img src="//www.upv.es/imagenes/espacio2.png" alt="espacio" width="23" height="5">
+							  </li>
+							</ul>
+						</div>
+					</div>
+				</div>
             </header>
+
 
             <ng-view></ng-view>
 
