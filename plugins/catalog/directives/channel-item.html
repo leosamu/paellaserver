@@ -8,7 +8,7 @@
 
 		<h2 class="ps-title">
 			<div><a ng-href="{{ getChannelUrl(channel) }}" class="ps-title-text">{{channel.title}}</a></div>
-			<div><a ng-href="{{ getChannelUrl(channel) }}" class="ps-date">{{channel.creationDate | date:"dd/MM/yyyy" }}</a></div>
+			<!-- <div><a ng-href="{{ getChannelUrl(channel) }}" class="ps-date">{{channel.creationDate | date:"dd/MM/yyyy" }}</a></div> -->
 			<div><a ng-href="{{ getChannelUrl(channel) }}" class="ps-author">{{ownerName(channel)}}</a></div>
 		</h2>
 		<div class="ps-lock" ng-show="!isVisible()"><i class="glyphicon glyphicon-lock"></i></div>
