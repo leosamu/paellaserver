@@ -112,38 +112,49 @@ UPVUserProvider.prototype.getOrCreateUserByLogin = function(login) {
 	var self = this;
 	var deferred = Q.defer();
 
-	try {
-		var callUser = configure.config.security.UPV.piolin.rest.deLogin.user;
-		var callPass = configure.config.security.UPV.piolin.rest.deLogin.password;
-	
-		request.post('https://' + callUser + ':' + callPass + '@piolin.upv.es/consultas/?c=deLogin',
-			{
-				form:{ login: login },
-				encoding:null,
-				headers:{
-					'Content-type': "application/x-www-form-urlencoded; charset=ISO-8859-1"
-				}
-			},
-			function(error, response, body) {
-				if (error) {
-					deferred.reject(error);
-				}
-				else if (response.statusCode>=400) {
-					deferred.reject(new Error("Error " + response.statusCode));
-				}
-				else {
-					var upvInfo = JSON.parse(iconv.decode(body,'iso-8859-1'));
-				
-					self._getOrCreateUserWithUPVInfo(upvInfo)
-					.then(function(user) {deferred.resolve(user);})
-					.catch(function(err) {deferred.reject(err);});
-				}
+
+	User.findOne({"auth.UPV.login":login})
+	.select("-auth.polimedia.pass")
+	.exec(function(err,user) {
+		if (err) { return deferred.reject(err); }														
+		if (user) {
+			deferred.resolve(user);
+		}
+		else {
+			try {
+				var callUser = configure.config.security.UPV.piolin.rest.deLogin.user;
+				var callPass = configure.config.security.UPV.piolin.rest.deLogin.password;
+			
+				request.post('https://' + callUser + ':' + callPass + '@piolin.upv.es/consultas/?c=deLogin',
+					{
+						form:{ login: login },
+						encoding:null,
+						headers:{
+							'Content-type': "application/x-www-form-urlencoded; charset=ISO-8859-1"
+						}
+					},
+					function(error, response, body) {
+						if (error) {
+							deferred.reject(error);
+						}
+						else if (response.statusCode>=400) {
+							deferred.reject(new Error("Error " + response.statusCode));
+						}
+						else {
+							var upvInfo = JSON.parse(iconv.decode(body,'iso-8859-1'));
+						
+							self._getOrCreateUserWithUPVInfo(upvInfo)
+							.then(function(user) {deferred.resolve(user);})
+							.catch(function(err) {deferred.reject(err);});
+						}
+					}
+				);
 			}
-		);
-	}
-	catch(err) {
-		deferred.reject(err);
-	}
+			catch(err) {
+				deferred.reject(err);
+			}
+		}
+	});
 
 	return deferred.promise;
 

@@ -30,6 +30,7 @@ LocalUserProvider.prototype.getOrCreateUserByAuthInfo = function(autenticateInfo
 	query[loginField] = autenticateInfo.username;
 	query[passwField] = autenticateInfo.password;
 	User.findOne(query)
+	.select("-auth.polimedia.pass")
 	.exec(function(err, user) {
 		if (err) {
 			return deferred.reject(err);
