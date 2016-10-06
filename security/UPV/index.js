@@ -38,13 +38,25 @@ passport.use(new UPVStrategy({
 	}
 ));
 
+
+
 var router = express.Router();
 router.get('/auth/upv',
 	function(req,res,next) {
 		req.session.redirect = req.query.redirect;
 		next();
 	},
-	passport.authenticate('upv', {}),
+	function(req, res, next) {
+		passport.authenticate('upv', function(err, user, info){
+			if (err) { return next(err); }
+			if (!user) { return res.redirect('//www.upv.es/bin2/error-session'); }
+			
+			req.logIn(user, function(err) {
+				if (err) { return next(err); }
+				next();
+			});			
+		})(req, user, next);
+	},
 	function(req,res) {
 		var redirect = req.session.redirect || "/";
 		res.redirect(redirect);
@@ -52,12 +64,27 @@ router.get('/auth/upv',
 );
 
 router.get('/rest/plugins/upvauth/validate',
-	passport.authenticate('upv', {}),
+	function(req,res,next) {
+		req.session.redirect = req.query.redirect;
+		next();
+	},
+	function(req, res, next) {
+		passport.authenticate('upv', function(err, user, info){
+			if (err) { return next(err); }
+			if (!user) { return res.redirect('//www.upv.es/bin2/error-session'); }
+			
+			req.logIn(user, function(err) {
+				if (err) { return next(err); }
+				next();
+			});			
+		})(req, user, next);
+	},
 	function(req,res) {
 		var redirect = req.session.redirect || "/";
 		res.redirect(redirect);
 	}
 );
+
 
 
 
