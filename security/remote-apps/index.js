@@ -2,6 +2,7 @@ var passport = require('passport');
 var express = require("express");
 var DigestStrategy = require('passport-http').DigestStrategy;
 var RemoteAppsUPVStrategy = require('../../passport-remote-apps-upv').Strategy;
+var UserServices = require('../../services').UserServices;
 
 var security = require("../../security");
 var configure = require("../../configure");
@@ -79,22 +80,21 @@ if ((remoteAppsUpvInfo) && (remoteAppsUpvInfo.enable)) {
 			UPVpassword: remoteAppsUpvInfo.password,
 			UPVIdUser: 'LOGIN'
 		},
-		function(profile, done) {
-			// TODO: llamar a la API REST de la UPV para obtener la información de usuario de la UPV
-			User.findOne({"auth.UPV.login": profile.id_user}, function(err, user){
-				if (err) { return done(err); }
-				
-				if (user) {
+		function(profile, done) {				
+			var UPVUserProvider = UserServices.getUserProviderByName('UPV');			
+			if (UPVUserProvider) {
+				UPVUserProvider.getOrCreateUserByLogin(profile.id_user)
+				.then(function(user) {
 					security.enrichUserWithRoles(user)
 					.then(function(user) {
 						done(null, user);
-					});
-				}
-				else {
-					return done(null, false);
-				}
-			});
-	
+					});				
+				})
+				.catch(function(err) { done(null, false); });				
+			}
+			else {
+				return done("UPVUserProvider not Found");
+			}	
 		}
 	));
 }

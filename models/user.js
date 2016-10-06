@@ -10,7 +10,7 @@ var UserSchema = new Schema({
 		name: String,
 		lastName: String,
 		phone: String,
-		gender: { type:String },
+		gender: { type:String },  // 'M' = Male / 'F' = Female
 		comunicationLanguage: { type:String }
 	},
 	roles: [ { type:String, ref:'Role' } ]
