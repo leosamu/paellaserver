@@ -20,7 +20,7 @@ h1 {
 
 header {
 	height: 95px;
-	border-bottom: 5px solid black;
+	border-bottom: 2px solid black;
 	background: white url(images/header-line.png) no-repeat;
 	background-size: 100% 10px;
 	margin-left: -15px;
@@ -108,7 +108,7 @@ channel-item .ps-image-container {
 }
 
 footer {
-	border-top: 4px solid black;
+	border-top: 2px solid black;
 	margin-left: -15px;
 	margin-right: -15px;
 	padding: 15px 15px 0px 15px;
