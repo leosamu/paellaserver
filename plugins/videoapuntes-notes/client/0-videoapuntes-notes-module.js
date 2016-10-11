@@ -12,6 +12,10 @@
 				templateUrl: 'videoapuntes-notes/views/main.html',
 				controller: "videoApuntesNotesController"
 			})
+			.when('/videoapuntes-notes/past/', {
+				templateUrl: 'videoapuntes-notes/views/past.html',
+				controller: "videoApuntesNotesControllerPast"
+			})
 			.when('/videoapuntes-notes/notes/:noteId',{
 				templateUrl:'videoapuntes-notes/views/insertnotes.html',
 				controller: "videoApuntesNotesRecordController"
