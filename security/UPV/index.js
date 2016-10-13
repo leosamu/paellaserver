@@ -77,7 +77,7 @@ router.get('/rest/plugins/upvauth/validate',
 				if (err) { return next(err); }
 				next();
 			});			
-		})(req, user, next);
+		})(req, res, next);
 	},
 	function(req,res) {
 		var redirect = req.session.redirect || "/";
