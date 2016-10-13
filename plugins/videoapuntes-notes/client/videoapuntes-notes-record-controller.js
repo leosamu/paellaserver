@@ -12,6 +12,8 @@
         $scope.recording.title=$routeParams.noteId;
         $scope.isVisibleText= false;
         $scope.isVisibleDraw= false;
+        $scope.isVisibleButtons=true;
+        $scope.isRecording=false;
         $scope.textNote="";
         $("#success-alert").hide();
 		/*User.current().$promise.then(function(currentUser) {
@@ -23,13 +25,22 @@
             if ($scope.isVisibleText) {
                 $scope.textNote="";
                 $scope.isVisibleDraw=false;
+                $scope.isVisibleButtons=false;
+                $(canvas)[0].width=$(canvas)[0].width;
             }
+        }
+        $scope.showButtons = function(){
+            $scope.isVisibleText =false;
+            $scope.isVisibleDraw=false;
+            $scope.isVisibleButtons=true;
+            $(canvas)[0].width=$(canvas)[0].width;
         }
          $scope.showDraw = function(){
             $scope.isVisibleDraw = !$scope.isVisibleDraw;
             if ($scope.isVisibleDraw) {
                 //clear the canvas $scope.textNote="";
                 $scope.isVisibleText=false;
+                $scope.isVisibleButtons=false;
                // $(canvas)[0].width=$(canvas)[0].width;
                // window.dispatchEvent(new Event('resize'));
             }
@@ -51,6 +62,7 @@
             //(document.getElementById('canvas').toDataURL());
             $scope.addNote(document.querySelector('#canvas').toDataURL());
             $(canvas)[0].width=$(canvas)[0].width;
+            showButtons();
         }
         $scope.addNote= function(notedata)
         {
@@ -75,11 +87,19 @@
             $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
                 $("#success-alert").slideUp(500);
             });   
-            videoApuntesNotesCRUD.add({id:$routeParams.noteId},body);            
+            videoApuntesNotesCRUD.add({id:$routeParams.noteId},body);        
+            showButtons();    
         }
 
 		$scope.$watch('currentPage', function(){ $scope.reloaRecording(); });
 		
+        $scope.$watch(function(){return $('#paellaPlayer_loader').css("display")=="none"},function(newValue,oldValue){
+            
+            $scope.isRecording=newValue;
+            
+            
+        });
+
 		$scope.reloaRecording = function(){
 			if ($scope.timeoutReload) {
 				$timeout.cancel($scope.timeoutReload);

@@ -57,7 +57,7 @@
 	           		      pauser: JSON.parse(annotation.content).pauser,
 			              profile: JSON.parse(annotation.content).profile,			              
 			              style: JSON.parse(annotation.content).style,
-			              css: JSON.parse(annotation.content).css
+			              css: JSON.parse(annotation.content).css //TODO - check this
 	            		});				
 	         			
 					});					
@@ -106,7 +106,7 @@
 		}
 		
 		setTimeOnSelect() {
-			return true;
+			return false;
 		}
 
 		onTrackChanged(id,start,end) {
@@ -156,7 +156,7 @@
 				            _content.pauser = track.pauser;
 				            _content.profile = track.profile;
 				            _content.style = track.style;						          
-							_content.css = self.createStyle(track.style,annotation['_id']);
+							_content.css = track.style; //TODO - check if this should be changed to css calculated from style or what?
 				            _content.data={}
 				            _content.data.es = track.data;
 				            annotation.content = JSON.stringify(_content); 
@@ -220,7 +220,7 @@
 			            _content.pauser = false;
 			            _content.profile = "";			            
 			            var _css = "#annotationID {color:rgba(255,255,255,1);background-color: rgba(0,0,0,0.6);text-align: justify;-moz-border-radius: 15px;border-radius: 15px;line-height: 3vmin;font-size: 1.2vw;padding: 1vw;position: absolute;bottom:70px;left:30px;right:30px;} #annotationID:hover { background-color: rgba(0,0,0,0.8);} #annotationID a{color: rgb(255, 230, 45);} #annotationID a:visited{color: rgba(255, 255, 150, 0.80);}".replace(new RegExp("annotationID", 'g'), annotation['_id']);
-						_content.css = _css;
+						_content.css = _css; // TODO - check this value
 						_content.style = "BANNER";
 			            _content.data={};
 			            _content.data.es = "Your text here";
@@ -306,8 +306,8 @@
 				            _content.pauser = $scope.selectedAnnotation.pauser;
 				            _content.profile = $scope.selectedAnnotation.profile;
 							_content.style = $scope.selectedAnnotation.style;
-				            _content.css = self.createStyle($scope.selectedAnnotation.style,annotation['_id']);;
-				            _content.data={}
+				            _content.css = $scope.selectedAnnotation.style;
+				            _content.data={};
 				            _content.data.es = $scope.selectedAnnotation.data;
 				            annotation.content = JSON.stringify(_content); 
 				             

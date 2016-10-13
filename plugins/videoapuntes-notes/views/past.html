@@ -14,12 +14,12 @@
 			<div class="collapse navbar-collapse" id="admin-navbar-collapse-1">
     				<ul class="nav navbar-nav">
 				    <admin-plugins-menu></admin-plugins-menu>
-					<li class="active">
+					<li>
 						<a href="#/videoapuntes-notes">
 				    		Proximas
 				    	</a>
 				    </li>
-				    <li>
+				    <li class="active">
 						<a href="#/videoapuntes-notes/past">
 				    		Anteriores
 				    	</a>
@@ -38,18 +38,15 @@
 					 <span>
 						Filtrar con anotaciones <input type="checkbox" ng-model="hasannotations"><i data-toggle="tooltip" data-placement="top" title="Filtrar con anotaciones" class="glyphicon glyphicon-edit"></i></input>
 						 <input type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="initdate" is-open="datePickerInitOpened" close-text="Close" readonly />
-						 <button type="button" class="btn btn-default" ng-click="datePickerInitOpened = true" disabled><i class="glyphicon glyphicon-calendar"></i></button>
+						 <button type="button" class="btn btn-default" ng-click="datePickerInitOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
 						 <input type="text" datepicker-popup="dd-MMMM-yyyy" ng-model="enddate" is-open="datePickerEndOpened" close-text="Close" readonly />
-						 <button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true"><i class="glyphicon glyphicon-calendar"></i></button>
+						 <button type="button" class="btn btn-default" ng-click="datePickerEndOpened = true" disabled><i class="glyphicon glyphicon-calendar" ></i></button>
 					</span>
 				</div>
 			<div class="panel-heading">
 				
-				<h2>Próximos Videoapuntes</h2>
+				<h2>Anteriores Videoapuntes</h2>
 				<h6>{{recordings.total}} grabaciones</h6>
-			
-				
-			
 			</div>
 			<div class="panel-body">
 				<ul class="list-group">	
@@ -57,14 +54,17 @@
 						<div class="alert alert-info" role="alert">
 							{{ 'No se han encontrado videoapuntes' | translate }}
 						</div>					
-					</li>				
+					</li>					
 					<li class="list-group-item" ng-repeat="t in recordings" ng-show="t.hasannotations || !hasannotations">
 						<div class="media-left">							
-							<div class="btn-group" role="group">
-								<a class="btn btn-xs btn-default"  ng-click="doAnnotations(t._id)">
-									<span class="glyphicon glyphicon-pencil"></span>
-								</a>																						
-							</div>
+								<div class="btn-group" role="group">
+									<a class="btn btn-xlarge btn-default" href="https://engage.videoapuntes.upv.es/paella4.0/ui/watch.html?id={{t._id}}&autoplay=true">
+										<span class="glyphicon glyphicon-play"></span>
+									</a>
+									<a class="btn btn-xlarge btn-default" ng-click="showAnnotations(t._id)">
+										<span class="glyphicon glyphicon-eye-open"></span>
+									</a>											
+								</div>
 						</div>
 						<div class="media-left hidden-xs">
 							<div class="media-heading" style="font-weight: bold;">							
@@ -81,9 +81,7 @@
 							{{t.presenter.name}}
 						</div>
 					</li>
-				</ul>
-					<loader ng-show="loadingVideos"></loader>			
-				</div>
+				</ul>				
 			</div>
 		</div>
 	</section>
