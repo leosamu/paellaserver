@@ -122,10 +122,10 @@ UPVUserProvider.prototype.getOrCreateUserByLogin = function(login) {
 		}
 		else {
 			try {
-				var callUser = configure.config.security.UPV.piolin.rest.deLogin.user;
-				var callPass = configure.config.security.UPV.piolin.rest.deLogin.password;
+				var callUser = configure.config.security.UPV.piolin.rest.datosPersona.user;
+				var callPass = configure.config.security.UPV.piolin.rest.datosPersona.password;
 			
-				request.post('https://' + callUser + ':' + callPass + '@piolin.upv.es/consultas/?c=deLogin',
+				request.post('https://' + callUser + ':' + callPass + '@piolin.upv.es/consultas/?c=datosPersona',
 					{
 						form:{ login: login },
 						encoding:null,
@@ -165,10 +165,10 @@ UPVUserProvider.prototype.getOrCreateUserByEmail = function(email) {
 	var deferred = Q.defer();		
 
 	try {
-		var callUser = configure.config.security.UPV.piolin.rest.deEmail.user;
-		var callPass = configure.config.security.UPV.piolin.rest.deEmail.password;
+		var callUser = configure.config.security.UPV.piolin.rest.datosPersona.user;
+		var callPass = configure.config.security.UPV.piolin.rest.datosPersona.password;
 	
-		request.post('https://' + callUser + ':' + callPass + '@piolin.upv.es/consultas/?c=deEmail',
+		request.post('https://' + callUser + ':' + callPass + '@piolin.upv.es/consultas/?c=datosPersona',
 			{
 				form:{ email: email },
 				encoding:null,

@@ -22,10 +22,10 @@ UPVRoleProvider.prototype.getRolesForUser = function(user) {
 	var deferred = Q.defer();		
 
 	try {
-		var callUser = configure.config.security.UPV.piolin.rest.deEmail.user;
-		var callPass = configure.config.security.UPV.piolin.rest.deEmail.password;
+		var callUser = configure.config.security.UPV.piolin.rest.datosPersona.user;
+		var callPass = configure.config.security.UPV.piolin.rest.datosPersona.password;
 	
-		request.post('https://' + callUser + ':' + callPass + '@piolin.upv.es/consultas/?c=deEmail',
+		request.post('https://' + callUser + ':' + callPass + '@piolin.upv.es/consultas/?c=datosPersona',
 			{
 				form:{ email: user.contactData.email },
 				encoding:null,
