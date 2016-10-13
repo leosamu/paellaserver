@@ -55,7 +55,15 @@ UPVUserProvider.prototype._getOrCreateUserWithUPVInfo = function(upvInfo) {
 		.exec(function(err, user) {
 			if (err) { deferred.reject(err); }
 			else if (user) {
-				deferred.resolve(user);
+				//Update UPV Auth Info				
+				user.auth.UPV = {
+					dni: upvInfo.dni,
+					nip: upvInfo.nip,
+					login: upvInfo.login					
+				};
+				user.save(function(err) {
+					deferred.resolve(user);
+				});
 			}
 			else {
 				var re = RegExp("^" + email.split('@')[0] + "@(.+\.)*upv\.es$","i");							
