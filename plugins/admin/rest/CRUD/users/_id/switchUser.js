@@ -9,7 +9,9 @@ exports.routes = {
 		post: [
 			AuthController.CheckRole(['ADMIN']),
 			function(req,res) {					
-				UserModel.findOne({"_id": req.params.id }, function(err, user){
+				UserModel.findOne({"_id": req.params.id })
+				.select("-auth.polimedia.pass")
+				.exec(function(err, user){
 					if (err) { return res.sendStatus(500); }
 					if (!user) { return res.sendStatus(404); }
 					
@@ -17,9 +19,8 @@ exports.routes = {
 						if (err) { return res.sendStatus(500); }
 						return res.send(user);
 					});
-				});				
+				});
 			}
 		]
 	}
-	
 }

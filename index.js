@@ -41,14 +41,6 @@ function startServer() {
 		next();
 	});
 
-	app.use(function(req,res,next){
-		if (req.headers['x-requested-auth'] == 'Digest') {
-			passport.authenticate('digest', { session: false })(req, res, next);
-		}
-		else {
-			next();
-		}
-	});
 
 	app.use(security.router);
 
