@@ -153,5 +153,11 @@
   	"go_to_catalog_text": "Ir al catálogo",
   	"new_channel_text_title": "Crear un canal",
 
-  	"manage_my_videos_menu_option": "Administrar mis videos"
+  	"manage_my_videos_menu_option": "Administrar mis videos",
+  	
+  	"Suggestions":"Sugerencias",
+  	"Getting here":"Cómo llegar",
+  	"Maps":"Mapas",
+  	"Contact":"Contacto"
+  	
 }

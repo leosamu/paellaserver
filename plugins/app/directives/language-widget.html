@@ -1,6 +1,11 @@
-<span>{{ "language" | translate }}:
-    <a class="ps-lang-link" ng-click="setLanguage('es')" title="Castellano">es</a> ·
-    <a class="ps-lang-link" ng-click="setLanguage('en')" title="English">en</a> ·
-    <a class="ps-lang-link" ng-click="setLanguage('ca')" title="Valencià">va</a> ·
-    <a class="ps-lang-link" ng-show="showKlingon" ng-click="setLanguage('tlh')" title="Klingon">kl</a>
+<span>
+	<span ng-show="currentLanguage!='es'">
+	    <a class="ps-lang-link" ng-click="setLanguage('es')" title="Castellano">Castellano</a> ·
+	</span>
+	<span ng-show="currentLanguage!='ca'">
+    	<a class="ps-lang-link" ng-click="setLanguage('ca')" title="Valencià">Valencià</a> ·
+	</span>
+	<span ng-show="currentLanguage!='en'">
+	    <a class="ps-lang-link" ng-click="setLanguage('en')" title="English" >English</a>
+	</span>
 </span>

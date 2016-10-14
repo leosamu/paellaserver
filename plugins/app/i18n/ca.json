@@ -130,5 +130,11 @@
   	"go_to_catalog_text": "Anar al catàleg",
   	"new_channel_text_title": "Crear un canal",
 
-  	"manage_my_videos_menu_option": "Administrar els meus videos"
+  	"manage_my_videos_menu_option": "Administrar els meus videos",
+  	
+  	"Suggestions":"Suggeriments",
+  	"Getting here":"Com s'hi arriba",
+  	"Maps":"Plànols",
+  	"Contact":"Contacte"
+  	
 }

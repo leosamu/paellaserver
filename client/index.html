@@ -56,45 +56,10 @@
         <link rel="stylesheet" href="bower_components/angular-cron-jobs/dist/angular-cron-jobs.css">
 	</head>
 	<body>
-        <div class="container">
-            <header>
-                <a href="http://www.upv.es" class="navbar-brand">
-                    <img class="ps-logo img-responsive" src="resources/images/logo-upv.png" alt="Logo Universidad Politécnica de Valencia"/>
-                </a>
-
-                <div class="hidden-xs pull-right">
-                    <a href="/#catalog"><img class="ps-logo ps-right img-responsive" src="resources/images/logo-media-upv.png" alt="Logo Polimedia"/></a>
-                </div>
-
-                <login-widget></login-widget>
-            </header>
-
-
+        <div class="container media-main-container">
+	        <div ng-include="'upv-header.html'"></div>
             <ng-view></ng-view>
-
-
-            <footer>
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <ul class="list-inline">
-                            <li><a href="http://www.upv.es/entidades/ASIC/catalogo/522359normalc.html">Polimedia</a></li>
-                            <li>|</li>
-                            <li><a href="http://www.upv.es/entidades/ASIC/catalogo/847942normalc.html">Videoapuntes</a></li>
-                            <li>|</li>
-                            <li><a ng-href="{{ 'termsofuse-url' | translate }}">{{ 'terms_of_use' | translate }}</a></li>
-                            <li>|</li>
-                            <li><a ng-href="{{ 'termsofuse-url' | translate }}">{{ 'Contacto' | translate }}</a></li>
-                        </ul>
-                        <p>Universitat Politècnica de València &#64; 2015 · Tel. (+34) 96 387 70 00 · <a href="mailto:polim@upvnet.upv.es">polim@upvnet.upv.es</a></p>
-                    </div>
-                    <!--
-                    <div class="col-xs-12 col-md-6">
-                        <p>Universitat Politècnica de València &#64; 2015 - <a href="mailto:polim@upvnet.upv.es">polim@upvnet.upv.es</a></p>
-                    </div>
-                    -->
-                </div>
-            </footer>
+            <div ng-include="'upv-footer.html'"></div>
         </div>
-
 	</body>
 </html>
