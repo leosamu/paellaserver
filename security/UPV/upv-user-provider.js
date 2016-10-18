@@ -170,7 +170,8 @@ UPVUserProvider.prototype.getOrCreateUserByLogin = function(login) {
 
 
 UPVUserProvider.prototype.getOrCreateUserByEmail = function(email) {
-	var deferred = Q.defer();		
+	var self = this;
+	var deferred = Q.defer();
 
 	try {
 		var callUser = configure.config.security.UPV.piolin.rest.datosPersona.user;
