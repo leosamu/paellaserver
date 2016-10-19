@@ -80,15 +80,15 @@ if ((remoteAppsUpvInfo) && (remoteAppsUpvInfo.enable)) {
 			UPVpassword: remoteAppsUpvInfo.password,
 			UPVIdUser: 'LOGIN'
 		},
-		function(profile, done) {				
+		function(profile, done) {
 			var UPVUserProvider = UserServices.getUserProviderByName('UPV');			
 			if (UPVUserProvider) {
 				UPVUserProvider.getOrCreateUserByLogin(profile.id_user)
-				.then(function(user) {
+				.then(function(user) {				
 					security.enrichUserWithRoles(user)
 					.then(function(user) {
 						done(null, user);
-					});				
+					});
 				})
 				.catch(function(err) { done(null, false); });				
 			}
@@ -119,7 +119,7 @@ router.use(function(req, res, next){
 				return res.sendStatus(500);
 			}
 			else {
-				req.logIn(user, function(err) {
+				req.logIn(user, { session: false }, function(err) {
 					if (err) { return next(err); }
 					next();
 				});
