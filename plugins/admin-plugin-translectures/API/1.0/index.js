@@ -71,7 +71,7 @@ TranslecturesAPI10.prototype.dfxp = function(videoId, lang ) {
 TranslecturesAPI10.prototype.status = function(videoId) {
 	var deferred = Q.defer();
 	var uploadId = videoId;
-	
+		
 	request.post(this._server.server + '/status?db=' + this._server.user + '&id=' + uploadId,
 		function(error, response, body) {
 			if (error) {

@@ -15,7 +15,7 @@ exports.routes = {
 					return (CatalogController.CheckWriteInCatalog(item.catalog))(req,res,next);					
 				}
 				else {
-					return res.sendStatis(404);
+					return res.sendStatus(404);
 				}
 			})		
 		},		
