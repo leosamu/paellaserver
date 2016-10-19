@@ -103,18 +103,28 @@ if ((remoteAppsUpvInfo) && (remoteAppsUpvInfo.enable)) {
 var router = express.Router();
 
 // Remote Apps Auth
-router.use(function(req,res,next){
-	if (req.headers && req.headers.authorization) {
-		var parts = req.headers.authorization.split(' ');
-		if (parts.length == 2) {
-			var scheme = parts[0]
-			var credentials = parts[1];
-
-			passport.authenticate(strategiesEnabled, { session: false })(req, res, next);
-		}
-		else {
-			res.sendStatus(400);
-		}
+router.use(function(req, res, next){
+	if (req.headers && req.headers.authorization) {	
+		var ApiCallError = require('../../passport-remote-apps-upv').ApiCallError;
+		passport.authenticate(strategiesEnabled, { session: false }, function(err, user, info){
+			if (err) {				 
+				if (err instanceof ApiCallError){
+					return res.status(err.code || 500).send(err.message);
+				}
+				else {
+					return next(err);
+				}
+			}
+			else if (!user) {
+				return res.sendStatus(500);
+			}
+			else {
+				req.logIn(user, function(err) {
+					if (err) { return next(err); }
+					next();
+				});
+			}
+		})(req, res, next);
 	}	   
 	else {
 		next();
