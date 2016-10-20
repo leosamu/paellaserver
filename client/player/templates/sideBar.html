@@ -1,7 +1,0 @@
-<ul class="nav nav-tabs">
-	<li role="presentation" ng-repeat="plugin in plugins" ng-class="{ 'active':isSelected(plugin)  }">
-		<a ng-click="selectTab(plugin)">{{ plugin.getTabName() }}</a>
-	</li>
-</ul>
-<container ng-repeat="plugin in plugins" ng-show="isSelected(plugin)">
-</container>
