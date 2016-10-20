@@ -15,7 +15,7 @@ var upvSakaiRoleProvider = new UPVSakaiRoleProvider();
 
 
 Services.UserServices.registerUserProvider(upvUserProvider);
-Services.RoleServices.registerRoleProvider(upvRoleProvider);
+//Services.RoleServices.registerRoleProvider(upvRoleProvider);
 Services.RoleServices.registerRoleProvider(upvSakaiRoleProvider);
 
 
