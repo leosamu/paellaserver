@@ -1,0 +1,18 @@
+<div class="modal-header">
+	<h4 class="modal-title text-danger">{{'Download videos' | translate}}</h4>
+</div>
+<div class="modal-body">
+
+	<ul class="list-unstyled">
+		<li ng-repeat="v in videos">
+			<a ng-href="{{ getMP4Url(v); }}" download="{{v._id}} - {{v.title}}">
+				{{getMP4Url(v);}}
+			</a>
+		</li>
+	</ul>
+
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" ng-click="accept()">{{'Accept' | translate }}</button>
+</div>
