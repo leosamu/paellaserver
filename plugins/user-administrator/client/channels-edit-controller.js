@@ -9,7 +9,6 @@
 		$scope.$watch('channel', function(a, b){
 			if (b != undefined) {
 				$scope.needSave = true;
-				console.log($scope.needSave);
 			}
 		}, true);
 
