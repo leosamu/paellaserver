@@ -87,53 +87,34 @@
 			scope: {
 				channel: "="
 			},
-			controller: ['$scope', '$timeout', '$base64', 'VideoCRUD', 'Filters', function($scope, $timeout, $base64, VideoCRUD, Filters) {
-				$scope.addVideosMode = false;
-				$scope.selectableFilters = Filters.$get('video');
-				$scope.state = {itemsPerPage:10}
+			controller: ['$scope', 'AdminVideosSelect', function($scope, AdminVideosSelect) {
 				
-				
-				$scope.$watch('state.videoFilters', function(){ 
-					if ($scope.state.videoFilters) {
-						var final_query = Filters.makeQuery($scope.state.videoFilters.filters || [], $scope.state.videoFilters.searchText);
-						$scope.filterQuery = $base64.encode(JSON.stringify(final_query));
-						$scope.reloadVideos();
+				$scope.getVideoThumbnail = function(v) {
+					try {
+						if (v.thumbnail) {
+							if  (v.thumbnail.startsWith("http")) {
+								return v.thumbnail;
+							}
+							else {			
+								return v.repository.server + v.repository.endpoint + v._id +"/" + v.thumbnail;
+							}
+						}
 					}
-				}, true );
-
-				$scope.$watch('currentPage', function(){ $scope.reloadVideos(); });
-
-		
-				$scope.reloadVideos = function(){
-					if ($scope.timeoutReload) {
-						$timeout.cancel($scope.timeoutReload);
-					}		
-					$scope.loadingVideos = true;
-					$scope.timeoutReload = $timeout(function() {			
-						VideoCRUD.search({limit:$scope.state.itemsPerPage, skip:($scope.currentPage-1)*$scope.state.itemsPerPage, filters:$scope.filterQuery})
-						.$promise.then(function(data){
-							$scope.videos = data;
-							$scope.loadingVideos = false
-							$scope.timeoutReload = null;
-						});
-					}, 500);
-				};		
-		
-				
-				$scope.existsVideoInChannel= function(v) {
-					if ($scope.channel && $scope.channel.videos) {
-						return $scope.channel.videos.some(function(i){ return i._id == v._id;});				
-					}
-					else {
-						return false;
-					}
-				}
-		
-				$scope.addVideoToChannel = function(v) {
-					if (!$scope.existsVideoInChannel(v)) {
-						$scope.channel.videos.push(v);
-					}
+					catch(err) {}			
+					return "resources/images/video-placeholder.png";
 				};
+				
+				
+				$scope.addVideos = function() {
+					AdminVideosSelect({
+						videosSelected: $scope.channel.videos
+					})
+					.then(function(selectedVideos) {
+						selectedVideos.forEach(function(v) {				
+							$scope.channel.videos.push(v);	
+						});
+					});
+				}				
 				
 				$scope.removeVideoFromChannel = function(v) {
 					var index = -1;

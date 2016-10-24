@@ -1,0 +1,149 @@
+<div class="modal-header">
+	<button type="button" class="close" aria-label="Close" ng-click="close()"><span aria-hidden="true">&times;</span></button>
+	<h1 class="modal-title">{{'Videos select' | translate}}</h1>	
+</div>
+
+<div class="modal-body">
+
+				
+	<form class="navbar-form" novalidate>
+		<admin-filters state-filters="state.videoFilters" type="'video'"></admin-filters>
+	</form>				
+
+
+	<ul class="list-group media-list">
+		<li class="list-group-item" style="min-height: 300px;" ng-show="loadingVideos">
+			<loader></loader>			
+		</li>
+		<li class="list-group-item list-group-item-warning" ng-show="(!loadingVideos) && (videos.total==0)">
+			No videos Found!
+		</li>
+		
+		<li class="list-group-item" ng-class="{'list-group-item-info': v.selected, 'list-group-item-success': existsVideoInChannel(v), 'list-group-item-danger': v.deletionDate}" ng-repeat="v in videos.list" ng-hide="loadingVideos">
+			<div class="media-left">
+				<img class="media-object" style="width:100px;" src="resources/images/video-placeholder.png" ng-src="{{getVideoThumbnail(v)}}">
+			</div>
+			<div class="media-body">
+				<div class="btn-toolbar pull-right" role="toolbar">
+					<div class="btn-group" role="group">
+						<button class="btn btn-xs btn-default" ng-click="switchSelectVideo(v)" ng-hide="existsVideoInChannel(v) || v.deletionDate">
+							<span class="glyphicon glyphicon-plus" ng-show="!v.selected"></span>
+							<span class="glyphicon glyphicon-minus" ng-show="v.selected"></span>
+						</button>
+					</div>
+				</div>
+				
+				<h5 class="media-heading">
+					<div class="btn-group" dropdown is-open="status.isopen">
+						<!--
+					      <button type="button" class="btn btn-primary btn-xs" >
+					        {{$index+1}} 
+					      </button>
+					    -->
+				    </div>	
+												
+					<div style="display:inline-block; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{v.title}} </div>							
+					
+				</h5>
+				<p class="list-group-item-text text-danger">
+					{{v.owner[0].contactData.name}} {{v.owner[0].contactData.lastName}}
+				</p>
+				<p class="list-group-item-text">
+					<span class="label label-default">{{v.creationDate | amDateFormat:'ll'}}</span>								
+					<span class="label label-primary">{{v.duration | secondsToHuman }}</span>								
+					<small>{{v._id}}</small>
+				</p>			
+			</div>
+			
+			
+			
+			<div class="media-right">
+				<div>
+					<div>
+						<img width="100" err-src="/resources/images/catalogs/_.png" ng-src="/resources/images/catalogs/{{v.catalog}}.png"/>								
+						<p/>
+					</div>
+					<div>							
+						<div ng-show="(v.permissions.length > 0)">
+							<div data-toggle="tooltip" data-placement="left" title="{{'Only people with correct credentials can view this video.' | translate}}">
+								<span class="glyphicon glyphicon-lock"></span>
+								<span>{{'restricted' | translate}}</span>
+							</div>
+						</div>
+						<div ng-show="(v.permissions.length == 0)">							
+							<div ng-show="(v.hidden != true)" data-toggle="tooltip" data-placement="left" title="{{'People can view this video' | translate}}">
+								<span class="glyphicon glyphicon-globe"></span>
+								<span>{{'public' | translate}}</span>
+							</div>
+							<div ng-show="(v.hidden==true)" data-toggle="tooltip" data-placement="left" title="{{'Only people who knows the url can access to this video.' | translate}}">
+								<span class="glyphicon glyphicon-sunglasses"></span>
+								<span> {{'hidden' | translate}}</span>
+							</div>
+						</div>
+					</div>							 
+					<div>
+						<div ng-show="getVideoState(v) == 'queue'">
+							<span class="glyphicon glyphicon-hourglass" aria-hidden="true"></span>
+							<span>{{'Queued' | translate}}</span>
+						</div>
+						<div ng-show="getVideoState(v) == 'processing'">
+							<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+							<span>{{'Processing' | translate}}</span>
+						</div>
+						<!--
+						<div ng-show="getVideoState(v) == 'ready'">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<span>{{'Ready' | translate}}</span>
+						</div>
+						-->
+						<div ng-show="getVideoState(v) == 'error'">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							<span>{{'Error' | translate}}</span>
+						</div>
+						<div ng-show="getVideoState(v) == 'pendingUpload'">
+							<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+							<span>{{'Pending upload' | translate}}</span>
+						</div>
+					</div>
+					
+					
+					<div>
+						<div ng-show="v.pluginData.OA.isOA == true" data-toggle="tooltip" data-placement="left" title="{{'This video is a Learing Object' | translate}}">
+							<span class="glyphicon glyphicon-education" aria-hidden="true"></span>
+							<span>{{'Learning Object' | translate}}</span>
+						</div>
+					</div>
+				</div>				
+			</div>
+			
+			
+		</li>
+	</ul>	
+
+		<div>
+			<div role="toolbar" class="btn-toolbar">
+				<div class="btn-group" style="margin-top:-20px">		
+					<pagination total-items="videos.total" items-per-page="state.itemsPerPage" ng-model="currentPage" max-size="15" class="pagination-sm" boundary-links="true" rotate="true" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" boundary-links="true" rotate="false"></pagination>
+
+				</div>
+				<div class="btn-group pull-right">
+					<select ng-model="state.itemsPerPage" class="form-control input-sm" ng-change="reloadVideos()">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+
+</div>
+
+
+<div class="modal-footer">
+	<button class="btn btn-default" ng-click="close()">{{ "Close" | translate }}</button>
+	<button class="btn btn-default" ng-click="accept()">{{ "Accept" | translate }}</button>	
+</div>
