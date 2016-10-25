@@ -9,7 +9,7 @@
 				pluginData: "=",
 				channelId: "=id"
 			},		
-			templateUrl: 'sakai/views/directives/channel-plugin-sakai.html'
+			templateUrl: 'upv-videoapuntes/views/directives/channel-plugin-sakai.html'
 		};
 	});
 	
