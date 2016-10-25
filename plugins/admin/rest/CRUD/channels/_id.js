@@ -27,7 +27,10 @@ exports.routes = {
 									if(err) { return res.sendStatus(500); }
 									Model.populate(item, {path: 'videos.owner', model:"User"}, function(err, item){
 										if(err) { return res.sendStatus(500); }
-										res.status(200).send(item);
+										Model.populate(item, {path: 'videos.repository', model:"Repository"}, function(err, item){
+											if(err) { return res.sendStatus(500); }
+											res.status(200).send(item);
+										});
 									});
 								});
 							}

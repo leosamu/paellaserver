@@ -1,3 +1,80 @@
+<div class="panel panel-default">
+	<ul class="list-group media-list">
+		<li class="list-group-item active">
+			<h5>
+				{{'Channels' | translate}} <span class="badge">{{channel.children.length || 0}}</span>
+				<button type="button" class="btn btn-default pull-right" style="margin-top:-10px;" ng-click="addChannels()">
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+			</h5>
+		</li>
+	</ul>
+	<ul class="list-group" ng-hide="channel.children && channel.children.length>0">
+		<li class="list-group-item list-group-item-warning">
+			<h5>{{'The channels list is empty' | translate}}</h5>
+			<p class="list-group-item-text"> {{'Add some channels' | translate}} </p>
+		</li>
+	</ul>					
+	<ul class="list-group media-list" ui-sortable ng-model="channel.children">
+		<li class="list-group-item" ng-repeat="c in channel.children">
+			<div class="media-left">
+				<a href="#">
+					<img class="media-object" style="width:100px;" src="resources/images/channel-placeholder.png" ng-src="{{getChannelThumbnail(c)}}">
+				</a>
+			</div>
+			<div class="media-body">
+					
+				<div class="btn-toolbar pull-right" role="toolbar">
+					<div class="btn-group" role="group">
+						<a class="btn btn-xs btn-default" target="_blank" ng-href="#/catalog/channel/{{c._id}}"> <span class="glyphicon glyphicon-eye-open"></span> </a>
+						<a class="btn btn-xs btn-default" target="_blank" ng-href="#/admin/channels/edit/{{c._id}}"> <span class="glyphicon glyphicon-pencil"></span> </a>
+					</div>
+					<div class="btn-group" role="group">
+						<button class="btn btn-xs btn-danger" ng-click="removeChannelFromChannel(c)">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</div>
+				</div>
+				
+				<h5 class="media-heading">
+					<div class="btn-group" dropdown is-open="status.isopen">
+				      <button type="button" class="btn btn-primary btn-xs" >
+				        {{$index+1}} 
+				      </button>
+				    </div>	
+												
+					<div style="display:initial; width:89%; white-space:nowrap; overflow: hidden; text-overflow=ellipsis"> {{c.title}} </div>
+				</h5>
+				<p class="list-group-item-text text-danger">
+					{{c.owner[0].contactData.name}} {{c.owner[0].contactData.lastName}}
+				</p>
+				<p class="list-group-item-text">
+					<span class="label label-default">{{c.creationDate | amDateFormat:'ll'}}</span>
+					<small>{{ c._id }}</small>
+				</p>
+			</div>
+			
+			
+			<div class="media-right">
+				<div style="min-width:120px;">
+					<div>
+						<div><span class="glyphicon glyphicon-film"></span> {{c.videos.length}} {{'videos' | translate}} </div>
+						<div><span class="glyphicon glyphicon-list-alt"></span> {{c.children.length}} {{'channels' | translate}} </div>
+					</div>
+					<div>
+						<div ng-show="c.hidden==true" data-toggle="tooltip" data-placement="left" title="{{'Only people who knows the url can access to this channel.' | translate}}">
+							<span class="glyphicon glyphicon-sunglasses"></span>
+							<span> {{'hidden' | translate}}</span>
+						</div>								
+					</div>					
+				</div>
+			</div>
+		</li>
+	</ul>
+
+</div>
+
+<!--
 <div class="row">
 	<div ng-class="{'col-md-8': !addChannelMode, 'col-md-offset-1': !addChannelMode, 'col-md-4': addChannelMode}">
 		<ul class="list-group" ui-sortable ng-model="channel.children" ng-show="channel.children && channel.children.length>0">
@@ -102,3 +179,4 @@
 		
 	</div>
 </div>
+-->
