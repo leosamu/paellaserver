@@ -106,6 +106,7 @@
 				
 				
 				$scope.addVideos = function() {
+					$scope.channel.videos == $scope.channel.videos || [];
 					AdminVideosSelect({
 						videosSelected: $scope.channel.videos
 					})
@@ -145,52 +146,44 @@
 			scope: {
 				channel: "="
 			},
-			controller: ['$scope', '$timeout', '$base64', 'ChannelCRUD', 'Filters', function($scope, $timeout, $base64, ChannelCRUD, Filters) {
-				$scope.addChannelMode = false;
-				$scope.selectableFilters = Filters.$get('channel');
-				$scope.state = {itemsPerPage:10}
-				
-				
-				$scope.$watch('state.channelFilters', function(){ 
-					if ($scope.state.channelFilters) {
-						var final_query = Filters.makeQuery($scope.state.channelFilters.filters || [], $scope.state.channelFilters.searchText);
-						$scope.filterQuery = $base64.encode(JSON.stringify(final_query));
-						$scope.reloadChannels();
+			controller: ['$scope', 'AdminChannelsSelect', function($scope, AdminChannelsSelect) {
+					
+				$scope.getChannelThumbnail = function(c) {
+					try {
+						if (c.thumbnail) {
+							if  (c.thumbnail.startsWith("http")) {
+								return c.thumbnail;
+							}
+							else {			
+								return c.repository.server + c.repository.endpoint + c._id +"/channels/" + c.thumbnail;
+							}
+						}
 					}
-				}, true );
-
-				$scope.$watch('currentPage', function(){ $scope.reloadChannels(); });
-
-		
-				$scope.reloadChannels = function(){
-					if ($scope.timeoutReload) {
-						$timeout.cancel($scope.timeoutReload);
-					}		
-					$scope.loadingChannels = true;
-					$scope.timeoutReload = $timeout(function() {			
-						ChannelCRUD.search({limit:$scope.state.itemsPerPage, skip:($scope.currentPage-1)*$scope.state.itemsPerPage, filters:$scope.filterQuery})
-						.$promise.then(function(data){
-							$scope.channels = data;
-							$scope.loadingChannels = false
-							$scope.timeoutReload = null;
-						});
-					}, 500);
-				};		
-		
+					catch(err) {}			
+					return "resources/images/channel-placeholder.png";
+				};					
 				
-				$scope.existsChannelInChannel= function(v) {
+				$scope.existsChannelInChannel= function(c) {
 					if ($scope.channel && $scope.channel.children) {
-						return $scope.channel.children.some(function(i){ return i._id == v._id;});				
+						return $scope.channel.children.some(function(i){ return i._id == c._id;});				
 					}
 					else {
 						return false;
 					}
 				}
 		
-				$scope.addChannelToChannel = function(v) {
-					if (!$scope.existsChannelInChannel(v)) {
-						$scope.channel.children.push(v);
-					}
+				$scope.addChannels = function() {
+					$scope.channel.children == $scope.channel.children || [];
+					AdminChannelsSelect({
+						channelsSelected: $scope.channel.children
+					})
+					.then(function(selectedChannels) {
+						selectedChannels.forEach(function(c) {
+							if (!$scope.existsChannelInChannel(c)) {
+								$scope.channel.children.push(c);	
+							}
+						});
+					});
 				};
 				
 				$scope.removeChannelFromChannel = function(v) {
