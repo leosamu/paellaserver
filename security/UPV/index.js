@@ -63,6 +63,8 @@ router.get('/auth/upv',
 	}
 );
 
+
+ 
 router.get('/rest/plugins/upvauth/validate',
 	function(req,res,next) {
 		req.session.redirect = req.query.redirect;
@@ -84,6 +86,68 @@ router.get('/rest/plugins/upvauth/validate',
 		res.redirect(redirect);
 	}
 );
+
+
+/*****************************************
+ *
+ * AutoLogin
+ *
+ *****************************************/ 
+function autoLogin(req,res,next) {
+	passport.authenticate('upv', function(err, user, info){
+		if (err) { return next(); }
+		if (!user) { return next(); }
+	
+		req.logIn(user, function(err) {
+			next();
+		});					
+	})(req, res, next);	
+}
+
+
+// Force autologin
+forceAutoLoginDomains = ["poliformat.upv.es"]
+forceAutoLoginRoutes = ['/player/', '/player/index.html', '/player/embed.html']
+
+
+
+router.use(function(req,res,next){
+	var url = require('url');
+	var autologin = false;
+			
+	var ticket = undefined;
+	["TDP", "TDX", "TDp"].forEach(function(t) {
+		ticket = ticket || req.cookies[t];
+	})
+		
+	if (ticket != undefined) {
+		if (!req.isAuthenticated()) {
+			autologin = true;
+		}
+		else if (req.headers.referer) {
+			var u = url.parse(req.headers.referer);
+			var isDomain = forceAutoLoginDomains.some(function(d){ return (d == u.hostname); });
+			var isRoute = forceAutoLoginRoutes.some(function(p){ return (p == req.path); });
+			
+			if( isDomain && isRoute ) {				
+				autologin = true;
+			}
+		}
+	}
+			
+	
+	if (autologin == true) {
+		console.log("autologin true");
+		autoLogin(req, res,next);
+	}
+	else {
+		next();
+	}
+});	
+
+
+
+
 
 
 
