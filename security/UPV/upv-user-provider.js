@@ -66,7 +66,7 @@ UPVUserProvider.prototype._getOrCreateUserWithUPVInfo = function(upvInfo) {
 				});
 			}
 			else {
-				var re = RegExp("^" + email.split('@')[0] + "@(.+\.)*upv\.es$","i");							
+				var re = RegExp("^" + upvInfo.email.split('@')[0] + "@(.+\.)*upv\.es$","i");							
 				User.findOne({"contactData.email":{$regex: re}})
 				.select("-auth.polimedia.pass")
 				.exec(function(err,user) {
@@ -76,10 +76,10 @@ UPVUserProvider.prototype._getOrCreateUserWithUPVInfo = function(upvInfo) {
 						if (!user.auth) { user.auth= {}; }
 						user.auth.UPV = {
 							dni: upvInfo.dni,
-							nip: upvInfo.nip
+							nip: upvInfo.nip,
+							login: upvInfo.login							
 						};
-						user.save(function(err) {
-							if (err) { return deferred.reject(err); }
+						user.save(function(err) {							
 							deferred.resolve(user);
 						});									
 					}
