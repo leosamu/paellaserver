@@ -25,7 +25,7 @@ ScheduledTask.findOne({_id:repoSizeScheduled}, function(err, task){
 		Repository.find({}, function(err, repos){		
 			if (!err && repos) {
 				repos.forEach(function(r){				
-					var task = new Task({
+					var tt = new Task({
 						task: 'calculateRepositorySize',
 						error: false,
 						targetType: 'repository',
@@ -35,7 +35,7 @@ ScheduledTask.findOne({_id:repoSizeScheduled}, function(err, task){
 						description: "Calculate '" + r._id + "' repository size"
 					});
 					
-					//task.save();
+					//tt.save();
 				})
 			}
 		});
