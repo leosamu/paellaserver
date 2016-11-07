@@ -52,17 +52,13 @@ router.get('/auth/logout', function(req, res){
 	res.redirect('/');
 });
 
-// Local Authentication
+// Remote Apps Authentication
 router.use(securityRemoteApps.router);
 // Local Authentication
 router.use(securityLocal.router);
 // UPV Authentication
 router.use(securityUPV.router);
 
-
-router.get('/test', function(req, res){
-	res.send(req.user);	
-});
 
 
 
