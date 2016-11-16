@@ -213,7 +213,25 @@
 			}
 			return state;	
 		}
-				
+		
+		$scope.isVideoRestricted = function(v) {
+			return (!$scope.isVideoPublic(v));
+		}
+		$scope.isVideoPublic = function(v) {
+			var ret = false;
+			if (v.permissions.length == 0) {
+				ret = true;
+			}
+			else {
+				v.permissions.forEach(function(p){
+					if (p.role == "ANONYMOUS") {
+						if (p.read == true) { ret = true; }
+					}
+				});
+			}
+			return ret;
+		}
+
 	}]);		
 	
 })();

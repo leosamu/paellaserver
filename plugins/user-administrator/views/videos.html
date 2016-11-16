@@ -182,13 +182,13 @@
 								<p/>
 							</div>
 							<div>							
-								<div ng-show="(v.permissions.length > 0)">
+								<div ng-show="isVideoRestricted(v)">
 									<div data-toggle="tooltip" data-placement="left" title="{{'Only people with correct credentials can view this video.' | translate}}">
 										<span class="glyphicon glyphicon-lock"></span>
 										<span>{{'restricted' | translate}}</span>
 									</div>
 								</div>
-								<div ng-show="(v.permissions.length == 0)">							
+								<div ng-show="isVideoPublic(v)">							
 									<div ng-show="(v.hidden != true)" data-toggle="tooltip" data-placement="left" title="{{'People can view this video' | translate}}">
 										<span class="glyphicon glyphicon-globe"></span>
 										<span>{{'public' | translate}}</span>
