@@ -49,21 +49,24 @@ exports.LoadAnnotation = function(req,res,next) {
 //		req.body: the new annotation
 //	Output: req.data: the new annotation data, including the UUID
 exports.CreateAnnotation = function(req,res,next) {	
-	var item = new Annotation(req.body.annotation)	
-	console.log(req.user);
-	item.user = req.user._id;
-	item.video = req.params.id;
-	console.log(item);
-	item.save(function(err) {
-		if(!err) {
-			res.status(201);
-			req.data = item;
-			next();
-		}
-		else {
-			res.sendStatus(500);
-		}
-	});	
+	if (req.body.annotation) {
+		var item = new Annotation(req.body.annotation)	
+		item.user = req.user._id;
+		item.video = req.params.id;
+		item.save(function(err) {
+			if(!err) {
+				res.status(201);
+				req.data = item;
+				next();
+			}
+			else {
+				res.sendStatus(500);
+			}
+		});
+	}
+	else {
+		res.sendStatus(500);
+	}
 };
 
 

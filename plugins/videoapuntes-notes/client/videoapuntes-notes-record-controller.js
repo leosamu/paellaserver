@@ -69,7 +69,7 @@
             var body = {};
             var annotation = {};
             console.log("awuil");
-            annotation['_id'] = $scope.newObjectId();
+            //annotation['_id'] = $scope.newObjectId();
             annotation.time = Math.floor((Date.now() - new Date($scope.recording.startRecord))/1000);
             annotation.duration =1;
             annotation['type'] = 'LiveAnnotation';				          

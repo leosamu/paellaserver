@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-//var uuid = require('./plugins/mongoose-uuid');
+var uuid = require('./plugins/mongoose-uuid');
 
 var Annotation = new Schema({
 	_id: { type: String },
@@ -14,6 +14,6 @@ var Annotation = new Schema({
 //	private: Boolean
 });//, {_id:false});
 
-//Annotation.plugin(uuid.plugin);
+Annotation.plugin(uuid.plugin);
 
 module.exports = mongoose.model('Annotation', Annotation);
